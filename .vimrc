@@ -1,66 +1,72 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+set runtimepath+=~/.vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-Plugin 'gmarik/vundle'
-Plugin 'tpope/vim-fugitive'
-Plugin 'genutils'
-Plugin 'HiColors'
-Plugin 'editorconfig-vim'
-Plugin 'MatchTag'
-Plugin 'badwolf'
-Plugin 'maxbrunsfeld/vim-yankstack'
-Plugin 'https://github.com/kien/ctrlp.vim.git'
-Plugin 'https://github.com/vim-scripts/CycleColor.git'
-Plugin 'https://github.com/noahfrederick/vim-hemisu.git'
-Plugin 'https://github.com/heavenshell/vim-jsdoc.git'
-Plugin 'https://github.com/tomtom/tcomment_vim.git'
-Plugin 'https://github.com/tpope/vim-fireplace.git'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Raimondi/delimitMate'
-Plugin 'scrooloose/syntastic'
-Plugin 'marijnh/tern_for_vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'bling/vim-airline'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-obsession'
-Plugin 'tpope/vim-surround'
-Plugin 'rking/ag.vim'
-Plugin 'littleq0903/vim-nginx'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'curist/vim-angular-template'
-Plugin 'groenewege/vim-less'
-Plugin 'bufkill.vim'
-Plugin 'nathanaelkane/vim-command-w.git'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'airblade/vim-rooter'
-Plugin 'osyo-manga/vim-over'
-Plugin 'tpope/vim-repeat'
-Plugin 'paredit.vim'
-Plugin 'slimv.vim'
-Plugin 'mhinz/vim-signify'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'junegunn/goyo.vim'
-Plugin 'aclissold/lunarized-syntax'
-" Plugin 'pangloss/vim-javascript'
-" Bundle 'dag/vim2hs' " waaaay too slow
-" Bundle 'eagletmt/ghcmod-vim'
-" Bundle 'number-marks'
-" Bundle 'bigfish/vim-js-context-coloring'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'genutils'
+NeoBundle 'editorconfig-vim'
+NeoBundle 'MatchTag'
+NeoBundle 'badwolf'
+" NeoBundle 'maxbrunsfeld/vim-yankstack'
+" NeoBundle 'https://github.com/kien/ctrlp.vim.git'
+NeoBundle 'https://github.com/vim-scripts/CycleColor.git'
+NeoBundle 'https://github.com/noahfrederick/vim-hemisu.git'
+NeoBundle 'https://github.com/heavenshell/vim-jsdoc.git'
+NeoBundle 'https://github.com/tomtom/tcomment_vim.git'
+" NeoBundle 'https://github.com/tpope/vim-fireplace.git'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'marijnh/tern_for_vim'
+NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'tpope/vim-obsession'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'littleq0903/vim-nginx'
+NeoBundle 'maksimr/vim-jsbeautify'
+NeoBundle 'curist/vim-angular-template'
+NeoBundle 'groenewege/vim-less'
+NeoBundle 'bufkill.vim'
+NeoBundle 'nathanaelkane/vim-command-w.git'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'airblade/vim-rooter'
+NeoBundle 'osyo-manga/vim-over'
+NeoBundle 'tpope/vim-repeat'
+" NeoBundle 'paredit.vim'
+" NeoBundle 'slimv.vim'
+NeoBundle 'mhinz/vim-signify'
+NeoBundle 'Shougo/vimproc.vim'
+NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'aclissold/lunarized-syntax'
+NeoBundle 'terryma/vim-expand-region'
+NeoBundle 'kien/rainbow_parentheses.vim'
+" NeoBundle 'junegunn/goyo.vim'
+" NeoBundle 'pangloss/vim-javascript'
+" NeoBundle 'dag/vim2hs' " waaaay too slow
+" NeoBundle 'eagletmt/ghcmod-vim'
+" NeoBundle 'number-marks'
+" NeoBundle 'bigfish/vim-js-context-coloring'
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call neobundle#end()
 filetype plugin indent on    " required
+NeoBundleCheck
 
 let b:javascript_fold = 0
 " syntax clear javaScriptDocComment
 " syntax region javaScriptDocComment        matchgroup=javaScriptComment start="/\*\*\s*$"  end="\*/" contains=javaScriptDocTags,javaScriptCommentTodo,@javaScriptHtml,@Spell
 
 " keymaps
+let mapleader = "\<Space>"
 inoremap jk <ESC>
+nmap <C-x> :bd<CR>
 nmap <F7> :Errors<CR>
 nmap <F8> :NERDTree<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :echo colors_name<CR>
@@ -70,9 +76,10 @@ inoremap <leader>[ <Esc>:bp<CR>
 inoremap <leader>] <Esc>:bn<CR>
 vnoremap <leader>[ <Esc>:bp<CR>
 vnoremap <leader>] <Esc>:bn<CR>
-nmap \\ :CtrlPBuffer<CR>
 nmap <D-w> :CommandW<CR>
 imap <D-w> <Esc>:CommandW<CR>
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
@@ -126,9 +133,9 @@ map <leader>tp :TernDefPreview<CR>
 map <leader>ts :TernDefSplit<CR>
 map <leader>tr :TernRefs<CR>
 " goyo
-nnoremap <leader>g :Goyo<CR>
-let g:goyo_width = 110
-let g:goyo_linenr = 1
+" nnoremap <leader>gy :Goyo<CR>
+" let g:goyo_width = 110
+" let g:goyo_linenr = 1
 
 " show highlight group at the cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -136,6 +143,8 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " general options
+set shell=/usr/local/bin/zsh
+set scrolloff=3
 set backspace=2
 set tabstop=4
 set softtabstop=4
@@ -219,6 +228,26 @@ hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#B
 hi NERDTreeRO guifg=#cc2222 ctermfg=red
 hi NERDTreeFlag guifg=#552222 ctermfg=red
 
+" Unite
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#custom#source('file_rec,file_rec/async', 'ignore_globs', split(&wildignore, ','))
+"call unite#custom#source('file_rec/async','sorters','sorter_rank', )
+" replacing unite with ctrl-p
+let g:unite_data_directory='~/.vim/.cache/unite'
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable=1
+let g:unite_prompt='» '
+let g:unite_split_rule = 'botright'
+if executable('ag')
+	let g:unite_source_grep_command='ag'
+	let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+	let g:unite_source_grep_recursive_opt=''
+endif
+nnoremap <silent> <c-p> :Unite -start-insert file_rec/async<cr>
+nnoremap <silent> <leader><Space> :Unite -auto-resize buffer file_mru<cr>
+nnoremap <silent> <leader>r :Unite register<cr>
+nnoremap <silent> <leader>f :Unite grep<cr>
 " YouCompleteMe options
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
@@ -301,7 +330,7 @@ let g:bufferline_echo = 0
 let g:multi_cursor_prev_key='<C-l>'
 
 " vim-rooter
-let g:rooter_patterns = ['bigiq_ui.spec', 'biq.def.inc', 'webd.spec']
+let g:rooter_patterns = ['bigiq_ui.spec', 'biq.def.inc', 'webd.spec', '.git', '.git/']
 
 " vim2hs
 let g:haskell_conceal       = 0
@@ -324,6 +353,12 @@ func! DeleteTrailingWS()
   retab!
   exe "normal `z"
 endfunc
+
+" rainbow parenthesis
+" au VimEnter * RainbowParenthesesToggle
+" au Syntax * RainbowParenthesesLoadRound
+" au Syntax * RainbowParenthesesLoadSquare
+" au Syntax * RainbowParenthesesLoadBraces
 
 autocmd BufWrite *.js :call DeleteTrailingWS()
 autocmd BufWrite *.html :call DeleteTrailingWS()
