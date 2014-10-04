@@ -1,62 +1,226 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-filetype plugin indent on     " required
-
-" let Vundle manage Vundle, required
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-fugitive'
-Bundle 'genutils'
-Bundle 'HiColors'
-Bundle 'editorconfig-vim'
-Bundle 'MatchTag'
-Bundle 'badwolf'
-Bundle 'maxbrunsfeld/vim-yankstack'
-Bundle 'https://github.com/kien/ctrlp.vim.git'
-Bundle 'https://github.com/vim-scripts/CycleColor.git'
-Bundle 'https://github.com/noahfrederick/vim-hemisu.git'
-Bundle 'https://github.com/heavenshell/vim-jsdoc.git'
-Bundle 'https://github.com/tomtom/tcomment_vim.git'
-Bundle 'jelera/vim-javascript-syntax'
-Bundle 'pangloss/vim-javascript'
-Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'Raimondi/delimitMate'
-Bundle 'scrooloose/syntastic'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'marijnh/tern_for_vim'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'bling/vim-airline'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-obsession'
-Bundle 'tpope/vim-surround'
-Bundle 'rking/ag.vim'
-Bundle 'littleq0903/vim-nginx'
-Bundle 'maksimr/vim-jsbeautify'
-Bundle 'curist/vim-angular-template'
-Bundle 'groenewege/vim-less'
-Bundle 'bufkill.vim'
-Bundle 'nathanaelkane/vim-command-w.git'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'airblade/vim-rooter'
-Bundle 'osyo-manga/vim-over'
-Bundle 'tpope/vim-repeat'
+Plugin 'gmarik/vundle'
+Plugin 'tpope/vim-fugitive'
+Plugin 'genutils'
+Plugin 'HiColors'
+Plugin 'editorconfig-vim'
+Plugin 'MatchTag'
+Plugin 'badwolf'
+Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'https://github.com/kien/ctrlp.vim.git'
+Plugin 'https://github.com/vim-scripts/CycleColor.git'
+Plugin 'https://github.com/noahfrederick/vim-hemisu.git'
+Plugin 'https://github.com/heavenshell/vim-jsdoc.git'
+Plugin 'https://github.com/tomtom/tcomment_vim.git'
+Plugin 'https://github.com/tpope/vim-fireplace.git'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'Raimondi/delimitMate'
+Plugin 'scrooloose/syntastic'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'bling/vim-airline'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-surround'
+Plugin 'rking/ag.vim'
+Plugin 'littleq0903/vim-nginx'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'curist/vim-angular-template'
+Plugin 'groenewege/vim-less'
+Plugin 'bufkill.vim'
+Plugin 'nathanaelkane/vim-command-w.git'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'airblade/vim-rooter'
+Plugin 'osyo-manga/vim-over'
+Plugin 'tpope/vim-repeat'
+Plugin 'paredit.vim'
+Plugin 'slimv.vim'
+Plugin 'mhinz/vim-signify'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'junegunn/goyo.vim'
+Plugin 'aclissold/lunarized-syntax'
+" Plugin 'pangloss/vim-javascript'
+" Bundle 'dag/vim2hs' " waaaay too slow
+" Bundle 'eagletmt/ghcmod-vim'
 " Bundle 'number-marks'
 " Bundle 'bigfish/vim-js-context-coloring'
 
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+let b:javascript_fold = 0
+" syntax clear javaScriptDocComment
+" syntax region javaScriptDocComment        matchgroup=javaScriptComment start="/\*\*\s*$"  end="\*/" contains=javaScriptDocTags,javaScriptCommentTodo,@javaScriptHtml,@Spell
+
+" keymaps
+inoremap jk <ESC>
+nmap <F7> :Errors<CR>
+nmap <F8> :NERDTree<CR>
+nnoremap <F4> :silent CycleColorNext<CR> \| :echo colors_name<CR>
+nnoremap <leader>[ :bp<CR>
+nnoremap <leader>] :bn<CR>
+inoremap <leader>[ <Esc>:bp<CR>
+inoremap <leader>] <Esc>:bn<CR>
+vnoremap <leader>[ <Esc>:bp<CR>
+vnoremap <leader>] <Esc>:bn<CR>
+nmap \\ :CtrlPBuffer<CR>
+nmap <D-w> :CommandW<CR>
+imap <D-w> <Esc>:CommandW<CR>
+
+" perforce shortcuts
+nnoremap <leader>pe :silent !p4 edit %<CR>
+nnoremap <leader>pa :silent !p4 add %<CR>
+nnoremap <leader>ps :!p4 sync; p4 resolve<CR>
+nnoremap <leader>pd :silent !p4 diff %<CR>
+map <leader>d /^\(>>>>\\|====\\|<<<<\).*<CR>
+
+" move vertical split
+nnoremap <M-h> <C-w><
+nnoremap <M-l> <C-w>>
+nnoremap <˙> <C-w><
+nnoremap <¬> <C-w>>
+" move horizontal split
+nnoremap <M-k> <C-w>+
+nnoremap <M-j> <C-w>-
+nnoremap <˚> <C-w>+
+nnoremap <∆> <C-w>-
+" indentation
+nnoremap <M-]> a<C-t><Esc>
+nnoremap <M-[> a<C-d><Esc>
+nnoremap <‘> a<C-t><Esc>
+nnoremap <“> a<C-d><Esc>
+imap <M-]> <C-t>
+imap <M-[> <C-d>
+vmap <M-]> <Esc>`<i<C-t><C-o>my<C-d><C-o>`><C-t><C-o>mz<C-d><Esc>gv:><CR>gv`yo`z
+vmap <M-[> <Esc>`<i<C-d><C-o>my<C-t><C-o>`><C-d><C-o>mz<C-t><Esc>gv:<<CR>gv`yo`z
+nmap <M-/> gcc<Esc>
+vmap <M-/> gcc<Esc>gv
+imap <M-/> <Esc>gcci<Esc>
+imap <‘> <C-t>
+imap <“> <C-d>
+vmap <‘> <Esc>`<i<C-t><C-o>my<C-d><C-o>`><C-t><C-o>mz<C-d><Esc>gv:><CR>gv`yo`z
+vmap <“> <Esc>`<i<C-d><C-o>my<C-t><C-o>`><C-d><C-o>mz<C-t><Esc>gv:<<CR>gv`yo`z
+nmap <÷> gcc<Esc>
+vmap <÷> gcc<Esc>gv
+imap <÷> <Esc>gcci<Esc>
+map <C-ESC> :only<CR>
+
+"Bubble single lines
+nmap <M-Up> ddkP
+nmap <M-Down> ddp
+"Bubble multiple lines
+vmap <M-Up> xkP`[V`]
+vmap <M-Down> xp`[V`]
+" JSON formatting
+map <leader>jf :%!python -mjson.tool<CR>
+" tern
+map <leader>td :TernDef<CR>
+map <leader>tp :TernDefPreview<CR>
+map <leader>ts :TernDefSplit<CR>
+map <leader>tr :TernRefs<CR>
+" goyo
+nnoremap <leader>g :Goyo<CR>
+let g:goyo_width = 110
+let g:goyo_linenr = 1
+
+" show highlight group at the cursor
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" general options
+set backspace=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set noexpandtab
+set showtabline=0
+set smartindent
+set hidden
+set laststatus=2
+set splitright
+set ignorecase
+set smartcase  "- use case if any caps used
+set incsearch  "- show match as search proceeds
+set hlsearch   "- search highlighting
+set history=1000
+set magic
+set foldcolumn=1
+set visualbell
+set noerrorbells
+set wildignore+=build,.git,*.swp,*.tgz,*.zip,*.gz
+set backupdir=/tmp,/home/sawyer/devel/vim_tmp
+set noautochdir
+set wildmenu
+set wildmode=longest,list
+set t_Co=256
+set cursorline
+set nu
+set nolazyredraw
+if has("mouse")
+    set mouse=a
+endif
+" only show line numbers in the current window
+" au WinEnter * :setlocal number
+" au WinLeave * :setlocal nonumber
+" filetype mapping
+au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf set filetype=nginx
+au BufRead,BufNewFile *.less if &ft == '' | set filetype=less | endif
+au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs set expandtab
+au BufRead,BufNewFile *.def.inc set tabstop=8
+
+" colors
+syntax on
+colorscheme default
+set background=dark
+" colorscheme badwolf
+" colorscheme seafoam
+" colorscheme distinguished
+" colorscheme hemisu
+" colorscheme codeschool
+" colorscheme darktango2
+" colorscheme solarized
+" colorscheme jellybeans
+" colorscheme brookstream
+" colorscheme carvedwoodcool
+colorscheme lunarized
+	\| hi Normal ctermbg=0 ctermfg=243 guibg=#222222 guifg=#7a7a7a guisp=#0f0f0f
+    \| hi CursorLine cterm=none gui=none
+	\| hi Search guibg=#5AB6DB guifg=#311F17
+	\| hi IncSearch guifg=#9FF3F6 guibg=#000
+ 	\| hi javaScriptCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
+" colorscheme flatland
+" 	\| hi Search guibg=#5AB6DB guifg=#311F17
+" 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
+" 	\| hi Cursor ctermbg=178 guifg=#2a2b2f guibg=#FF4740
+" 	\| hi Normal ctermbg=236 guifg=#aabbcc
+" 	\| hi javaScriptCommentTodo ctermbg=160 guibg=#cc2222
+" 	\| hi SignColor guibg=#2D2F31
+" 	\| hi FoldColumn ctermbg=74 guibg=#72aaca
+" 	\| hi LineNr ctermbg=235 guibg=#222222 guifg=#445566
+" 	\| hi CursorLine ctermbg=235 
+" 	\| hi CursorLineNr guifg=#ffa300
+" colorscheme kellys
+"    \| hi Search guibg=#5AB6DB guifg=#311F17
+"    \| hi IncSearch guifg=#9FF3F6 guibg=#000
+"    \| hi Cursor guifg=#2a2b2f guibg=#FF4740
+
+hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
+
+" NERDTree color fixes
+hi NERDTreeRO guifg=#cc2222 ctermfg=red
+hi NERDTreeFlag guifg=#552222 ctermfg=red
+
 " YouCompleteMe options
 let g:ycm_autoclose_preview_window_after_insertion = 1
-
-
-" filetype mapping
-au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf setfiletype nginx
-au BufRead,BufNewFile *.less if &ft == '' | setfiletype less | endif
-
-" NERDTree auto-open to current file folder
-au BufEnter * lcd %:p:h
 
 " syntastic
 let g:syntastic_auto_loc_list = 2
@@ -69,6 +233,8 @@ let g:syntastic_javascript_checkers=['jshint']
 
 " json
 let g:syntastic_json_checkers=['jsonlint', 'jsonval']
+
+" haskell
 
 " html
 let g:syntastic_html_checkers=[]
@@ -96,6 +262,9 @@ let g:syntastic_css_checkers=['csslint']
 " pangloss javascript settings
 let g:javascript_enable_domhtmlcss = 1
 
+" signify
+let g:signify_vcs_list = [ 'git', 'perforce' ]
+
 " badwolf
 let g:badwolf_darkgutter = 1
 
@@ -111,13 +280,21 @@ let g:ctrlp_show_hidden = 1
 " airline
 " let g:airline_theme='badwolf'
 " let g:airline_theme='ubaryd'
-let g:airline_theme='wombat' "good with hemisu, kellys"
+" let g:airline_theme='wombat' "good with hemisu, kellys"
 " let g:airline_theme='jellybeans' "good with darktango2"
 " let g:airline_theme='bubblegum' "good with hemisu"
 " let g:airline_theme='molokai' "good with distinguished"
+" let g:airline_theme='sol' "good with flatland, carvedwoodcool"
+let g:airline_theme='murmur' "good with lunarized"
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
+" put the name of the session in the airline
+au VimEnter,BufWinEnter * if exists("g:this_obsession") 
+			\|		let g:airline_section_y = '%{fnamemodify(g:this_obsession, ":t")}' 
+			\| else 
+			\|		let g:airline_section_y = 'no session'
+			\| endif
 let g:bufferline_echo = 0
 
 " multiple cursors
@@ -126,118 +303,19 @@ let g:multi_cursor_prev_key='<C-l>'
 " vim-rooter
 let g:rooter_patterns = ['bigiq_ui.spec', 'biq.def.inc', 'webd.spec']
 
-" keymaps
-inoremap jk <ESC>
-nmap <F7> :Errors<CR>
-nmap <F8> :NERDTree<CR>
-nnoremap <F4> :silent CycleColorNext<CR> \| :echo colors_name<CR>
-nnoremap <leader>[ :bp<CR>
-nnoremap <leader>] :bn<CR>
-inoremap <leader>[ <Esc>:bp<CR>
-inoremap <leader>] <Esc>:bn<CR>
-vnoremap <leader>[ <Esc>:bp<CR>
-vnoremap <leader>] <Esc>:bn<CR>
-nmap \\ :CtrlPBuffer<CR>
-nmap <D-w> :CommandW<CR>
-imap <D-w> <Esc>:CommandW<CR>
-
-" perforce shortcuts
-nnoremap <leader>pe :silent !p4 edit %<CR>
-nnoremap <leader>pa :silent !p4 add %<CR>
-nnoremap <leader>ps :!p4 sync; p4 resolve<CR>
-nnoremap <leader>pd :silent !p4 diff %<CR>
-map <leader>d /^\(>>>>\\|====\\|<<<<\).*<CR>
-
-" move vertical split
-nnoremap <A-Left> <C-w><
-nnoremap <A-Right> <C-w>>
-" move horizontal split
-nnoremap <A-D-Up> <C-w>+
-nnoremap <A-D-Down> <C-w>-
-" indentation
-nnoremap <A-]> a<C-t><Esc>
-nnoremap <A-[> a<C-d><Esc>
-imap <A-]> <C-t>
-imap <A-[> <C-d>
-vmap <A-]> <Esc>`<i<C-t><C-o>my<C-d><C-o>`><C-t><C-o>mz<C-d><Esc>gv:><CR>gv`yo`z
-vmap <A-[> <Esc>`<i<C-d><C-o>my<C-t><C-o>`><C-d><C-o>mz<C-t><Esc>gv:<<CR>gv`yo`z
-nmap <A-/> gcc<Esc>
-vmap <A-/> gcc<Esc>gv
-imap <A-/> <Esc>gcci<Esc>
-map <C-ESC> :only<CR>
-
-"Bubble single lines
-nmap <A-Up> ddkP
-nmap <A-Down> ddp
-"Bubble multiple lines
-vmap <A-Up> xkP`[V`]
-vmap <A-Down> xp`[V`]
-" JSON formatting
-map <leader>jf :%!python -mjson.tool<CR>
-" tern
-map <leader>td :TernDef<CR>
-map <leader>tp :TernDefPreview<CR>
-map <leader>ts :TernDefSplit<CR>
-map <leader>tr :TernRefs<CR>
-
-" show highlight group at the cursor
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-" general options
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set showtabline=0
-set smartindent
-set hidden
-set laststatus=2
-set splitright
-set ignorecase
-set smartcase  "- use case if any caps used
-set incsearch  "- show match as search proceeds
-set hlsearch   "- search highlighting
-set history=1000
-set magic
-set foldcolumn=1
-set visualbell
-set noerrorbells
-set wildignore+=build,.git,*.swp,*.tgz,*.zip,*.gz
-set backupdir=/tmp,/home/sawyer/devel/vim_tmp
-set noautochdir
-set wildmenu
-set wildmode=longest,list
-set t_Co=256
-set cursorline
-" only show line numbers in the current window
-set nu
-" au WinEnter * :setlocal number
-" au WinLeave * :setlocal nonumber
-
-" colors
-syntax on
-colorscheme default
-set background=dark
-" colorscheme badwolf
-" colorscheme seafoam
-" colorscheme distinguished
-" colorscheme hemisu
-" colorscheme codeschool
-" colorscheme darktango2
-" colorscheme solarized
-" colorscheme jellybeans
-colorscheme kellys 
-   \| hi Search guibg=#5AB6DB guifg=#311F17 
-   \| hi IncSearch guifg=#9FF3F6 guibg=#000 
-   \| hi Cursor guifg=#2a2b2f guibg=#FF4740
-
-hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
-
-" NERDTree color fixes
-hi NERDTreeRO guifg=#cc2222 ctermfg=red
-hi NERDTreeFlag guifg=#552222 ctermfg=red
+" vim2hs
+let g:haskell_conceal       = 0
+let g:haskell_quasi         = 0
+let g:haskell_interpolation = 0
+let g:haskell_regex         = 0
+let g:haskell_jmacro        = 0
+let g:haskell_shqq          = 0
+let g:haskell_sql           = 0
+let g:haskell_json          = 0
+let g:haskell_xml           = 0
+let g:haskell_hsp           = 0
+let g:haskell_tabular       = 0
+au BufRead,BufWinEnter *.hs set lazyredraw
 
 " auto-delete trailing spaces for certain filetypes
 func! DeleteTrailingWS()
