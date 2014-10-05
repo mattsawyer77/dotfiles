@@ -1,5 +1,5 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible			  " be iMproved, required
+filetype off				  " required
 set runtimepath+=~/.vim/bundle/neobundle.vim/
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -47,6 +47,7 @@ NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'aclissold/lunarized-syntax'
 NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'chrisbra/Colorizer'
 " NeoBundle 'junegunn/goyo.vim'
 " NeoBundle 'pangloss/vim-javascript'
 " NeoBundle 'dag/vim2hs' " waaaay too slow
@@ -56,12 +57,12 @@ NeoBundle 'kien/rainbow_parentheses.vim'
 
 " All of your Plugins must be added before the following line
 call neobundle#end()
-filetype plugin indent on    " required
+filetype plugin indent on	 " required
 NeoBundleCheck
 
 let b:javascript_fold = 0
 " syntax clear javaScriptDocComment
-" syntax region javaScriptDocComment        matchgroup=javaScriptComment start="/\*\*\s*$"  end="\*/" contains=javaScriptDocTags,javaScriptCommentTodo,@javaScriptHtml,@Spell
+" syntax region javaScriptDocComment		matchgroup=javaScriptComment start="/\*\*\s*$"	end="\*/" contains=javaScriptDocTags,javaScriptCommentTodo,@javaScriptHtml,@Spell
 
 " keymaps
 let mapleader = "\<Space>"
@@ -175,7 +176,7 @@ set cursorline
 set nu
 set nolazyredraw
 if has("mouse")
-    set mouse=a
+	set mouse=a
 endif
 " only show line numbers in the current window
 " au WinEnter * :setlocal number
@@ -201,11 +202,11 @@ set background=dark
 " colorscheme brookstream
 " colorscheme carvedwoodcool
 colorscheme lunarized
-	\| hi Normal ctermbg=0 ctermfg=243 guibg=#222222 guifg=#7a7a7a guisp=#0f0f0f
-    \| hi CursorLine cterm=none gui=none
+	\| hi Normal ctermbg=7 ctermfg=243 guibg=#222222 guifg=#7a7a7a guisp=#0f0f0f
+	\| hi CursorLine cterm=none gui=none
 	\| hi Search guibg=#5AB6DB guifg=#311F17
 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
- 	\| hi javaScriptCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
+	\| hi javaScriptCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
 " colorscheme flatland
 " 	\| hi Search guibg=#5AB6DB guifg=#311F17
 " 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
@@ -218,9 +219,9 @@ colorscheme lunarized
 " 	\| hi CursorLine ctermbg=235 
 " 	\| hi CursorLineNr guifg=#ffa300
 " colorscheme kellys
-"    \| hi Search guibg=#5AB6DB guifg=#311F17
-"    \| hi IncSearch guifg=#9FF3F6 guibg=#000
-"    \| hi Cursor guifg=#2a2b2f guibg=#FF4740
+"	 \| hi Search guibg=#5AB6DB guifg=#311F17
+"	 \| hi IncSearch guifg=#9FF3F6 guibg=#000
+"	 \| hi Cursor guifg=#2a2b2f guibg=#FF4740
 
 hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
 
@@ -268,17 +269,17 @@ let g:syntastic_json_checkers=['jsonlint', 'jsonval']
 " html
 let g:syntastic_html_checkers=[]
 " let g:syntastic_html_tidy_ignore_errors = [
-"     \"trimming empty <i>",
-"     \"trimming empty <span>",
-"     \"<input> proprietary attribute \"autocomplete\"",
-"     \"proprietary attribute \"role\"",
-"     \"proprietary attribute \"hidden\"",
-"     \"proprietary attribute \"ng\"",
-"     \"proprietary attribute \"ng-\"",
-"     \"proprietary attribute \"ng-app\"",
-"     \"proprietary attribute \"data-ng\"",
-"     \"is not recognized!"
-"     \]
+"	  \"trimming empty <i>",
+"	  \"trimming empty <span>",
+"	  \"<input> proprietary attribute \"autocomplete\"",
+"	  \"proprietary attribute \"role\"",
+"	  \"proprietary attribute \"hidden\"",
+"	  \"proprietary attribute \"ng\"",
+"	  \"proprietary attribute \"ng-\"",
+"	  \"proprietary attribute \"ng-app\"",
+"	  \"proprietary attribute \"data-ng\"",
+"	  \"is not recognized!"
+"	  \]
 
 " css
 let g:syntastic_css_checkers=['csslint']
@@ -333,17 +334,17 @@ let g:multi_cursor_prev_key='<C-l>'
 let g:rooter_patterns = ['bigiq_ui.spec', 'biq.def.inc', 'webd.spec', '.git', '.git/']
 
 " vim2hs
-let g:haskell_conceal       = 0
-let g:haskell_quasi         = 0
+let g:haskell_conceal		= 0
+let g:haskell_quasi			= 0
 let g:haskell_interpolation = 0
-let g:haskell_regex         = 0
-let g:haskell_jmacro        = 0
-let g:haskell_shqq          = 0
-let g:haskell_sql           = 0
-let g:haskell_json          = 0
-let g:haskell_xml           = 0
-let g:haskell_hsp           = 0
-let g:haskell_tabular       = 0
+let g:haskell_regex			= 0
+let g:haskell_jmacro		= 0
+let g:haskell_shqq			= 0
+let g:haskell_sql			= 0
+let g:haskell_json			= 0
+let g:haskell_xml			= 0
+let g:haskell_hsp			= 0
+let g:haskell_tabular		= 0
 au BufRead,BufWinEnter *.hs set lazyredraw
 
 " auto-delete trailing spaces for certain filetypes
