@@ -200,12 +200,12 @@ set background=dark
 " colorscheme jellybeans
 " colorscheme brookstream
 " colorscheme carvedwoodcool
-colorscheme lunarized
-	\| hi Normal ctermbg=0 ctermfg=243 guibg=#222222 guifg=#7a7a7a guisp=#0f0f0f
-    \| hi CursorLine cterm=none gui=none
-	\| hi Search guibg=#5AB6DB guifg=#311F17
-	\| hi IncSearch guifg=#9FF3F6 guibg=#000
- 	\| hi javaScriptCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
+" colorscheme lunarized
+" 	\| hi Normal ctermbg=0 ctermfg=243 guibg=#222222 guifg=#7a7a7a guisp=#0f0f0f
+"     \| hi CursorLine cterm=none gui=none
+" 	\| hi Search guibg=#5AB6DB guifg=#311F17
+" 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
+"  	\| hi javaScriptCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
 " colorscheme flatland
 " 	\| hi Search guibg=#5AB6DB guifg=#311F17
 " 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
@@ -221,6 +221,7 @@ colorscheme lunarized
 "    \| hi Search guibg=#5AB6DB guifg=#311F17
 "    \| hi IncSearch guifg=#9FF3F6 guibg=#000
 "    \| hi Cursor guifg=#2a2b2f guibg=#FF4740
+colorscheme graded_a
 
 hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
 
@@ -314,7 +315,8 @@ let g:ctrlp_show_hidden = 1
 " let g:airline_theme='bubblegum' "good with hemisu"
 " let g:airline_theme='molokai' "good with distinguished"
 " let g:airline_theme='sol' "good with flatland, carvedwoodcool"
-let g:airline_theme='murmur' "good with lunarized"
+" let g:airline_theme='murmur' "good with lunarized"
+let g:airline_theme='lucius' "good with graded_a"
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
