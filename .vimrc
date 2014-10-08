@@ -12,7 +12,7 @@ NeoBundle 'editorconfig-vim'
 NeoBundle 'MatchTag'
 NeoBundle 'badwolf'
 " NeoBundle 'maxbrunsfeld/vim-yankstack'
-" NeoBundle 'https://github.com/kien/ctrlp.vim.git'
+NeoBundle 'https://github.com/kien/ctrlp.vim.git'
 NeoBundle 'https://github.com/vim-scripts/CycleColor.git'
 NeoBundle 'https://github.com/noahfrederick/vim-hemisu.git'
 NeoBundle 'https://github.com/heavenshell/vim-jsdoc.git'
@@ -48,6 +48,7 @@ NeoBundle 'aclissold/lunarized-syntax'
 NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'chrisbra/Colorizer'
+NeoBundle 'CSApprox'
 " NeoBundle 'junegunn/goyo.vim'
 " NeoBundle 'pangloss/vim-javascript'
 " NeoBundle 'dag/vim2hs' " waaaay too slow
@@ -66,6 +67,7 @@ let b:javascript_fold = 0
 
 " keymaps
 let mapleader = "\<Space>"
+set timeoutlen=250
 inoremap jk <ESC>
 nmap <C-x> :bd<CR>
 nmap <F7> :Errors<CR>
@@ -144,7 +146,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " general options
-set shell=/usr/local/bin/zsh
+" set shell='/usr/local/bin/zsh'
 set scrolloff=3
 set backspace=2
 set tabstop=4
@@ -166,11 +168,11 @@ set magic
 set foldcolumn=1
 set visualbell
 set noerrorbells
-set wildignore+=build,.git,*.swp,*.tgz,*.zip,*.gz
+set wildignore+=build,.git,.npm,*.swp,*.tgz,*.zip,*.gz
 set backupdir=/tmp,/home/sawyer/devel/vim_tmp
 set noautochdir
 set wildmenu
-set wildmode=longest,list
+" set wildmode=longest,list
 set t_Co=256
 set cursorline
 set nu
@@ -233,7 +235,7 @@ hi NERDTreeFlag guifg=#552222 ctermfg=red
 " Unite
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom#source('file_rec,file_rec/async', 'ignore_globs', split(&wildignore, ','))
+call unite#custom#source('file_rec/async', 'ignore_globs', split(&wildignore, ','))
 "call unite#custom#source('file_rec/async','sorters','sorter_rank', )
 " replacing unite with ctrl-p
 let g:unite_data_directory='~/.vim/.cache/unite'
@@ -246,8 +248,10 @@ if executable('ag')
 	let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
 	let g:unite_source_grep_recursive_opt=''
 endif
-nnoremap <silent> <c-p> :Unite -start-insert file_rec/async<cr>
+" nnoremap <silent> <c-p> :Unite -start-insert file_rec/async<cr>
+nnoremap <silent> <leader>u :Unite -start-insert file_rec/async<cr>
 nnoremap <silent> <leader><Space> :Unite -auto-resize buffer file_mru<cr>
+nnoremap <silent> <leader>v :Unite -auto-resize buffer file_mru -default-action=vsplit<cr>
 nnoremap <silent> <leader>r :Unite register<cr>
 nnoremap <silent> <leader>f :Unite grep<cr>
 " YouCompleteMe options
