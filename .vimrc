@@ -250,7 +250,7 @@ if executable('ag')
 endif
 " nnoremap <silent> <c-p> :Unite -start-insert file_rec/async<cr>
 nnoremap <silent> <leader>u :Unite -start-insert file_rec/async<cr>
-nnoremap <silent> <leader><Space> :Unite -auto-resize buffer file_mru<cr>
+nnoremap <silent> <leader><Space> :Unite -auto-resize -auto-preview buffer file_mru<cr>
 nnoremap <silent> <leader>v :Unite -auto-resize buffer file_mru -default-action=vsplit<cr>
 nnoremap <silent> <leader>r :Unite register<cr>
 nnoremap <silent> <leader>f :Unite grep<cr>
