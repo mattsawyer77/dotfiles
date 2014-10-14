@@ -209,22 +209,22 @@ set background=dark
 " 	\| hi Search guibg=#5AB6DB guifg=#311F17
 " 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
 "  	\| hi javaScriptCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
-" colorscheme flatland
-" 	\| hi Search guibg=#5AB6DB guifg=#311F17
-" 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
-" 	\| hi Cursor ctermbg=178 guifg=#2a2b2f guibg=#FF4740
-" 	\| hi Normal ctermbg=236 guifg=#aabbcc
-" 	\| hi javaScriptCommentTodo ctermbg=160 guibg=#cc2222
-" 	\| hi SignColor guibg=#2D2F31
-" 	\| hi FoldColumn ctermbg=74 guibg=#72aaca
-" 	\| hi LineNr ctermbg=235 guibg=#222222 guifg=#445566
-" 	\| hi CursorLine ctermbg=235 
-" 	\| hi CursorLineNr guifg=#ffa300
+colorscheme flatland
+	\| hi Search guibg=#5AB6DB guifg=#311F17 cterm=none ctermbg=6 ctermfg=0
+	\| hi IncSearch guifg=#9FF3F6 guibg=#000 cterm=none ctermbg=7 ctermfg=0 
+	\| hi Cursor ctermbg=178 guifg=#2a2b2f guibg=#FF4740
+	\| hi Normal ctermbg=235 guifg=#aabbcc
+	\| hi javaScriptCommentTodo ctermbg=160 guibg=#cc2222
+	\| hi SignColor guibg=#2D2F31
+	\| hi FoldColumn ctermbg=74 guibg=#72aaca
+	\| hi LineNr ctermbg=235 guibg=#222222 guifg=#445566
+	\| hi CursorLine ctermbg=235 
+	\| hi CursorLineNr guifg=#ffa300
 " colorscheme kellys
 "	 \| hi Search guibg=#5AB6DB guifg=#311F17
 "	 \| hi IncSearch guifg=#9FF3F6 guibg=#000
 "	 \| hi Cursor guifg=#2a2b2f guibg=#FF4740
-colorscheme graded_a
+" colorscheme graded_a
 
 hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
 
@@ -250,7 +250,7 @@ if executable('ag')
 endif
 " nnoremap <silent> <c-p> :Unite -start-insert file_rec/async<cr>
 nnoremap <silent> <leader>u :Unite -start-insert file_rec/async<cr>
-nnoremap <silent> <leader><Space> :Unite -auto-resize -auto-preview buffer file_mru<cr>
+nnoremap <silent> <leader><Space> :Unite -auto-resize buffer file_mru<cr>
 nnoremap <silent> <leader>v :Unite -auto-resize buffer file_mru -default-action=vsplit<cr>
 nnoremap <silent> <leader>r :Unite register<cr>
 nnoremap <silent> <leader>f :Unite grep<cr>
