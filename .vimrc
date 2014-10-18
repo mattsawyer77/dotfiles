@@ -1,6 +1,9 @@
 set nocompatible			  " be iMproved, required
 filetype off				  " required
 set runtimepath+=~/.vim/bundle/neobundle.vim/
+
+let g:jsdoc_default_mapping = 0
+
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -43,14 +46,14 @@ NeoBundle 'tpope/vim-repeat'
 " NeoBundle 'slimv.vim'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'Shougo/vimproc.vim'
-NeoBundle 'jelera/vim-javascript-syntax'
+" NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'aclissold/lunarized-syntax'
 NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'chrisbra/Colorizer'
 NeoBundle 'CSApprox'
 " NeoBundle 'junegunn/goyo.vim'
-" NeoBundle 'pangloss/vim-javascript'
 " NeoBundle 'dag/vim2hs' " waaaay too slow
 " NeoBundle 'eagletmt/ghcmod-vim'
 " NeoBundle 'number-marks'
@@ -61,7 +64,7 @@ call neobundle#end()
 filetype plugin indent on	 " required
 NeoBundleCheck
 
-let b:javascript_fold = 0
+" let b:javascript_fold = 0
 " syntax clear javaScriptDocComment
 " syntax region javaScriptDocComment		matchgroup=javaScriptComment start="/\*\*\s*$"	end="\*/" contains=javaScriptDocTags,javaScriptCommentTodo,@javaScriptHtml,@Spell
 
@@ -82,7 +85,7 @@ vnoremap <leader>] <Esc>:bn<CR>
 nmap <D-w> :CommandW<CR>
 imap <D-w> <Esc>:CommandW<CR>
 vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
+vmap V <Plug>(expand_region_shrink)
 
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
@@ -92,42 +95,16 @@ nnoremap <leader>pd :silent !p4 diff %<CR>
 map <leader>d /^\(>>>>\\|====\\|<<<<\).*<CR>
 
 " move vertical split
-nnoremap <M-h> <C-w><
-nnoremap <M-l> <C-w>>
-nnoremap <˙> <C-w><
-nnoremap <¬> <C-w>>
+nnoremap <C-H> <C-w><
+nnoremap <C-L> <C-w>>
 " move horizontal split
-nnoremap <M-k> <C-w>+
-nnoremap <M-j> <C-w>-
-nnoremap <˚> <C-w>+
-nnoremap <∆> <C-w>-
+nnoremap <C-K> <C-w>+
+nnoremap <C-J> <C-w>-
 " indentation
-nnoremap <M-]> a<C-t><Esc>
-nnoremap <M-[> a<C-d><Esc>
-nnoremap <‘> a<C-t><Esc>
-nnoremap <“> a<C-d><Esc>
-imap <M-]> <C-t>
-imap <M-[> <C-d>
-vmap <M-]> <Esc>`<i<C-t><C-o>my<C-d><C-o>`><C-t><C-o>mz<C-d><Esc>gv:><CR>gv`yo`z
-vmap <M-[> <Esc>`<i<C-d><C-o>my<C-t><C-o>`><C-d><C-o>mz<C-t><Esc>gv:<<CR>gv`yo`z
-nmap <M-/> gcc<Esc>
-vmap <M-/> gcc<Esc>gv
-imap <M-/> <Esc>gcci<Esc>
-imap <‘> <C-t>
-imap <“> <C-d>
-vmap <‘> <Esc>`<i<C-t><C-o>my<C-d><C-o>`><C-t><C-o>mz<C-d><Esc>gv:><CR>gv`yo`z
-vmap <“> <Esc>`<i<C-d><C-o>my<C-t><C-o>`><C-d><C-o>mz<C-t><Esc>gv:<<CR>gv`yo`z
-nmap <÷> gcc<Esc>
-vmap <÷> gcc<Esc>gv
-imap <÷> <Esc>gcci<Esc>
-map <C-ESC> :only<CR>
+nmap <C-C> gcc<Esc>
+vmap <C-C> gcc<Esc>gv
+imap <C-C> <Esc>gcci<Esc>
 
-"Bubble single lines
-nmap <M-Up> ddkP
-nmap <M-Down> ddp
-"Bubble multiple lines
-vmap <M-Up> xkP`[V`]
-vmap <M-Down> xp`[V`]
 " JSON formatting
 map <leader>jf :%!python -mjson.tool<CR>
 " tern
@@ -139,6 +116,9 @@ map <leader>tr :TernRefs<CR>
 " nnoremap <leader>gy :Goyo<CR>
 " let g:goyo_width = 110
 " let g:goyo_linenr = 1
+"
+" jsdoc
+map <C-J> :JsDoc<CR>
 
 " show highlight group at the cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -208,17 +188,16 @@ set background=dark
 "     \| hi CursorLine cterm=none gui=none
 " 	\| hi Search guibg=#5AB6DB guifg=#311F17
 " 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
-"  	\| hi javaScriptCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
 colorscheme flatland
 	\| hi Search guibg=#5AB6DB guifg=#311F17 cterm=none ctermbg=6 ctermfg=0
 	\| hi IncSearch guifg=#9FF3F6 guibg=#000 cterm=none ctermbg=7 ctermfg=0 
 	\| hi Cursor ctermbg=178 guifg=#2a2b2f guibg=#FF4740
-	\| hi Normal ctermbg=235 guifg=#aabbcc
+	\| hi Normal ctermbg=none ctermfg=250 guifg=#aabbcc
 	\| hi javaScriptCommentTodo ctermbg=160 guibg=#cc2222
 	\| hi SignColor guibg=#2D2F31
 	\| hi FoldColumn ctermbg=74 guibg=#72aaca
 	\| hi LineNr ctermbg=235 guibg=#222222 guifg=#445566
-	\| hi CursorLine ctermbg=235 
+	\| hi CursorLine ctermbg=236 
 	\| hi CursorLineNr guifg=#ffa300
 " colorscheme kellys
 "	 \| hi Search guibg=#5AB6DB guifg=#311F17
@@ -227,6 +206,7 @@ colorscheme flatland
 " colorscheme graded_a
 
 hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
+hi jsCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
 
 " NERDTree color fixes
 hi NERDTreeRO guifg=#cc2222 ctermfg=red
@@ -259,6 +239,8 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " syntastic
 let g:syntastic_auto_loc_list = 2
+let g:syntastic_check_on_open = 1
+let g:syntastic_auto_jump = 2
 
 " sh
 let g:syntastic_sh_checkers=['sh', 'shellcheck']
@@ -321,7 +303,7 @@ let g:ctrlp_show_hidden = 1
 " let g:airline_theme='molokai' "good with distinguished"
 " let g:airline_theme='sol' "good with flatland, carvedwoodcool"
 " let g:airline_theme='murmur' "good with lunarized"
-let g:airline_theme='lucius' "good with graded_a"
+let g:airline_theme='lucius' "good with flatland, graded_a"
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
@@ -334,7 +316,7 @@ au VimEnter,BufWinEnter * if exists("g:this_obsession")
 let g:bufferline_echo = 0
 
 " multiple cursors
-let g:multi_cursor_prev_key='<C-l>'
+let g:multi_cursor_prev_key='<C-N>'
 
 " vim-rooter
 let g:rooter_patterns = ['bigiq_ui.spec', 'biq.def.inc', 'webd.spec', '.git', '.git/']
