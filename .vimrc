@@ -14,16 +14,13 @@ NeoBundle 'genutils'
 NeoBundle 'editorconfig-vim'
 NeoBundle 'MatchTag'
 NeoBundle 'badwolf'
-" NeoBundle 'maxbrunsfeld/vim-yankstack'
 NeoBundle 'https://github.com/kien/ctrlp.vim.git'
 NeoBundle 'https://github.com/vim-scripts/CycleColor.git'
 NeoBundle 'https://github.com/noahfrederick/vim-hemisu.git'
 NeoBundle 'https://github.com/heavenshell/vim-jsdoc.git'
 NeoBundle 'https://github.com/tomtom/tcomment_vim.git'
-" NeoBundle 'https://github.com/tpope/vim-fireplace.git'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'scrooloose/syntastic'
 NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'bling/vim-airline'
@@ -42,17 +39,22 @@ NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'tpope/vim-repeat'
-" NeoBundle 'paredit.vim'
-" NeoBundle 'slimv.vim'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'Shougo/vimproc.vim'
-" NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'aclissold/lunarized-syntax'
 NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'chrisbra/Colorizer'
 NeoBundle 'CSApprox'
+NeoBundle 'Shutnik/jshint2.vim'
+" NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'https://github.com/tpope/vim-fireplace.git'
+" NeoBundle 'maxbrunsfeld/vim-yankstack'
+" NeoBundle 'paredit.vim'
+" NeoBundle 'slimv.vim'
+" NeoBundle 'jelera/vim-javascript-syntax'
+" NeoBundle 'Shougo/unite-ssh'
 " NeoBundle 'junegunn/goyo.vim'
 " NeoBundle 'dag/vim2hs' " waaaay too slow
 " NeoBundle 'eagletmt/ghcmod-vim'
@@ -168,6 +170,7 @@ au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd
 au BufRead,BufNewFile *.less if &ft == '' | set filetype=less | endif
 au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs set expandtab
 au BufRead,BufNewFile *.def.inc set tabstop=8
+au BufRead,InsertLeave *.js JSHint
 
 " colors
 syntax on
@@ -188,22 +191,12 @@ set background=dark
 "     \| hi CursorLine cterm=none gui=none
 " 	\| hi Search guibg=#5AB6DB guifg=#311F17
 " 	\| hi IncSearch guifg=#9FF3F6 guibg=#000
-colorscheme flatland
-	\| hi Search guibg=#5AB6DB guifg=#311F17 cterm=none ctermbg=6 ctermfg=0
-	\| hi IncSearch guifg=#9FF3F6 guibg=#000 cterm=none ctermbg=7 ctermfg=0 
-	\| hi Cursor ctermbg=178 guifg=#2a2b2f guibg=#FF4740
-	\| hi Normal ctermbg=none ctermfg=250 guifg=#aabbcc
-	\| hi javaScriptCommentTodo ctermbg=160 guibg=#cc2222
-	\| hi SignColor guibg=#2D2F31
-	\| hi FoldColumn ctermbg=74 guibg=#72aaca
-	\| hi LineNr ctermbg=235 guibg=#222222 guifg=#445566
-	\| hi CursorLine ctermbg=236 
-	\| hi CursorLineNr guifg=#ffa300
 " colorscheme kellys
 "	 \| hi Search guibg=#5AB6DB guifg=#311F17
 "	 \| hi IncSearch guifg=#9FF3F6 guibg=#000
 "	 \| hi Cursor guifg=#2a2b2f guibg=#FF4740
 " colorscheme graded_a
+colorscheme mattland
 
 hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
 hi jsCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
@@ -303,14 +296,15 @@ let g:ctrlp_show_hidden = 1
 " let g:airline_theme='molokai' "good with distinguished"
 " let g:airline_theme='sol' "good with flatland, carvedwoodcool"
 " let g:airline_theme='murmur' "good with lunarized"
-let g:airline_theme='lucius' "good with flatland, graded_a"
+" let g:airline_theme='lucius' "good with flatland, graded_a"
+let g:airline_theme='zenburn' "good with mattland"
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
 " put the name of the session in the airline
-au VimEnter,BufWinEnter * if exists("g:this_obsession") 
-			\|		let g:airline_section_y = '%{fnamemodify(g:this_obsession, ":t")}' 
-			\| else 
+au VimEnter,BufWinEnter * if exists("g:this_obsession")
+			\|		let g:airline_section_y = '%{fnamemodify(g:this_obsession, ":t")}'
+			\| else
 			\|		let g:airline_section_y = 'no session'
 			\| endif
 let g:bufferline_echo = 0
