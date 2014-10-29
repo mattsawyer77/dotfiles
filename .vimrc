@@ -48,7 +48,9 @@ NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'chrisbra/Colorizer'
 NeoBundle 'CSApprox'
 NeoBundle 'Shutnik/jshint2.vim'
-" NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'bitc/vim-hdevtools.git'
+NeoBundle 'jpalardy/vim-slime'
 " NeoBundle 'https://github.com/tpope/vim-fireplace.git'
 " NeoBundle 'maxbrunsfeld/vim-yankstack'
 " NeoBundle 'paredit.vim'
@@ -103,9 +105,9 @@ nnoremap <C-L> <C-w>>
 nnoremap <C-K> <C-w>+
 nnoremap <C-J> <C-w>-
 " indentation
-nmap <C-C> gcc<Esc>
-vmap <C-C> gcc<Esc>gv
-imap <C-C> <Esc>gcci<Esc>
+" nmap <C-C> gcc<Esc>
+" vmap <C-C> gcc<Esc>gv
+" imap <C-C> <Esc>gcci<Esc>
 
 " JSON formatting
 map <leader>jf :%!python -mjson.tool<CR>
@@ -171,6 +173,9 @@ au BufRead,BufNewFile *.less if &ft == '' | set filetype=less | endif
 au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs set expandtab
 au BufRead,BufNewFile *.def.inc set tabstop=8
 au BufRead,InsertLeave *.js JSHint
+au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
+au BufRead,BufNewFile php-fpm.conf,php.ini* set set filetype=dosini
 
 " colors
 syntax on
@@ -239,7 +244,8 @@ let g:syntastic_auto_jump = 2
 let g:syntastic_sh_checkers=['sh', 'shellcheck']
 
 " javascript
-let g:syntastic_javascript_checkers=['jshint']
+" let g:syntastic_javascript_checkers=['jshint']
+let g:syntastic_javascript_checkers=[]
 
 " json
 let g:syntastic_json_checkers=['jsonlint', 'jsonval']
@@ -296,8 +302,8 @@ let g:ctrlp_show_hidden = 1
 " let g:airline_theme='molokai' "good with distinguished"
 " let g:airline_theme='sol' "good with flatland, carvedwoodcool"
 " let g:airline_theme='murmur' "good with lunarized"
-" let g:airline_theme='lucius' "good with flatland, graded_a"
-let g:airline_theme='zenburn' "good with mattland"
+let g:airline_theme='lucius' "good with flatland, graded_a"
+" let g:airline_theme='zenburn' "good with mattland"
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
@@ -328,6 +334,10 @@ let g:haskell_xml			= 0
 let g:haskell_hsp			= 0
 let g:haskell_tabular		= 0
 au BufRead,BufWinEnter *.hs set lazyredraw
+
+" vim-slime
+let g:slime_target = "tmux"
+let g:slime_paste_file = tempname()
 
 " auto-delete trailing spaces for certain filetypes
 func! DeleteTrailingWS()
