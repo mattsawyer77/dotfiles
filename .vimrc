@@ -170,7 +170,8 @@ au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd
 au BufRead,BufNewFile *.less if &ft == '' | set filetype=less | endif
 au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs set expandtab
 au BufRead,BufNewFile *.def.inc set tabstop=8
-au BufRead,InsertLeave *.js JSHint
+" the following autocmd has some issues, fix them...
+" au BufRead,InsertLeave *.js JSHint
 
 " colors
 syntax on
@@ -239,7 +240,7 @@ let g:syntastic_auto_jump = 2
 let g:syntastic_sh_checkers=['sh', 'shellcheck']
 
 " javascript
-let g:syntastic_javascript_checkers=['jshint']
+let g:syntastic_javascript_checkers=[]
 
 " json
 let g:syntastic_json_checkers=['jsonlint', 'jsonval']
@@ -263,6 +264,12 @@ let g:syntastic_html_checkers=[]
 
 " css
 let g:syntastic_css_checkers=['csslint']
+
+" jshint2
+let jshint2_read = 1
+let jshint2_save = 1
+let jshint2_confirm = 0
+let jshint2_height = 5
 
 " JS context syntax colors
 " let g:js_context_colors = [ '#D92E41', '#D97F53', '#D9A553', '#C9D997', '#9FD9A4', '#81D9BD', '#D1A9D9', '#D996A6' ]
@@ -296,8 +303,8 @@ let g:ctrlp_show_hidden = 1
 " let g:airline_theme='molokai' "good with distinguished"
 " let g:airline_theme='sol' "good with flatland, carvedwoodcool"
 " let g:airline_theme='murmur' "good with lunarized"
-" let g:airline_theme='lucius' "good with flatland, graded_a"
-let g:airline_theme='zenburn' "good with mattland"
+let g:airline_theme='lucius' "good with mattland, flatland, graded_a"
+" let g:airline_theme='zenburn' "~good with mattland"
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
