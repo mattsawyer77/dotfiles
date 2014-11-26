@@ -51,8 +51,9 @@ NeoBundle 'Shutnik/jshint2.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'bitc/vim-hdevtools.git'
 NeoBundle 'jpalardy/vim-slime'
+NeoBundle 'maxbrunsfeld/vim-yankstack'
+NeoBundle 'haya14busa/incsearch.vim'
 " NeoBundle 'https://github.com/tpope/vim-fireplace.git'
-" NeoBundle 'maxbrunsfeld/vim-yankstack'
 " NeoBundle 'paredit.vim'
 " NeoBundle 'slimv.vim'
 " NeoBundle 'jelera/vim-javascript-syntax'
@@ -82,10 +83,6 @@ nmap <F8> :NERDTree<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :echo colors_name<CR>
 nnoremap <leader>[ :bp<CR>
 nnoremap <leader>] :bn<CR>
-inoremap <leader>[ <Esc>:bp<CR>
-inoremap <leader>] <Esc>:bn<CR>
-vnoremap <leader>[ <Esc>:bp<CR>
-vnoremap <leader>] <Esc>:bn<CR>
 nmap <D-w> :CommandW<CR>
 imap <D-w> <Esc>:CommandW<CR>
 vmap v <Plug>(expand_region_expand)
@@ -110,7 +107,7 @@ nnoremap <C-J> <C-w>-
 " imap <C-C> <Esc>gcci<Esc>
 
 " JSON formatting
-map <leader>jf :%!python -mjson.tool<CR>
+map <leader>jf :%!json<CR>
 " tern
 map <leader>td :TernDef<CR>
 map <leader>tp :TernDefPreview<CR>
@@ -128,6 +125,11 @@ map <C-J> :JsDoc<CR>
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" incsearch.vim:
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 " general options
 " set shell='/usr/local/bin/zsh'
@@ -156,11 +158,12 @@ set wildignore+=build,.git,.npm,*.swp,*.tgz,*.zip,*.gz
 set backupdir=/tmp,/home/sawyer/devel/vim_tmp
 set noautochdir
 set wildmenu
-" set wildmode=longest,list
+set wildmode=longest,list
 set t_Co=256
 set cursorline
 set nu
 set nolazyredraw
+set ttyfast
 if has("mouse")
 	set mouse=a
 endif
@@ -171,6 +174,7 @@ endif
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf set filetype=nginx
 au BufRead,BufNewFile *.less if &ft == '' | set filetype=less | endif
 au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs set expandtab
+au BufRead /etc/rsnapshot.conf set noexpandtab
 au BufRead,BufNewFile *.def.inc set tabstop=8
 " the following autocmd has some issues, fix them...
 " au BufRead,InsertLeave *.js JSHint
@@ -345,6 +349,10 @@ au BufRead,BufWinEnter *.hs set lazyredraw
 " vim-slime
 let g:slime_target = "tmux"
 let g:slime_paste_file = tempname()
+
+" signify
+nmap <leader>gj <plug>(signify-next-hunk)
+nmap <leader>gk <plug>(signify-prev-hunk)
 
 " auto-delete trailing spaces for certain filetypes
 func! DeleteTrailingWS()
