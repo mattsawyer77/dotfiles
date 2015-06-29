@@ -1,73 +1,50 @@
-set nocompatible			  " be iMproved, required
-filetype off				  " required
-set runtimepath+=~/.vim/bundle/neobundle.vim/
+call plug#begin('~/.vim/plugged')
 
-let g:jsdoc_default_mapping = 0
+Plug 'tpope/vim-fugitive'
+Plug 'genutils'
+Plug 'editorconfig-vim'
+Plug 'MatchTag'
+Plug 'badwolf'
+Plug 'https://github.com/kien/ctrlp.vim.git'
+Plug 'https://github.com/vim-scripts/CycleColor.git'
+Plug 'https://github.com/noahfrederick/vim-hemisu.git'
+Plug 'https://github.com/heavenshell/vim-jsdoc.git'
+Plug 'https://github.com/tomtom/tcomment_vim.git'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Raimondi/delimitMate'
+Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+" Plug 'bling/vim-airline'
+Plug 'itchyny/lightline.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'daylerees/colour-schemes', { 'rtp': 'vim/' }
+Plug 'zefei/vim-colortuner'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-surround'
+Plug 'rking/ag.vim'
+Plug 'littleq0903/vim-nginx'
+Plug 'maksimr/vim-jsbeautify'
+Plug 'groenewege/vim-less'
+Plug 'bufkill.vim'
+Plug 'airblade/vim-rooter'
+Plug 'osyo-manga/vim-over'
+Plug 'tpope/vim-repeat'
+Plug 'mhinz/vim-signify'
+Plug 'Shougo/vimproc.vim', { 'do': 'make '}
+Plug 'pangloss/vim-javascript'
+Plug 'terryma/vim-expand-region'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'chrisbra/Colorizer'
+" Plug 'CSApprox'
+Plug 'scrooloose/syntastic'
+Plug 'maxbrunsfeld/vim-yankstack'
+" Plug 'jelera/vim-javascript-syntax'
+" Plug 'junegunn/goyo.vim'
+" Plug 'eagletmt/ghcmod-vim'
+" Plug 'bigfish/vim-js-context-coloring'
 
-call neobundle#begin(expand('~/.vim/bundle/'))
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'genutils'
-NeoBundle 'editorconfig-vim'
-NeoBundle 'MatchTag'
-NeoBundle 'badwolf'
-NeoBundle 'https://github.com/kien/ctrlp.vim.git'
-NeoBundle 'https://github.com/vim-scripts/CycleColor.git'
-NeoBundle 'https://github.com/noahfrederick/vim-hemisu.git'
-NeoBundle 'https://github.com/heavenshell/vim-jsdoc.git'
-NeoBundle 'https://github.com/tomtom/tcomment_vim.git'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'marijnh/tern_for_vim'
-NeoBundle 'Valloric/YouCompleteMe'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tpope/vim-obsession'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'littleq0903/vim-nginx'
-NeoBundle 'maksimr/vim-jsbeautify'
-NeoBundle 'curist/vim-angular-template'
-NeoBundle 'groenewege/vim-less'
-NeoBundle 'bufkill.vim'
-NeoBundle 'nathanaelkane/vim-command-w.git'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'airblade/vim-rooter'
-NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'mhinz/vim-signify'
-NeoBundle 'Shougo/vimproc.vim'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'aclissold/lunarized-syntax'
-NeoBundle 'terryma/vim-expand-region'
-NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'chrisbra/Colorizer'
-NeoBundle 'CSApprox'
-NeoBundle 'Shutnik/jshint2.vim'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'bitc/vim-hdevtools.git'
-NeoBundle 'jpalardy/vim-slime'
-NeoBundle 'maxbrunsfeld/vim-yankstack'
-NeoBundle 'haya14busa/incsearch.vim'
-" NeoBundle 'https://github.com/tpope/vim-fireplace.git'
-" NeoBundle 'paredit.vim'
-" NeoBundle 'slimv.vim'
-" NeoBundle 'jelera/vim-javascript-syntax'
-" NeoBundle 'Shougo/unite-ssh'
-" NeoBundle 'junegunn/goyo.vim'
-" NeoBundle 'dag/vim2hs' " waaaay too slow
-" NeoBundle 'eagletmt/ghcmod-vim'
-" NeoBundle 'number-marks'
-" NeoBundle 'bigfish/vim-js-context-coloring'
-
-" All of your Plugins must be added before the following line
-call neobundle#end()
-filetype plugin indent on	 " required
-NeoBundleCheck
+call plug#end()
 
 " let b:javascript_fold = 0
 " syntax clear javaScriptDocComment
@@ -87,6 +64,7 @@ nmap <D-w> :CommandW<CR>
 imap <D-w> <Esc>:CommandW<CR>
 vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
+nmap <leader><space> :CtrlPMRUFiles<CR>
 
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
@@ -126,11 +104,6 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-" incsearch.vim:
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
 " general options
 " set shell='/usr/local/bin/zsh'
 set scrolloff=3
@@ -164,6 +137,7 @@ set cursorline
 set nu
 set nolazyredraw
 set ttyfast
+set shortmess=a
 if has("mouse")
 	set mouse=a
 endif
@@ -172,6 +146,7 @@ endif
 " au WinLeave * :setlocal nonumber
 " filetype mapping
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf set filetype=nginx
+au BufRead,BufNewFile *.json set filetype=json
 au BufRead,BufNewFile *.less if &ft == '' | set filetype=less | endif
 au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs set expandtab
 au BufRead /etc/rsnapshot.conf set noexpandtab
@@ -206,37 +181,39 @@ set background=dark
 "	 \| hi IncSearch guifg=#9FF3F6 guibg=#000
 "	 \| hi Cursor guifg=#2a2b2f guibg=#FF4740
 " colorscheme graded_a
-colorscheme mattland
+" colorscheme mattland
+colorscheme flatlandia
+hi LineNr ctermfg=238 ctermbg=235
 
-hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
-hi jsCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
+"hi Error term=reverse ctermfg=15 ctermbg=12 gui=underline guifg=#E9E8D0 guibg=#BA0423
+"hi jsCommentTodo ctermbg=160 ctermfg=255 guibg=#cc2222 guifg=#eeeeee
 
 " NERDTree color fixes
 hi NERDTreeRO guifg=#cc2222 ctermfg=red
 hi NERDTreeFlag guifg=#552222 ctermfg=red
 
 " Unite
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom#source('file_rec/async', 'ignore_globs', split(&wildignore, ','))
+"call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"call unite#filters#sorter_default#use(['sorter_rank'])
+"call unite#custom#source('file_rec/async', 'ignore_globs', split(&wildignore, ','))
 "call unite#custom#source('file_rec/async','sorters','sorter_rank', )
 " replacing unite with ctrl-p
-let g:unite_data_directory='~/.vim/.cache/unite'
-let g:unite_enable_start_insert=1
-let g:unite_source_history_yank_enable=1
-let g:unite_prompt='» '
-let g:unite_split_rule = 'botright'
-if executable('ag')
-	let g:unite_source_grep_command='ag'
-	let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
-	let g:unite_source_grep_recursive_opt=''
-endif
+"let g:unite_data_directory='~/.vim/.cache/unite'
+"let g:unite_enable_start_insert=1
+"let g:unite_source_history_yank_enable=1
+"let g:unite_prompt='» '
+"let g:unite_split_rule = 'botright'
+"if executable('ag')
+	"let g:unite_source_grep_command='ag'
+	"let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+	"let g:unite_source_grep_recursive_opt=''
+"endif
 " nnoremap <silent> <c-p> :Unite -start-insert file_rec/async<cr>
-nnoremap <silent> <leader>u :Unite -start-insert file_rec/async<cr>
-nnoremap <silent> <leader><Space> :Unite -auto-resize buffer file_mru<cr>
-nnoremap <silent> <leader>v :Unite -auto-resize buffer file_mru -default-action=vsplit<cr>
-nnoremap <silent> <leader>r :Unite register<cr>
-nnoremap <silent> <leader>f :Unite grep<cr>
+"nnoremap <silent> <leader>u :Unite -start-insert file_rec/async<cr>
+"nnoremap <silent> <leader><Space> :Unite -auto-resize buffer file_mru<cr>
+"nnoremap <silent> <leader>v :Unite -auto-resize buffer file_mru -default-action=vsplit<cr>
+"nnoremap <silent> <leader>r :Unite register<cr>
+"nnoremap <silent> <leader>f :Unite grep<cr>
 " YouCompleteMe options
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
@@ -250,7 +227,7 @@ let g:syntastic_sh_checkers=['sh', 'shellcheck']
 
 " javascript
 " let g:syntastic_javascript_checkers=['jshint']
-let g:syntastic_javascript_checkers=[]
+let g:syntastic_javascript_checkers=['eslint']
 
 " json
 let g:syntastic_json_checkers=['jsonlint', 'jsonval']
@@ -326,11 +303,152 @@ au VimEnter,BufWinEnter * if exists("g:this_obsession")
 			\| endif
 let g:bufferline_echo = 0
 
+" lightline config
+" let g:lightline.colorscheme = 'default'
+" let g:lightline.colorscheme = 'wombat'
+" let g:lightline.colorscheme = 'solarized'
+" let g:lightline.colorscheme = 'powerline'
+" let g:lightline.colorscheme = 'jellybeans'
+" let g:lightline.colorscheme = 'Tomorrow'
+" let g:lightline.colorscheme = 'Tomorrow_Night'
+" let g:lightline.colorscheme = 'Tomorrow_Night_Blue'
+" let g:lightline.colorscheme = 'Tomorrow_Night_Eighties'
+" let g:lightline.colorscheme = 'landscape'
+" let g:lightline.colorscheme = '16color'
+
+
+let g:lightline = {
+      \ 'colorscheme': 'Tomorrow_Night',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LightLineFugitive',
+      \   'filename': 'LightLineFilename',
+      \   'fileformat': 'LightLineFileformat',
+      \   'filetype': 'LightLineFiletype',
+      \   'fileencoding': 'LightLineFileencoding',
+      \   'mode': 'LightLineMode',
+      \   'ctrlpmark': 'CtrlPMark',
+      \ },
+      \ 'component_expand': {
+      \   'syntastic': 'SyntasticStatuslineFlag',
+      \ },
+      \ 'component_type': {
+      \   'syntastic': 'error',
+      \ },
+      \ 'subseparator': { 'left': '|', 'right': '|' }
+      \ }
+
+function! LightLineModified()
+  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! LightLineReadonly()
+  return &ft !~? 'help' && &readonly ? 'RO' : ''
+endfunction
+
+function! LightLineFilename()
+  let fname = expand('%:t')
+  return fname == 'ControlP' ? g:lightline.ctrlp_item :
+        \ fname == '__Tagbar__' ? g:lightline.fname :
+        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \ &ft == 'unite' ? unite#get_status_string() :
+        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '[No Name]') .
+        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+endfunction
+
+function! LightLineFugitive()
+  try
+    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+      let mark = ''  " edit here for cool mark
+      let _ = fugitive#head()
+      return strlen(_) ? mark._ : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! LightLineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightLineFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightLineFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! LightLineMode()
+  let fname = expand('%:t')
+  return fname == '__Tagbar__' ? 'Tagbar' :
+        \ fname == 'ControlP' ? 'CtrlP' :
+        \ fname == '__Gundo__' ? 'Gundo' :
+        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+        \ &ft == 'unite' ? 'Unite' :
+        \ &ft == 'vimfiler' ? 'VimFiler' :
+        \ &ft == 'vimshell' ? 'VimShell' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! CtrlPMark()
+  if expand('%:t') =~ 'ControlP'
+    call lightline#link('iR'[g:lightline.ctrlp_regex])
+    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+          \ , g:lightline.ctrlp_next], 0)
+  else
+    return ''
+  endif
+endfunction
+
+let g:ctrlp_status_func = {
+  \ 'main': 'CtrlPStatusFunc_1',
+  \ 'prog': 'CtrlPStatusFunc_2',
+  \ }
+
+function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+  let g:lightline.ctrlp_regex = a:regex
+  let g:lightline.ctrlp_prev = a:prev
+  let g:lightline.ctrlp_item = a:item
+  let g:lightline.ctrlp_next = a:next
+  return lightline#statusline(0)
+endfunction
+
+function! CtrlPStatusFunc_2(str)
+  return lightline#statusline(0)
+endfunction
+
+let g:tagbar_status_func = 'TagbarStatusFunc'
+
+augroup AutoSyntastic
+  autocmd!
+  autocmd BufWritePost *.c,*.cpp call s:syntastic()
+augroup END
+function! s:syntastic()
+  SyntasticCheck
+  call lightline#update()
+endfunction
+
+let g:unite_force_overwrite_statusline = 0
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimshell_force_overwrite_statusline = 0
+
 " multiple cursors
 let g:multi_cursor_prev_key='<C-N>'
 
 " vim-rooter
 let g:rooter_patterns = ['bigiq_ui.spec', 'biq.def.inc', 'webd.spec', '.git', '.git/']
+
+" ShowMarks7
+" let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 " vim2hs
 let g:haskell_conceal		= 0
@@ -353,6 +471,9 @@ let g:slime_paste_file = tempname()
 " signify
 nmap <leader>gj <plug>(signify-next-hunk)
 nmap <leader>gk <plug>(signify-prev-hunk)
+
+" neovim stuff
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " auto-delete trailing spaces for certain filetypes
 func! DeleteTrailingWS()
