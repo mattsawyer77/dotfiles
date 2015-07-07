@@ -39,6 +39,7 @@ Plug 'chrisbra/Colorizer'
 " Plug 'CSApprox'
 Plug 'scrooloose/syntastic'
 Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'wincent/terminus'
 " Plug 'jelera/vim-javascript-syntax'
 " Plug 'junegunn/goyo.vim'
 " Plug 'eagletmt/ghcmod-vim'
@@ -138,9 +139,7 @@ set nu
 set nolazyredraw
 set ttyfast
 set shortmess=a
-if has("mouse")
-	set mouse=a
-endif
+
 " only show line numbers in the current window
 " au WinEnter * :setlocal number
 " au WinLeave * :setlocal nonumber
