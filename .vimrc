@@ -58,6 +58,7 @@ inoremap jk <ESC>
 nmap <C-x> :bd<CR>
 nmap <F7> :Errors<CR>
 nmap <F8> :NERDTree<CR>
+nmap <F9> :NERDTreeCWD<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :echo colors_name<CR>
 nnoremap <leader>[ :bp<CR>
 nnoremap <leader>] :bn<CR>
