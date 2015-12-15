@@ -58,3 +58,6 @@ nnoremap <leader>tt :call ToggleTheme()<CR>
 " signify
 nmap <leader>gj <plug>(signify-next-hunk)
 nmap <leader>gk <plug>(signify-prev-hunk)
+
+" format JSON (using node.js)
+map <leader>jf :call FormatJSON()<CR>

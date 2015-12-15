@@ -20,3 +20,16 @@ func! DeleteTrailingWS()
   retab!
   exe "normal `z"
 endfunc
+
+function FormatJSON(...) 
+    let code="\"
+        \ var i = process.stdin, d = '';
+        \ i.resume();
+        \ i.setEncoding('utf8');
+        \ i.on('data', function(data) { d += data; });
+        \ i.on('end', function() {
+        \     console.log(JSON.stringify(JSON.parse(d), null, 
+        \ " . (a:0 ? a:1 ? a:1 : 2 : 2) . "));
+        \ });\""
+    execute "%! node -e " . code 
+endfunction
