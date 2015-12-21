@@ -39,7 +39,8 @@ set background=dark
 hi NERDTreeRO guifg=#cc2222 ctermfg=red
 hi NERDTreeFlag guifg=#552222 ctermfg=red
 
-colorscheme abra
-let g:airline_theme='tomorrow'
-
+" colorscheme abra
+" let g:airline_theme='tomorrow'
+colorscheme mattland
+let g:airline_theme='lucius'
 

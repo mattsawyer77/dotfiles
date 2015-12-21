@@ -2,10 +2,8 @@
 function! ToggleTheme()
 	if &background == "light"
 		execute ":set background=dark"
-		execute ":colorscheme abra"
-		execute ":AirlineTheme hybrid"
-		" execute ":colorscheme flatlandia"
-		" execute ":AirlineTheme tomorrow"
+		execute ":colorscheme mattland"
+		execute ":AirlineTheme lucius"
 	else
 		execute ":set background=light"
 		execute ":colorscheme github"
