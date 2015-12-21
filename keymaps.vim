@@ -33,6 +33,9 @@ nnoremap <C-J> <C-w>-
 nmap ¯ gcc<Esc>
 vmap ¯ gcc<Esc>gv
 imap ¯ <Esc>gccli
+nmap ÷ gcc<Esc>
+vmap ÷ gcc<Esc>gv
+imap ÷ gcc<Esc>li
 
 " JSON formatting
 map <leader>jf :%!json<CR>
