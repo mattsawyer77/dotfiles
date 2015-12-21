@@ -23,18 +23,19 @@ Plug 'osyo-manga/vim-over'
 Plug 'tpope/vim-repeat'
 Plug 'mhinz/vim-signify'
 Plug 'pangloss/vim-javascript'
+Plug 'claco/jasmine.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'wincent/terminus'
 Plug 'benekastah/neomake'
 Plug 'bling/vim-airline'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'millermedeiros/vim-esformatter'
 Plug 'Shougo/deoplete.nvim'
+Plug 'maxbrunsfeld/vim-yankstack'
 " Plug 'zefei/vim-colortuner'
 " Plug 'itchyny/lightline.vim'
 " Plug 'airblade/vim-rooter'
+" Plug 'wincent/terminus'
 
 call plug#end()
 
