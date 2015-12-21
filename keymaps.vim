@@ -1,7 +1,8 @@
 let mapleader = "\<Space>"
 set timeoutlen=250
 inoremap jk <ESC>
-nmap <C-x> :bd<CR>
+nnoremap <C-x> :bd<CR>
+nnoremap <C-s> :w<CR>
 nmap <F7> :Errors<CR>
 nmap <F8> :NERDTree<CR>
 nmap <F9> :NERDTreeCWD<CR>
@@ -61,3 +62,7 @@ nmap <leader>gk <plug>(signify-prev-hunk)
 
 " format JSON (using node.js)
 map <leader>jf :call FormatJSON()<CR>
+
+map <leader>r BTags<CR>
+
+nnoremap <C-,> :NERDTree ~/.config/nvim/init.vim<CR>
