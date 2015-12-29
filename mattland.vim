@@ -28,7 +28,7 @@ hi Search ctermfg=0 ctermbg=6 cterm=NONE guibg=#5AB6DB guifg=#311F17
 hi IncSearch ctermfg=0 ctermbg=7 cterm=NONE guifg=#9FF3F6 guibg=#000 gui=NONE
 hi Directory ctermfg=150 ctermbg=NONE cterm=NONE guifg=#b8d977 guibg=NONE gui=NONE
 hi Folded ctermfg=102 ctermbg=16 cterm=NONE guifg=#798188 guibg=#26292c gui=NONE
-hi Normal ctermfg=250 ctermbg=NONE cterm=NONE guifg=#aabbcc guibg=#1B1E20 gui=NONE
+hi Normal ctermfg=250 ctermbg=NONE cterm=NONE guifg=#aabbcc guibg=#23272A gui=NONE
 hi Boolean ctermfg=150 ctermbg=NONE cterm=NONE guifg=#b8d977 guibg=NONE gui=NONE
 hi Character ctermfg=150 ctermbg=NONE cterm=NONE guifg=#b8d977 guibg=NONE gui=NONE
 hi Comment ctermfg=102 ctermbg=NONE cterm=NONE guifg=#798188 guibg=NONE gui=NONE
