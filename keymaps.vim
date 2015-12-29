@@ -68,4 +68,6 @@ map <leader>jf :call FormatJSON()<CR>
 
 map <leader>r BTags<CR>
 
-nnoremap <C-,> :NERDTree ~/.config/nvim/init.vim<CR>
+nnoremap <C-,> :NERDTree ~/.config/nvim<CR>
+nnoremap <D-,> :NERDTree ~/.config/nvim<CR>
+nnoremap ¬ :NERDTree ~/.config/nvim<CR>
