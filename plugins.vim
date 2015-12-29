@@ -32,6 +32,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'millermedeiros/vim-esformatter'
 Plug 'Shougo/deoplete.nvim'
 Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'jeetsukumaran/vim-markology'
 " Plug 'zefei/vim-colortuner'
 " Plug 'itchyny/lightline.vim'
 " Plug 'airblade/vim-rooter'
@@ -103,6 +104,8 @@ let g:slime_paste_file = tempname()
 " deoplete
 let g:deoplete#enable_at_startup = 1
 
-
 " neovim stuff
 let g:neomake_javascript_enabled_makers = ['eslint']
+
+" markology
+let g:markology_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
