@@ -10,7 +10,7 @@ au BufRead,BufNewFile *.def.inc set tabstop=8
 au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
 
 " put the name of the session in the airline
-au VimEnter,BufWinEnter * if exists("g:this_obsession")
+au VimEnter,BufWinEnter,CursorHold * if exists("g:this_obsession")
 	\|		let g:airline_section_y = '%{fnamemodify(g:this_obsession, ":t")}'
 	\| else
 	\|		let g:airline_section_y = 'no session'
@@ -35,3 +35,4 @@ autocmd BufWrite *.yaml :call DeleteTrailingWS()
 autocmd BufWrite *.conf :call DeleteTrailingWS()
 autocmd BufWrite *.lua :call DeleteTrailingWS()
 autocmd BufWrite *.bash :call DeleteTrailingWS()
+autocmd BufWrite *.hs :call DeleteTrailingWS()

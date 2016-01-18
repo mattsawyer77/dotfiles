@@ -42,7 +42,7 @@ hi DiffText ctermfg=231 ctermbg=24 cterm=bold guifg=#f8f8f8 guibg=#204a87 gui=bo
 hi ErrorMsg ctermfg=231 ctermbg=124 cterm=NONE guifg=#f8f8f8 guibg=#aa2915 gui=NONE
 hi WarningMsg ctermfg=231 ctermbg=124 cterm=NONE guifg=#f8f8f8 guibg=#aa2915 gui=NONE
 hi Float ctermfg=150 ctermbg=NONE cterm=NONE guifg=#b8d977 guibg=NONE gui=NONE
-hi Function ctermfg=74 ctermbg=NONE cterm=NONE guifg=#72aaca guibg=NONE gui=NONE
+hi Function ctermfg=74 ctermbg=NONE cterm=NONE guifg=#72aaca guibg=NONE gui=bold
 hi Identifier ctermfg=228 ctermbg=NONE cterm=NONE guifg=#f6f080 guibg=NONE gui=NONE
 hi Keyword ctermfg=209 ctermbg=NONE cterm=NONE guifg=#fa9a4b guibg=NONE gui=NONE
 hi Label ctermfg=231 ctermbg=NONE cterm=NONE guifg=#f6f6f6 guibg=NONE gui=NONE

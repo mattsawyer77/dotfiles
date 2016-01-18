@@ -2,11 +2,12 @@ let mapleader = "\<Space>"
 set timeoutlen=250
 inoremap jk <ESC>
 nnoremap <C-x> :bd<CR>
-nnoremap <C-s> :w<CR>
+noremap <C-s> :w<CR>
 nmap <F7> :Errors<CR>
 nmap <F8> :NERDTree<CR>
-nmap <F9> :NERDTreeCWD<CR>
-nnoremap <F4> :silent CycleColorNext<CR> \| :echo colors_name<CR>
+nmap <F9> :NERDTreeFind<CR>
+nnoremap <F4> :silent CycleColorNext<CR> \| :CycleColorRefresh<CR> \| :echo colors_name<CR>
+nnoremap <F5> :redir >> /tmp/vim_colors_selected.txt \| :echo colors_name \| redir END<CR>
 nnoremap <leader>[ :bp<CR>
 nnoremap <leader>] :bn<CR>
 nmap <D-w> :CommandW<CR>
@@ -46,7 +47,7 @@ map <leader>ts :TernDefSplit<CR>
 map <leader>tr :TernRefs<CR>
 "
 " jsdoc
-map <C-J> :JsDoc<CR>
+map <leader>jd :JsDoc<CR>
 
 " show highlight group at the cursor
 nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -69,5 +70,16 @@ map <leader>jf :call FormatJSON()<CR>
 map <leader>r BTags<CR>
 
 nnoremap <C-,> :NERDTree ~/.config/nvim<CR>
-nnoremap <D-,> :NERDTree ~/.config/nvim<CR>
 nnoremap ¬ :NERDTree ~/.config/nvim<CR>
+
+" markology
+nnoremap <leader>m :MarkologyLocationList<CR>
+
+" quick/dirty way to find a function
+nnoremap <leader>f function\s*
+
+" deoplete
+" use tab to iterate items in autocomplete dropdown
+inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" use enter to select the item in the dropdown 
+inoremap <expr><CR> pumvisible() ? "\<Esc>a" : "\<CR>"

@@ -1,7 +1,7 @@
 command! FZFMru call fzf#run({
 \ 'source':  reverse(s:all_files()),
 \ 'sink':    'edit',
-\ 'options': '-m -x +s',
+\ 'options': '-m --no-sort -x',
 \ 'down':    '40%' })
 
 function! s:all_files()
@@ -46,3 +46,21 @@ command! -nargs=* Find call fzf#run({
   \            '--color hl:68,hl+:110',
   \ 'down':    '50%'
   \ })
+
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+nnoremap <silent> <Leader><Enter> :call fzf#run({
+\   'source':  <sid>buflist(),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>

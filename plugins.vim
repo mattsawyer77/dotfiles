@@ -4,14 +4,12 @@ Plug 'tpope/vim-fugitive'
 Plug 'editorconfig-vim'
 Plug 'MatchTag'
 Plug 'badwolf'
+Plug 'morhetz/gruvbox'
 Plug 'https://github.com/vim-scripts/CycleColor.git'
-Plug 'https://github.com/noahfrederick/vim-hemisu.git'
 Plug 'https://github.com/heavenshell/vim-jsdoc.git'
 Plug 'https://github.com/tomtom/tcomment_vim.git'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
-Plug 'flazz/vim-colorschemes'
-Plug 'daylerees/colour-schemes', { 'rtp': 'vim/' }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-surround'
@@ -22,7 +20,6 @@ Plug 'bufkill.vim'
 Plug 'osyo-manga/vim-over'
 Plug 'tpope/vim-repeat'
 Plug 'mhinz/vim-signify'
-Plug 'pangloss/vim-javascript'
 Plug 'claco/jasmine.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'kien/rainbow_parentheses.vim'
@@ -33,6 +30,14 @@ Plug 'millermedeiros/vim-esformatter'
 Plug 'Shougo/deoplete.nvim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'jeetsukumaran/vim-markology'
+Plug 'grassdog/tagman.vim'
+Plug 'bitc/vim-hdevtools'
+Plug 'eagletmt/neco-ghc'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'othree/yajs.vim'
+Plug 'burnettk/vim-angular'
+Plug 'taiansu/nerdtree-ag'
+" Plug 'pangloss/vim-javascript'
 " Plug 'zefei/vim-colortuner'
 " Plug 'itchyny/lightline.vim'
 " Plug 'airblade/vim-rooter'
@@ -84,19 +89,6 @@ let g:bufferline_echo = 0
 " vim-rooter
 let g:rooter_patterns = ['bigiq_ui.spec', 'biq.def.inc', 'webd.spec', '.git', '.git/']
 
-" vim2hs
-let g:haskell_conceal		= 0
-let g:haskell_quasi			= 0
-let g:haskell_interpolation = 0
-let g:haskell_regex			= 0
-let g:haskell_jmacro		= 0
-let g:haskell_shqq			= 0
-let g:haskell_sql			= 0
-let g:haskell_json			= 0
-let g:haskell_xml			= 0
-let g:haskell_hsp			= 0
-let g:haskell_tabular		= 0
-
 " vim-slime
 let g:slime_target = "tmux"
 let g:slime_paste_file = tempname()
@@ -108,4 +100,9 @@ let g:deoplete#enable_at_startup = 1
 let g:neomake_javascript_enabled_makers = ['eslint']
 
 " markology
-let g:markology_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+let g:markology_include="abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+let g:markology_disable_mappings = 1
+
+" tern
+" turn off annoying and mostly useless auto preview window
+autocmd BufEnter *.js set completeopt-=preview
