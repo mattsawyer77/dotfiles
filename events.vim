@@ -8,6 +8,12 @@ au BufRead,BufNewFile *.def.inc set tabstop=8
 " au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 " au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
+au Syntax javascript normal zR
+
+" turn off cursorline since yajs performs poorly with it on in some cases
+" https://github.com/othree/yajs.vim/issues/37
+" https://github.com/othree/yajs.vim/issues/88
+au Syntax javascript set nocursorline
 
 " put the name of the session in the airline
 au VimEnter,BufWinEnter,CursorHold * if exists("g:this_obsession")
