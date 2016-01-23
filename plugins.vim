@@ -37,6 +37,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'othree/yajs.vim'
 Plug 'burnettk/vim-angular'
 Plug 'taiansu/nerdtree-ag'
+Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'pangloss/vim-javascript'
 " Plug 'zefei/vim-colortuner'
 " Plug 'itchyny/lightline.vim'
@@ -57,8 +58,8 @@ let g:badwolf_darkgutter = 1
 
 " ctrlp
 let g:ctrlp_map = '<c-q>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_root_markers = ['*.spec', '.p4config', '*.def.inc', 'Rakefile', '.git/']
+let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_root_markers = ['.p4config', '*.def.inc', 'Rakefile', '.git/']
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
@@ -96,8 +97,9 @@ let g:slime_paste_file = tempname()
 " deoplete
 let g:deoplete#enable_at_startup = 1
 
-" neovim stuff
+" neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_airline = 1
 
 " markology
 let g:markology_include="abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

@@ -14,7 +14,8 @@ nmap <D-w> :CommandW<CR>
 imap <D-w> <Esc>:CommandW<CR>
 vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
-" nmap <leader><space> :CtrlPMRUFiles<CR>
+nmap <leader><space> :CtrlPMRUFiles<CR>
+nmap <leader><enter> :CtrlPBuffer<CR>
 
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
@@ -56,7 +57,7 @@ nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> 
 
 " FZF
 map <C-p> :FZF<CR>
-map <leader><space> :FZFMru<CR>
+" map <leader><space> :FZFMru<CR>
 
 nnoremap <leader>tt :call ToggleTheme()<CR>
 

@@ -1,9 +1,3 @@
-command! FZFMru call fzf#run({
-\ 'source':  reverse(s:all_files()),
-\ 'sink':    'edit',
-\ 'options': '-m --no-sort -x',
-\ 'down':    '40%' })
-
 function! s:all_files()
   return extend(
   \ filter(copy(v:oldfiles),
@@ -57,10 +51,3 @@ endfunction
 function! s:bufopen(e)
   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
-
-nnoremap <silent> <Leader><Enter> :call fzf#run({
-\   'source':  <sid>buflist(),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
