@@ -3,7 +3,7 @@ set timeoutlen=250
 inoremap jk <ESC>
 nnoremap <C-x> :bd<CR>
 noremap <C-s> :w<CR>
-nmap <F7> :Errors<CR>
+nmap <F7> :lw<CR>
 nmap <F8> :NERDTree<CR>
 nmap <F9> :NERDTreeFind<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :CycleColorRefresh<CR> \| :echo colors_name<CR>
