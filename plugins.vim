@@ -25,6 +25,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'benekastah/neomake'
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'millermedeiros/vim-esformatter'
 Plug 'Shougo/deoplete.nvim'
