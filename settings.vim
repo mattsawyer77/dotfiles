@@ -18,7 +18,6 @@ set incsearch  "- show match as search proceeds
 set hlsearch   "- search highlighting
 set history=1000
 set magic
-set foldcolumn=1
 set visualbell
 set noerrorbells
 set wildignore+=build,.git,.npm,*.swp,*.tgz,*.zip,*.gz
@@ -32,3 +31,6 @@ set nu
 set nolazyredraw
 set ttyfast
 set shortmess=a
+set foldcolumn=2
+set foldmethod=indent
+set foldlevelstart=10
