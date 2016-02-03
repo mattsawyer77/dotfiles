@@ -8,7 +8,7 @@ au BufRead,BufNewFile *.def.inc set tabstop=8
 " au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 " au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
-au Syntax javascript normal zR
+au BufRead normal zR
 
 " turn off cursorline since yajs performs poorly with it on in some cases
 " https://github.com/othree/yajs.vim/issues/37
