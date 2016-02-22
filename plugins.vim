@@ -1,44 +1,45 @@
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'tpope/vim-fugitive'
-Plug 'editorconfig-vim'
 Plug 'MatchTag'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'badwolf'
-Plug 'morhetz/gruvbox'
-Plug 'https://github.com/vim-scripts/CycleColor.git'
+Plug 'bitc/vim-hdevtools'
+Plug 'bling/vim-airline'
+Plug 'bufkill.vim'
+Plug 'burnettk/vim-angular'
+Plug 'claco/jasmine.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'eagletmt/neco-ghc'
+Plug 'editorconfig-vim'
+Plug 'groenewege/vim-less'
 Plug 'https://github.com/heavenshell/vim-jsdoc.git'
 Plug 'https://github.com/tomtom/tcomment_vim.git'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
-Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-obsession'
-Plug 'tpope/vim-surround'
-Plug 'rking/ag.vim'
-Plug 'littleq0903/vim-nginx'
-Plug 'groenewege/vim-less'
-Plug 'bufkill.vim'
-Plug 'osyo-manga/vim-over'
-Plug 'tpope/vim-repeat'
-Plug 'mhinz/vim-signify'
-Plug 'claco/jasmine.vim'
-Plug 'terryma/vim-expand-region'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'benekastah/neomake'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'millermedeiros/vim-esformatter'
-Plug 'Shougo/deoplete.nvim'
-Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'https://github.com/vim-scripts/CycleColor.git'
 Plug 'jeetsukumaran/vim-markology'
-Plug 'grassdog/tagman.vim'
-Plug 'bitc/vim-hdevtools'
-Plug 'eagletmt/neco-ghc'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'littleq0903/vim-nginx'
+Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
+Plug 'mhinz/vim-signify'
+Plug 'millermedeiros/vim-esformatter'
+Plug 'morhetz/gruvbox'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neovimhaskell/haskell-vim'
+Plug 'osyo-manga/vim-over'
 Plug 'othree/yajs.vim'
-Plug 'burnettk/vim-angular'
+Plug 'rking/ag.vim'
+Plug 'scrooloose/nerdtree'
 Plug 'taiansu/nerdtree-ag'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'terryma/vim-expand-region'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'benekastah/neomake'
+Plug 'Shougo/deoplete.nvim'
+" Plug 'grassdog/tagman.vim'
+" Plug 'maxbrunsfeld/vim-yankstack'
+" Plug 'kien/rainbow_parentheses.vim'
 " Plug 'pangloss/vim-javascript'
 " Plug 'zefei/vim-colortuner'
 " Plug 'itchyny/lightline.vim'
@@ -99,6 +100,11 @@ let g:slime_paste_file = tempname()
 let g:deoplete#enable_at_startup = 1
 
 " neomake
+let g:neomake_javascript_eslint_maker =  {
+	\ 'args': ['`which eslint`', '-f', 'compact'],
+	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+	\ '%W%f: line %l\, col %c\, Warning - %m'
+	\ }
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_airline = 1
 
