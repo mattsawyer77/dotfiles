@@ -44,7 +44,7 @@ function! ToggleTheme()
     else
         execute ":set background=light"
         execute ":colorscheme hemisu"
-        execute ":AirlineTheme lucius"
+        execute ":AirlineTheme sol"
     endif
 endfunction
 
