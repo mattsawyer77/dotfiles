@@ -38,7 +38,9 @@ imap ¯ <Esc>gccli
 nmap ÷ gcc<Esc>
 vmap ÷ gcc<Esc>gv
 imap ÷ gcc<Esc>li
-
+nmap � gcc<Esc>
+vmap � gcc<Esc>gv
+imap � <Esc>gccli
 " JSON formatting
 map <leader>jf :%!json<CR>
 " tern
@@ -72,6 +74,7 @@ map <leader>r BTags<CR>
 
 nnoremap <C-,> :NERDTree ~/.config/nvim<CR>
 nnoremap ¬ :NERDTree ~/.config/nvim<CR>
+nnoremap , :NERDTree ~/.config/nvim<CR>
 
 " markology
 nnoremap <leader>m :MarkologyLocationList<CR>
