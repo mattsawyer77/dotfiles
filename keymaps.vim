@@ -1,5 +1,7 @@
 let mapleader = "\<Space>"
 set timeoutlen=250
+nnoremap ; :
+vnoremap ; :
 inoremap jk <ESC>
 nnoremap <C-x> :bd<CR>
 noremap <C-s> :w<CR>
@@ -87,3 +89,6 @@ nnoremap <leader>f function\s*
 inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " use enter to select the item in the dropdown 
 inoremap <expr><CR> pumvisible() ? "\<Esc>a" : "\<CR>"
+
+" messages hack for clipboard functionality in Neovim.app:
+nmap <leader>mm :vnew \| :redir @a \| :silent messages \| :redir END \| :normal "ap<CR>
