@@ -31,6 +31,4 @@ set nu
 set nolazyredraw
 set ttyfast
 set shortmess=a
-set foldcolumn=2
-set foldmethod=indent
-set foldlevelstart=10
+set fillchars+=vert:\ 
