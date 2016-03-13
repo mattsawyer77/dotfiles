@@ -12,6 +12,8 @@ au BufRead set nofoldenable
 
 au BufRead,BufNewFile *.js set foldmethod=syntax | set nofoldenable | set tabstop=4 | set softtabstop=4 | set shiftwidth=4
 
+au BufRead,BufNewFile *.hs,*.lhs set expandtab | set tabstop=2 | set softtabstop=2 | set shiftwidth=2
+
 " put the name of the session in the airline
 au VimEnter,BufWinEnter,CursorHold * if exists("g:this_obsession")
 	\|		let g:airline_section_y = '%{fnamemodify(g:this_obsession, ":t")}'
