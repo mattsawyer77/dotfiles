@@ -32,3 +32,4 @@ set nolazyredraw
 set ttyfast
 set shortmess=a
 set fillchars+=vert:\ 
+set viewdir=~/.config/nvim/view
