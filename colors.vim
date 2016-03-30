@@ -21,9 +21,9 @@ hi NERDTreeRO guifg=#cc2222 ctermfg=red
 hi NERDTreeFlag guifg=#552222 ctermfg=red
 
 " good dark color schemes for neovim
-set background=dark
+set background=light
 " colorscheme flatlandia
-colorscheme gruvbox | let g:airline_theme='gruvbox'
+" colorscheme gruvbox | let g:airline_theme='gruvbox'
 " colorscheme hybrid
 " colorscheme abra | let g:airline_theme='tomorrow'
 " colorscheme mattland | let g:airline_theme='lucius'
@@ -32,8 +32,7 @@ colorscheme gruvbox | let g:airline_theme='gruvbox'
 " set background=light
 " colorscheme github | let g:airline_theme='sol'
 " colorscheme Userscape
-" colorscheme hemisu
-"
+colorscheme hemisu | let g:airline_theme='sol'
 
 " toggle between light and dark themes
 function! ToggleTheme()
