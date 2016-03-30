@@ -102,12 +102,18 @@ let g:slime_paste_file = tempname()
 let g:deoplete#enable_at_startup = 1
 
 " neomake
-let g:neomake_javascript_eslint_maker =  {
+let g:neomake_javascript_eslint_maker = {
+	\ 'args': ['`which eslint`', '-f', 'compact'],
+	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+	\ '%W%f: line %l\, col %c\, Warning - %m'
+	\ }
+let g:neomake_jasmine_eslint_maker = {
 	\ 'args': ['`which eslint`', '-f', 'compact'],
 	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
 	\ '%W%f: line %l\, col %c\, Warning - %m'
 	\ }
 let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_jasmine_enabled_makers = ['eslint']
 let g:neomake_airline = 1
 
 " markology
