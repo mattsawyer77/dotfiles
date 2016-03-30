@@ -10,7 +10,7 @@ au BufRead,BufNewFile *.def.inc set tabstop=8
 au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
 au BufRead set nofoldenable
 
-au BufRead,BufNewFile *.js set foldmethod=syntax | set nofoldenable | set tabstop=4 | set softtabstop=4 | set shiftwidth=4
+au BufRead,BufNewFile *.js set tabstop=4 | set softtabstop=4 | set shiftwidth=4
 
 au BufRead,BufNewFile *.hs,*.lhs set expandtab | set tabstop=2 | set softtabstop=2 | set shiftwidth=2
 
