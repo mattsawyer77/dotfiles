@@ -9,6 +9,9 @@ au BufRead,BufNewFile *.def.inc set tabstop=8
 " au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
 au BufRead set nofoldenable
+" attempt to go to the line we last left when reopening a file
+au BufWinLeave ?* mkview
+au BufWinEnter ?* silent loadview
 
 au BufRead,BufNewFile *.js set tabstop=4 | set softtabstop=4 | set shiftwidth=4
 
