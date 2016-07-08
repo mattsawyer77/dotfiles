@@ -33,3 +33,4 @@ set ttyfast
 set shortmess=a
 set fillchars+=vert:\ 
 set viewdir=~/.config/nvim/view
+silent! set termguicolors
