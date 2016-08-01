@@ -104,3 +104,8 @@ inoremap <expr><CR> pumvisible() ? "\<Esc>a" : "\<CR>"
 
 " messages hack for clipboard functionality in Neovim.app:
 nmap <leader>mm :vnew \| :redir @a \| :silent messages \| :redir END \| :normal "ap<CR>
+
+" copy/paste to system clipboard
+vnoremap <leader>c "+y
+nnoremap <leader>v "+p
+inoremap <leader>v <Esc>"+pa
