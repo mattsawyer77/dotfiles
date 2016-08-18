@@ -108,4 +108,3 @@ nmap <leader>mm :vnew \| :redir @a \| :silent messages \| :redir END \| :normal 
 " copy/paste to system clipboard
 vnoremap <leader>c "+y
 nnoremap <leader>v "+p
-inoremap <leader>v <Esc>"+pa

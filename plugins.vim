@@ -46,7 +46,7 @@ Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'keith/parsec.vim'
 Plug 'kristiandupont/shades-of-teal'
 Plug 'facebook/vim-flow'
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
 " Plug 'grassdog/tagman.vim'
 " Plug 'maxbrunsfeld/vim-yankstack'
 " Plug 'kien/rainbow_parentheses.vim'
@@ -110,11 +110,11 @@ let g:slime_paste_file = tempname()
 let g:deoplete#enable_at_startup = 1
 
 " neomake
-let g:neomake_javascript_eslint_maker = {
-	\ 'args': ['`which eslint`', '-f', 'compact'],
-	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-	\ '%W%f: line %l\, col %c\, Warning - %m'
-	\ }
+" let g:neomake_javascript_eslint_maker = {
+" 	\ 'args': ['`which eslint`', '-f', 'compact'],
+" 	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+" 	\ '%W%f: line %l\, col %c\, Warning - %m'
+" 	\ }
 let g:neomake_jasmine_eslint_maker = {
 	\ 'args': ['`which eslint`', '-f', 'compact'],
 	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
@@ -123,6 +123,8 @@ let g:neomake_jasmine_eslint_maker = {
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_jasmine_enabled_makers = ['eslint']
 let g:neomake_airline = 1
+let g:neomake_open_list = 2
+let g:neomake_list_height = 5
 
 " markology
 let g:markology_include="abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
