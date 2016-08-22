@@ -40,7 +40,7 @@ function! ToggleTheme()
     if &background == "light"
         execute ":set background=dark"
         execute ":colorscheme gruvbox"
-        execute ":AirlineTheme gruvbox"
+        execute ":AirlineTheme lucius"
     else
         execute ":set background=light"
         execute ":colorscheme hemisu"
