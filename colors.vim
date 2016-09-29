@@ -1,5 +1,5 @@
 " colors
-" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 syntax on
 " colorscheme badwolf
 " colorscheme seafoam
@@ -24,7 +24,8 @@ hi NERDTreeFlag guifg=#552222 ctermfg=red
 " set background=light
 set background=dark
 " colorscheme flatlandia
-colorscheme gruvbox | let g:airline_theme='gruvbox'
+" colorscheme gruvbox | let g:airline_theme='gruvbox'
+colorscheme gotham | let g:airline_theme='gotham'
 " colorscheme hybrid
 " colorscheme abra | let g:airline_theme='tomorrow'
 " colorscheme mattland | let g:airline_theme='lucius'
@@ -39,8 +40,8 @@ colorscheme gruvbox | let g:airline_theme='gruvbox'
 function! ToggleTheme()
     if &background == "light"
         execute ":set background=dark"
-        execute ":colorscheme gruvbox"
-        execute ":AirlineTheme lucius"
+        execute ":colorscheme gotham"
+        execute ":AirlineTheme gotham"
     else
         execute ":set background=light"
         execute ":colorscheme hemisu"

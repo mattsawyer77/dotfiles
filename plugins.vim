@@ -3,13 +3,11 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'MatchTag'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'badwolf'
-Plug 'bitc/vim-hdevtools'
 Plug 'bling/vim-airline'
-Plug 'bufkill.vim'
+Plug 'moll/vim-bbye'
 Plug 'burnettk/vim-angular'
 Plug 'claco/jasmine.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'eagletmt/neco-ghc'
 Plug 'editorconfig-vim'
 Plug 'groenewege/vim-less'
 Plug 'https://github.com/heavenshell/vim-jsdoc.git'
@@ -22,11 +20,9 @@ Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 Plug 'mhinz/vim-signify'
 Plug 'millermedeiros/vim-esformatter'
 Plug 'morhetz/gruvbox'
+Plug 'whatyouhide/vim-gotham'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'neovimhaskell/haskell-vim'
 Plug 'osyo-manga/vim-over'
-Plug 'othree/yajs.vim'
-Plug 'gavocanov/vim-js-indent'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'taiansu/nerdtree-ag'
@@ -39,22 +35,27 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'benekastah/neomake'
 Plug 'Shougo/deoplete.nvim'
 Plug 'carlitux/deoplete-ternjs'
-" Plug 'majutsushi/tagbar'
 Plug 'fcpg/vim-fahrenheit'
 Plug 'gilgigilgil/anderson.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'keith/parsec.vim'
 Plug 'kristiandupont/shades-of-teal'
 Plug 'facebook/vim-flow'
-" Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mhartington/oceanic-next'
 " Plug 'grassdog/tagman.vim'
 " Plug 'maxbrunsfeld/vim-yankstack'
 " Plug 'kien/rainbow_parentheses.vim'
-" Plug 'pangloss/vim-javascript'
+" Plug 'othree/yajs.vim'
+" Plug 'gavocanov/vim-js-indent'
 " Plug 'zefei/vim-colortuner'
 " Plug 'itchyny/lightline.vim'
 " Plug 'airblade/vim-rooter'
 " Plug 'wincent/terminus'
+" Plug 'bitc/vim-hdevtools'
+" Plug 'neovimhaskell/haskell-vim'
+" Plug 'eagletmt/neco-ghc'
 
 call plug#end()
 
@@ -72,10 +73,12 @@ let g:badwolf_darkgutter = 1
 let g:ctrlp_map = '<c-q>'
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_root_markers = ['.p4config', '*.def.inc', 'Rakefile', '.git/']
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+" let g:ctrlp_working_path_mode = 'rw'
+let g:ctrlp_working_path_mode = '0'
+let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|build|bigiq_ui_docs)$'
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 " airline
 " let g:airline_theme='badwolf'
@@ -115,13 +118,13 @@ let g:deoplete#enable_at_startup = 1
 " 	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
 " 	\ '%W%f: line %l\, col %c\, Warning - %m'
 " 	\ }
-let g:neomake_jasmine_eslint_maker = {
-	\ 'args': ['`which eslint`', '-f', 'compact'],
-	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-	\ '%W%f: line %l\, col %c\, Warning - %m'
-	\ }
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_jasmine_enabled_makers = ['eslint']
+" let g:neomake_jasmine_eslint_maker = {
+" 	\ 'args': ['`which eslint`', '-f', 'compact'],
+" 	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+" 	\ '%W%f: line %l\, col %c\, Warning - %m'
+" 	\ }
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_jasmine_enabled_makers = ['eslint']
 let g:neomake_airline = 1
 let g:neomake_open_list = 2
 let g:neomake_list_height = 5

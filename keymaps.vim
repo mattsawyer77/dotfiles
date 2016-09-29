@@ -11,7 +11,8 @@ nnoremap <Left> <C-o><CR>
 nnoremap <Right> <C-i><CR>
 vnoremap <Left> <C-o><CR>
 vnoremap <Right> <C-i><CR>
-nnoremap <C-x> :bd<CR>
+" nnoremap <C-x> :bd<CR>
+nnoremap <C-x> :Bdelete<CR>
 noremap <C-s> :w<CR>
 nnoremap <tab> >>
 nnoremap <S-Tab> <<
