@@ -31,7 +31,7 @@ vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
 nmap <leader><space> :CtrlPMRUFiles<CR>
 nmap <leader><enter> :CtrlPBuffer<CR>
-
+nnoremap <Esc> :noh<CR>
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
 nnoremap <leader>pa :silent !p4 add %<CR>
@@ -109,3 +109,6 @@ nmap <leader>mm :vnew \| :redir @a \| :silent messages \| :redir END \| :normal 
 " copy/paste to system clipboard
 vnoremap <leader>c "+y
 nnoremap <leader>v "+p
+
+" vim-js-context-coloring
+nnoremap <leader>jc :JSContextColorToggle<CR>

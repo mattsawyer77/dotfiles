@@ -24,8 +24,8 @@ hi NERDTreeFlag guifg=#552222 ctermfg=red
 " set background=light
 set background=dark
 " colorscheme flatlandia
-" colorscheme gruvbox | let g:airline_theme='gruvbox'
-colorscheme gotham | let g:airline_theme='gotham'
+colorscheme gruvbox | let g:airline_theme='gruvbox'
+" colorscheme gotham | let g:airline_theme='gotham'
 " colorscheme hybrid
 " colorscheme abra | let g:airline_theme='tomorrow'
 " colorscheme mattland | let g:airline_theme='lucius'
@@ -44,7 +44,7 @@ function! ToggleTheme()
         execute ":AirlineTheme gotham"
     else
         execute ":set background=light"
-        execute ":colorscheme hemisu"
+        execute ":colorscheme PaperColor"
         execute ":AirlineTheme sol"
     endif
 endfunction

@@ -21,7 +21,6 @@ Plug 'mhinz/vim-signify'
 Plug 'millermedeiros/vim-esformatter'
 Plug 'morhetz/gruvbox'
 Plug 'whatyouhide/vim-gotham'
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'osyo-manga/vim-over'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
@@ -35,20 +34,34 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'benekastah/neomake'
 Plug 'Shougo/deoplete.nvim'
 Plug 'carlitux/deoplete-ternjs'
-Plug 'fcpg/vim-fahrenheit'
-Plug 'gilgigilgil/anderson.vim'
-Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'kristiandupont/shades-of-teal'
-Plug 'facebook/vim-flow'
-Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
 Plug 'mxw/vim-jsx'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' }
 Plug 'jiangmiao/auto-pairs'
-Plug 'mhartington/oceanic-next'
+Plug 'elixir-lang/vim-elixir'
+Plug 'thinca/vim-ref'
+Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'rakr/vim-two-firewatch'
+" Plug 'blueyed/vim-diminactive'
+" Plug 'tmux-plugins/vim-tmux-focus-events'
+" Plug 'fcpg/vim-fahrenheit'
+" Plug 'mhartington/oceanic-next'
+" Plug 'gilgigilgil/anderson.vim'
+" Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'kristijanhusak/vim-hybrid-material'
+" Plug 'kristiandupont/shades-of-teal'
+" Plug 'neovim/node-host'
+" Plug 'bigfish/vim-js-context-coloring', { 'for': 'javascript'}
+" Plug 'rschmukler/pangloss-vim-indent', { 'for': 'javascript' }
+" Plug 'othree/yajs.vim', { 'for': 'javascript' }
+" Plug 'gavocanov/vim-js-indent'
+" Plug 'slashmili/alchemist.vim'
+" Plug 'facebook/vim-flow'
 " Plug 'grassdog/tagman.vim'
 " Plug 'maxbrunsfeld/vim-yankstack'
 " Plug 'kien/rainbow_parentheses.vim'
-" Plug 'othree/yajs.vim'
-" Plug 'gavocanov/vim-js-indent'
 " Plug 'zefei/vim-colortuner'
 " Plug 'itchyny/lightline.vim'
 " Plug 'airblade/vim-rooter'
@@ -61,6 +74,9 @@ call plug#end()
 
 " pangloss javascript settings
 let g:javascript_enable_domhtmlcss = 1
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+let g:javascript_opfirst = '\%([,:?^%]\|\([-/+]\)\%(\1\|\*\|\/\)\@!\|\*\/\@!\|=>\@!\||\|&\|in\%(stanceof\)\=\>\)\C'
 
 " signify
 " let g:signify_vcs_list = [ 'git', 'perforce' ]
@@ -113,18 +129,18 @@ let g:slime_paste_file = tempname()
 let g:deoplete#enable_at_startup = 1
 
 " neomake
-" let g:neomake_javascript_eslint_maker = {
-" 	\ 'args': ['`which eslint`', '-f', 'compact'],
+" let g:neomake_javascript_eslint_d_maker = {
+" 	\ 'args': ['`which eslint_d`', '--cached', '-f', 'compact'],
 " 	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
 " 	\ '%W%f: line %l\, col %c\, Warning - %m'
 " 	\ }
-" let g:neomake_jasmine_eslint_maker = {
-" 	\ 'args': ['`which eslint`', '-f', 'compact'],
+" let g:neomake_jasmine_eslint_d_maker = {
+" 	\ 'args': ['`which eslint_d`', '--cached', '-f', 'compact'],
 " 	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
 " 	\ '%W%f: line %l\, col %c\, Warning - %m'
 " 	\ }
-" let g:neomake_javascript_enabled_makers = ['eslint']
-" let g:neomake_jasmine_enabled_makers = ['eslint']
+let g:neomake_javascript_enabled_makers = ['eslint_d']
+" let g:neomake_jasmine_enabled_makers = ['eslint_d']
 let g:neomake_airline = 1
 let g:neomake_open_list = 2
 let g:neomake_list_height = 5
@@ -136,3 +152,16 @@ let g:markology_disable_mappings = 1
 " tern
 " turn off annoying and mostly useless auto preview window
 autocmd BufEnter *.js set completeopt-=preview
+
+" vim-js-context-coloring
+let g:js_context_colors_show_error_message = 1
+let g:js_context_colors_enabled = 0
+hi JSCC_Level_0 guifg=#98ECFF
+hi JSCC_Level_1 guifg=#9AFFCA
+hi JSCC_Level_2 guifg=#B5FF90
+hi JSCC_Level_3 guifg=#EEFF8B
+hi JSCC_Level_4 guifg=#FEE388
+hi JSCC_Level_5 guifg=#FDA887
+hi JSCC_Level_6 guifg=#FDA3A5
+hi JSCC_Level_7 guifg=#FEC7F6
+hi JSCC_UndeclaredGlobal ctermfg=172
