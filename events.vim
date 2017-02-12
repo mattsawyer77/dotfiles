@@ -13,7 +13,12 @@ au BufRead set nofoldenable
 au BufWinLeave ?* silent! mkview
 au BufWinEnter ?* silent! loadview
 
-au BufRead,BufNewFile *.js set tabstop=4 | set softtabstop=4 | set shiftwidth=4
+au BufRead,BufNewFile *.js setlocal ts=4 sts=4 sw=4 expandtab
+au BufRead,BufNewFile *.html setlocal ts=4 sts=4 sw=4 expandtab
+au BufRead,BufNewFile *.less setlocal ts=4 sts=4 sw=4 expandtab
+au BufRead,BufNewFile *.css setlocal ts=4 sts=4 sw=4 expandtab
+au Filetype elixir setlocal ts=2 sts=2 sw=2 expandtab
+au BufRead,BufNewFile *.hs,*.lhs setlocal ts=2 sts=2 sw=2 expandtab
 
 au BufRead,BufNewFile *.hs,*.lhs set expandtab | set tabstop=2 | set softtabstop=2 | set shiftwidth=2
 
@@ -28,6 +33,10 @@ au VimEnter,BufWinEnter,CursorHold * if exists("g:this_obsession")
 
 " au InsertLeave *.js Neomake!
 au BufRead,BufWrite *.js Neomake
+au BufRead,BufWrite *.ex Neomake
+au BufRead,BufWrite *.exs Neomake
+au BufRead,BufWrite *.html Neomake
+au BufRead,BufWrite *.less Neomake
 
 " rainbow parenthesis
 " au VimEnter * RainbowParenthesesToggle

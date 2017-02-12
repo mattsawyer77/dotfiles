@@ -43,19 +43,20 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'thinca/vim-ref'
 Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'rakr/vim-two-firewatch'
+Plug 'jacoborus/tender'
+Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'blueyed/vim-diminactive'
 " Plug 'tmux-plugins/vim-tmux-focus-events'
 " Plug 'fcpg/vim-fahrenheit'
 " Plug 'mhartington/oceanic-next'
 " Plug 'gilgigilgil/anderson.vim'
-" Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'kristijanhusak/vim-hybrid-material'
 " Plug 'kristiandupont/shades-of-teal'
 " Plug 'neovim/node-host'
 " Plug 'bigfish/vim-js-context-coloring', { 'for': 'javascript'}
 " Plug 'rschmukler/pangloss-vim-indent', { 'for': 'javascript' }
-" Plug 'othree/yajs.vim', { 'for': 'javascript' }
 " Plug 'gavocanov/vim-js-indent'
 " Plug 'slashmili/alchemist.vim'
 " Plug 'facebook/vim-flow'
