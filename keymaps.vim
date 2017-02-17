@@ -31,6 +31,7 @@ vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
 nmap <leader><space> :CtrlPMRUFiles<CR>
 nmap <leader><enter> :CtrlPBuffer<CR>
+nmap <leader>t :CtrlPTag<CR>
 nnoremap <Esc> :noh<CR>
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
