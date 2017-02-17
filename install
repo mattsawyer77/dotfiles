@@ -60,12 +60,13 @@ ln -sf ~/dotfiles/alacritty/alacritty.yml ~/.config/alacritty.yml
 
 # negfix8
 echo 'installing negfix8 configuration...'
-pushd ~/.negfix8 >/dev/null
-mkdir -p ~/.negfix8
-for profile in ~/dotfiles/negfix8/*; do
-	ln -sf $profile
-done
-popd >/dev/null
+if [[ -d "$HOME/.negfix8" ]]; then
+	echo ' merging existing negfix8 configuration...'
+	rsync -a ~/dotfiles/negfix8/* ~/.negfix8
+	rsync -a ~/.negfix8/* ~/dotfiles/negfix8
+	rm -rf ~/.negfix8 >/dev/null 2>&1
+fi
+ln -sf ~/dotfiles/negfix8 ~/.negfix8
 
 popd >/dev/null
 
