@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+pushd ~/dotfiles >/dev/null
+
+# vim
+echo 'installing vim configuration...'
+mkdir -p ~/.config/nvim
+
+ln -sf ~/dotfiles/vim/colors.vim ~/.config/nvim/colors.vim
+ln -sf ~/dotfiles/vim/commands.vim ~/.config/nvim/commands.vim
+ln -sf ~/dotfiles/vim/events.vim ~/.config/nvim/events.vim
+ln -sf ~/dotfiles/vim/functions.vim ~/.config/nvim/functions.vim
+ln -sf ~/dotfiles/vim/init.vim ~/.config/nvim/init.vim
+ln -sf ~/dotfiles/vim/keymaps.vim ~/.config/nvim/keymaps.vim
+ln -sf ~/dotfiles/vim/plugins.vim ~/.config/nvim/plugins.vim
+ln -sf ~/dotfiles/vim/settings.vim ~/.config/nvim/settings.vim
+
+# tmux
+echo 'installing tmux configuration...'
+ln -sf ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
+ln -sf ~/dotfiles/tmux/.tmux-osx.conf ~/.tmux-osx.conf
+
+# tmuxifier
+echo 'installing tmuxifier configuration...'
+if [[ -d "$HOME/.tmuxifier" ]]; then
+	pushd ~/.tmuxifier/layouts >/dev/null
+	mkdir -p ~/.tmuxifier/layouts
+	for layout in ~/dotfiles/tmuxifier/layouts/*; do
+		ln -sf $layout
+	done
+	popd >/dev/null
+else
+	echo 'tmuxifier is not installed, skipping'
+fi
+
+# oh-my-zsh
+if [[ -d "$HOME/.oh-my-zsh" ]]; then
+	echo 'installing oh-my-zsh customizations...'
+	mkdir -p ~/.oh-my-zsh/themes
+	cp ~/dotfiles/oh-my-zsh/themes/avit-p4.zsh-theme ~/.oh-my-zsh/themes
+else
+	echo 'oh-my-zsh is not installed, skipping'
+fi
+
+# ctags
+echo 'installing ctags configuration...'
+ln -sf ~/dotfiles/ctags/.ctags ~/.ctags
+
+# mjolnir
+echo 'installing mjolnir configuration...'
+ln -sf ~/dotfiles/mjolnir/init.lua ~/.config/init.lua
+
+# exercism
+echo 'installing exercism configuration...'
+ln -sf ~/dotfiles/exercism/.exercism.json ~/.config/.exercism.json
+
+# alacritty
+echo 'installing alacritty configuration...'
+ln -sf ~/dotfiles/alacritty/alacritty.yml ~/.config/alacritty.yml
+
+# negfix8
+echo 'installing negfix8 configuration...'
+pushd ~/.negfix8 >/dev/null
+mkdir -p ~/.negfix8
+for profile in ~/dotfiles/negfix8/*; do
+	ln -sf $profile
+done
+popd >/dev/null
+
+popd >/dev/null
+
+exit 0
