@@ -23,6 +23,7 @@
 --exclude=GTAGS
 --exclude=GPATH
 --exclude=*node_modules*
+--exclude=*eslintrc*
 --exclude=GRTAGS
 --exclude=*doc*
 --exclude=*tmp*
