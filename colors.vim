@@ -20,12 +20,18 @@ syntax on
 hi NERDTreeRO guifg=#cc2222 ctermfg=red
 hi NERDTreeFlag guifg=#552222 ctermfg=red
 
+" indent guides
+" IndentGuidesEnable
+
 " good dark color schemes for neovim
 " set background=light
 set background=dark
 " colorscheme flatlandia
-colorscheme gruvbox | let g:airline_theme='gruvbox'
+" colorscheme gruvbox | let g:airline_theme='gruvbox'
 " colorscheme gotham | let g:airline_theme='gotham'
+" colorscheme darktango | let g:airline_theme='raven'
+colorscheme tender | let g:airline_theme='tender'
+" colorscheme two-firewatch | let g:airline_theme='distinguished'
 " colorscheme hybrid
 " colorscheme abra | let g:airline_theme='tomorrow'
 " colorscheme mattland | let g:airline_theme='lucius'
@@ -40,8 +46,14 @@ colorscheme gruvbox | let g:airline_theme='gruvbox'
 function! ToggleTheme()
     if &background == "light"
         execute ":set background=dark"
-        execute ":colorscheme gotham"
-        execute ":AirlineTheme gotham"
+        execute ":colorscheme tender"
+        execute ":AirlineTheme tender"
+        " execute ":colorscheme darktango"
+        " execute ":AirlineTheme raven"
+        " execute ":colorscheme gotham"
+        " execute ":AirlineTheme gotham"
+		" execute ":colorscheme two-firewatch"
+		" execute ":AirlineTheme distinguished"
     else
         execute ":set background=light"
         execute ":colorscheme PaperColor"
