@@ -2,6 +2,19 @@
 
 pushd ~/dotfiles >/dev/null
 
+# zsh
+echo 'installing zsh configuration...'
+if [[ -f "$HOME/.zshrc" ]]; then
+	echo '- backing up existing .zshrc...'
+	mv ~/.zshrc ~/.zshrc-backup
+fi
+if [[ -f "$HOME/.zshenv" ]]; then
+	echo '- backing up existing .zshenv...'
+	mv ~/.zshenv ~/.zshenv-backup
+fi
+ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
+ln -sf ~/dotfiles/zsh/.zshenv ~/.zshenv
+ln -sf ~/dotfiles/zsh/.zsh_favlist ~/.zsh_favlist
 # vim
 echo 'installing vim configuration...'
 mkdir -p ~/.config/nvim
@@ -61,7 +74,7 @@ ln -sf ~/dotfiles/alacritty/alacritty.yml ~/.config/alacritty.yml
 # negfix8
 echo 'installing negfix8 configuration...'
 if [[ -d "$HOME/.negfix8" ]]; then
-	echo ' merging existing negfix8 configuration...'
+	echo '- merging existing negfix8 configuration...'
 	rsync -a ~/dotfiles/negfix8/* ~/.negfix8
 	rsync -a ~/.negfix8/* ~/dotfiles/negfix8
 	rm -rf ~/.negfix8 >/dev/null 2>&1
