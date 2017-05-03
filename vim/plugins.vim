@@ -35,7 +35,8 @@ Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'benekastah/neomake'
+Plug 'w0rp/ale'
+Plug 'sbdchd/neoformat'
 Plug 'Shougo/deoplete.nvim'
 Plug 'carlitux/deoplete-ternjs'
 Plug 'leafgarland/typescript-vim'
@@ -51,6 +52,11 @@ Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'rakr/vim-two-firewatch'
 Plug 'jacoborus/tender'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'henrik/vim-indexed-search'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'wlangstroth/vim-racket'
+Plug 'bash-support.vim'
+" Plug 'benekastah/neomake'
 " Plug 'blueyed/vim-diminactive'
 " Plug 'tmux-plugins/vim-tmux-focus-events'
 " Plug 'fcpg/vim-fahrenheit'
@@ -66,7 +72,6 @@ Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'facebook/vim-flow'
 " Plug 'grassdog/tagman.vim'
 " Plug 'maxbrunsfeld/vim-yankstack'
-" Plug 'kien/rainbow_parentheses.vim'
 " Plug 'zefei/vim-colortuner'
 " Plug 'itchyny/lightline.vim'
 " Plug 'airblade/vim-rooter'
@@ -99,7 +104,7 @@ let g:ctrlp_working_path_mode = '0'
 let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|build|bigiq_ui_docs)$'
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
 let g:ctrlp_show_hidden = 1
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor -g ""'
 
 " airline
 " let g:airline_theme='badwolf'
@@ -154,11 +159,14 @@ let g:deoplete#enable_at_startup = 1
 " 	\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
 " 	\ '%W%f: line %l\, col %c\, Warning - %m'
 " 	\ }
-let g:neomake_javascript_enabled_makers = ['eslint_d']
+" let g:neomake_javascript_enabled_makers = ['eslint_d']
 " let g:neomake_jasmine_enabled_makers = ['eslint_d']
 let g:neomake_airline = 1
 let g:neomake_open_list = 2
 let g:neomake_list_height = 5
+
+" ALE
+let g:ale_linters = { 'html': [] }
 
 " markology
 let g:markology_include="abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

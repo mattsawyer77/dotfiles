@@ -32,7 +32,7 @@ vmap V <Plug>(expand_region_shrink)
 nmap <leader><space> :CtrlPMRUFiles<CR>
 nmap <leader><enter> :CtrlPBuffer<CR>
 nmap <leader>t :CtrlPTag<CR>
-nnoremap <Esc> :noh<CR>
+nnoremap <Esc> :silent noh<CR>
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
 nnoremap <leader>pa :silent !p4 add %<CR>
@@ -113,3 +113,9 @@ nnoremap <leader>v "+p
 
 " vim-js-context-coloring
 nnoremap <leader>jc :JSContextColorToggle<CR>
+
+inoremap « λ
+
+" ALE
+nmap <silent> ˚ <Plug>(ale_previous_wrap)
+nmap <silent> ∆ <Plug>(ale_next_wrap)
