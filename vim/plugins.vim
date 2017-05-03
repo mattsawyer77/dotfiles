@@ -120,7 +120,17 @@ let g:airline_left_sep = ' '
 let g:airline_left_alt_sep = ' '
 let g:airline_right_sep = ' '
 let g:airline_right_alt_sep = ' '
-let g:airline_mode_map = {'c': 'COMMAND', '^S': 'S-BLOCK', 'R': 'REPLACE', 's': 'SELECT', 't': 'TERMINAL', 'V': 'V-LINE', '^V': 'V-BLOCK', 'i': 'INSERT', '__': '------', 'S': ' S-LINE', 'v': 'VISUAL', 'n': 'NORMAL'}
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ ''   : 'V',
+    \ 's'  : 'S',
+    \ }
 let g:bufferline_echo = 0
 
 " vim-rooter
