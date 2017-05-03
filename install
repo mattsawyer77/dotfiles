@@ -20,6 +20,7 @@ echo 'installing vim configuration...'
 mkdir -p ~/.config/nvim
 
 ln -sf ~/dotfiles/vim/colors.vim ~/.config/nvim/colors.vim
+ln -sf ~/dotfiles/vim/colors ~/.config/nvim/colors
 ln -sf ~/dotfiles/vim/commands.vim ~/.config/nvim/commands.vim
 ln -sf ~/dotfiles/vim/events.vim ~/.config/nvim/events.vim
 ln -sf ~/dotfiles/vim/functions.vim ~/.config/nvim/functions.vim
@@ -61,7 +62,8 @@ ln -sf ~/dotfiles/ctags/.ctags ~/.ctags
 
 # mjolnir
 echo 'installing mjolnir configuration...'
-ln -sf ~/dotfiles/mjolnir/init.lua ~/.config/init.lua
+mkdir -p ~/.mjolnir
+ln -sf ~/dotfiles/mjolnir/init.lua ~/.mjolnir/init.lua
 
 # exercism
 echo 'installing exercism configuration...'
