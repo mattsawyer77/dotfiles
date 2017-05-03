@@ -2,9 +2,9 @@
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf set filetype=nginx
 au BufRead,BufNewFile *.json set filetype=json
 au BufRead,BufNewFile *.less if &ft == '' | set filetype=less | endif
-au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs set expandtab
+au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs,*.rkt,*.rktl set expandtab
 au BufRead /etc/rsnapshot.conf set noexpandtab
-au BufRead,BufNewFile *.def.inc set tabstop=8
+au BufRead,BufNewFile *.def.inc set tabstop=8 noexpandtab
 " au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 " au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
@@ -18,10 +18,10 @@ au BufRead,BufNewFile *.html setlocal ts=4 sts=4 sw=4 expandtab
 au BufRead,BufNewFile *.less setlocal ts=4 sts=4 sw=4 expandtab
 au BufRead,BufNewFile *.css setlocal ts=4 sts=4 sw=4 expandtab
 au Filetype elixir setlocal ts=2 sts=2 sw=2 expandtab
+au Filetype racket,lisp,clojure,scheme RainbowParentheses
+au Filetype racket,lisp,clojure,scheme setlocal expandtab
 au BufRead,BufNewFile *.hs,*.lhs setlocal ts=2 sts=2 sw=2 expandtab
-
-au BufRead,BufNewFile *.hs,*.lhs set expandtab | set tabstop=2 | set softtabstop=2 | set shiftwidth=2
-
+au Filetype yaml setlocal autoindent sw=4 ts=4 expandtab
 " put the name of the session in the airline
 au VimEnter,BufWinEnter,CursorHold * if exists("g:this_obsession")
 	\|		let g:airline_section_y = '%{fnamemodify(g:this_obsession, ":t")}'
@@ -32,11 +32,11 @@ au VimEnter,BufWinEnter,CursorHold * if exists("g:this_obsession")
 " au BufRead,BufWinEnter *.hs set lazyredraw
 
 " au InsertLeave *.js Neomake!
-au BufRead,BufWrite *.js Neomake
-au BufRead,BufWrite *.ex Neomake
-au BufRead,BufWrite *.exs Neomake
-au BufRead,BufWrite *.html Neomake
-au BufRead,BufWrite *.less Neomake
+" au BufRead,BufWrite *.js Neomake
+" au BufRead,BufWrite *.ex Neomake
+" au BufRead,BufWrite *.exs Neomake
+" au BufRead,BufWrite *.html Neomake
+" au BufRead,BufWrite *.less Neomake
 
 " rainbow parenthesis
 " au VimEnter * RainbowParenthesesToggle
