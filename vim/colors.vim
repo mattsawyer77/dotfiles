@@ -27,10 +27,11 @@ hi NERDTreeFlag guifg=#552222 ctermfg=red
 " set background=light
 set background=dark
 " colorscheme flatlandia
-" colorscheme gruvbox | let g:airline_theme='gruvbox'
+colorscheme gruvbox | let g:airline_theme='lucius'
 " colorscheme gotham | let g:airline_theme='gotham'
 " colorscheme darktango | let g:airline_theme='raven'
-colorscheme tender | let g:airline_theme='tender'
+" colorscheme tender | let g:airline_theme='tender' | hi Search guibg=#a4d588 guifg=#282828 | hi Visual guibg=#ccd58d guifg=#000000 cterm=NONE
+" colorscheme atom | let g:airline_theme='cool'
 " colorscheme two-firewatch | let g:airline_theme='distinguished'
 " colorscheme hybrid
 " colorscheme abra | let g:airline_theme='tomorrow'
@@ -45,19 +46,23 @@ colorscheme tender | let g:airline_theme='tender'
 " toggle between light and dark themes
 function! ToggleTheme()
     if &background == "light"
-        execute ":set background=dark"
-        execute ":colorscheme tender"
-        execute ":AirlineTheme tender"
-        " execute ":colorscheme darktango"
-        " execute ":AirlineTheme raven"
-        " execute ":colorscheme gotham"
-        " execute ":AirlineTheme gotham"
-		" execute ":colorscheme two-firewatch"
-		" execute ":AirlineTheme distinguished"
+	execute ":set background=dark"
+	execute ":colorscheme gruvbox"
+	execute ":AirlineTheme lucius"
+	" execute ":colorscheme atom"
+	" execute ":AirlineTheme cool"
+	" execute ":colorscheme tender | hi Search guibg=yellow guifg=#282828"
+	" execute ":AirlineTheme tender"
+	" execute ":colorscheme darktango"
+	" execute ":AirlineTheme raven"
+	" execute ":colorscheme gotham"
+	" execute ":AirlineTheme gotham"
+	" execute ":colorscheme two-firewatch"
+	" execute ":AirlineTheme distinguished"
     else
-        execute ":set background=light"
-        execute ":colorscheme PaperColor"
-        execute ":AirlineTheme sol"
+	execute ":set background=light"
+	execute ":colorscheme PaperColor"
+	execute ":AirlineTheme sol"
     endif
 endfunction
 
