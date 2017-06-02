@@ -1,48 +1,34 @@
-" filetype mapping
+    " filetype mapping
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf set filetype=nginx
 au BufRead,BufNewFile *.json set filetype=json
-au BufRead,BufNewFile *.less if &ft == '' | set filetype=less | endif
-au BufRead,BufNewFile *.js,*.css,*.html,*.spec,*.less,*.sh,*.conf,*.hs,*.rkt,*.rktl set expandtab
-au BufRead /etc/rsnapshot.conf set noexpandtab
-au BufRead,BufNewFile *.def.inc set tabstop=8 noexpandtab
+au BufRead,BufNewFile *.html,*.spec,*.less,*.sh,*.conf,*.json setlocal ts=4 sts=4 sw=4 expandtab
+au BufRead,BufNewFile *.def.inc setlocal ts=8 sts=8 sw=8 noexpandtab
+au BufRead,BufNewFile *.html setlocal ts=4 sts=4 sw=4 expandtab
+au Filetype less setlocal ts=4 sts=4 sw=4 expandtab
+au Filetype css setlocal ts=4 sts=4 sw=4 expandtab
+au Filetype javascript setlocal ts=4 sts=4 sw=4 expandtab
+au Filetype elixir setlocal ts=2 sts=2 sw=2 expandtab
+au Filetype racket,lisp,clojure,scheme RainbowParentheses
+au Filetype racket,lisp,clojure,scheme setlocal expandtab
+au Filetype haskell *.hs,*.lhs setlocal ts=2 sts=2 sw=2 expandtab
+au Filetype yaml setlocal autoindent sw=4 ts=4 expandtab
+au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
 " au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 " au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
-au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
+
 au BufRead set nofoldenable
 " attempt to go to the line we last left when reopening a file
 au BufWinLeave ?* silent! mkview
 au BufWinEnter ?* silent! loadview
 
-au BufRead,BufNewFile *.js setlocal ts=4 sts=4 sw=4 expandtab
-au BufRead,BufNewFile *.html setlocal ts=4 sts=4 sw=4 expandtab
-au BufRead,BufNewFile *.less setlocal ts=4 sts=4 sw=4 expandtab
-au BufRead,BufNewFile *.css setlocal ts=4 sts=4 sw=4 expandtab
-au Filetype elixir setlocal ts=2 sts=2 sw=2 expandtab
-au Filetype racket,lisp,clojure,scheme RainbowParentheses
-au Filetype racket,lisp,clojure,scheme setlocal expandtab
-au BufRead,BufNewFile *.hs,*.lhs setlocal ts=2 sts=2 sw=2 expandtab
-au Filetype yaml setlocal autoindent sw=4 ts=4 expandtab
 " put the name of the session in the airline
-au VimEnter,BufWinEnter,CursorHold * if exists("g:this_obsession")
-	\|		let g:airline_section_y = '%{fnamemodify(g:this_obsession, ":t")}'
-	\| else
-	\|		let g:airline_section_y = 'no session'
-	\| endif
+" au VimEnter,BufWinEnter,CursorHold * if exists("g:this_obsession")
+" 	\|		let g:airline_section_y = '%{fnamemodify(g:this_obsession, ":t")}'
+" 	\| else
+" 	\|		let g:airline_section_y = 'no session'
+" 	\| endif
 
 " au BufRead,BufWinEnter *.hs set lazyredraw
-
-" au InsertLeave *.js Neomake!
-" au BufRead,BufWrite *.js Neomake
-" au BufRead,BufWrite *.ex Neomake
-" au BufRead,BufWrite *.exs Neomake
-" au BufRead,BufWrite *.html Neomake
-" au BufRead,BufWrite *.less Neomake
-
-" rainbow parenthesis
-" au VimEnter * RainbowParenthesesToggle
-" au Syntax * RainbowParenthesesLoadRound
-" au Syntax * RainbowParenthesesLoadSquare
-" au Syntax * RainbowParenthesesLoadBraces
 
 " deoplete
 augroup omnifuncs

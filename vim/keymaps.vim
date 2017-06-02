@@ -3,14 +3,14 @@ set timeoutlen=250
 nnoremap ; :
 vnoremap ; :
 inoremap jk <ESC>
-nnoremap <Up> 3<C-y>
-nnoremap <Down> 3<C-e>
-vnoremap <Up> 3<C-y>
-vnoremap <Down> 3<C-e>
-nnoremap <Left> <C-o><CR>
-nnoremap <Right> <C-i><CR>
-vnoremap <Left> <C-o><CR>
-vnoremap <Right> <C-i><CR>
+" nnoremap <Up> 3<C-y>
+" nnoremap <Down> 3<C-e>
+" vnoremap <Up> 3<C-y>
+" vnoremap <Down> 3<C-e>
+" nnoremap <Left> <C-o><CR>
+" nnoremap <Right> <C-i><CR>
+" vnoremap <Left> <C-o><CR>
+" vnoremap <Right> <C-i><CR>
 " nnoremap <C-x> :bd<CR>
 nnoremap <C-x> :Bdelete<CR>
 noremap <C-s> :w<CR>
@@ -18,26 +18,22 @@ nnoremap <tab> >>
 nnoremap <S-Tab> <<
 vnoremap <tab> >gv
 vnoremap <S-Tab> <gv
-nmap <F7> :lw<CR>
-nmap <F8> :NERDTree<CR>
-nmap <F9> :NERDTreeFind<CR>
+nnoremap <F7> :lw<CR>
+nnoremap <F8> :NERDTree<CR>
+nnoremap <F9> :NERDTreeFind<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :CycleColorRefresh<CR> \| :echo colors_name<CR>
 nnoremap <F5> :redir >> /tmp/vim_colors_selected.txt \| :echo colors_name \| redir END<CR>
-nnoremap <leader>[ :bp<CR>
-nnoremap <leader>] :bn<CR>
-nmap <D-w> :CommandW<CR>
-imap <D-w> <Esc>:CommandW<CR>
-vmap v <Plug>(expand_region_expand)
-vmap V <Plug>(expand_region_shrink)
-nmap <leader><space> :CtrlPMRUFiles<CR>
-nmap <leader><enter> :CtrlPBuffer<CR>
-nmap <leader>t :CtrlPTag<CR>
-nnoremap <Esc> :silent noh<CR>
+nnoremap <D-w> :CommandW<CR>
+inoremap <D-w> <Esc>:CommandW<CR>
+vnoremap v <Plug>(expand_region_expand)
+vnoremap V <Plug>(expand_region_shrink)
+nnoremap <Esc> :silent! noh<CR>
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
 nnoremap <leader>pa :silent !p4 add %<CR>
 nnoremap <leader>ps :!p4 sync; p4 resolve<CR>
 nnoremap <leader>pd :silent !p4 diff %<CR>
+nnoremap <leader>pr :silent !p4 reconcile %<CR>
 map <leader>d /^\(>>>>\\|====\\|<<<<\).*<CR>
 
 " move vertical split
@@ -96,7 +92,7 @@ nnoremap , :NERDTree ~/.config/nvim<CR>
 nnoremap <leader>m :MarkologyLocationList<CR>
 
 " quick/dirty way to find a function
-nnoremap <leader>f function\s*
+nnoremap <leader>f /function\s\+
 
 " deoplete
 " use tab to iterate items in autocomplete dropdown
@@ -104,18 +100,20 @@ inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " use enter to select the item in the dropdown 
 inoremap <expr><CR> pumvisible() ? "\<Esc>a" : "\<CR>"
 
-" messages hack for clipboard functionality in Neovim.app:
-nmap <leader>mm :vnew \| :redir @a \| :silent messages \| :redir END \| :normal "ap<CR>
-
 " copy/paste to system clipboard
 vnoremap <leader>c "+y
 nnoremap <leader>v "+p
-
-" vim-js-context-coloring
-nnoremap <leader>jc :JSContextColorToggle<CR>
 
 inoremap « λ
 
 " ALE
 nmap <silent> ˚ <Plug>(ale_previous_wrap)
 nmap <silent> ∆ <Plug>(ale_next_wrap)
+
+" Mundo
+nnoremap <leader>r :CtrlPMRUFiles<CR>
+
+" CtrlP
+nnoremap <leader><enter> :CtrlPBuffer<CR>
+nnoremap <leader>t :CtrlPTag<CR>
+nnoremap <c-z> :MundoShow<CR>
