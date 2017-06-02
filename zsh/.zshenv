@@ -8,8 +8,7 @@ export P4DIFF=/usr/local/bin/ksdiff
 export P4MERGE=/usr/local/bin/ksdiff
 export P4TICKETS=$HOME/.p4tickets
 export GOPATH=~/gocode
-export EDITOR='/usr/local/bin/vim'
-export HOMEBREW_GITHUB_API_TOKEN=0c7834f095d501008bee069310957dbfbdf5bf49
+export EDITOR=nvim
 export LESS="-X -R -i"
 export PATH="/Users/sawyer/.tmuxifier/bin:/Users/sawyer/Library/Python/2.7/bin:/Users/sawyer/.cabal/bin:/usr/local/opt/php55:/Users/sawyer/gocode/bin:/usr/local/sbin:/usr/local/bin:/Users/sawyer/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/sawyer/.fzf/bin"
 # NVM
