@@ -82,6 +82,7 @@ alias glo='git log --format="%C(auto,yellow)%<(20)%cr%C(auto,cyan) %s"'
 alias glocl='git log --format="%s"'
 alias vim=nvim
 alias neovim='open -a /Applications/Neovim.app/Contents/MacOS/Neovim --args'
+alias ts='tmux new-session -n main -s'
 export P4CONFIG=.p4config
 export P4USER=sawyer
 export P4IGNORE=.p4ignore
