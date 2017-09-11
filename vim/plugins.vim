@@ -1,14 +1,11 @@
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'MatchTag'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'badwolf'
 Plug 'bling/vim-airline'
 Plug 'moll/vim-bbye'
 Plug 'burnettk/vim-angular'
 Plug 'claco/jasmine.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'editorconfig-vim'
 Plug 'groenewege/vim-less'
 Plug 'https://github.com/heavenshell/vim-jsdoc.git'
 Plug 'https://github.com/tomtom/tcomment_vim.git'
@@ -37,7 +34,8 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'sbdchd/neoformat'
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'ervandew/supertab'
 Plug 'carlitux/deoplete-ternjs'
 Plug 'leafgarland/typescript-vim'
 Plug 'mxw/vim-jsx'
@@ -164,9 +162,43 @@ autocmd BufEnter *.js set completeopt-=preview
 let NERDTreeShowHidden=1
 
 " CTRL Space
-let g:CtrlSpaceDefaultMappingKey = "<space><space>"
-let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-let g:CtrlSpaceSaveWorkspaceOnExit = 1
-if executable("ag")
-    let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
-endif
+" let g:CtrlSpaceDefaultMappingKey = "<space><space>"
+" let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
+" let g:CtrlSpaceSaveWorkspaceOnExit = 1
+" if executable("ag")
+"     let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+" endif
+
+" fakeclip.neovim
+let g:vim_fakeclip_tmux_plus=1
+
+" Prettier
+" max line lengh that prettier will wrap on
+let g:prettier#config#print_width = 120
+
+" number of spaces per indentation level
+let g:prettier#config#tab_width = 4
+
+" use tabs over spaces
+let g:prettier#config#use_tabs = 'false'
+
+" print semicolons
+let g:prettier#config#semi = 'true'
+
+" single quotes over double quotes
+let g:prettier#config#single_quote = 'true' 
+
+" print spaces between brackets
+let g:prettier#config#bracket_spacing = 'true' 
+
+" put > on the last line instead of new line
+let g:prettier#config#jsx_bracket_same_line = 'true' 
+
+" none|es5|all
+let g:prettier#config#trailing_comma = 'none'
+
+" flow|babylon|typescript|postcss|json|graphql
+let g:prettier#config#parser = 'flow'
+
+" CtrlP-Obsession
+let g:prosession_dir = '~/.config/nvim/sessions'
