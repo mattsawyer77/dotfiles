@@ -18,7 +18,7 @@ nnoremap <tab> >>
 nnoremap <S-Tab> <<
 vnoremap <tab> >gv
 vnoremap <S-Tab> <gv
-nnoremap <F7> :lw<CR>
+" nnoremap <F7> :lw<CR>
 nnoremap <F8> :NERDTree<CR>
 nnoremap <F9> :NERDTreeFind<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :CycleColorRefresh<CR> \| :echo colors_name<CR>
@@ -109,6 +109,7 @@ inoremap « λ
 " ALE
 nmap <silent> ˚ <Plug>(ale_previous_wrap)
 nmap <silent> ∆ <Plug>(ale_next_wrap)
+nmap <silent> <f7> <Plug>(ale_next_wrap)
 
 " Mundo
 nnoremap <leader>r :CtrlPMRUFiles<CR>

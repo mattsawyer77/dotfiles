@@ -21,7 +21,7 @@ set magic
 set visualbell
 set noerrorbells
 set wildignore+=build,.git,.npm,*.swp,*.tgz,*.zip,*.gz
-set backupdir=/tmp,/home/sawyer/devel/vim_tmp
+set backupdir=/tmp
 set noautochdir
 set wildmenu
 set wildmode=longest:list,full
@@ -37,3 +37,4 @@ silent! set termguicolors
 silent! set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 set undofile
 set undodir=~/.config/nvim/undo
+set mouse=a
