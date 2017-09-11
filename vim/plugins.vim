@@ -57,6 +57,7 @@ Plug 'wlangstroth/vim-racket'
 Plug 'chriskempson/base16-vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'elmcast/elm-vim'
 " Plug 'thinca/vim-ref'
 " Plug 'bash-support.vim'
 " Plug 'blueyed/vim-diminactive'
@@ -164,9 +165,9 @@ autocmd BufEnter *.js set completeopt-=preview
 let NERDTreeShowHidden=1
 
 " CTRL Space
-let g:CtrlSpaceDefaultMappingKey = "<space><space>"
-let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-let g:CtrlSpaceSaveWorkspaceOnExit = 1
-if executable("ag")
-    let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
-endif
+" let g:CtrlSpaceDefaultMappingKey = "<space><space>"
+" let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
+" let g:CtrlSpaceSaveWorkspaceOnExit = 1
+" if executable("ag")
+"     let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+" endif

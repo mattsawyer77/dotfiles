@@ -1,4 +1,4 @@
-    " filetype mapping
+" filetype mapping
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf set filetype=nginx
 au BufRead,BufNewFile *.json set filetype=json
 au BufRead,BufNewFile *.html,*.spec,*.less,*.sh,*.conf,*.json setlocal ts=4 sts=4 sw=4 expandtab

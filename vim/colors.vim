@@ -41,7 +41,7 @@ colorscheme gruvbox | let g:airline_theme='lucius'
 " set background=light
 " colorscheme github | let g:airline_theme='sol'
 " colorscheme Userscape
-" colorscheme hemisu | let g:airline_theme='sol'
+" colorscheme hemisu | let g:airline_theme='lucius'
 
 " toggle between light and dark themes
 function! ToggleTheme()
@@ -59,6 +59,8 @@ function! ToggleTheme()
 	" execute ":AirlineTheme gotham"
 	" execute ":colorscheme two-firewatch"
 	" execute ":AirlineTheme distinguished"
+	" execute ":colorscheme hemisu"
+	" execute ":AirlineTheme lucius"
     else
 	execute ":set background=light"
 	execute ":colorscheme PaperColor"
