@@ -7,6 +7,7 @@ au BufRead,BufNewFile *.html setlocal ts=4 sts=4 sw=4 expandtab
 au Filetype less setlocal ts=4 sts=4 sw=4 expandtab
 au Filetype css setlocal ts=4 sts=4 sw=4 expandtab
 au Filetype javascript setlocal ts=4 sts=4 sw=4 expandtab
+au Filetype sh setlocal ts=4 sts=4 sw=4 expandtab
 au Filetype elixir setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype racket,lisp,clojure,scheme RainbowParentheses
 au Filetype racket,lisp,clojure,scheme setlocal expandtab
