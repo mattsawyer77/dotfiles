@@ -11,7 +11,6 @@ Plug 'https://github.com/heavenshell/vim-jsdoc.git'
 Plug 'https://github.com/tomtom/tcomment_vim.git'
 Plug 'https://github.com/vim-scripts/CycleColor.git'
 Plug 'jeetsukumaran/vim-markology'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'littleq0903/vim-nginx'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 Plug 'mhinz/vim-signify'
@@ -54,7 +53,15 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'wlangstroth/vim-racket'
 Plug 'chriskempson/base16-vim'
 Plug 'simnalamburt/vim-mundo'
-Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'cazador481/fakeclip.neovim'
+Plug 'ayu-theme/ayu-vim'
+Plug 'atelierbram/Base2Tone-vim'
+Plug 'prettier/vim-prettier', { 
+	\ 'do': 'npm install', 
+	\ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql'] }
+Plug 'tpope/vim-unimpaired'
+" Plug 'roxma/vim-tmux-clipboard'
+" Plug 'vim-ctrlspace/vim-ctrlspace'
 " Plug 'thinca/vim-ref'
 " Plug 'bash-support.vim'
 " Plug 'blueyed/vim-diminactive'
@@ -97,15 +104,15 @@ let g:signify_vcs_list = [ 'git' ]
 let g:badwolf_darkgutter = 1
 
 " ctrlp
-let g:ctrlp_map = '<c-q>'
-let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_root_markers = ['.p4config', '*.def.inc', 'Rakefile', '.git/']
 " let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_working_path_mode = '0'
 let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|build|bigiq_ui_docs)$'
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
 let g:ctrlp_show_hidden = 1
-let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor -g ""'
+let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
 
 " airline
 " let g:airline_theme='badwolf'

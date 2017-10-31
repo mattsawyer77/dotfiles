@@ -3,17 +3,17 @@
 pushd ~/dotfiles >/dev/null
 
 # zsh
-echo 'installing zsh configuration...'
-if [[ -f "$HOME/.zshrc" ]]; then
-	echo '- backing up existing .zshrc...'
-	mv ~/.zshrc ~/.zshrc-backup
-fi
-if [[ -f "$HOME/.zshenv" ]]; then
-	echo '- backing up existing .zshenv...'
-	mv ~/.zshenv ~/.zshenv-backup
-fi
-ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
-ln -sf ~/dotfiles/zsh/.zshenv ~/.zshenv
+# echo 'installing zsh configuration...'
+# if [[ -f "$HOME/.zshrc" ]]; then
+# 	echo '- backing up existing .zshrc...'
+# 	mv ~/.zshrc ~/.zshrc-backup
+# fi
+# if [[ -f "$HOME/.zshenv" ]]; then
+# 	echo '- backing up existing .zshenv...'
+# 	mv ~/.zshenv ~/.zshenv-backup
+# fi
+# ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
+# ln -sf ~/dotfiles/zsh/.zshenv ~/.zshenv
 ln -sf ~/dotfiles/zsh/.zsh_favlist ~/.zsh_favlist
 # vim
 echo 'installing vim configuration...'
@@ -37,8 +37,8 @@ ln -sf ~/dotfiles/tmux/.tmux-osx.conf ~/.tmux-osx.conf
 # tmuxifier
 echo 'installing tmuxifier configuration...'
 if [[ -d "$HOME/.tmuxifier" ]]; then
-	pushd ~/.tmuxifier/layouts >/dev/null
 	mkdir -p ~/.tmuxifier/layouts
+	pushd ~/.tmuxifier/layouts >/dev/null
 	for layout in ~/dotfiles/tmuxifier/layouts/*; do
 		ln -sf $layout
 	done
@@ -47,41 +47,14 @@ else
 	echo 'tmuxifier is not installed, skipping'
 fi
 
-# oh-my-zsh
-if [[ -d "$HOME/.oh-my-zsh" ]]; then
-	echo 'installing oh-my-zsh customizations...'
-	mkdir -p ~/.oh-my-zsh/themes
-	cp ~/dotfiles/oh-my-zsh/themes/avit-p4.zsh-theme ~/.oh-my-zsh/themes
-else
-	echo 'oh-my-zsh is not installed, skipping'
-fi
-
 # ctags
 echo 'installing ctags configuration...'
 ln -sf ~/dotfiles/ctags/.ctags ~/.ctags
 
-# mjolnir
-echo 'installing mjolnir configuration...'
-mkdir -p ~/.mjolnir
-ln -sf ~/dotfiles/mjolnir/init.lua ~/.mjolnir/init.lua
-
-# exercism
-echo 'installing exercism configuration...'
-ln -sf ~/dotfiles/exercism/.exercism.json ~/.config/.exercism.json
-
 # alacritty
 echo 'installing alacritty configuration...'
+mkdir -p ~/.config
 ln -sf ~/dotfiles/alacritty/alacritty.yml ~/.config/alacritty.yml
-
-# negfix8
-echo 'installing negfix8 configuration...'
-if [[ -d "$HOME/.negfix8" ]]; then
-	echo '- merging existing negfix8 configuration...'
-	rsync -a ~/dotfiles/negfix8/* ~/.negfix8
-	rsync -a ~/.negfix8/* ~/dotfiles/negfix8
-	rm -rf ~/.negfix8 >/dev/null 2>&1
-fi
-ln -sf ~/dotfiles/negfix8 ~/.negfix8
 
 popd >/dev/null
 

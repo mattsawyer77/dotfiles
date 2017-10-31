@@ -57,3 +57,20 @@ function! s:fzf_statusline()
 endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
+
+function! SendPasteBufferToOSX()
+	if executable('tmux') && $TMUX != ''
+		normal! ""y
+		let @n=getreg('"')
+		normal! gv
+		call system('pbcopy-remote', @n)
+	endif
+endfunction
+
+function! GetPasteBufferFromOSX()
+	if executable('tmux') && $TMUX != ''
+		setreg('"', system('pbpaste-remote'))
+		normal! ""p
+		echo "pasted via pbcopy-paste"
+	endif
+endfunction

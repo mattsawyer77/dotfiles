@@ -96,13 +96,19 @@ nnoremap <leader>f /function\s\+
 
 " deoplete
 " use tab to iterate items in autocomplete dropdown
-inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " use enter to select the item in the dropdown 
-inoremap <expr><CR> pumvisible() ? "\<Esc>a" : "\<CR>"
+" inoremap <expr><CR> pumvisible() ? "\<Esc>a" : "\<CR>"
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " copy/paste to system clipboard
-vnoremap <leader>c "+y
-nnoremap <leader>v "+p
+" vnoremap <leader>c "+y
+" nnoremap <leader>v "+p
+" vnoremap <leader>c ""y
+" nnoremap <leader>v ""p
+" vnoremap <leader>c :Oscyank<CR>
+vnoremap <leader>c :call SendPasteBufferToOSX()<CR>
+nnoremap <leader>v :call GetPasteBufferFromOSX()<CR>
 
 inoremap « λ
 
