@@ -1,7 +1,7 @@
     " filetype mapping
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf set filetype=nginx
 au BufRead,BufNewFile *.json set filetype=json
-au BufRead,BufNewFile *.html,*.spec,*.less,*.sh,*.conf,*.json setlocal ts=4 sts=4 sw=4 expandtab
+au BufRead,BufNewFile *.html,*.spec,*.less,*.sh,*.conf,*.json,*.yml,*.xml setlocal ts=4 sts=4 sw=4 expandtab
 au BufRead,BufNewFile *.def.inc setlocal ts=8 sts=8 sw=8 noexpandtab
 au BufRead,BufNewFile *.html setlocal ts=4 sts=4 sw=4 expandtab
 au Filetype less setlocal ts=4 sts=4 sw=4 expandtab
