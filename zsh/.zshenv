@@ -10,9 +10,7 @@ export P4TICKETS=$HOME/.p4tickets
 export GOPATH=~/gocode
 export EDITOR=nvim
 export LESS="-X -R -i"
-export PATH="/Users/sawyer/.tmuxifier/bin:/Users/sawyer/Library/Python/2.7/bin:/Users/sawyer/.cabal/bin:/usr/local/opt/php55:/Users/sawyer/gocode/bin:/usr/local/sbin:/usr/local/bin:/Users/sawyer/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/sawyer/.fzf/bin"
-# NVM
-export PATH=node_modules/.bin:/Users/sawyer/.nvm/versions/node/v4.4.5/bin:$PATH
 XDG_CONFIG_HOME=/Users/sawyer/.config
 XDG_DATA_HOME=/Users/sawyer/.local/share
 export FZF_DEFAULT_COMMAND='ag -g ""'
+export PATH=$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.nvm/versions/node/v6.12.0/bin

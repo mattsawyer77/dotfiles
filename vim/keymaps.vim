@@ -28,6 +28,10 @@ inoremap <D-w> <Esc>:CommandW<CR>
 vnoremap v <Plug>(expand_region_expand)
 vnoremap V <Plug>(expand_region_shrink)
 nnoremap <Esc> :silent! noh<CR>
+
+" terminal mappings
+:tnoremap <Esc> <C-\><C-n>
+
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
 nnoremap <leader>pa :silent !p4 add %<CR>
@@ -124,3 +128,26 @@ nnoremap <leader>r :CtrlPMRUFiles<CR>
 nnoremap <leader><enter> :CtrlPBuffer<CR>
 nnoremap <leader>t :CtrlPTag<CR>
 nnoremap <c-z> :MundoShow<CR>
+
+" Haskell
+augroup interoMaps
+  au!
+
+  au FileType haskell nnoremap <silent> <leader>io :InteroOpen<CR>
+  au FileType haskell nnoremap <silent> <leader>iov :InteroOpen<CR><C-W>H
+  au FileType haskell nnoremap <silent> <leader>ih :InteroHide<CR>
+  au FileType haskell nnoremap <silent> <leader>is :InteroStart<CR>
+  au FileType haskell nnoremap <silent> <leader>ik :InteroKill<CR>
+
+  au FileType haskell nnoremap <silent> <leader>wr :w \| :InteroReload<CR>
+  au FileType haskell nnoremap <silent> <leader>il :InteroLoadCurrentModule<CR>
+  au FileType haskell nnoremap <silent> <leader>if :InteroLoadCurrentFile<CR>
+
+  au FileType haskell map <leader>t <Plug>InteroGenericType
+  au FileType haskell map <leader>T <Plug>InteroType
+  au FileType haskell nnoremap <silent> <leader>it :InteroTypeInsert<CR>
+
+  au FileType haskell nnoremap <silent> <leader>jd :InteroGoToDef<CR>
+  au FileType haskell nnoremap <silent> <leader>iu :InteroUses<CR>
+  au FileType haskell nnoremap <leader>ist :InteroSetTargets<SPACE>
+augroup END

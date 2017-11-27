@@ -43,6 +43,9 @@ colorscheme base16-ocean | let g:AirlineTheme='zenburn'
 " colorscheme github | let g:airline_theme='sol'
 " colorscheme Userscape
 " colorscheme hemisu | let g:airline_theme='lucius'
+au BufWinEnter * colorscheme cinematic
+au BufWinEnter *.hs colorscheme badwolf
+colorscheme cinematic | let g:airline_theme='twofirewatch'
 
 " toggle between light and dark themes
 function! ToggleTheme()
@@ -62,6 +65,8 @@ function! ToggleTheme()
 	" execute ":AirlineTheme distinguished"
 	" execute ":colorscheme hemisu"
 	" execute ":AirlineTheme lucius"
+	execute ":colorscheme cinematic"
+	execute ":AirlineTheme twofirewatch"
     else
 	execute ":set background=light"
 	execute ":colorscheme PaperColor"

@@ -7,22 +7,22 @@ tiling.addlayout('E', function(windows)
   local wincount = #windows
 
   if wincount == 1 then
-	return layouts['fullscreen'](windows)
+    return layouts['fullscreen'](windows)
   end
 
   for index, win in pairs(windows) do
-	local frame = win:screen():frame()
+    local frame = win:screen():frame()
 
-	if index == 1 then
-	  frame.w = frame.w / 3
-	else
-	  frame.x = frame.x + frame.w / 3
-	  frame.w = frame.w / 3 * 2
-	  frame.h = frame.h / (wincount - 1)
-	  frame.y = frame.y + frame.h * (index - 2)
-	end
+    if index == 1 then
+      frame.w = frame.w / 3
+    else
+      frame.x = frame.x + frame.w / 3
+      frame.w = frame.w / 3 * 2
+      frame.h = frame.h / (wincount - 1)
+      frame.y = frame.y + frame.h * (index - 2)
+    end
 
-	win:setframe(frame)
+    win:setframe(frame)
   end
 end)
 
@@ -30,24 +30,58 @@ tiling.addlayout('3', function(windows)
   local wincount = #windows
 
   if wincount == 1 then
-	return layouts['fullscreen'](windows)
+    return layouts['fullscreen'](windows)
   end
 
   for index, win in pairs(windows) do
-	local frame = win:screen():frame()
+    local frame = win:screen():frame()
 
-	if index == 1 then
-	  frame.w = frame.w / 3 * 2
-	else
-	  frame.x = frame.x + frame.w / 3 * 2
-	  frame.w = frame.w / 3
-	  frame.h = frame.h / (wincount - 1)
-	  frame.y = frame.y + frame.h * (index - 2)
-	end
+    if index == 1 then
+      frame.w = frame.w / 3 * 2
+    else
+      frame.x = frame.x + frame.w / 3 * 2
+      frame.w = frame.w / 3
+      frame.h = frame.h / (wincount - 1)
+      frame.y = frame.y + frame.h * (index - 2)
+    end
 
-	win:setframe(frame)
+    win:setframe(frame)
   end
 end)
+
+tiling.addlayout('quad', function(windows)
+  local wincount = #windows
+
+  -- if wincount ~= 4 then
+  --   return layouts['fullscreen'](windows)
+  -- end
+
+  for index, win in pairs(windows) do
+    local frame = win:screen():frame()
+    local totalWidth = frame.w
+    local totalHeight = frame.h
+
+    if index == 1 then
+      frame.x = 0
+      frame.y = totalHeight / 2
+    elseif index == 2 then
+      frame.x = totalWidth / 2
+      frame.y = totalHeight / 2
+    elseif index == 3 then
+      frame.x = 0
+      frame.y = 0
+    elseif index == 4 then
+      frame.x = totalWidth / 2
+      frame.y = 0
+    end
+
+    frame.h = totalHeight / 2
+    frame.w = totalWidth / 2
+
+    win:setframe(frame)
+  end
+end)
+
 -- If you want to set the layouts that are enabled
 tiling.set('layouts', {
   'fullscreen', 'main-vertical', 'main-horizontal', 'columns', 'rows', 'E', '3'

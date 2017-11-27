@@ -57,20 +57,14 @@ function! s:fzf_statusline()
 endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
-
-function! SendPasteBufferToOSX()
-	if executable('tmux') && $TMUX != ''
-		normal! ""y
-		let @n=getreg('"')
-		normal! gv
-		call system('pbcopy-remote', @n)
-	endif
-endfunction
-
-function! GetPasteBufferFromOSX()
-	if executable('tmux') && $TMUX != ''
-		setreg('"', system('pbpaste-remote'))
-		normal! ""p
-		echo "pasted via pbcopy-paste"
-	endif
+"
+" Helper function, called below with mappings
+function! HaskellFormat(which) abort
+  if a:which ==# 'hindent' || a:which ==# 'both'
+    :Hindent
+  endif
+  if a:which ==# 'stylish' || a:which ==# 'both'
+    silent! exe 'undojoin'
+    silent! exe 'keepjumps %!stylish-haskell'
+  endif
 endfunction
