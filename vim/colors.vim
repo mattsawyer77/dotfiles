@@ -27,7 +27,7 @@ hi NERDTreeFlag guifg=#552222 ctermfg=red
 " set background=light
 set background=dark
 " colorscheme flatlandia
-colorscheme gruvbox | let g:airline_theme='lucius'
+" colorscheme gruvbox | let g:airline_theme='lucius'
 " colorscheme gotham | let g:airline_theme='gotham'
 " colorscheme darktango | let g:airline_theme='raven'
 " colorscheme tender | let g:airline_theme='tender' | hi Search guibg=#a4d588 guifg=#282828 | hi Visual guibg=#ccd58d guifg=#000000 cterm=NONE
@@ -36,6 +36,7 @@ colorscheme gruvbox | let g:airline_theme='lucius'
 " colorscheme hybrid
 " colorscheme abra | let g:airline_theme='tomorrow'
 " colorscheme mattland | let g:airline_theme='lucius'
+colorscheme base16-ocean | let g:AirlineTheme='zenburn'
 
 " good light color schemes for neovim
 " set background=light
@@ -47,8 +48,8 @@ colorscheme gruvbox | let g:airline_theme='lucius'
 function! ToggleTheme()
     if &background == "light"
 	execute ":set background=dark"
-	execute ":colorscheme gruvbox"
-	execute ":AirlineTheme lucius"
+	" execute ":colorscheme gruvbox"
+	" execute ":AirlineTheme lucius"
 	" execute ":colorscheme atom"
 	" execute ":AirlineTheme cool"
 	" execute ":colorscheme tender | hi Search guibg=yellow guifg=#282828"
