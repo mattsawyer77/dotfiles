@@ -54,7 +54,7 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'wlangstroth/vim-racket'
 Plug 'chriskempson/base16-vim'
 Plug 'simnalamburt/vim-mundo'
-Plug 'cazador481/fakeclip.neovim'
+" Plug 'cazador481/fakeclip.neovim'
 Plug 'elmcast/elm-vim'
 Plug 'junegunn/goyo.vim'
 Plug 'alx741/vim-hindent'
@@ -63,6 +63,7 @@ Plug 'parsonsmatt/intero-neovim'
 Plug 'atelierbram/Base2Tone-vim'
 Plug 'prettier/vim-prettier'
 Plug 'tpope/vim-unimpaired'
+Plug 'ap/vim-css-color'
 " Plug 'thinca/vim-ref'
 " Plug 'bash-support.vim'
 " Plug 'blueyed/vim-diminactive'
@@ -178,7 +179,7 @@ let NERDTreeShowHidden=1
 " endif
 
 " fakeclip.neovim
-let g:vim_fakeclip_tmux_plus=1
+" let g:vim_fakeclip_tmux_plus=1
 
 
 " CtrlP-Obsession

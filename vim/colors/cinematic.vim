@@ -108,3 +108,4 @@ hi jsBraces guifg=#BD9800
 hi jsDestructuringBraces guifg=#BD9800
 hi jsObjectBraces guifg=#BD9800
 hi jsNoise guifg=#BD9800
+hi jsFuncName guifg=#d4c177

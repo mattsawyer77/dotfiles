@@ -13,4 +13,4 @@ export LESS="-X -R -i"
 XDG_CONFIG_HOME=/Users/sawyer/.config
 XDG_DATA_HOME=/Users/sawyer/.local/share
 export FZF_DEFAULT_COMMAND='ag -g ""'
-export PATH=$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.nvm/versions/node/v6.12.0/bin
+export PATH=$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.nvm/versions/node/v8.9.4/bin

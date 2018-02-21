@@ -14,10 +14,6 @@ inoremap jk <ESC>
 " nnoremap <C-x> :bd<CR>
 nnoremap <C-x> :Bdelete<CR>
 noremap <C-s> :w<CR>
-nnoremap <tab> >>
-nnoremap <S-Tab> <<
-vnoremap <tab> >gv
-vnoremap <S-Tab> <gv
 " nnoremap <F7> :lw<CR>
 nnoremap <F8> :NERDTree<CR>
 nnoremap <F9> :NERDTreeFind<CR>
@@ -106,13 +102,11 @@ nnoremap <leader>f /function\s\+
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " copy/paste to system clipboard
-" vnoremap <leader>c "+y
-" nnoremap <leader>v "+p
+vnoremap <leader>c "+y
+nnoremap <leader>v "+p
 " vnoremap <leader>c ""y
 " nnoremap <leader>v ""p
 " vnoremap <leader>c :Oscyank<CR>
-vnoremap <leader>c :call SendPasteBufferToOSX()<CR>
-nnoremap <leader>v :call GetPasteBufferFromOSX()<CR>
 
 inoremap « λ
 

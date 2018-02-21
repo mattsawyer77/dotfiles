@@ -9,9 +9,11 @@ export ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="fletcherm"
 # ZSH_THEME=agnoster
 # ZSH_THEME=avit
-ZSH_THEME="avit-p4"
+# ZSH_THEME="avit-p4"
 # ZSH_THEME=mh
 # ZSH_THEME=muse
+ZSH_THEME=sawyer
+# ZSH_THEME=fishy
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -95,7 +97,7 @@ export P4MERGE=/usr/local/bin/ksdiff
 export GOPATH=~/gocode
 # export EDITOR='mvim -f --nomru -c "au VimLeave * !open -a Terminal"'
 export EDITOR='/usr/local/bin/nvim'
-export LESS="-X -R -i -F"
+export LESS='-F -g -i -M -r -w -X -z-4'
 export TERM=xterm-256color
 export XDG_DATA_HOME=~/.local/share
 export XDG_CONFIG_HOME=~/.config
@@ -227,10 +229,8 @@ p4reconcile () {
 
 # NVM
 source ~/.nvm/nvm.sh
-nvm use default
+# nvm use default
 
-# add back relative local npm path to override nvm's npm path
-export PATH=node_modules/.bin:$PATH
 
 # tmuxifier
 export PATH=$PATH:$HOME/.tmuxifier/bin
@@ -253,3 +253,6 @@ export PATH=$PATH:~/.cabal/bin
 
 # tokens
 source $HOME/tokens
+#
+# add back relative local npm path to override nvm's npm path
+export PATH=node_modules/.bin:$PATH

@@ -15,6 +15,17 @@ pushd ~/dotfiles >/dev/null
 # ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
 # ln -sf ~/dotfiles/zsh/.zshenv ~/.zshenv
 ln -sf ~/dotfiles/zsh/.zsh_favlist ~/.zsh_favlist
+
+if [[ -d "$HOME/.oh-my-zsh" ]]; then
+    IFS=$'\n'
+    local zsh_themes="$(find $(pwd) -name '*.zsh-theme')"
+
+    for theme in $zsh_themes; do
+        echo "installing zsh theme $(basename $theme | sed 's/\.zsh-theme/')..."
+        ln -sf "$theme" $HOME/.oh-my-zsh/themes/$(basename $theme)
+    done
+fi
+
 # vim
 echo 'installing vim configuration...'
 mkdir -p ~/.config/nvim
