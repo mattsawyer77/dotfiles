@@ -40,6 +40,10 @@ ln -sf ~/dotfiles/vim/keymaps.vim ~/.config/nvim/keymaps.vim
 ln -sf ~/dotfiles/vim/plugins.vim ~/.config/nvim/plugins.vim
 ln -sf ~/dotfiles/vim/settings.vim ~/.config/nvim/settings.vim
 
+# spacemacs
+echo 'installing spacemacs configuration...'
+ln -sf ~/dotfiles/spacemacs/.spacemacs ~/.spacemacs
+
 # tmux
 echo 'installing tmux configuration...'
 ln -sf ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
