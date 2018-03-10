@@ -14,6 +14,7 @@ inoremap jk <ESC>
 " nnoremap <C-x> :bd<CR>
 nnoremap <C-x> :Bdelete<CR>
 noremap <C-s> :w<CR>
+<<<<<<< HEAD
 nnoremap <tab> >>
 nnoremap <S-Tab> <<
 vnoremap <tab> >gv
@@ -23,11 +24,20 @@ nnoremap <F8> :NERDTree<CR>
 nnoremap <F9> :NERDTreeFind<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :CycleColorRefresh<CR> \| :echo colors_name<CR>
 nnoremap <F5> :redir >> /tmp/vim_colors_selected.txt \| :echo colors_name \| redir END<CR>
-nnoremap <D-w> :CommandW<CR>
-inoremap <D-w> <Esc>:CommandW<CR>
-vnoremap v <Plug>(expand_region_expand)
-vnoremap V <Plug>(expand_region_shrink)
-nnoremap <Esc> :silent! noh<CR>
+nnoremap <leader>[ :bp<CR>
+nnoremap <leader>] :bn<CR>
+nmap <D-w> :CommandW<CR>
+imap <D-w> <Esc>:CommandW<CR>
+vmap v <Plug>(expand_region_expand)
+vmap V <Plug>(expand_region_shrink)
+nmap <leader><space> :CtrlPMRUFiles<CR>
+nmap <leader><enter> :CtrlPBuffer<CR>
+nmap <leader>t :CtrlPTag<CR>
+nnoremap <Esc> :noh<CR>
+
+" terminal mappings
+:tnoremap <Esc> <C-\><C-n>
+
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
 nnoremap <leader>pa :silent !p4 add %<CR>
@@ -119,8 +129,46 @@ nmap <silent> <f7> <Plug>(ale_next_wrap)
 
 " Mundo
 nnoremap <leader>r :CtrlPMRUFiles<CR>
+vnoremap <leader>c "+y
+nnoremap <leader>v "+p
+" vnoremap <leader>c ""y
+" nnoremap <leader>v ""p
+" vnoremap <leader>c :Oscyank<CR>
+
+inoremap « λ
+
+" ALE
+nmap <silent> ˚ <Plug>(ale_previous_wrap)
+nmap <silent> ∆ <Plug>(ale_next_wrap)
+nmap <silent> <f7> <Plug>(ale_next_wrap)
+
+" Mundo
+nnoremap <leader>r :CtrlPMRUFiles<CR>
 
 " CtrlP
 nnoremap <leader><enter> :CtrlPBuffer<CR>
 nnoremap <leader>t :CtrlPTag<CR>
 nnoremap <c-z> :MundoShow<CR>
+
+" Haskell
+augroup interoMaps
+  au!
+
+  au FileType haskell nnoremap <silent> <leader>io :InteroOpen<CR>
+  au FileType haskell nnoremap <silent> <leader>iov :InteroOpen<CR><C-W>H
+  au FileType haskell nnoremap <silent> <leader>ih :InteroHide<CR>
+  au FileType haskell nnoremap <silent> <leader>is :InteroStart<CR>
+  au FileType haskell nnoremap <silent> <leader>ik :InteroKill<CR>
+
+  au FileType haskell nnoremap <silent> <leader>wr :w \| :InteroReload<CR>
+  au FileType haskell nnoremap <silent> <leader>il :InteroLoadCurrentModule<CR>
+  au FileType haskell nnoremap <silent> <leader>if :InteroLoadCurrentFile<CR>
+
+  au FileType haskell map <leader>t <Plug>InteroGenericType
+  au FileType haskell map <leader>T <Plug>InteroType
+  au FileType haskell nnoremap <silent> <leader>it :InteroTypeInsert<CR>
+
+  au FileType haskell nnoremap <silent> <leader>jd :InteroGoToDef<CR>
+  au FileType haskell nnoremap <silent> <leader>iu :InteroUses<CR>
+  au FileType haskell nnoremap <leader>ist :InteroSetTargets<SPACE>
+augroup END

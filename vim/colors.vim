@@ -36,31 +36,21 @@ set background=dark
 " colorscheme hybrid
 " colorscheme abra | let g:airline_theme='tomorrow'
 " colorscheme mattland | let g:airline_theme='lucius'
-colorscheme base16-ocean | let g:AirlineTheme='zenburn'
-
 " good light color schemes for neovim
 " set background=light
 " colorscheme github | let g:airline_theme='sol'
 " colorscheme Userscape
-" colorscheme hemisu | let g:airline_theme='sol'
+" colorscheme hemisu | let g:airline_theme='lucius'
+" au BufWinEnter * colorscheme cinematic
+" au BufWinEnter *.hs colorscheme badwolf
+colorscheme cinematic | let g:airline_theme='twofirewatch'
 
 " toggle between light and dark themes
 function! ToggleTheme()
     if &background == "light"
 	execute ":set background=dark"
-	" execute ":colorscheme gruvbox"
-	" execute ":AirlineTheme lucius"
-	" execute ":colorscheme atom"
-	" execute ":AirlineTheme cool"
-	" execute ":colorscheme tender | hi Search guibg=yellow guifg=#282828"
-	" execute ":AirlineTheme tender"
-	" execute ":colorscheme darktango"
-	" execute ":AirlineTheme raven"
-	" execute ":colorscheme gotham"
-	" execute ":AirlineTheme gotham"
-	" execute ":colorscheme two-firewatch"
-	" execute ":AirlineTheme distinguished"
-	execute ":colorscheme base16-ocean | AirlineTheme zenburn"
+	execute ":colorscheme cinematic"
+	execute ":AirlineTheme twofirewatch"
     else
 	execute ":set background=light"
 	execute ":colorscheme PaperColor"

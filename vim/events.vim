@@ -1,4 +1,4 @@
-    " filetype mapping
+" filetype mapping
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/etc/nginx/*.conf,*nginx.conf,*webd.conf set filetype=nginx
 au BufRead,BufNewFile *.json set filetype=json
 au BufRead,BufNewFile *.html,*.spec,*.less,*.sh,*.conf,*.json,*.yml,*.xml setlocal ts=4 sts=4 sw=4 expandtab
@@ -14,9 +14,6 @@ au Filetype racket,lisp,clojure,scheme setlocal expandtab
 au Filetype haskell *.hs,*.lhs setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype yaml setlocal autoindent sw=4 ts=4 expandtab
 au BufRead,BufNewFile php-fpm.conf,php.ini* set filetype=dosini
-" au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-" au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
-
 au BufRead set nofoldenable
 " attempt to go to the line we last left when reopening a file
 au BufWinLeave ?* silent! mkview

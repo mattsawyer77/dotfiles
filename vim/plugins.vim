@@ -16,6 +16,7 @@ Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 Plug 'mhinz/vim-signify'
 Plug 'millermedeiros/vim-esformatter'
 Plug 'morhetz/gruvbox'
+Plug 'dkasak/gruvbox', { 'for': 'haskell' }
 Plug 'whatyouhide/vim-gotham'
 Plug 'AlessandroYorba/Despacio'
 Plug 'AlessandroYorba/Sierra'
@@ -85,7 +86,6 @@ Plug 'tpope/vim-unimpaired'
 " Plug 'airblade/vim-rooter'
 " Plug 'wincent/terminus'
 " Plug 'bitc/vim-hdevtools'
-" Plug 'neovimhaskell/haskell-vim'
 " Plug 'eagletmt/neco-ghc'
 
 call plug#end()
@@ -156,6 +156,7 @@ let g:deoplete#enable_at_startup = 1
 
 " ALE
 let g:ale_linters = { 'html': [], 'less': ['lessc'] }
+let g:ale_linters.haskell = ['stack-ghc-mod', 'hlint']
 
 " markology
 let g:markology_include="abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -209,3 +210,40 @@ let g:prettier#config#parser = 'flow'
 
 " CtrlP-Obsession
 let g:prosession_dir = '~/.config/nvim/sessions'
+
+" fakeclip.neovim
+" let g:vim_fakeclip_tmux_plus=1
+
+" CtrlP-Obsession
+let g:prosession_dir = '~/.config/nvim/sessions'
+
+" elm
+" let g:elm_jump_to_error = 0
+" let g:elm_make_output_file = "elm.js"
+" let g:elm_make_show_warnings = 0
+" let g:elm_syntastic_show_warnings = 0
+" let g:elm_browser_command = ""
+" let g:elm_detailed_complete = 0
+let g:elm_format_autosave = 1
+" let g:elm_format_fail_silently = 0
+let g:elm_setup_keybindings = 0
+" let g:deoplete#omni#functions.elm = ['elm#Complete']
+" let g:deoplete#omni#input_patterns.elm = '[^ \t]+'
+" let g:deoplete#sources.elm = ['omni'] + g:deoplete#sources._
+
+" haskell
+" ----- neovimhaskell/haskell-vim -----
+" Align 'then' two spaces after 'if'
+let g:haskell_indent_if = 2
+" Indent 'where' block two spaces under previous body
+let g:haskell_indent_before_where = 2
+" Allow a second case indent style (see haskell-vim README)
+let g:haskell_indent_case_alternative = 1
+" Only next under 'let' if there's an equals sign
+let g:haskell_indent_let_no_in = 0
+
+" ----- hindent -----
+let g:hindent_on_save = 1
+
+" ----- intero -----
+let g:intero_use_neomake = 0
