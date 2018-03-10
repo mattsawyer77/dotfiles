@@ -155,7 +155,7 @@ let g:rooter_patterns = ['biq.def.inc', '.git', '.git/']
 let g:deoplete#enable_at_startup = 1
 
 " ALE
-let g:ale_linters = { 'html': [] }
+let g:ale_linters = { 'html': [], 'less': ['lessc'] }
 
 " markology
 let g:markology_include="abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
