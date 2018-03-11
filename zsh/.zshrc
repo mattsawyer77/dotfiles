@@ -52,22 +52,14 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git perforce brew node npm tmux vi-mode gulp zsh-syntax-highlighting docker docker-compose stack)
+plugins=(git perforce tmux vi-mode gulp zsh-syntax-highlighting docker docker-compose stack)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -85,22 +77,9 @@ alias p4cl='p4 opened 2>&1 | grep change | pcregrep -v "default change|change de
 alias glo='git log --format="%C(auto,yellow)%<(20)%cr%C(auto,cyan) %s"'
 alias glocl='git log --format="%s"'
 alias vim=nvim
-alias neovim='open -a /Applications/Neovim.app/Contents/MacOS/Neovim --args'
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
 alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias ts='tmux new-session -n main -s'
-export P4CONFIG=.p4config
-export P4USER=sawyer
-export P4IGNORE=.p4ignore
-export P4DIFF=/usr/local/bin/ksdiff
-export P4MERGE=/usr/local/bin/ksdiff
-export GOPATH=~/gocode
-# export EDITOR='mvim -f --nomru -c "au VimLeave * !open -a Terminal"'
-export EDITOR='/usr/local/bin/nvim'
-export LESS='-F -g -i -M -r -w -X -z-4'
-export TERM=xterm-256color
-export XDG_DATA_HOME=~/.local/share
-export XDG_CONFIG_HOME=~/.config
 DISABLE_AUTO_TITLE=true
 
 bindkey -v
@@ -167,7 +146,7 @@ p4blame () {
     IFS=$'\n'
     # hash of changelist # to changelist author
     typeset -A changelists
-    annotate_output=($(p4 annotate -I $* | pcregrep '^\d+:'))
+    annotate_output=($(p4 annotate -i $* | pcregrep '^\d+:'))
 
     if [ -n "$annotate_output" ]; then
         for line in $annotate_output; do
@@ -233,7 +212,6 @@ source ~/.nvm/nvm.sh
 
 
 # tmuxifier
-export PATH=$PATH:$HOME/.tmuxifier/bin
 eval "$(tmuxifier init -)"
 
 # z
@@ -246,13 +224,5 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 # rustup
 source $HOME/.cargo/env
 
-# haskell stack and cabal
-# export HASKELL_STACK_HOME=~/.stack
-# export PATH=$HASKELL_STACK_HOME/snapshots/x86_64-osx/lts-3.20/7.10.2/bin:$HASKELL_STACK_HOME/programs/x86_64-osx/ghc-7.10.2/bin:$PATH
-export PATH=$PATH:~/.cabal/bin
-
 # tokens
 source $HOME/tokens
-#
-# add back relative local npm path to override nvm's npm path
-export PATH=node_modules/.bin:$PATH
