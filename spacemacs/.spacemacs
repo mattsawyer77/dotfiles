@@ -71,6 +71,7 @@ This function should only modify configuration layer settings."
               haskell-enable-hindent-style "johan-tibell")
      shell-scripts
      theming
+     version-control
      yaml
      )
 
@@ -488,13 +489,23 @@ before packages are loaded."
   (setq-default exec-path-from-shell-check-startup-files nil)
   (golden-ratio-mode)
 
+
+  (setq ivy-re-builders-alist
+        '((swiper . ivy--regex-fuzzy)
+          (t . ivy--regex-fuzzy)))
+
   ;; (setq-default text-scale-mode-amount 0)
   ;; (setq-default text-scale-mode-step 1.1)
   (spacemacs/set-leader-keys-for-major-mode 'haskell-mode
     "f" 'hindent-reformat-buffer)
   ;; (spacemacs/toggle-line-numbers-on)
-  ;; (setq-default js2-mode-show-parse-errors nil)
-  ;; (setq-default js2-mode-show-strict-warnings nil)
+  (setq-default js2-mode-show-parse-errors nil)
+  (setq-default js2-mode-show-strict-warnings nil)
+  (setq-default js2-pretty-multiline-declarations 'all)
+  (add-hook 'js2-mode-hook
+    (lambda()
+      (electric-indent-mode -1)))
+
   ;; TODO: make the following work to prevent indenting hanging chained function calls
   (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
   (editorconfig-mode 1)
@@ -506,13 +517,21 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode "n'" 'nodejs-repl-switch-to-repl)
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode "ns" 'nodejs-repl-switch-to-repl)
 
-  (add-hook 'after-make-frame-functions
-            (lambda ()
-              (if window-system
-                (progn
-                  (setq interprogram-cut-function 'paste-to-osx)
-                  (setq interprogram-paste-function 'copy-from-osx))
-                )))
+  ;; TODO: make the following work:
+  ;; (defun goto-file ()
+  ;;   "open file under cursor"
+  ;;   (interactive)
+  ;;   (find-file
+  ;;    (shell-command-to-string
+  ;;     (concat "locate " (current-word) "|head -c -1" ))))
+
+  ;; (add-hook 'after-make-frame-functions
+  ;;           (lambda ()
+  ;;             (if window-system
+  ;;               (progn
+  ;;                 (setq interprogram-cut-function 'paste-to-osx)
+  ;;                 (setq interprogram-paste-function 'copy-from-osx))
+  ;;               )))
 
   ;; disable syntax check in insert mode
   ;; (add-hook 'evil-insert-state-entry-hook (lambda () (spacemacs/toggle-syntax-checking-off)))
@@ -590,12 +609,12 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-css unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async dash)))
+    (zenburn-theme zen-and-art-theme yasnippet-snippets yaml-mode wgrep web-mode tagedit symon sublime-themes string-inflection spaceline-all-the-icons all-the-icons memoize smex slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rbenv rake racket-mode faceup pug-mode password-generator overseer nodejs-repl nameless minitest less-css-mode jazz-theme ivy-xref ivy-purpose window-purpose imenu-list ivy-hydra intero insert-shebang impatient-mode htmlize ibuffer-projectile hlint-refactor hindent heroku-theme hemisu-theme hc-zenburn-theme haskell-snippets haml-mode gruvbox-theme gotham-theme git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flycheck-haskell flycheck-bashate fish-mode evil-lion evil-cleverparens paredit emmet-mode editorconfig diff-hl darktooth-theme autothemer dante lcr counsel-projectile counsel-css counsel swiper ivy company-web web-completion-data company-shell company-quickhelp company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode chruby centered-cursor-mode bundler inf-ruby browse-at-remote badwolf-theme apropospriate-theme anti-zenburn-theme font-lock+ unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async dash)))
  '(ring-bell-function (quote ignore)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background nil)))))
+ )
 )
