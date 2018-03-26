@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(ruby
+   '(nginx
+     ruby
      html
      javascript
      ;; ----------------------------------------------------------------
@@ -84,7 +85,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path exec-path-from-shell editorconfig default-text-scale)
+   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path exec-path-from-shell editorconfig default-text-scale rainbow-mode)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -210,6 +211,11 @@ It should only modify the values of Spacemacs settings."
                                :weight regular
                                :width normal
                                :powerline-scale 1.5)
+   ;; dotspacemacs-default-font '("SF UI Display"
+   ;;                             :size 17
+   ;;                             :weight regular
+   ;;                             :width normal
+   ;;                             :powerline-scale 1.5)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
 
@@ -471,6 +477,16 @@ before packages are loaded."
         (process-send-string proc text)
         (process-send-eof proc))))
 
+  (defun sawyer/set-programming-face ()
+    "Set font to monospace for programming modes"
+    (interactive)
+    (setq buffer-face-mode-face '(:family "PragmataPro Mono"
+                                                                              :size 21
+                                                                              :weight regular
+                                                                              :width normal
+                                                                              :powerline-scale 1.5)))
+    (add-hook 'prog-mode 'sawyer/set-programming-face)
+
   (defun sawyer-configure-terminal-specific ()
     (setq interprogram-cut-function 'paste-to-osx)
     (setq interprogram-paste-function 'copy-from-osx))
@@ -499,6 +515,9 @@ before packages are loaded."
   (add-hook 'js2-mode-hook
     (lambda()
       (electric-indent-mode -1)))
+
+  (add-hook 'less-css-mode-hook 'rainbow-mode)
+  (add-hook 'css-mode-hook 'rainbow-mode)
 
   ;; TODO: make the following work to prevent indenting hanging chained function calls
   (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
@@ -619,11 +638,9 @@ This function is called at the very end of Spacemacs initialization."
  '(ansi-color-names-vector
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(evil-want-Y-yank-to-eol nil)
- '(linum-format (quote dynamic))
  '(package-selected-packages
    (quote
-    (default-text-scale unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async dash)))
- '(paradox-github-token t)
+    (yasnippet-snippets web-mode ruby-hash-syntax rebecca-theme rainbow-mode ibuffer-projectile company-quickhelp counsel swiper ivy unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async dash)))
  '(ring-bell-function (quote ignore)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
