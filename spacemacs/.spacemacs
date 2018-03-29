@@ -33,7 +33,9 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(nginx
+   '(python
+     typescript
+     nginx
      ruby
      html
      javascript
@@ -56,7 +58,8 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      markdown
-     neotree
+     ;; neotree
+     treemacs
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -481,10 +484,10 @@ before packages are loaded."
     "Set font to monospace for programming modes"
     (interactive)
     (setq buffer-face-mode-face '(:family "PragmataPro Mono"
-                                                                              :size 21
-                                                                              :weight regular
-                                                                              :width normal
-                                                                              :powerline-scale 1.5)))
+                                  :size 21
+                                  :weight regular
+                                  :width normal
+                                  :powerline-scale 1.5)))
     (add-hook 'prog-mode 'sawyer/set-programming-face)
 
   (defun sawyer-configure-terminal-specific ()
@@ -502,9 +505,9 @@ before packages are loaded."
                                      "ediff-mode"
                                      "eshell-mode"
                                      "neotree-mode"))
-  (setq ivy-re-builders-alist
-        '((swiper . ivy--regex-fuzzy)
-          (t . ivy--regex-fuzzy)))
+  ;; (setq ivy-re-builders-alist
+  ;;       '((swiper . ivy--regex-fuzzy)
+  ;;         (t . ivy--regex-fuzzy)))
 
   (spacemacs/set-leader-keys-for-major-mode 'haskell-mode
     "f" 'hindent-reformat-buffer)
@@ -520,8 +523,11 @@ before packages are loaded."
   (add-hook 'css-mode-hook 'rainbow-mode)
 
   ;; TODO: make the following work to prevent indenting hanging chained function calls
-  (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
+  ;; (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
   (editorconfig-mode 1)
+  ;; TODO: when https://github.com/syl20bnr/spacemacs/issues/10290 is fixed, hopefully the following line can be removed
+  (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
+
   ;; nodejs-repl
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode "ne" 'nodejs-repl-send-last-expression)
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode "nj" 'nodejs-repl-send-line)
@@ -638,14 +644,16 @@ This function is called at the very end of Spacemacs initialization."
  '(ansi-color-names-vector
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(evil-want-Y-yank-to-eol nil)
+ '(ivy-height 10)
  '(package-selected-packages
    (quote
-    (yasnippet-snippets web-mode ruby-hash-syntax rebecca-theme rainbow-mode ibuffer-projectile company-quickhelp counsel swiper ivy unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async dash)))
+    (yapfify stickyfunc-enhance pyvenv pytest pyenv-mode py-isort pippel pipenv pip-requirements lsp-python lsp-mode live-py-mode importmagic epc ctable concurrent deferred hy-mode helm-pydoc helm-gtags helm-cscope xcscope ggtags cython-mode counsel-gtags company-anaconda anaconda-mode pythonic unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async dash)))
+ '(paradox-github-token t)
  '(ring-bell-function (quote ignore)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(lazy-highlight ((t (:background "LemonChiffon3" :foreground "black")))))
 )
