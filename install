@@ -73,4 +73,7 @@ ln -sf ~/dotfiles/alacritty/alacritty.yml ~/.config/alacritty.yml
 
 popd >/dev/null
 
+echo 'setting up terminfo file...'
+tic -x -o ~/.terminfo terminfo-24bit.src
+
 exit 0
