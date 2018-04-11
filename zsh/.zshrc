@@ -80,6 +80,12 @@ alias vim=nvim
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
 alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias ts='tmux new-session -n main -s'
+
+# TMUX remote server aliases that customize background color
+export DEFAULT_BACKGROUND_COLOR="$(pcregrep '^\s*background:' ~/dotfiles/alacritty/alacritty.yml | head -1 | cut -d\' -f2 | sed 's/0x/#/')"
+alias bigiq1="tmux-color-command ssh bigiq1 'bg=#476353 fg=#e3ebe7'"
+alias bigiq2="tmux-color-command ssh bigiq2 'bg=#d8d19e fg=#3f4422'"
+alias sawyer-dev="tmux-color-command mosh sawyer-dev 'bg=#161e23 fg=#bac9cc'"
 DISABLE_AUTO_TITLE=true
 
 bindkey -v
@@ -94,6 +100,17 @@ ulimit -n 4096
 
 # powerline-daemon -q
 # source $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+
+tmux-color-command () {
+    local command="$1"
+    local hostname="$2"
+    local style="$3"
+    already_created=$(tmux list-windows | grep $hostname)
+    if [[ -z $already_created ]]; then
+        tmux new-window -n $hostname "$command $hostname"
+    fi
+    tmux select-window -t $hostname && tmux select-pane -P $style
+}
 
 p4clientRoot () {
     p4 info | grep 'Client root' | awk '{ print $3 }'
@@ -120,7 +137,7 @@ p4opened () {
 p4clFiles () {
     IFS=$'\n'
 	changelists=($(p4 -ztag opened | grep '... change' | awk '{print $3;}' | sort -u))
-	for cl in $changelists; do 
+	for cl in $changelists; do
 		if [[ $cl -eq "default" ]]; then
 			echo default changelist:
 		else
