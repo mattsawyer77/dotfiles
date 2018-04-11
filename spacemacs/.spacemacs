@@ -33,14 +33,22 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(ansible
+     python
+     typescript
+     nginx
+     ruby
+     html
      javascript
+     osx
+     docker
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     helm
+     ivy
+     ;; helm
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       ;; tab key to complete as much of common completion as possible
@@ -53,14 +61,14 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      markdown
-     neotree
+     ;; neotree
+     treemacs
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      syntax-checking
-     ;; version-control
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
      html
      javascript
@@ -68,8 +76,12 @@ This function should only modify configuration layer settings."
      (haskell :variables
               haskell-completion-backend 'intero
               haskell-enable-hindent-style "johan-tibell")
+     colors
      shell-scripts
      theming
+     themes-megapack
+     (version-control :variables
+                      version-control-diff-side 'left)
      yaml
      )
 
@@ -80,13 +92,13 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path exec-path-from-shell editorconfig)
+   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path editorconfig p4 doom-themes angular-snippets
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(vi-tilde-fringe helm helm-core helm-make linum-relative)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -95,7 +107,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-only)))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -180,21 +192,18 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(darktooth
-                         apropospriate-light
-                         apropospriate-dark
+                         doom-peacock
+                         clues
+                         base16-ocean
+                         base16-atelier-lakeside-light
+                         base16-atelier-lakeside
+                         base16-materia
+                         base16-nord
+                         base16-oceanicnext
                          badwolf
-                         anti-zenburn
-                         hc-zenburn
-                         heroku
-                         dorsey
-                         graham
-                         gruvbox
-                         gotham
-                         hemisu-dark
+                         gruvbox-dark-medium
                          hemisu-light
-                         jazz
-                         zen-and-art
-                         zenburn)
+                         mustang)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
@@ -212,10 +221,15 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("PragmataPro Mono"
-                               :size 19
+                               :size 21
                                :weight regular
                                :width normal
                                :powerline-scale 1.5)
+   ;; dotspacemacs-default-font '("SF UI Display"
+   ;;                             :size 17
+   ;;                             :weight regular
+   ;;                             :width normal
+   ;;                             :powerline-scale 1.5)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
 
@@ -291,21 +305,21 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-max-rollback-slots 5
 
    ;; If non-nil, `helm' will try to minimize the space it uses. (default nil)
-   dotspacemacs-helm-resize nil
+   ;; dotspacemacs-helm-resize nil
 
    ;; if non-nil, the helm header is hidden when there is only one source.
    ;; (default nil)
-   dotspacemacs-helm-no-header nil
+   ;; dotspacemacs-helm-no-header nil
 
    ;; define the position to display `helm', options are `bottom', `top',
    ;; `left', or `right'. (default 'bottom)
-   dotspacemacs-helm-position 'bottom
+   ;; dotspacemacs-helm-position 'bottom
 
    ;; Controls fuzzy matching in helm. If set to `always', force fuzzy matching
    ;; in all non-asynchronous sources. If set to `source', preserve individual
    ;; source settings. Else, disable fuzzy matching in all sources.
    ;; (default 'always)
-   dotspacemacs-helm-use-fuzzy 'always
+   ;; dotspacemacs-helm-use-fuzzy 'always
 
    ;; If non-nil, the paste transient-state is enabled. While enabled, pressing
    ;; `p' several times cycles through the elements in the `kill-ring'.
@@ -370,7 +384,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling t
+   dotspacemacs-smooth-scrolling nil
 
    ;; Control line numbers activation.
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
@@ -397,7 +411,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis t
+   dotspacemacs-smart-closing-parenthesis nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
@@ -408,7 +422,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -468,13 +482,55 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (defun copy-from-osx ()
+    (shell-command-to-string "pbpaste"))
+
+  (defun paste-to-osx (text &optional push)
+    (let ((process-connection-type nil))
+      (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+        (process-send-string proc text)
+        (process-send-eof proc))))
+
+  (defun sawyer-configure-terminal-specific ()
+    (setq interprogram-cut-function 'paste-to-osx)
+    (setq interprogram-paste-function 'copy-from-osx))
+
   (setq-default line-spacing 7)
-  (setq-default global-vi-tilde-fringe-mode nil)
+  (setq-default scroll-margin 3)
+  (setq-default vc-follow-symlinks t)
+  (setq-default exec-path-from-shell-check-startup-files nil)
+  ;; (message "Calling exec-path-from-shell-initialize")
+  ;; (exec-path-from-shell-initialize)
+  ;; (message "PATH is now: %s" (getenv "PATH"))
+  (setq golden-ratio-exclude-modes '("dired-mode"
+                                     "ediff-mode"
+                                     "eshell-mode"
+                                     "neotree-mode"))
+  (require 'flx)
+  (setq ivy-re-builders-alist
+        '((ivy-switch-buffer . ivy--regex-fuzzy)
+          (counsel-recentf . ivy--regex-fuzzy)
+          (t . ivy--regex-plus)))
+
   (spacemacs/set-leader-keys-for-major-mode 'haskell-mode
-    "f" 'hindent-reformat-buffer)
-  (spacemacs/toggle-line-numbers-on)
-  ;; (setq js2-mode-show-parse-errors nil js2-mode-show-strict-warnings nil)
+    "=" 'hindent-reformat-buffer)
+  ;; (spacemacs/toggle-line-numbers-on)
+  (setq-default js2-mode-show-parse-errors nil)
+  (setq-default js2-mode-show-strict-warnings nil)
+  (setq-default js2-pretty-multiline-declarations 'all)
+  (add-hook 'js2-mode-hook
+    (lambda()
+      (electric-indent-mode -1)))
+
+  (add-hook 'less-css-mode-hook 'rainbow-mode)
+  (add-hook 'css-mode-hook 'rainbow-mode)
+
+  ;; TODO: make the following work to prevent indenting hanging chained function calls
+  ;; (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
   (editorconfig-mode 1)
+  ;; TODO: when https://github.com/syl20bnr/spacemacs/issues/10290 is fixed, hopefully the following line can be removed
+  (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
+
   ;; nodejs-repl
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode "ne" 'nodejs-repl-send-last-expression)
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode "nj" 'nodejs-repl-send-line)
@@ -483,13 +539,36 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode "n'" 'nodejs-repl-switch-to-repl)
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode "ns" 'nodejs-repl-switch-to-repl)
 
+  (spacemacs-buffer/insert-startup-lists)
+  (setq mac-mouse-wheel-smooth-scroll nil)
+
+  ;; (custom-set-faces
+  ;;  '(linum ((t (:background "gray10" :foreground "gray40")))))
+  (custom-theme-set-faces
+   ;; 'darktooth '(linum ((t (:background "gray10" :foreground "gray40")))
+   'darktooth
+      '(font-lock-string-face ((t (:background "#202D2D" :foreground "#528B8B"))))
+      '(font-lock-function-name-face ((t (:foreground "#8BBAB4"))))
+      '(linum ((t (:background "gray10" :foreground "gray40")))))
+  ;; TODO: make the following work:
+  ;; (defun goto-file ()
+  ;;   "open file under cursor"
+  ;;   (interactive)
+  ;;   (find-file
+  ;;    (shell-command-to-string
+  ;;     (concat "locate " (current-word) "|head -c -1" ))))
+
+  ;; (add-hook 'after-make-frame-functions
+  ;;           (lambda ()
+  ;;             (if window-system
+  ;;               (progn
+  ;;                 (setq interprogram-cut-function 'paste-to-osx)
+  ;;                 (setq interprogram-paste-function 'copy-from-osx))
+  ;;               )))
+
   ;; disable syntax check in insert mode
-  (add-hook 'evil-insert-state-entry-hook (lambda () (spacemacs/toggle-syntax-checking-off)))
-  (add-hook 'evil-insert-state-exit-hook  (lambda () (spacemacs/toggle-syntax-checking-on)))
-
-  ;; allow spacemacs to work for git commit messages
-  (global-git-commit-mode t)
-
+  ;; (add-hook 'evil-insert-state-entry-hook (lambda () (spacemacs/toggle-syntax-checking-off)))
+  ;; (add-hook 'evil-insert-state-exit-hook  (lambda () (spacemacs/toggle-syntax-checking-on)))
   ;; attempt to set ligatures:
   ;; (when (window-system)
   ;;   (set-frame-font "PragmataPro Mono"))
@@ -522,31 +601,10 @@ before packages are loaded."
   ;;   (dolist (char-regexp alist)
   ;;     (set-char-table-range composition-function-table (car char-regexp)
   ;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
-  ;; (add-hook 'helm-major-mode-hook
-  ;;           (lambda ()
-  ;;             (setq auto-composition-mode nil)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
- '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
-   (quote
-    (yaml-mode web-mode tagedit slim-mode scss-mode sass-mode racket-mode faceup pug-mode nodejs-repl less-css-mode intero insert-shebang ibuffer-projectile hlint-refactor hindent helm-hoogle helm-css-scss haskell-snippets haml-mode flycheck-haskell fish-mode emmet-mode editorconfig company-web web-completion-data company-shell company-quickhelp company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode add-node-modules-path unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async dash)))
- '(ring-bell-function (quote ignore)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -557,13 +615,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
- '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (zenburn-theme zen-and-art-theme yasnippet-snippets symon sublime-themes string-inflection spaceline-all-the-icons all-the-icons memoize password-generator overseer nameless jazz-theme impatient-mode htmlize heroku-theme hemisu-theme helm-xref helm-purpose window-purpose imenu-list hc-zenburn-theme gruvbox-theme gotham-theme flycheck-bashate evil-lion evil-cleverparens paredit darktooth-theme autothemer dante lcr counsel-projectile counsel swiper ivy centered-cursor-mode badwolf-theme apropospriate-theme anti-zenburn-theme font-lock+ yaml-mode web-mode tagedit slim-mode scss-mode sass-mode racket-mode faceup pug-mode nodejs-repl less-css-mode intero insert-shebang ibuffer-projectile hlint-refactor hindent helm-hoogle helm-css-scss haskell-snippets haml-mode flycheck-haskell fish-mode emmet-mode editorconfig company-web web-completion-data company-shell company-quickhelp company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode add-node-modules-path unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async dash)))
- '(ring-bell-function (quote ignore)))
+    (yapfify white-sand-theme vi-tilde-fringe underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tide typescript-mode tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme reveal-in-osx-finder rebecca-theme rbenv rake rainbow-identifiers railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme professional-theme planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme pbcopy osx-trash osx-dictionary organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme nginx-mode naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minitest minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme live-py-mode linum-relative light-soap-theme launchctl jinja2-mode jbeans-theme ir-black-theme inkpot-theme importmagic epc ctable concurrent deferred hy-mode helm-make helm helm-core gruber-darker-theme grandshell-theme git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme dockerfile-mode docker tablist docker-tramp django-theme diff-hl darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-ansible company-anaconda color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode clues-theme chruby cherry-blossom-theme busybee-theme bundler inf-ruby bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme base16-theme ansible-doc ansible anaconda-mode pythonic ample-zen-theme ample-theme alect-themes afternoon-theme zenburn-theme zen-and-art-theme yasnippet-snippets yaml-mode ws-butler winum which-key wgrep web-mode web-beautify volatile-highlights uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org tagedit symon sublime-themes string-inflection spaceline-all-the-icons smex smeargle slim-mode scss-mode sass-mode restart-emacs request rainbow-mode rainbow-delimiters racket-mode pug-mode popwin persp-mode pcre2el password-generator paradox p4 overseer org-plus-contrib org-bullets open-junk-file nodejs-repl nameless mwim move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode link-hint json-mode js2-refactor js-doc jazz-theme ivy-xref ivy-purpose ivy-hydra intero insert-shebang indent-guide impatient-mode ibuffer-projectile hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme hc-zenburn-theme haskell-snippets gruvbox-theme gotham-theme google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flycheck-pos-tip flycheck-haskell flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav editorconfig dumb-jump doom-themes diminish define-word darktooth-theme dante counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-quickhelp company-ghci company-ghc company-cabal column-enforce-mode coffee-mode cmm-mode clean-aindent-mode centered-cursor-mode badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme angular-snippets angular-mode aggressive-indent adaptive-wrap ace-link ac-ispell ac-html-angular))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
