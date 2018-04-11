@@ -76,6 +76,7 @@ This function should only modify configuration layer settings."
      (haskell :variables
               haskell-completion-backend 'intero
               haskell-enable-hindent-style "johan-tibell")
+     colors
      shell-scripts
      theming
      themes-megapack
@@ -91,8 +92,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   ;; dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path exec-path-from-shell editorconfig default-text-scale rainbow-mode)
-   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path editorconfig default-text-scale rainbow-mode base16-theme p4 doom-themes angular-mode angular-snippets
+   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path editorconfig p4 doom-themes angular-snippets
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -491,35 +491,21 @@ before packages are loaded."
         (process-send-string proc text)
         (process-send-eof proc))))
 
-  (defun sawyer/set-programming-face ()
-    "Set font to monospace for programming modes"
-    (interactive)
-    (setq buffer-face-mode-face '(:family "PragmataPro Mono"
-                                  :size 21
-                                  :weight regular
-                                  :width normal
-                                  :powerline-scale 1.5)))
-    (add-hook 'prog-mode 'sawyer/set-programming-face)
-
   (defun sawyer-configure-terminal-specific ()
     (setq interprogram-cut-function 'paste-to-osx)
     (setq interprogram-paste-function 'copy-from-osx))
 
   (setq-default line-spacing 7)
   (setq-default scroll-margin 3)
-
   (setq-default vc-follow-symlinks t)
   (setq-default exec-path-from-shell-check-startup-files nil)
   ;; (message "Calling exec-path-from-shell-initialize")
   ;; (exec-path-from-shell-initialize)
   ;; (message "PATH is now: %s" (getenv "PATH"))
-  (default-text-scale-mode)
-  (golden-ratio-mode)
   (setq golden-ratio-exclude-modes '("dired-mode"
                                      "ediff-mode"
                                      "eshell-mode"
                                      "neotree-mode"))
-
   (require 'flx)
   (setq ivy-re-builders-alist
         '((ivy-switch-buffer . ivy--regex-fuzzy)
@@ -527,7 +513,7 @@ before packages are loaded."
           (t . ivy--regex-plus)))
 
   (spacemacs/set-leader-keys-for-major-mode 'haskell-mode
-    "f" 'hindent-reformat-buffer)
+    "=" 'hindent-reformat-buffer)
   ;; (spacemacs/toggle-line-numbers-on)
   (setq-default js2-mode-show-parse-errors nil)
   (setq-default js2-mode-show-strict-warnings nil)
@@ -615,31 +601,10 @@ before packages are loaded."
   ;;   (dolist (char-regexp alist)
   ;;     (set-char-table-range composition-function-table (car char-regexp)
   ;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
-  ;; (add-hook 'helm-major-mode-hook
-  ;;           (lambda ()
-  ;;             (setq auto-composition-mode nil)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
- '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
-   (quote
-    (unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation projectile pkg-info epl google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link avy popup async dash)))
- '(ring-bell-function (quote ignore)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -650,162 +615,13 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
- '(ansi-term-color-vector
-   [unspecified "#1f2022" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#4f97d7" "#a3a3a3"])
- '(background-color "#202020")
- '(background-mode dark)
- '(beacon-color "#F8BBD0")
- '(company-quickhelp-color-background "#b0b0b0")
- '(company-quickhelp-color-foreground "#232333")
- '(compilation-message-face (quote default))
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#657b83")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
- '(cursor-color "#cccccc")
- '(cursor-type (quote bar))
- '(diary-entry-marker (quote font-lock-variable-name-face))
- '(emms-mode-line-icon-image-cache
-   (quote
-    (image :type xpm :ascent center :data "/* XPM */
-static char *note[] = {
-/* width height num_colors chars_per_pixel */
-\"    10   11        2            1\",
-/* colors */
-\". c #358d8d\",
-\"# c None s None\",
-/* pixels */
-\"###...####\",
-\"###.#...##\",
-\"###.###...\",
-\"###.#####.\",
-\"###.#####.\",
-\"#...#####.\",
-\"....#####.\",
-\"#..######.\",
-\"#######...\",
-\"######....\",
-\"#######..#\" };")))
- '(evil-emacs-state-cursor (quote ("#D50000" hbar)) t)
- '(evil-insert-state-cursor (quote ("#D50000" bar)) t)
- '(evil-normal-state-cursor (quote ("#F57F17" box)) t)
- '(evil-visual-state-cursor (quote ("#66BB6A" box)) t)
- '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-character-color "#452E2E")
- '(fci-rule-color "#56697A" t)
- '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
- '(foreground-color "#cccccc")
- '(frame-background-mode (quote dark))
- '(frame-brackground-mode (quote dark))
- '(fringe-mode 6 nil (fringe))
- '(gnus-logo-colors (quote ("#0d7b72" "#adadad")))
- '(gnus-mode-line-image-cache
-   (quote
-    (image :type xpm :ascent center :data "/* XPM */
-static char *gnus-pointer[] = {
-/* width height num_colors chars_per_pixel */
-\"    18    13        2            1\",
-/* colors */
-\". c #358d8d\",
-\"# c None s None\",
-/* pixels */
-\"##################\",
-\"######..##..######\",
-\"#####........#####\",
-\"#.##.##..##...####\",
-\"#...####.###...##.\",
-\"#..###.######.....\",
-\"#####.########...#\",
-\"###########.######\",
-\"####.###.#..######\",
-\"######..###.######\",
-\"###....####.######\",
-\"###..######.######\",
-\"###########.######\" };")))
- '(highlight-changes-colors (quote ("#ff8eff" "#ab7eff")))
- '(highlight-indent-guides-auto-enabled nil)
- '(highlight-symbol-colors
-   (quote
-    ("#F57F17" "#66BB6A" "#0097A7" "#42A5F5" "#7E57C2" "#D84315")))
- '(highlight-symbol-foreground-color "#546E7A")
- '(highlight-tail-colors (quote (("#F8BBD0" . 0) ("#FAFAFA" . 100))))
- '(hl-bg-colors
-   (quote
-    ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
- '(hl-fg-colors
-   (quote
-    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
- '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
- '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
- '(hl-sexp-background-color "#1c1f26")
- '(jdee-db-active-breakpoint-face-colors (cons "#10151C" "#5EC4FF"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#10151C" "#8BD49C"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#10151C" "#384551"))
- '(linum-format (quote dynamic))
- '(magit-diff-use-overlays nil)
- '(main-line-color1 "#222232")
- '(main-line-color2 "#333343")
- '(main-line-separator-style (quote chamfer))
- '(nrepl-message-colors
-   (quote
-    ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
- '(org-src-block-faces (quote (("emacs-lisp" (:background "#F0FFF0")))))
  '(package-selected-packages
    (quote
-    (yasnippet-snippets editorconfig unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete tern web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation projectile pkg-info epl google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link avy popup async dash)))
- '(paradox-github-token t)
- '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
- '(powerline-color1 "#3d3d68")
- '(powerline-color2 "#292945")
- '(ring-bell-function (quote ignore))
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
- '(sml/active-background-color "#34495e")
- '(sml/active-foreground-color "#ecf0f1")
- '(sml/inactive-background-color "#dfe4ea")
- '(sml/inactive-foreground-color "#34495e")
- '(tabbar-background-color "#ffffffffffff")
- '(term-default-bg-color "#fdf6e3")
- '(term-default-fg-color "#657b83")
- '(treemacs-follow-mode t)
- '(vc-annotate-background "#10151C")
- '(vc-annotate-background-mode nil)
- '(vc-annotate-color-map
-   (list
-    (cons 20 "#8BD49C")
-    (cons 40 "#abcd93")
-    (cons 60 "#cbc68b")
-    (cons 80 "#EBBF83")
-    (cons 100 "#e5ae6f")
-    (cons 120 "#df9e5b")
-    (cons 140 "#D98E48")
-    (cons 160 "#dc885f")
-    (cons 180 "#df8376")
-    (cons 200 "#E27E8D")
-    (cons 220 "#df7080")
-    (cons 240 "#dc6274")
-    (cons 260 "#D95468")
-    (cons 280 "#b05062")
-    (cons 300 "#884c5c")
-    (cons 320 "#604856")
-    (cons 340 "#56697A")
-    (cons 360 "#56697A")))
- '(vc-annotate-very-old-color nil)
- '(weechat-color-list
-   (unspecified "#242728" "#424748" "#F70057" "#ff0066" "#86C30D" "#63de5d" "#BEB244" "#E6DB74" "#40CAE4" "#06d8ff" "#FF61FF" "#ff8eff" "#00b2ac" "#53f2dc" "#f8fbfc" "#ffffff"))
- '(when
-      (or
-       (not
-        (boundp
-         (quote ansi-term-color-vector)))
-       (not
-        (facep
-         (aref ansi-term-color-vector 0)))))
- '(xterm-color-names
-   ["#F1EBDD" "#A33555" "#BF5637" "#666E4D" "#3A6E64" "#665843" "#687366" "#50484e"])
- '(xterm-color-names-bright
-   ["#EBE7D9" "#DB4764" "#CE6A38" "#649888" "#848F86" "#857358" "#50484e"]))
+    (magit zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode ws-butler winum white-sand-theme which-key wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pbcopy password-generator paradox p4 overseer osx-trash osx-dictionary organic-green-theme org-plus-contrib org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode linum-relative link-hint light-soap-theme launchctl js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hy-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-make hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ ghub gh-md gandalf-theme fuzzy font-lock+ flycheck-pos-tip flycheck-haskell flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elisp-slime-nav editorconfig dumb-jump dracula-theme doom-themes dockerfile-mode docker django-theme diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dante dakrone-theme cython-mode cyberpunk-theme counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-quickhelp company-ghci company-ghc company-cabal company-ansible company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode coffee-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode busybee-theme bundler bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme base16-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-link ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 )
