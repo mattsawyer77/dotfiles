@@ -4,7 +4,7 @@
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
-This function should only modify configuration layer settings."
+   This function should only modify configuration layer settings."
   (setq-default
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
@@ -92,7 +92,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path editorconfig p4 doom-themes angular-snippets
+   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path editorconfig p4 doom-themes angular-snippets)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -107,13 +107,13 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only)))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
-This function is called at the very beginning of Spacemacs startup,
-before layer configuration.
-It should only modify the values of Spacemacs settings."
+    This function is called at the very beginning of Spacemacs startup,
+    before layer configuration.
+    It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
@@ -194,16 +194,9 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-themes '(darktooth
                          doom-peacock
                          clues
-                         base16-ocean
-                         base16-atelier-lakeside-light
-                         base16-atelier-lakeside
-                         base16-materia
-                         base16-nord
-                         base16-oceanicnext
                          badwolf
                          gruvbox-dark-medium
-                         hemisu-light
-                         mustang)
+                         hemisu-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
@@ -220,9 +213,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("PragmataPro Mono"
-                               :size 21
-                               :weight regular
+   dotspacemacs-default-font '("Input"
+                               :size 20
+                               :weight normal
                                :width normal
                                :powerline-scale 1.5)
    ;; dotspacemacs-default-font '("SF UI Display"
@@ -379,7 +372,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil unicode symbols are displayed in the mode line. (default t)
    ;; dotspacemacs-mode-line-unicode-symbols t
-   dotspacemacs-mode-line-unicode-symbols nil
+   dotspacemacs-mode-line-unicode-symbols t
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
@@ -470,18 +463,22 @@ It should only modify the values of Spacemacs settings."
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
-This function is called immediately after `dotspacemacs/init', before layer
-configuration.
-It is mostly for variables that should be set before packages are loaded.
-If you are unsure, try setting them in `dotspacemacs/user-config' first."
+    This function is called immediately after `dotspacemacs/init', before layer
+    configuration.
+    It is mostly for variables that should be set before packages are loaded.
+    If you are unsure, try setting them in `dotspacemacs/user-config' first."
   )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
-This function is called at the very end of Spacemacs startup, after layer
-configuration.
-Put your configuration code here, except for variables that should be set
-before packages are loaded."
+    This function is called at the very end of Spacemacs startup, after layer
+    configuration.
+    Put your configuration code here, except for variables that should be set
+    before packages are loaded."
+
+  (global-set-key (kbd "H-=") 'spacemacs/zoom-frm-in)
+  (global-set-key (kbd "H--") 'spacemacs/zoom-frm-out)
+
   (defun copy-from-osx ()
     (shell-command-to-string "pbpaste"))
 
@@ -495,8 +492,8 @@ before packages are loaded."
     (setq interprogram-cut-function 'paste-to-osx)
     (setq interprogram-paste-function 'copy-from-osx))
 
-  (setq-default line-spacing 7)
-  (setq-default scroll-margin 3)
+  (setq-default line-spacing 0)
+  (setq-default scroll-margin 5)
   (setq-default vc-follow-symlinks t)
   (setq-default exec-path-from-shell-check-startup-files nil)
   ;; (message "Calling exec-path-from-shell-initialize")
@@ -519,11 +516,15 @@ before packages are loaded."
   (setq-default js2-mode-show-strict-warnings nil)
   (setq-default js2-pretty-multiline-declarations 'all)
   (add-hook 'js2-mode-hook
-    (lambda()
-      (electric-indent-mode -1)))
+            (lambda()
+              (electric-indent-mode -1)))
 
   (add-hook 'less-css-mode-hook 'rainbow-mode)
+
   (add-hook 'css-mode-hook 'rainbow-mode)
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
+  (add-hook 'lisp-mode-hook 'rainbow-mode)
+  (add-hook 'js2-mode-hook 'rainbow-mode)
 
   ;; TODO: make the following work to prevent indenting hanging chained function calls
   ;; (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
@@ -542,14 +543,18 @@ before packages are loaded."
   (spacemacs-buffer/insert-startup-lists)
   (setq mac-mouse-wheel-smooth-scroll nil)
 
+  ;; requires the theming layer
+  (setq theming-modifications '((darktooth
+                                 (linum :background "#171717")
+                                 (font-lock-function-name-face :foreground "#8cb2b0")
+                                 (font-lock-string-face :background "#202d2d")
+                                 (linum-relative-current-face :inherit (shadow default) :background "#3C3836" :foreground "#ff0000")
+                                 (font-lock-comment-face :slant italic)
+                                 )
+                                ))
+
   ;; (custom-set-faces
   ;;  '(linum ((t (:background "gray10" :foreground "gray40")))))
-  (custom-theme-set-faces
-   ;; 'darktooth '(linum ((t (:background "gray10" :foreground "gray40")))
-   'darktooth
-      '(font-lock-string-face ((t (:background "#202D2D" :foreground "#528B8B"))))
-      '(font-lock-function-name-face ((t (:foreground "#8BBAB4"))))
-      '(linum ((t (:background "gray10" :foreground "gray40")))))
   ;; TODO: make the following work:
   ;; (defun goto-file ()
   ;;   "open file under cursor"
@@ -617,11 +622,15 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode ws-butler winum white-sand-theme which-key wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pbcopy password-generator paradox p4 overseer osx-trash osx-dictionary organic-green-theme org-plus-contrib org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode linum-relative link-hint light-soap-theme launchctl js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hy-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-make hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ ghub gh-md gandalf-theme fuzzy font-lock+ flycheck-pos-tip flycheck-haskell flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elisp-slime-nav editorconfig dumb-jump dracula-theme doom-themes dockerfile-mode docker django-theme diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dante dakrone-theme cython-mode cyberpunk-theme counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-quickhelp company-ghci company-ghc company-cabal company-ansible company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode coffee-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode busybee-theme bundler bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme base16-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-link ac-ispell))))
+    (web-mode tide pyvenv dracula-theme docker dante lcr counsel helm helm-core htmlize company flycheck magit ghub with-editor ivy avy dash org-plus-contrib zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode ws-butler winum white-sand-theme which-key wgrep web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill underwater-theme ujelly-theme typescript-mode twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit tablist symon swiper sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pbcopy password-generator paradox p4 overseer osx-trash osx-dictionary organic-green-theme org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode linum-relative link-hint light-soap-theme launchctl json-mode js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hy-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-make hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md gandalf-theme fuzzy font-lock+ flycheck-pos-tip flycheck-haskell flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elisp-slime-nav editorconfig dumb-jump doom-themes dockerfile-mode docker-tramp django-theme diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-quickhelp company-ghci company-ghc company-cabal company-ansible company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode coffee-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode busybee-theme bundler bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-link ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(font-lock-comment-face ((t (:foreground "#7C6F64" :slant normal))))
+ '(font-lock-function-name-face ((t (:foreground "DarkTurquoise"))))
+ '(font-lock-string-face ((t (:background "#202d2d"))))
+ '(linum ((t (:background "#171717"))))
+ '(linum-relative-current-face ((t (:inherit (shadow default) :background "#3C3836" :foreground "#ff0000")))))
 )
