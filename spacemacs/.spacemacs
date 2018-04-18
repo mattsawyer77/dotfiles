@@ -392,7 +392,7 @@
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -511,7 +511,8 @@
 
   (spacemacs/set-leader-keys-for-major-mode 'haskell-mode
     "=" 'hindent-reformat-buffer)
-  ;; (spacemacs/toggle-line-numbers-on)
+  (add-hook 'prog-mode-hook 'display-line-numbers--turn-on)
+  (add-hook 'text-mode-hook 'display-line-numbers--turn-on)
   (setq-default js2-mode-show-parse-errors nil)
   (setq-default js2-mode-show-strict-warnings nil)
   (setq-default js2-pretty-multiline-declarations 'all)
@@ -545,11 +546,11 @@
 
   ;; requires the theming layer
   (setq theming-modifications '((darktooth
-                                 (linum :background "#171717")
+                                 (line-number :background "#171717")
                                  (font-lock-function-name-face :foreground "#8cb2b0")
                                  (font-lock-string-face :background "#202d2d")
                                  (linum-relative-current-face :inherit (shadow default) :background "#3C3836" :foreground "#ff0000")
-                                 (font-lock-comment-face :slant italic)
+                                 (font-lock-comment-face :slant normal)
                                  )
                                 ))
 
@@ -628,9 +629,5 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-lock-comment-face ((t (:foreground "#7C6F64" :slant normal))))
- '(font-lock-function-name-face ((t (:foreground "DarkTurquoise"))))
- '(font-lock-string-face ((t (:background "#202d2d"))))
- '(linum ((t (:background "#171717"))))
- '(linum-relative-current-face ((t (:inherit (shadow default) :background "#3C3836" :foreground "#ff0000")))))
+ )
 )
