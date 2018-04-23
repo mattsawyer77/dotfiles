@@ -92,7 +92,7 @@
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path editorconfig p4 doom-themes angular-snippets)
+   dotspacemacs-additional-packages '(nodejs-repl add-node-modules-path editorconfig p4 doom-themes angular-snippets dimmer)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -530,6 +530,7 @@
   ;; TODO: make the following work to prevent indenting hanging chained function calls
   ;; (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
   (editorconfig-mode 1)
+  (dimmer-mode 1)
   ;; TODO: when https://github.com/syl20bnr/spacemacs/issues/10290 is fixed, hopefully the following line can be removed
   (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
 
