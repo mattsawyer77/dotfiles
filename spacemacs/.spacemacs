@@ -467,6 +467,19 @@
     configuration.
     It is mostly for variables that should be set before packages are loaded.
     If you are unsure, try setting them in `dotspacemacs/user-config' first."
+
+  (setq theming-modifications '((darktooth
+                                 (line-number :background "#1e1e1e"
+                                              :foreground "#333333")
+                                 (fringe :background "#1e1e1e")
+                                 (font-lock-function-name-face :foreground "#8cb2b0")
+                                 (font-lock-string-face :background "#202d2d")
+                                 (linum-relative-current-face :inherit (shadow default)
+                                                              :background "#3C3836"
+                                                              :foreground "#ff0000")
+                                 (font-lock-comment-face :slant normal)
+                                 )
+                                ))
   )
 
 (defun dotspacemacs/user-config ()
@@ -511,14 +524,16 @@
 
   (spacemacs/set-leader-keys-for-major-mode 'haskell-mode
     "=" 'hindent-reformat-buffer)
-  (add-hook 'prog-mode-hook 'display-line-numbers--turn-on)
-  (add-hook 'text-mode-hook 'display-line-numbers--turn-on)
   (setq-default js2-mode-show-parse-errors nil)
   (setq-default js2-mode-show-strict-warnings nil)
   (setq-default js2-pretty-multiline-declarations 'all)
-  (add-hook 'js2-mode-hook
-            (lambda()
-              (electric-indent-mode -1)))
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (add-hook 'js2-mode-hook 'display-line-numbers-mode)
+  (add-hook 'emacs-lisp-mode-hook 'display-line-numbers-mode)
+  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+  ;; (add-hook 'js2-mode-hook
+  ;;           (lambda()
+  ;;             (electric-indent-mode -1)))
 
   (add-hook 'less-css-mode-hook 'rainbow-mode)
 
@@ -544,17 +559,6 @@
 
   (spacemacs-buffer/insert-startup-lists)
   (setq mac-mouse-wheel-smooth-scroll nil)
-
-  ;; requires the theming layer
-  (setq theming-modifications '((darktooth
-                                 (line-number :background "#171717")
-                                 (font-lock-function-name-face :foreground "#8cb2b0")
-                                 (font-lock-string-face :background "#202d2d")
-                                 (linum-relative-current-face :inherit (shadow default) :background "#3C3836" :foreground "#ff0000")
-                                 (font-lock-comment-face :slant normal)
-                                 )
-                                ))
-
   ;; (custom-set-faces
   ;;  '(linum ((t (:background "gray10" :foreground "gray40")))))
   ;; TODO: make the following work:
@@ -624,11 +628,16 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode tide pyvenv dracula-theme docker dante lcr counsel helm helm-core htmlize company flycheck magit ghub with-editor ivy avy dash org-plus-contrib zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode ws-butler winum white-sand-theme which-key wgrep web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill underwater-theme ujelly-theme typescript-mode twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit tablist symon swiper sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pbcopy password-generator paradox p4 overseer osx-trash osx-dictionary organic-green-theme org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode linum-relative link-hint light-soap-theme launchctl json-mode js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hy-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-make hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md gandalf-theme fuzzy font-lock+ flycheck-pos-tip flycheck-haskell flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elisp-slime-nav editorconfig dumb-jump doom-themes dockerfile-mode docker-tramp django-theme diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-quickhelp company-ghci company-ghc company-cabal company-ansible company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode coffee-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode busybee-theme bundler bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-link ac-ispell))))
+    (yasnippet-snippets doom-themes docker magit flycheck org-plus-contrib evil zenburn-theme zen-and-art-theme yapfify yaml-mode ws-butler winum white-sand-theme which-key wgrep web-mode web-beautify volatile-highlights uuidgen use-package unfill undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit tablist symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pbcopy password-generator paradox p4 overseer osx-trash osx-dictionary organic-green-theme org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme launchctl json-mode js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hy-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme goto-chg gotham-theme google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ ghub gh-md gandalf-theme fuzzy font-lock+ flycheck-pos-tip flycheck-haskell flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elisp-slime-nav editorconfig dumb-jump dracula-theme dockerfile-mode docker-tramp django-theme dimmer diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dante dakrone-theme cython-mode cyberpunk-theme counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-quickhelp company-ghci company-ghc company-cabal company-ansible company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode coffee-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode busybee-theme bundler bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-link ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(font-lock-comment-face ((t (:slant normal))))
+ '(font-lock-function-name-face ((t (:foreground "#8cb2b0"))))
+ '(font-lock-string-face ((t (:background "#202d2d"))))
+ '(fringe ((t (:background "#1e1e1e"))))
+ '(line-number ((t (:background "#1e1e1e" :foreground "#333333"))))
+ '(linum-relative-current-face ((t (:inherit (shadow default) :background "#3C3836" :foreground "#ff0000")))))
 )
