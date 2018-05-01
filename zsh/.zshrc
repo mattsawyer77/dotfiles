@@ -105,11 +105,19 @@ tmux-color-command () {
     local command="$1"
     local hostname="$2"
     local style="$3"
-    already_created=$(tmux list-windows | grep $hostname)
-    if [[ -z $already_created ]]; then
-        tmux new-window -n $hostname "$command $hostname"
-    fi
-    tmux select-window -t $hostname && tmux select-pane -P $style
+    local windowname="$hostname"
+    local unique=false
+    local i=0
+    while ! $unique; do
+        i=$(expr $i + 1)
+        windowname="${hostname}-$i"
+        already_created=$(tmux list-windows | grep "$windowname")
+        if [[ -z "$already_created" ]]; then
+            unique=true
+            tmux new-window -n "$windowname" "$command $hostname"
+            tmux select-window -t "$windowname" && tmux select-pane -P "$style"
+        fi
+    done
 }
 
 p4clientRoot () {
