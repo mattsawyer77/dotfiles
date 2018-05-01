@@ -52,7 +52,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git perforce tmux vi-mode gulp zsh-syntax-highlighting docker docker-compose stack)
+plugins=(git perforce tmux vi-mode gulp docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,7 +83,7 @@ alias ts='tmux new-session -n main -s'
 
 # TMUX remote server aliases that customize background color
 export DEFAULT_BACKGROUND_COLOR="$(pcregrep '^\s*background:' ~/dotfiles/alacritty/alacritty.yml | head -1 | cut -d\' -f2 | sed 's/0x/#/')"
-alias bigiq1="tmux-color-command ssh bigiq1 'bg=#476353 fg=#e3ebe7'"
+alias bigiq1="tmux-color-command ssh bigiq1 'bg=#58825c fg=#e3ebe7'"
 alias bigiq2="tmux-color-command ssh bigiq2 'bg=#d8d19e fg=#3f4422'"
 alias sawyer-dev="tmux-color-command mosh sawyer-dev 'bg=#161e23 fg=#bac9cc'"
 DISABLE_AUTO_TITLE=true
@@ -97,9 +97,6 @@ bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
 
 ulimit -n 4096
-
-# powerline-daemon -q
-# source $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
 
 tmux-color-command () {
     local command="$1"
