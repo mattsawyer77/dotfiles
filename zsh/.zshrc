@@ -1,4 +1,10 @@
 #!/usr/bin/env zsh
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose false
+zstyle :compinstall filename "$HOME/.zshrc"
+
+autoload -Uz compinit
+compinit
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
