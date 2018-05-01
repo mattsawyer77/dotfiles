@@ -40,6 +40,6 @@ export GOPATH=~/gocode
 # export EDITOR='mvim -f --nomru -c "au VimLeave * !open -a Terminal"'
 export EDITOR='emacsclient -nw'
 export LESS='-F -g -i -M -r -w -X -z-4'
-export TERM=xterm-256color
+export TERM=xterm-24bit
 export XDG_DATA_HOME=~/.local/share
 export XDG_CONFIG_HOME=~/.config
