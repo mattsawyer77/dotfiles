@@ -14,26 +14,16 @@ inoremap jk <ESC>
 " nnoremap <C-x> :bd<CR>
 nnoremap <C-x> :Bdelete<CR>
 noremap <C-s> :w<CR>
-<<<<<<< HEAD
-nnoremap <tab> >>
-nnoremap <S-Tab> <<
-vnoremap <tab> >gv
-vnoremap <S-Tab> <gv
 " nnoremap <F7> :lw<CR>
 nnoremap <F8> :NERDTree<CR>
 nnoremap <F9> :NERDTreeFind<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :CycleColorRefresh<CR> \| :echo colors_name<CR>
 nnoremap <F5> :redir >> /tmp/vim_colors_selected.txt \| :echo colors_name \| redir END<CR>
-nnoremap <leader>[ :bp<CR>
-nnoremap <leader>] :bn<CR>
-nmap <D-w> :CommandW<CR>
-imap <D-w> <Esc>:CommandW<CR>
-vmap v <Plug>(expand_region_expand)
-vmap V <Plug>(expand_region_shrink)
-nmap <leader><space> :CtrlPMRUFiles<CR>
-nmap <leader><enter> :CtrlPBuffer<CR>
-nmap <leader>t :CtrlPTag<CR>
-nnoremap <Esc> :noh<CR>
+nnoremap <D-w> :CommandW<CR>
+inoremap <D-w> <Esc>:CommandW<CR>
+vnoremap v <Plug>(expand_region_expand)
+vnoremap V <Plug>(expand_region_shrink)
+nnoremap <Esc> :silent! noh<CR>
 
 " terminal mappings
 :tnoremap <Esc> <C-\><C-n>
@@ -112,23 +102,6 @@ nnoremap <leader>f /function\s\+
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " copy/paste to system clipboard
-" vnoremap <leader>c "+y
-" nnoremap <leader>v "+p
-" vnoremap <leader>c ""y
-" nnoremap <leader>v ""p
-" vnoremap <leader>c :Oscyank<CR>
-vnoremap <leader>c :call SendPasteBufferToOSX()<CR>
-nnoremap <leader>v :call GetPasteBufferFromOSX()<CR>
-
-inoremap « λ
-
-" ALE
-nmap <silent> ˚ <Plug>(ale_previous_wrap)
-nmap <silent> ∆ <Plug>(ale_next_wrap)
-nmap <silent> <f7> <Plug>(ale_next_wrap)
-
-" Mundo
-nnoremap <leader>r :CtrlPMRUFiles<CR>
 vnoremap <leader>c "+y
 nnoremap <leader>v "+p
 " vnoremap <leader>c ""y
