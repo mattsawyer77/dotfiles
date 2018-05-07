@@ -33,7 +33,8 @@
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(ansible
+   '(lua
+     ansible
      python
      typescript
      nginx
