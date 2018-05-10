@@ -43,6 +43,7 @@ ln -sf ~/dotfiles/vim/settings.vim ~/.config/nvim/settings.vim
 # spacemacs
 echo 'installing spacemacs configuration...'
 ln -sf ~/dotfiles/spacemacs/.spacemacs ~/.spacemacs
+ln -sf ~/dotfiles/spacemacs/doom-peacock-matt-theme.el ~/.emacs.d/doom-peacock-matt-theme.el
 
 # tmux
 echo 'installing tmux configuration...'
