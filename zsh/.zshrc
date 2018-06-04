@@ -1,4 +1,10 @@
 #!/usr/bin/env zsh
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose false
+zstyle :compinstall filename "$HOME/.zshrc"
+
+autoload -Uz compinit
+compinit
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -52,7 +58,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git perforce brew node npm tmux vi-mode gulp zsh-syntax-highlighting docker docker-compose stack)
+plugins=(git perforce tmux vi-mode gulp docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,7 +89,7 @@ alias ts='tmux new-session -n main -s'
 
 # TMUX remote server aliases that customize background color
 export DEFAULT_BACKGROUND_COLOR="$(pcregrep '^\s*background:' ~/dotfiles/alacritty/alacritty.yml | head -1 | cut -d\' -f2 | sed 's/0x/#/')"
-alias bigiq1="tmux-color-command ssh bigiq1 'bg=#476353 fg=#e3ebe7'"
+alias bigiq1="tmux-color-command ssh bigiq1 'bg=#58825c fg=#e3ebe7'"
 alias bigiq2="tmux-color-command ssh bigiq2 'bg=#d8d19e fg=#3f4422'"
 alias sawyer-dev="tmux-color-command mosh sawyer-dev 'bg=#161e23 fg=#bac9cc'"
 DISABLE_AUTO_TITLE=true
@@ -98,18 +104,23 @@ bindkey '^N' history-search-forward
 
 ulimit -n 4096
 
-# powerline-daemon -q
-# source $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
-
 tmux-color-command () {
     local command="$1"
     local hostname="$2"
     local style="$3"
-    already_created=$(tmux list-windows | grep $hostname)
-    if [[ -z $already_created ]]; then
-        tmux new-window -n $hostname "$command $hostname"
-    fi
-    tmux select-window -t $hostname && tmux select-pane -P $style
+    local windowname="$hostname"
+    local unique=false
+    local i=0
+    while ! $unique; do
+        i=$(expr $i + 1)
+        windowname="${hostname}-$i"
+        already_created=$(tmux list-windows | grep "$windowname")
+        if [[ -z "$already_created" ]]; then
+            unique=true
+            tmux new-window -n "$windowname" "$command $hostname"
+            tmux select-window -t "$windowname" && tmux select-pane -P "$style"
+        fi
+    done
 }
 
 p4clientRoot () {
