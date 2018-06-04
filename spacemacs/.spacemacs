@@ -40,7 +40,9 @@ This function should only modify configuration layer settings."
      nginx
      ruby
      html
-     javascript
+     tern
+     (javascript :variables javascript-backend 'tern)
+     ;; (javascript :variables javascript-backend 'lsp)
      osx
      docker
      ;; ----------------------------------------------------------------
@@ -49,6 +51,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
+     ;; lsp
      ;; helm
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
@@ -72,7 +75,6 @@ This function should only modify configuration layer settings."
      syntax-checking
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
      html
-     javascript
      racket
      (haskell :variables
               haskell-completion-backend 'intero
@@ -118,6 +120,25 @@ It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
+   ;; If non-nil then enable support for the portable dumper. You'll need
+   ;; to compile Emacs 27 from source following the instructions in file
+   ;; EXPERIMENTAL.org at to root of the git repository.
+   ;; (default nil)
+   dotspacemacs-enable-emacs-pdumper nil
+
+   ;; File path pointing to emacs 27.1 executable compiled with support
+   ;; for the portable dumper (this is currently the branch pdumper).
+   ;; (default "emacs-27.0.50")
+   dotspacemacs-emacs-pdumper-executable-file "emacs-27.0.50"
+
+   ;; Name of the Spacemacs dump file. This is the file will be created by the
+   ;; portable dumper in the cache directory under dumps sub-directory.
+   ;; To load it when starting Emacs add the parameter `--dump-file'
+   ;; when invoking Emacs 27.1 executable on the command line, for instance:
+   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
+   ;; (default spacemacs.pdmp)
+   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
+
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
    ;; environment, otherwise it is strongly recommended to let it set to t.
@@ -372,7 +393,6 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-show-transient-state-color-guide t
 
    ;; If non-nil unicode symbols are displayed in the mode line. (default t)
-   ;; dotspacemacs-mode-line-unicode-symbols t
    dotspacemacs-mode-line-unicode-symbols t
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
@@ -485,6 +505,13 @@ It should only modify the values of Spacemacs settings."
                                 ))
   )
 
+(defun dotspacemacs/user-load ()
+  "Library to load while dumping.
+This function is called while dumping Spacemacs configuration. You can
+`require' or `load' the libraries of your choice that will be included
+in the dump."
+  )
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
     This function is called at the very end of Spacemacs startup, after layer
@@ -548,7 +575,7 @@ It should only modify the values of Spacemacs settings."
   ;; TODO: make the following work to prevent indenting hanging chained function calls
   ;; (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
   (editorconfig-mode 1)
-  (dimmer-mode 1)
+  ;; (dimmer-mode 1)
   ;; TODO: when https://github.com/syl20bnr/spacemacs/issues/10290 is fixed, hopefully the following line can be removed
   (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
 
@@ -562,6 +589,64 @@ It should only modify the values of Spacemacs settings."
 
   (spacemacs-buffer/insert-startup-lists)
   (setq mac-mouse-wheel-smooth-scroll nil)
+
+  ;; make flycheck window auto-resize (with a max height of 15 lines)
+  (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
+    ad-do-it
+    (-when-let (window (flycheck-get-error-list-window t))
+      (with-selected-window window
+        (fit-window-to-buffer window 15))))
+
+  ;; attempt to disable js2 mode's overreach and let flycheck work instead
+  (add-hook 'js2-init-hook
+            '(lambda ()
+               (setq next-error-function 'flycheck-next-error)
+               (setq previous-error-function 'flycheck-previous-error)
+               )
+            )
+
+  ;; enable LSP (TODO: remove when lsp-javascript-typescript is fixed)
+  ;; (require 'lsp-mode)
+  ;; (require 'typescript-mode)
+
+  ;; (defconst lsp-javascript-typescript--get-root
+  ;;   (lsp-make-traverser #'(lambda (dir)
+  ;;                           (directory-files dir nil "package.json"))))
+
+  ;; (defun lsp-javascript-typescript--render-string (str)
+  ;;   (ignore-errors
+  ;;     (with-temp-buffer
+  ;;       (typescript-mode)
+  ;;       (insert str)
+  ;;       (font-lock-ensure)
+  ;;       (buffer-string))))
+
+  ;; (defun lsp-javascript-typescript--initialize-client (client)
+  ;;   (lsp-provide-marked-string-renderer
+  ;;    client "typescript" 'lsp-javascript-typescript--render-string)
+  ;;   (lsp-provide-marked-string-renderer
+  ;;    client "javascript" 'lsp-javascript-typescript--render-string))
+
+  ;; (lsp-define-stdio-client lsp-javascript-typescript "javascript"
+  ;;                          lsp-javascript-typescript--get-root '("javascript-typescript-stdio")
+  ;;                          :ignore-messages '("readFile .*? requested by TypeScript but content not available")
+  ;;                          :initialize 'lsp-javascript-typescript--initialize-client)
+
+  ;; (provide 'lsp-javascript-typescript)
+  ;; end of LSP javascript stuff
+
+  ;; (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
+
+  ;; temporary workaround for LSP engine not handling the completion prefix
+  ;; (defun my-company-transformer (candidates)
+  ;;   (let ((completion-ignore-case t))
+  ;;     (all-completions (company-grab-symbol) candidates)))
+
+  ;; (defun my-js-hook nil
+  ;;   (make-local-variable 'company-transformers)
+  ;;   (push 'my-company-transformer company-transformers))
+
+  ;; (add-hook 'js-mode-hook 'my-js-hook)
   ;; (custom-set-faces
   ;;  '(linum ((t (:background "gray10" :foreground "gray40")))))
   ;; TODO: make the following work:
@@ -631,7 +716,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yasnippet-snippets treemacs-projectile treemacs-evil treemacs solarized-theme hy-mode emmet-mode editorconfig dumb-jump doom-themes color-identifiers-mode auto-yasnippet alect-themes counsel projectile magit magit-popup spaceline ivy org-plus-contrib evil hydra zenburn-theme zen-and-art-theme yapfify yaml-mode ws-butler winum white-sand-theme which-key wgrep web-mode web-beautify volatile-highlights uuidgen use-package unfill undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon swiper sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme prettier-js powerline popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme pfuture persp-mode pbcopy password-generator paradox p4 overseer osx-trash osx-dictionary organic-green-theme org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme launchctl js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete ht hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme goto-chg gotham-theme google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ ghub gh-md gandalf-theme fuzzy font-lock+ flycheck-pos-tip flycheck-haskell flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme elisp-slime-nav dracula-theme dockerfile-mode docker django-theme dimmer diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dante dakrone-theme cython-mode cyberpunk-theme counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-quickhelp company-lua company-ghci company-ghc company-cabal company-ansible company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized coffee-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode busybee-theme bundler bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme badwolf-theme auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets ample-zen-theme ample-theme aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ac-ispell))))
+    (prettier-js p4 nodejs-repl dimmer company-anaconda angular-snippets anaconda-mode org-plus-contrib zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode ws-butler winum white-sand-theme which-key wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pbcopy password-generator paradox overseer osx-trash osx-dictionary organic-green-theme org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-svn magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme launchctl kaolin-themes json-navigator js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-make hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md gandalf-theme fuzzy font-lock+ flycheck-pos-tip flycheck-haskell flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elisp-slime-nav editorconfig dumb-jump dracula-theme doom-themes dockerfile-mode docker django-theme diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dante dakrone-theme cython-mode cyberpunk-theme counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-quickhelp company-lua company-ghci company-ghc company-cabal company-ansible column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode busybee-theme bundler bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
