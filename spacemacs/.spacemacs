@@ -40,7 +40,9 @@ This function should only modify configuration layer settings."
      nginx
      ruby
      html
-     javascript
+     tern
+     (javascript :variables javascript-backend 'tern)
+     ;; (javascript :variables javascript-backend 'lsp)
      osx
      docker
      ;; ----------------------------------------------------------------
@@ -49,6 +51,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
+     ;; lsp
      ;; helm
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
@@ -72,7 +75,6 @@ This function should only modify configuration layer settings."
      syntax-checking
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
      html
-     javascript
      racket
      (haskell :variables
               haskell-completion-backend 'intero
@@ -118,6 +120,25 @@ It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
+   ;; If non-nil then enable support for the portable dumper. You'll need
+   ;; to compile Emacs 27 from source following the instructions in file
+   ;; EXPERIMENTAL.org at to root of the git repository.
+   ;; (default nil)
+   dotspacemacs-enable-emacs-pdumper nil
+
+   ;; File path pointing to emacs 27.1 executable compiled with support
+   ;; for the portable dumper (this is currently the branch pdumper).
+   ;; (default "emacs-27.0.50")
+   dotspacemacs-emacs-pdumper-executable-file "emacs-27.0.50"
+
+   ;; Name of the Spacemacs dump file. This is the file will be created by the
+   ;; portable dumper in the cache directory under dumps sub-directory.
+   ;; To load it when starting Emacs add the parameter `--dump-file'
+   ;; when invoking Emacs 27.1 executable on the command line, for instance:
+   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
+   ;; (default spacemacs.pdmp)
+   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
+
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
    ;; environment, otherwise it is strongly recommended to let it set to t.
@@ -372,7 +393,6 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-show-transient-state-color-guide t
 
    ;; If non-nil unicode symbols are displayed in the mode line. (default t)
-   ;; dotspacemacs-mode-line-unicode-symbols t
    dotspacemacs-mode-line-unicode-symbols t
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
@@ -485,6 +505,13 @@ It should only modify the values of Spacemacs settings."
                                 ))
   )
 
+(defun dotspacemacs/user-load ()
+  "Library to load while dumping.
+This function is called while dumping Spacemacs configuration. You can
+`require' or `load' the libraries of your choice that will be included
+in the dump."
+  )
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
     This function is called at the very end of Spacemacs startup, after layer
@@ -548,7 +575,7 @@ It should only modify the values of Spacemacs settings."
   ;; TODO: make the following work to prevent indenting hanging chained function calls
   ;; (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
   (editorconfig-mode 1)
-  (dimmer-mode 1)
+  ;; (dimmer-mode 1)
   ;; TODO: when https://github.com/syl20bnr/spacemacs/issues/10290 is fixed, hopefully the following line can be removed
   (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
 
@@ -562,6 +589,64 @@ It should only modify the values of Spacemacs settings."
 
   (spacemacs-buffer/insert-startup-lists)
   (setq mac-mouse-wheel-smooth-scroll nil)
+
+  ;; make flycheck window auto-resize (with a max height of 15 lines)
+  (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
+    ad-do-it
+    (-when-let (window (flycheck-get-error-list-window t))
+      (with-selected-window window
+        (fit-window-to-buffer window 15))))
+
+  ;; attempt to disable js2 mode's overreach and let flycheck work instead
+  (add-hook 'js2-init-hook
+            '(lambda ()
+               (setq next-error-function 'flycheck-next-error)
+               (setq previous-error-function 'flycheck-previous-error)
+               )
+            )
+
+  ;; enable LSP (TODO: remove when lsp-javascript-typescript is fixed)
+  ;; (require 'lsp-mode)
+  ;; (require 'typescript-mode)
+
+  ;; (defconst lsp-javascript-typescript--get-root
+  ;;   (lsp-make-traverser #'(lambda (dir)
+  ;;                           (directory-files dir nil "package.json"))))
+
+  ;; (defun lsp-javascript-typescript--render-string (str)
+  ;;   (ignore-errors
+  ;;     (with-temp-buffer
+  ;;       (typescript-mode)
+  ;;       (insert str)
+  ;;       (font-lock-ensure)
+  ;;       (buffer-string))))
+
+  ;; (defun lsp-javascript-typescript--initialize-client (client)
+  ;;   (lsp-provide-marked-string-renderer
+  ;;    client "typescript" 'lsp-javascript-typescript--render-string)
+  ;;   (lsp-provide-marked-string-renderer
+  ;;    client "javascript" 'lsp-javascript-typescript--render-string))
+
+  ;; (lsp-define-stdio-client lsp-javascript-typescript "javascript"
+  ;;                          lsp-javascript-typescript--get-root '("javascript-typescript-stdio")
+  ;;                          :ignore-messages '("readFile .*? requested by TypeScript but content not available")
+  ;;                          :initialize 'lsp-javascript-typescript--initialize-client)
+
+  ;; (provide 'lsp-javascript-typescript)
+  ;; end of LSP javascript stuff
+
+  ;; (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
+
+  ;; temporary workaround for LSP engine not handling the completion prefix
+  ;; (defun my-company-transformer (candidates)
+  ;;   (let ((completion-ignore-case t))
+  ;;     (all-completions (company-grab-symbol) candidates)))
+
+  ;; (defun my-js-hook nil
+  ;;   (make-local-variable 'company-transformers)
+  ;;   (push 'my-company-transformer company-transformers))
+
+  ;; (add-hook 'js-mode-hook 'my-js-hook)
   ;; (custom-set-faces
   ;;  '(linum ((t (:background "gray10" :foreground "gray40")))))
   ;; TODO: make the following work:
