@@ -58,7 +58,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git perforce tmux vi-mode gulp docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git kubectl perforce tmux vi-mode gulp docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -89,9 +89,12 @@ alias ts='tmux new-session -n main -s'
 
 # TMUX remote server aliases that customize background color
 export DEFAULT_BACKGROUND_COLOR="$(pcregrep '^\s*background:' ~/dotfiles/alacritty/alacritty.yml | head -1 | cut -d\' -f2 | sed 's/0x/#/')"
-alias bigiq1="tmux-color-command ssh bigiq1 'bg=#58825c fg=#e3ebe7'"
-alias bigiq2="tmux-color-command ssh bigiq2 'bg=#d8d19e fg=#3f4422'"
-alias sawyer-dev="tmux-color-command mosh sawyer-dev 'bg=#161e23 fg=#bac9cc'"
+alias bigiq1="TERM=xterm-256color tmux-color-command bigiq1 'bg=#58825c fg=#e3ebe7' ssh"
+alias bigiq2="TERM=xterm-256color tmux-color-command bigiq2 'bg=#d8d19e fg=#3f4422' ssh"
+alias bigip2="TERM=xterm-256color tmux-color-command bigip2"
+alias bigiq3="TERM=xterm-256color tmux-color-command bigiq3"
+alias sawyer-dev="TERM=xterm-256color tmux-color-command sawyer-dev 'bg=#161e23 fg=#bac9cc' mosh --no-init --"
+alias seadev02="TERM=xterm-256color tmux-color-command seadev02 'bg=#161e53 fg=#bac9cc' mosh --no-init --"
 DISABLE_AUTO_TITLE=true
 
 bindkey -v
@@ -105,9 +108,11 @@ bindkey '^N' history-search-forward
 ulimit -n 4096
 
 tmux-color-command () {
-    local command="$1"
-    local hostname="$2"
-    local style="$3"
+    set -x
+    local hostname="$1"
+    shift
+    local style="$1"
+    shift
     local windowname="$hostname"
     local unique=false
     local i=0
@@ -117,7 +122,7 @@ tmux-color-command () {
         already_created=$(tmux list-windows | grep "$windowname")
         if [[ -z "$already_created" ]]; then
             unique=true
-            tmux new-window -n "$windowname" "$command $hostname"
+            tmux new-window -n "$windowname" $@ "$hostname"
             tmux select-window -t "$windowname" && tmux select-pane -P "$style"
         fi
     done
