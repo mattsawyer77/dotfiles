@@ -18,8 +18,29 @@ export ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="avit-p4"
 # ZSH_THEME=mh
 # ZSH_THEME=muse
-ZSH_THEME=sawyer
+# ZSH_THEME=sawyer
 # ZSH_THEME=fishy
+ZSH_THEME="powerlevel9k/powerlevel9k"
+P9K_LEFT_PROMPT_ELEMENTS=(dir)
+P9K_RIGHT_PROMPT_ELEMENTS=(status nvm vcs)
+P9K_DIR_SHORTEN_LENGTH=1
+P9K_DIR_SHORTEN_DELIMITER=""
+P9K_DIR_SHORTEN_STRATEGY="truncate_from_right"
+P9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
+# P9K_VCS_GIT_HOOKS=(vcs-detect-changes)
+P9K_DIR_HOME_BACKGROUND="grey30"
+P9K_DIR_HOME_SUBFOLDER_BACKGROUND="grey30"
+P9K_DIR_DEFAULT_BACKGROUND="grey30"
+P9K_DIR_ETC_BACKGROUND="grey30"
+P9K_DIR_HOME_FOREGROUND="lightcyan1"
+P9K_DIR_HOME_SUBFOLDER_FOREGROUND="lightcyan1"
+P9K_DIR_DEFAULT_FOREGROUND="lightcyan1"
+P9K_DIR_ETC_FOREGROUND="lightcyan1"
+P9K_VCS_CLEAN_BACKGROUND='lightcyan1'
+P9K_VCS_UNTRACKED_BACKGROUND='lightblue'
+P9K_VCS_MODIFIED_BACKGROUND='yellow'
+P9K_NVM_BACKGROUND='grey30'
+P9K_NVM_FOREGROUND='chartreuse1'
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -58,7 +79,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git kubectl perforce tmux vi-mode gulp docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(aws git kubectl tmux vi-mode docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,9 +104,11 @@ alias p4cl='p4 opened 2>&1 | grep change | pcregrep -v "default change|change de
 alias glo='git log --format="%C(auto,yellow)%<(20)%cr%C(auto,cyan) %s"'
 alias glocl='git log --format="%s"'
 alias vim=nvim
+alias elm-repl="elm repl"
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
 alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias ts='tmux new-session -n main -s'
+alias bat='bat --theme 1337'
 
 # TMUX remote server aliases that customize background color
 export DEFAULT_BACKGROUND_COLOR="$(pcregrep '^\s*background:' ~/dotfiles/alacritty/alacritty.yml | head -1 | cut -d\' -f2 | sed 's/0x/#/')"
@@ -259,3 +282,6 @@ source $HOME/.cargo/env
 
 # tokens
 source $HOME/tokens
+
+# OPAM configuration
+# . /Users/sawyer/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
