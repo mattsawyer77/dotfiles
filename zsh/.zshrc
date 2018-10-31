@@ -83,6 +83,7 @@ alias p4cl='p4 opened 2>&1 | grep change | pcregrep -v "default change|change de
 alias glo='git log --format="%C(auto,yellow)%<(20)%cr%C(auto,cyan) %s"'
 alias glocl='git log --format="%s"'
 alias vim=nvim
+alias em='emacsclient -nw'
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
 alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias ts='tmux new-session -n main -s'
