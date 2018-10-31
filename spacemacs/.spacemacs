@@ -288,8 +288,7 @@ It should only modify the values of Spacemacs settings."
    ;;                             :powerline-scale 1.5)
    dotspacemacs-default-font '("Input"
                                :size 21
-                               :weight Medium
-                               :width normal
+                               :weight normal
                                :powerline-scale 1.5)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
@@ -671,9 +670,6 @@ dump."
 
   ;; (add-to-list 'load-path "~/.emacs.d/lsp-javascript")
 
-  ;; TODO: what is the following trying to do? it doesn't appear to work...
-  ;; (if (fboundp 'mac-auto-operator-composition-mode) (mac-auto-operator-composition-mode))
-
   ;; enable LSP (TODO: remove when lsp-javascript-typescript is fixed)
   ;; (require 'lsp-mode)
   ;; (require 'typescript-mode)
@@ -717,25 +713,8 @@ dump."
 
   ;; (add-hook 'js-mode-hook 'my-js-hook)
 
-  ;; (custom-set-faces
-  ;;  '(linum ((t (:background "gray10" :foreground "gray40")))))
-  ;; TODO: make the following work:
-  ;; (defun goto-file ()
-  ;;   "open file under cursor"
-  ;;   (interactive)
-  ;;   (find-file
-  ;;    (shell-command-to-string
-  ;;     (concat "locate " (current-word) "|head -c -1" ))))
-
-  ;; (add-hook 'after-make-frame-functions
-  ;;           (lambda ()
-  ;;             (if window-system
-  ;;               (progn
-  ;;                 (setq interprogram-cut-function 'paste-to-osx)
-  ;;                 (setq interprogram-paste-function 'copy-from-osx))
-  ;;               )))
-
-  (mac-auto-operator-composition-mode)
+  ;; enable ligatures (only works with railwaycat emacs)
+  ;; (mac-auto-operator-composition-mode)
 
   ;;----------------------------------------------------------------------------
   ;; Reason setup
@@ -841,55 +820,41 @@ dump."
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
-   '(zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode ws-butler writeroom-mode visual-fill-column winum white-sand-theme wgrep web-mode web-beautify volatile-highlights vmd-mode uuidgen utop unfill underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tuareg caml treemacs-projectile treemacs-evil treemacs pfuture toxi-theme toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spaceline powerline spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode psci purescript-mode psc-ide professional-theme prettier-js popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode password-generator paren-face paradox overseer osx-trash osx-dictionary orgit organic-green-theme org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file omtose-phellack-theme oldlace-theme ocp-indent oceanic-theme occidental-theme obsidian-theme nvm noflet nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mvn mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme meghanada maven-test-mode material-theme markdown-toc majapahit-theme magit-svn magit-gitflow madhat2r-theme macrostep lush-theme lsp-ui lsp-python lsp-javascript-typescript typescript-mode lsp-java ht markdown-mode lsp-go lorem-ipsum livid-mode skewer-mode live-py-mode link-hint light-soap-theme launchctl kubernetes-evil kubernetes kaolin-themes json-navigator hierarchy js2-refactor multiple-cursors js2-mode js-doc jinja2-mode jbeans-theme jazz-theme ivy-yasnippet ivy-xref ivy-purpose window-purpose imenu-list ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic epc ctable concurrent deferred impatient-mode simple-httpd ibuffer-projectile hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation heroku-theme hemisu-theme hc-zenburn-theme haskell-snippets haml-mode gruvbox-theme gruber-darker-theme groovy-mode groovy-imports pcache grandshell-theme gradle-mode gotham-theme google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md gandalf-theme fuzzy fsharp-mode flycheck-pos-tip flycheck-ocaml merlin flycheck-jest flycheck-haskell flycheck-elm flycheck-bashate flx-ido flx flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub treepy graphql with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu espresso-theme ensime sbt-mode scala-mode emmet-mode elm-test-runner elm-mode elisp-slime-nav editorconfig dumb-jump dracula-theme doom-themes doom-modeline eldoc-eval shrink-path all-the-icons memoize dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat django-theme dimmer diff-hl darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dante lcr flycheck dakrone-theme cython-mode cyberpunk-theme csv-mode counsel-projectile projectile counsel-css counsel swiper ivy company-web web-completion-data company-terraform terraform-mode hcl-mode company-tern dash-functional tern company-statistics company-shell company-quickhelp pos-tip company-plsense company-lua lua-mode company-lsp lsp-mode company-go go-mode company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-ansible company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode cmm-mode clues-theme clojure-snippets clojure-cheatsheet helm helm-core clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman spinner queue pkg-info clojure-mode epl chruby cherry-blossom-theme centered-cursor-mode busybee-theme bundler inf-ruby bubbleberry-theme browse-at-remote bliss-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets anaconda-mode pythonic f dash s ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-window ace-link avy ac-ispell auto-complete popup which-key use-package pcre2el org-plus-contrib hydra font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))
- '(pdf-view-midnight-colors '("#FDF4C1" . "#282828"))
- '(pos-tip-background-color "#36473A")
- '(pos-tip-foreground-color "#FFFFC8")
- '(psc-ide-add-import-on-completion t t)
- '(psc-ide-rebuild-on-save nil t)
- '(sh-basic-offset 2)
- '(treemacs-collapse-dirs 3)
- '(treemacs-filewatch-mode t)
- '(treemacs-follow-after-init t)
- '(treemacs-follow-mode t)
- '(treemacs-fringe-indicator-mode t)
- '(treemacs-git-mode 'deferred)
- '(treemacs-space-between-root-nodes nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(font-lock-comment-face ((t (:slant normal))))
- '(font-lock-function-name-face ((t (:foreground "#8cb2b0"))))
- '(font-lock-string-face ((t (:background "#202d2d"))))
- '(fringe ((t (:background "#1e1e1e"))))
- '(hl-line ((t (:background "#3a2933"))))
- '(line-number ((t (:background "#1e1e1e" :foreground "#333333"))))
- '(linum-relative-current-face ((t (:inherit (shadow default) :background "#3C3836" :foreground "#ff0000"))))
- '(treemacs-directory-face ((t (:foreground "#c5c8c6" :height 0.7 :family "Fira Sans"))))
- '(treemacs-file-face ((t (:foreground "#c5c8c6" :height 0.7 :family "Fira Sans"))))
- '(treemacs-fringe-indicator-face ((t (:foreground "DarkGoldenrod2" :family "Fira Sans"))))
- '(treemacs-git-added-face ((t (:foreground "#b5bd68" :family "Fira Sans"))))
- '(treemacs-git-conflict-face ((t (:foreground "#cc6666" :family "Fira Sans"))))
- '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "Fira Sans"))))
- '(treemacs-git-modified-face ((t (:foreground "#b294bb" :family "Fira Sans"))))
- '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "Fira Sans"))))
- '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "Fira Sans"))))
- '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "Fira Sans"))))
- '(treemacs-help-title-face ((t (:inherit spacemacs-transient-state-title-face :family "Fira Sans"))))
- '(treemacs-on-failure-pulse-face ((t (:background "#ab3737" :foreground "#111111" :family "Fira Sans"))))
- '(treemacs-on-success-pulse-face ((t (:background "#669966" :foreground "#111111" :family "Fira Sans"))))
- '(treemacs-root-face ((t (:inherit font-lock-string-face :weight semi-bold :height 1.0 :family "Fira Sans"))))
- '(treemacs-tags-face ((t (:foreground "#41728e" :height 0.6 :family "Fira Sans")))))
+  This is an auto-generated function, do not modify its content directly, use
+  Emacs customize menu instead.
+  This function is called at the very end of Spacemacs initialization."
+  (custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  )
+  (custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  '(treemacs-collapse-dirs 3)
+  '(treemacs-filewatch-mode t)
+  '(treemacs-follow-after-init t)
+  '(treemacs-follow-mode t)
+  '(treemacs-fringe-indicator-mode t)
+  '(treemacs-git-mode 'deferred)
+  '(treemacs-space-between-root-nodes nil)
+  '(treemacs-directory-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
+  '(treemacs-file-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
+  '(treemacs-fringe-indicator-face ((t (:foreground "DarkGoldenrod2" :family "Fira Sans"))))
+  '(treemacs-git-added-face ((t (:foreground "#b5bd68" :family "Fira Sans"))))
+  '(treemacs-git-conflict-face ((t (:foreground "#cc6666" :family "Fira Sans"))))
+  '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "Fira Sans"))))
+  '(treemacs-git-modified-face ((t (:foreground "#b294bb" :family "Fira Sans"))))
+  '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "Fira Sans"))))
+  '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "Fira Sans"))))
+  '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "Fira Sans"))))
+  '(treemacs-help-title-face ((t (:inherit spacemacs-transient-state-title-face :family "Fira Sans"))))
+  '(treemacs-on-failure-pulse-face ((t (:background "#ab3737" :foreground "#111111" :family "Fira Sans"))))
+  '(treemacs-on-success-pulse-face ((t (:background "#669966" :foreground "#111111" :family "Fira Sans"))))
+  '(treemacs-root-face ((t (:inherit font-lock-string-face :weight semi-bold :height 1.0 :family "Fira Sans"))))
+  '(treemacs-file-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
+  )
 )
