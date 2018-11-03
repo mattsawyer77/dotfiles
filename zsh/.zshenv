@@ -16,12 +16,13 @@ export XDG_DATA_HOME=$HOME/.local/share
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
 export PATH=node_modules/.bin
-export PATH=$PATH:$HOME/.nvm/versions/node/v8.9.4/bin
+export PATH=$PATH:$HOME/.nvm/versions/node/v8.11.3/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.tmuxifier/bin
 export PATH=$PATH:$HOME/.fzf/bin
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.cabal/bin
+export PATH=$PATH:$HOME/Library/Python/2.7/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/bin
