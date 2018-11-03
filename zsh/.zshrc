@@ -285,3 +285,37 @@ source $HOME/tokens
 
 # OPAM configuration
 # . /Users/sawyer/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# k8s
+export K8S_USER=sawyer
+typeset -A contexts
+contexts[dev]="https://api.k8s.dev.srv.f5aas.com"
+contexts[c1:us-east-1:cp:dev]="https://api.c1.us-east-1.aws.cp.dev.f5aas.com"
+contexts[c1:us-east-1:dp:dev]="https://api.c1.us-east-1.aws.dp.dev.f5aas.com"
+contexts[c1:us-west-2:dp:dev]="https://api.c1.us-west-2.aws.dp.dev.f5aas.com"
+contexts[c1:eu-west-2:dp:dev]="https://api.c1.eu-west-2.aws.dp.dev.f5aas.com"
+contexts[c1:eu-central-1:dp:dev]="https://api.c1.eu-central-1.aws.dp.dev.f5aas.com"
+contexts[c1:ap-southeast-1:dp:dev]="https://api.c1.ap-southeast-1.aws.dp.dev.f5aas.com"
+export contexts
+
+switch-context() {
+    setopt verbose
+    local context=$1
+    if [[ -n "$K8S_TOKEN" ]]; then
+        if [[ -n "$context" ]]; then
+            echo "setting up cluster $context: ${contexts[$context]}"
+            kubectl config set-cluster "$context" --server="${contexts[$context]}" --insecure-skip-tls-verify
+            kubectl config set-credentials $K8S_USER --token=$K8S_TOKEN
+            kubectl config set-context "$context" --user=$K8S_USER
+            kubectl config use-context "$context"
+        else
+            echo must specify the context! >&2
+            echo valid contexts:
+            for valid_context url in ${(kv)contexts}; do
+                echo " * $valid_context \t$url"
+            done | sort | column -t
+        fi
+    else
+        echo K8S_TOKEN must be set! >&2
+    fi
+}
