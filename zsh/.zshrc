@@ -79,7 +79,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aws git kubectl tmux vi-mode docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting terraform)
+plugins=(aws git kubectl helm tmux vi-mode docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -109,6 +109,7 @@ alias socks4proxy='ssh -D 8888 -f -C -q -N'
 alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias ts='tmux new-session -n main -s'
 alias bat='bat --theme 1337'
+alias k=kubectl
 
 # TMUX remote server aliases that customize background color
 export DEFAULT_BACKGROUND_COLOR="$(pcregrep '^\s*background:' ~/dotfiles/alacritty/alacritty.yml | head -1 | cut -d\' -f2 | sed 's/0x/#/')"
@@ -285,37 +286,3 @@ source $HOME/tokens
 
 # OPAM configuration
 # . /Users/sawyer/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-
-# k8s
-export K8S_USER=sawyer
-typeset -A contexts
-contexts[dev]="https://api.k8s.dev.srv.f5aas.com"
-contexts[c1:us-east-1:cp:dev]="https://api.c1.us-east-1.aws.cp.dev.f5aas.com"
-contexts[c1:us-east-1:dp:dev]="https://api.c1.us-east-1.aws.dp.dev.f5aas.com"
-contexts[c1:us-west-2:dp:dev]="https://api.c1.us-west-2.aws.dp.dev.f5aas.com"
-contexts[c1:eu-west-2:dp:dev]="https://api.c1.eu-west-2.aws.dp.dev.f5aas.com"
-contexts[c1:eu-central-1:dp:dev]="https://api.c1.eu-central-1.aws.dp.dev.f5aas.com"
-contexts[c1:ap-southeast-1:dp:dev]="https://api.c1.ap-southeast-1.aws.dp.dev.f5aas.com"
-export contexts
-
-switch-context() {
-    setopt verbose
-    local context=$1
-    if [[ -n "$K8S_TOKEN" ]]; then
-        if [[ -n "$context" ]]; then
-            echo "setting up cluster $context: ${contexts[$context]}"
-            kubectl config set-cluster "$context" --server="${contexts[$context]}" --insecure-skip-tls-verify
-            kubectl config set-credentials $K8S_USER --token=$K8S_TOKEN
-            kubectl config set-context "$context" --user=$K8S_USER
-            kubectl config use-context "$context"
-        else
-            echo must specify the context! >&2
-            echo valid contexts:
-            for valid_context url in ${(kv)contexts}; do
-                echo " * $valid_context \t$url"
-            done | sort | column -t
-        fi
-    else
-        echo K8S_TOKEN must be set! >&2
-    fi
-}
