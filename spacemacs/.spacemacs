@@ -357,7 +357,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.7
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -552,6 +552,31 @@ See the header of this file for more information."
                                  (font-lock-string-face :background "#30343c")
                                  )
                                 ))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(treemacs-collapse-dirs 3)
+   '(treemacs-directory-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
+   '(treemacs-file-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
+   '(treemacs-filewatch-mode t)
+   '(treemacs-follow-after-init t)
+   '(treemacs-follow-mode t)
+   '(treemacs-fringe-indicator-face ((t (:foreground "DarkGoldenrod2" :family "Fira Sans"))))
+   '(treemacs-fringe-indicator-mode t)
+   '(treemacs-git-added-face ((t (:foreground "#b5bd68" :family "Fira Sans"))))
+   '(treemacs-git-conflict-face ((t (:foreground "#cc6666" :family "Fira Sans"))))
+   '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "Fira Sans"))))
+   '(treemacs-git-mode 'deferred)
+   '(treemacs-git-modified-face ((t (:foreground "#b294bb" :family "Fira Sans"))))
+   '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "Fira Sans"))))
+   '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "Fira Sans"))))
+   '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "Fira Sans"))))
+   '(treemacs-help-title-face ((t (:inherit spacemacs-transient-state-title-face :family "Fira Sans"))))
+   '(treemacs-on-failure-pulse-face ((t (:background "#ab3737" :foreground "#111111" :family "Fira Sans"))))
+   '(treemacs-on-success-pulse-face ((t (:background "#669966" :foreground "#111111" :family "Fira Sans"))))
+   '(treemacs-root-face ((t (:inherit font-lock-string-face :weight semi-bold :height 1.0 :family "Fira Sans")))))
   )
 
 (defun dotspacemacs/user-load ()
@@ -590,6 +615,7 @@ dump."
   (setq-default vc-follow-symlinks t)
   (setq-default exec-path-from-shell-check-startup-files t)
   (setq-default neo-theme 'nerd)
+  (setq-default sh-basic-offset 2)
 
   ;; (message "Calling exec-path-from-shell-initialize")
   ;; (exec-path-from-shell-initialize)
@@ -831,7 +857,15 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(web-mode kaolin-themes flycheck-elm dockerfile-mode company-lsp lsp-mode magit git-commit with-editor company treemacs projectile org-plus-contrib zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode ws-butler writeroom-mode winum white-sand-theme which-key wgrep web-beautify volatile-highlights vmd-mode uuidgen use-package unfill underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toml-mode toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode seti-theme seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode racer pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode psci psc-ide professional-theme prettier-js popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme pfuture persp-mode password-generator paren-face paradox overseer osx-trash osx-dictionary orgit organic-green-theme org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omtose-phellack-theme oldlace-theme oceanic-theme occidental-theme obsidian-theme nvm nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-svn magit-gitflow madhat2r-theme macrostep lush-theme lsp-ui lsp-python lsp-javascript-typescript lsp-go lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme launchctl kubernetes-evil json-navigator js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-yasnippet ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete ht hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-gtags hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ ghub gh-md ggtags gandalf-theme fuzzy font-lock+ flycheck-rust flycheck-pos-tip flycheck-jest flycheck-haskell flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elm-test-runner elm-mode elisp-slime-nav editorconfig dumb-jump dracula-theme dotenv-mode doom-themes doom-modeline docker django-theme dimmer diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dante dakrone-theme cython-mode cyberpunk-theme csv-mode counsel-projectile counsel-gtags counsel-css company-web company-terraform company-tern company-statistics company-shell company-quickhelp company-lua company-go company-ghci company-ghc company-cabal company-ansible company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode cargo busybee-theme bundler bubbleberry-theme browse-at-remote bliss-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-window ace-link ac-ispell)))
+   '(doom-modeline counsel-projectile counsel magit ivy flycheck avy zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode ws-butler writeroom-mode winum white-sand-theme which-key wgrep web-mode web-beautify volatile-highlights vmd-mode uuidgen use-package unfill underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toml-mode toc-org tide tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon swiper sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slim-mode shrink-path seti-theme seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme racket-mode racer pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode psci psc-ide professional-theme prettier-js popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode password-generator paren-face paradox overseer osx-trash osx-dictionary orgit organic-green-theme org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omtose-phellack-theme oldlace-theme oceanic-theme occidental-theme obsidian-theme nvm nodejs-repl noctilux-theme nginx-mode naquadah-theme nameless mwim mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minitest minimal-theme material-theme markdown-toc majapahit-theme magit-svn magit-gitflow madhat2r-theme macrostep lush-theme lsp-ui lsp-rust lsp-python lsp-javascript-typescript lsp-go lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme launchctl kubernetes-evil kaolin-themes json-navigator js2-refactor js-doc jinja2-mode jbeans-theme jazz-theme ivy-yasnippet ivy-xref ivy-purpose ivy-hydra ir-black-theme intero insert-shebang inkpot-theme indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ ghub gh-md gandalf-theme fuzzy font-lock+ flycheck-rust flycheck-pos-tip flycheck-jest flycheck-haskell flycheck-elm flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emmet-mode elm-test-runner elm-mode elisp-slime-nav eldoc-eval editorconfig dumb-jump dracula-theme dotenv-mode doom-themes dockerfile-mode docker django-theme dimmer diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme csv-mode counsel-css company-web company-terraform company-tern company-statistics company-shell company-quickhelp company-lua company-lsp company-go company-cabal company-ansible company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode cmm-mode clues-theme clean-aindent-mode chruby cherry-blossom-theme centered-cursor-mode cargo busybee-theme bundler bubbleberry-theme browse-at-remote bliss-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ansible-doc ansible angular-snippets ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ac-ispell))
+ '(safe-local-variable-values
+   '((js2-basic-offset . 2)
+     (typescript-backend . tide)
+     (typescript-backend . lsp)
+     (javascript-backend . tern)
+     (javascript-backend . lsp)
+     (go-backend . go-mode)
+     (go-backend . lsp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
