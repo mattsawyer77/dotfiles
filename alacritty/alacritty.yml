@@ -83,25 +83,31 @@ font:
   # Normal (roman) font face
   normal:
     # family: "PragmataPro Liga"
+    # family: "IBM Plex Mono"
     family: "Input"
+    # family: "Fira Code"
     # The `style` can be specified to pick a specific face.
-    #style: Regular
+    style: Regular
 
   # Bold font face
   bold:
     # family: "PragmataPro Liga"
+    # family: "IBM Plex Mono"
     family: "Input"
+    # family: "Fira Code"
     # The `style` can be specified to pick a specific face.
-    #style: Bold
+    style: Bold
 
   # Italic font face
   italic:
     # family: "PragmataPro Liga"
+    # family: "IBM Plex Mono"
     family: "Input"
+    # family: "Fira Code"
     # style: Italic
 
   # Point size of the font
-  size: 25.0
+  size: 22.0
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
@@ -119,7 +125,7 @@ font:
   #
   # Thin strokes are suitable for retina displays, but for non-retina screens
   # it is recommended to set `use_thin_strokes` to `false`
-  use_thin_strokes: true
+  use_thin_strokes: false
 
 # Display the time it takes to redraw each frame.
 render_timer: false
