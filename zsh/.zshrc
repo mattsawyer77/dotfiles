@@ -22,12 +22,12 @@ export ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME=fishy
 ZSH_THEME="powerlevel9k/powerlevel9k"
 P9K_LEFT_PROMPT_ELEMENTS=(dir)
-P9K_RIGHT_PROMPT_ELEMENTS=(status nvm vcs)
+P9K_RIGHT_PROMPT_ELEMENTS=(status vcs)
 P9K_DIR_SHORTEN_LENGTH=1
 P9K_DIR_SHORTEN_DELIMITER=""
 P9K_DIR_SHORTEN_STRATEGY="truncate_from_right"
-P9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
-# P9K_VCS_GIT_HOOKS=(vcs-detect-changes)
+# P9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
+P9K_VCS_GIT_HOOKS=(git-remote-branch git-tagname)
 P9K_DIR_HOME_BACKGROUND="grey30"
 P9K_DIR_HOME_SUBFOLDER_BACKGROUND="grey30"
 P9K_DIR_DEFAULT_BACKGROUND="grey30"
@@ -110,6 +110,15 @@ alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | 
 alias ts='tmux new-session -n main -s'
 alias bat='bat --theme 1337'
 alias k=kubectl
+get-sa-token() {
+    context=$1
+    secret=$(kubectl --context "$context" -n kube-system get secret \
+        | grep f5aas- \
+        | awk '{print $1}')
+    kubectl --context "$context" -n kube-system describe secret "$secret" \
+        | pcregrep '^token:' \
+        | awk '{print $2}'
+}
 
 # TMUX remote server aliases that customize background color
 export DEFAULT_BACKGROUND_COLOR="$(pcregrep '^\s*background:' ~/dotfiles/alacritty/alacritty.yml | head -1 | cut -d\' -f2 | sed 's/0x/#/')"
