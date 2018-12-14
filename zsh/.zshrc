@@ -110,6 +110,7 @@ alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | 
 alias ts='tmux new-session -n main -s'
 alias bat='bat --theme 1337'
 alias k=kubectl
+alias doom='~/.emacs.d/bin/doom run -nw'
 get-sa-token() {
     context=$1
     secret=$(kubectl --context "$context" -n kube-system get secret \
@@ -127,6 +128,7 @@ alias bigiq2="TERM=xterm-256color tmux-color-command bigiq2 'bg=#d8d19e fg=#3f44
 alias bigip2="TERM=xterm-256color tmux-color-command bigip2"
 alias bigiq3="TERM=xterm-256color tmux-color-command bigiq3"
 alias sawyer-dev="TERM=xterm-256color tmux-color-command sawyer-dev 'bg=#161e23 fg=#bac9cc' mosh --no-init --"
+alias f5aas-ops="TERM=xterm-256color tmux-color-command f5aas-ops 'bg=#465a4e fg=#d0dad4' mosh --"
 alias seadev02="TERM=xterm-256color tmux-color-command seadev02 'bg=#161e53 fg=#bac9cc' mosh --no-init --"
 DISABLE_AUTO_TITLE=true
 
