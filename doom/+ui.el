@@ -12,8 +12,12 @@
 ;; (setq doom-theme 'doom-spacegrey)
 ;; (setq doom-theme 'doom-tomorrow-day)
 (setq doom-theme 'doom-tomorrow-night)
+;; (setq doom-theme 'gruvbox)
+;; (setq doom-theme 'clues)
+;; (setq doom-theme 'creamsody)
+;; (setq doom-theme 'darktooth)
 ;; (setq doom-theme 'doom-vibrant)
-(setq doom-font (font-spec :family "Input" :size 21))
+(setq doom-font (font-spec :family "Input" :size 20 :weight 'regular))
 ;; (setq doom-font (font-spec :family "Fira Code" :size 22 :weight 'medium))
 ;; (setq doom-font (font-spec :family "PragmataPro Liga" :size 23))
 ;; (setq doom-font (font-spec :family "IBM Plex Mono" :size 21 :weight 'semi-bold))
@@ -21,12 +25,22 @@
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
 
+(global-company-mode)
+(setq company-idle-delay 0.2)
+(setq company-selection-wrap-around t)
+(global-evil-surround-mode 1)
+(set-default 'truncate-lines t)
+
 ;; TODO: split this out into other files
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'js2-mode-hook 'display-line-numbers-mode)
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'emacs-lisp-mode-hook 'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+(add-hook 'mustache-mode-hook 'display-line-numbers-mode)
+(add-hook 'haskell-mode-hook #'hindent-mode)
+(add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+(add-hook 'before-save-hook 'gofmt-before-save)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -59,17 +73,9 @@
  '(treemacs-root-face ((t (:inherit font-lock-string-face :weight semi-bold :height 1.0 :family "Fira Sans" :weight 'medium))))
 )
 
-(global-company-mode)
-(setq company-idle-delay 0.2)
-(setq company-selection-wrap-around t)
-
-;; (cycle-themes-mode)
-;; (setq cycle-themes-theme-list '())
-
-(global-evil-surround-mode 1)
-
-(add-hook 'haskell-mode-hook #'hindent-mode)
-
-(add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
-
-(set-default 'truncate-lines t)
+;; make flycheck window auto-resize (with a max height of 15 lines)
+(defadvice flycheck-error-list-refresh (around shrink-error-list activate)
+  ad-do-it
+  (-when-let (window (flycheck-get-error-list-window t))
+    (with-selected-window window
+      (fit-window-to-buffer window 15))))
