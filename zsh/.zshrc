@@ -268,10 +268,10 @@ source ~/.nvm/nvm.sh
 
 
 # tmuxifier
-eval "$(tmuxifier init -)"
+# eval "$(tmuxifier init -)"
 
 # z
-source `brew --prefix`/etc/profile.d/z.sh
+# source `brew --prefix`/etc/profile.d/z.sh
 
 # FZF
 export FZF_DEFAULT_COMMAND='ag -g ""'
