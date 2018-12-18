@@ -79,7 +79,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aws git kubectl tmux vi-mode docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting terraform)
+plugins=(aws git kubectl helm tmux vi-mode docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -109,6 +109,7 @@ alias socks4proxy='ssh -D 8888 -f -C -q -N'
 alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias ts='tmux new-session -n main -s'
 alias bat='bat --theme 1337'
+alias k=kubectl
 
 # TMUX remote server aliases that customize background color
 export DEFAULT_BACKGROUND_COLOR="$(pcregrep '^\s*background:' ~/dotfiles/alacritty/alacritty.yml | head -1 | cut -d\' -f2 | sed 's/0x/#/')"

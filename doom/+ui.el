@@ -21,7 +21,7 @@
 ;; (setq doom-theme 'doom-vibrant)
 ;; (setq doom-theme 'evil-collection-cus)
 ;; (setq doom-font (font-spec :family "Input" :size 21))
-(setq doom-font (font-spec :family "Fira Code" :size 21 :weight 'medium))
+;; (setq doom-font (font-spec :family "Fira Code" :size 21 :weight 'medium))
 ;; (setq doom-font (font-spec :family "PragmataPro Liga" :size 23))
 ;; (setq doom-font (font-spec :family "IBM Plex Mono" :size 21 :weight 'semi-bold))
 
