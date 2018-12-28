@@ -1,14 +1,8 @@
 ;;;  -*- lexical-binding: t; -*-
 
-;; (setq doom-theme 'doom-Iosvkem)
-;; (setq doom-theme 'doom-challenger-deep)
 ;; (setq doom-theme 'doom-city-lights)
-;; (setq doom-theme 'doom-dracula)
-;; (setq doom-theme 'doom-molokai)
-;; (setq doom-theme 'doom-nord-light)
 ;; (setq doom-theme 'doom-nord)
 ;; (setq doom-theme 'doom-nova)
-;; (setq doom-theme 'doom-one-light)
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-opera-light)
 ;; (setq doom-theme 'doom-opera)
@@ -20,10 +14,6 @@
 (setq doom-theme 'doom-tomorrow-night)
 ;; (setq doom-theme 'doom-vibrant)
 ;; (setq doom-theme 'evil-collection-cus)
-;; (setq doom-font (font-spec :family "Input" :size 21))
-;; (setq doom-font (font-spec :family "Fira Code" :size 21 :weight 'medium))
-;; (setq doom-font (font-spec :family "PragmataPro Liga" :size 23))
-;; (setq doom-font (font-spec :family "IBM Plex Mono" :size 21 :weight 'semi-bold))
 
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
@@ -79,4 +69,4 @@
 
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
-;;(setq-default 'truncate-lines t)
+(global-visual-line-mode 1)
