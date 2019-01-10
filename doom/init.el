@@ -155,3 +155,4 @@
        ;; library, and additional ex commands for evil-mode. Use it as a
        ;; reference for your own modules.
        (default +bindings +evil-commands))
+
