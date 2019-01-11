@@ -6,12 +6,12 @@
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-opera-light)
 ;; (setq doom-theme 'doom-opera)
-;; (setq doom-theme 'doom-peacock)
+(setq doom-theme 'doom-peacock)
 ;; (setq doom-theme 'doom-solarized-light)
 ;; (setq doom-theme 'doom-sourcerer)
 ;; (setq doom-theme 'doom-spacegrey)
 ;; (setq doom-theme 'doom-tomorrow-day)
-(setq doom-theme 'doom-tomorrow-night)
+;; (setq doom-theme 'doom-tomorrow-night)
 ;; (setq doom-theme 'gruvbox)
 ;; (setq doom-theme 'clues)
 ;; (setq doom-theme 'creamsody)
@@ -39,12 +39,10 @@
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 (add-hook 'before-save-hook 'gofmt-before-save)
 
-(setq projectile-project-search-path '("~/F5/workspaces/f5aas/"
-                                       "~/F5/workspaces/f5aas/build"
-                                       "~/F5/workspaces/f5aas/infra"
-                                       "~/F5/workspaces/f5aas/frontend"
-                                       "~/exercism/rust"
-                                       "~/src/"))
+(setq projectile-project-search-path '("~/workspaces/f5aas/"
+                                       "~/workspaces/f5aas/build"
+                                       "~/workspaces/f5aas/infra"
+                                       "~/workspaces/f5aas/frontend"))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
