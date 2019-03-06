@@ -19,16 +19,16 @@
 ;; (setq doom-theme 'doom-vibrant)
 ;; (setq doom-font (font-spec :family "Input" :size 20 :weight 'regular))
 ;; (setq doom-font (font-spec :family "Fira Code" :size 22 :weight 'medium))
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 22))
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 23))
 ;; (setq doom-font (font-spec :family "IBM Plex Mono" :size 21 :weight 'semi-bold))
 
 (require 'doom-themes)
 (load-theme 'doom-city-lights t)
+(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
 (set-face-foreground 'font-lock-variable-name-face (doom-color 'blue))
 (set-face-foreground 'font-lock-type-face (doom-color 'orange))
-(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
-;; (set-face-foreground 'font-lock-function-name-face (doom-color 'green))
-;; (set-face-foreground 'font-lock-type-face (doom-color 'orange))
+(set-face-foreground 'font-lock-function-name-face (doom-color 'green))
+(set-face-foreground 'font-lock-type-face (doom-color 'orange))
 
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
@@ -40,6 +40,10 @@
 (global-evil-surround-mode 1)
 (set-default 'truncate-lines t)
 
+(setq doom-modeline-icon t)
+(setq doom-modeline-major-mode-icon t)
+(setq doom-modeline-persp-name t)
+
 ;; TODO: split this out into other files
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'js2-mode-hook 'display-line-numbers-mode)
@@ -47,9 +51,10 @@
 (add-hook 'emacs-lisp-mode-hook 'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
 (add-hook 'mustache-mode-hook 'display-line-numbers-mode)
-(add-hook 'haskell-mode-hook #'hindent-mode)
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 (add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'evil-insert-state-entry-hook (lambda nil (flycheck-mode -1)))
+(add-hook 'evil-insert-state-exit-hook (lambda nil (flycheck-mode 1)))
 
 (setq projectile-project-search-path '("~/F5/workspaces/f5aas/"
                                        "~/F5/workspaces/f5aas/build"
@@ -91,3 +96,8 @@
   (-when-let (window (flycheck-get-error-list-window t))
     (with-selected-window window
       (fit-window-to-buffer window 15))))
+
+(require 'lsp)
+(require 'lsp-haskell)
+(setq lsp-haskell-process-path-hie "hie-wrapper")
+(add-hook 'haskell-mode-hook #'lsp)
