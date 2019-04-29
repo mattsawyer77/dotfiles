@@ -8,6 +8,8 @@ compinit
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+source $ZSH/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -20,27 +22,27 @@ export ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME=muse
 # ZSH_THEME=sawyer
 # ZSH_THEME=fishy
-ZSH_THEME="powerlevel9k/powerlevel9k"
-P9K_LEFT_PROMPT_ELEMENTS=(dir)
-P9K_RIGHT_PROMPT_ELEMENTS=(status vcs)
-P9K_DIR_SHORTEN_LENGTH=1
-P9K_DIR_SHORTEN_DELIMITER=""
-P9K_DIR_SHORTEN_STRATEGY="truncate_from_right"
-# P9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
-P9K_VCS_GIT_HOOKS=(git-remote-branch git-tagname)
-P9K_DIR_HOME_BACKGROUND="grey30"
-P9K_DIR_HOME_SUBFOLDER_BACKGROUND="grey30"
-P9K_DIR_DEFAULT_BACKGROUND="grey30"
-P9K_DIR_ETC_BACKGROUND="grey30"
-P9K_DIR_HOME_FOREGROUND="lightcyan1"
-P9K_DIR_HOME_SUBFOLDER_FOREGROUND="lightcyan1"
-P9K_DIR_DEFAULT_FOREGROUND="lightcyan1"
-P9K_DIR_ETC_FOREGROUND="lightcyan1"
-P9K_VCS_CLEAN_BACKGROUND='lightcyan1'
-P9K_VCS_UNTRACKED_BACKGROUND='lightblue'
-P9K_VCS_MODIFIED_BACKGROUND='yellow'
-P9K_NVM_BACKGROUND='grey30'
-P9K_NVM_FOREGROUND='chartreuse1'
+ZSH_THEME="powerlevel10k/powerlevel10k"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs)
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+POWERLEVEL9K_SHORTEN_DELIMITER=""
+POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
+POWERLEVEL9K_DIR_HOME_BACKGROUND="grey30"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="grey30"
+POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="grey30"
+POWERLEVEL9K_DIR_ETC_BACKGROUND="grey30"
+POWERLEVEL9K_DIR_HOME_FOREGROUND="lightcyan1"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="lightcyan1"
+POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="lightcyan1"
+POWERLEVEL9K_DIR_ETC_FOREGROUND="lightcyan1"
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND='lightcyan1'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='lightblue'
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='yellow'
+POWERLEVEL9K_NVM_BACKGROUND='grey30'
+POWERLEVEL9K_NVM_FOREGROUND='chartreuse1'
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -79,7 +81,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aws git kubectl helm tmux vi-mode docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting terraform)
+plugins=(aws git kubectl kubetail helm tmux vi-mode docker docker-compose stack zsh-autosuggestions zsh-syntax-highlighting terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,6 +101,7 @@ source $ZSH/oh-my-zsh.sh
 # alias l='ls -alFG'
 alias ls='exa'
 alias l='exa -alF'
+alias ssh='TERM=xterm-256color ssh'
 alias p4file='pcregrep "^\/\/depot" | sed "s@//depot/[a-z-]*/[a-z-]*/@@" | cut -d" " -f1 | cut -d"#" -f1'
 alias p4cl='p4 opened 2>&1 | grep change | pcregrep -v "default change|change default" | awk "{ print \$5 }" | sort -u | xargs p4 describe -s | grep -A2 "^Change" | grep "^."'
 alias glo='git log --format="%C(auto,yellow)%<(20)%cr%C(auto,cyan) %s"'
@@ -108,7 +111,6 @@ alias elm-repl="elm repl"
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
 alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias ts='tmux new-session -n main -s'
-alias bat='bat --theme 1337'
 alias k=kubectl
 alias doom='~/.emacs.d/bin/doom run -nw'
 get-sa-token() {
@@ -127,7 +129,7 @@ alias bigiq1="TERM=xterm-256color tmux-color-command bigiq1 'bg=#58825c fg=#e3eb
 alias bigiq2="TERM=xterm-256color tmux-color-command bigiq2 'bg=#d8d19e fg=#3f4422' ssh"
 alias bigip2="TERM=xterm-256color tmux-color-command bigip2"
 alias bigiq3="TERM=xterm-256color tmux-color-command bigiq3"
-alias sawyer-dev="TERM=xterm-256color tmux-color-command sawyer-dev 'bg=#161e23 fg=#bac9cc' mosh --no-init --"
+alias sawyer-dev="TERM=xterm-256color tmux-color-command sawyer-dev 'bg=#161e23 fg=#bac9cc' et"
 alias f5aas-ops="TERM=xterm-256color tmux-color-command f5aas-ops 'bg=#465a4e fg=#d0dad4' mosh --"
 alias seadev02="TERM=xterm-256color tmux-color-command seadev02 'bg=#161e53 fg=#bac9cc' mosh --no-init --"
 DISABLE_AUTO_TITLE=true
@@ -143,7 +145,6 @@ bindkey '^N' history-search-forward
 ulimit -n 4096
 
 tmux-color-command () {
-    set -x
     local hostname="$1"
     shift
     local style="$1"
