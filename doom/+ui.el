@@ -1,24 +1,18 @@
 ;;;  -*- lexical-binding: t; -*-
 
 (setq doom-theme 'doom-city-lights)
-;; (setq doom-theme 'doom-nord)
-;; (setq doom-theme 'doom-nova)
-;; (setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-opera-light)
-;; (setq doom-theme 'doom-opera)
-;; (setq doom-theme 'doom-peacock)
-;; (setq doom-theme 'doom-solarized-light)
-;; (setq doom-theme 'doom-sourcerer)
-;; (setq doom-theme 'doom-spacegrey)
 ;; (setq doom-theme 'doom-tomorrow-day)
 ;; (setq doom-theme 'doom-tomorrow-night)
 ;; (setq doom-theme 'gruvbox)
-;; (setq doom-theme 'clues)
-;; (setq doom-theme 'creamsody)
 ;; (setq doom-theme 'darktooth)
-;; (setq doom-theme 'doom-vibrant)
-;; (setq doom-font (font-spec :family "Input" :size 20 :weight 'regular))
-;; (setq doom-font (font-spec :family "Fira Code" :size 22 :weight 'medium))
+;; (setq doom-theme 'base16-darktooth)
+;; (setq doom-theme 'base16-grayscale-dark)
+;; (setq doom-theme 'base16-grayscale-light)
+;; (setq doom-theme 'base16-gruvbox-dark-hard)
+;; (setq doom-theme 'base16-gruvbox-dark-pale)
+;; (setq doom-theme 'base16-oceanicnext)
+;; (setq doom-theme 'base16-ocean)
+;; (setq doom-theme 'base16-tomorrow-night)
 (setq doom-font (font-spec :family "PragmataPro Liga" :size 23))
 ;; (setq doom-font (font-spec :family "IBM Plex Mono" :size 21 :weight 'semi-bold))
 
@@ -30,10 +24,13 @@
 (set-face-foreground 'font-lock-function-name-face (doom-color 'green))
 (set-face-foreground 'font-lock-type-face (doom-color 'orange))
 
+(setq confirm-kill-emacs nil)
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
 
-(global-visual-line-mode)
+(add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+
 (global-company-mode)
 (setq company-idle-delay 0.2)
 (setq company-selection-wrap-around t)
@@ -97,7 +94,19 @@
     (with-selected-window window
       (fit-window-to-buffer window 15))))
 
-(require 'lsp)
-(require 'lsp-haskell)
-(setq lsp-haskell-process-path-hie "hie-wrapper")
-(add-hook 'haskell-mode-hook #'lsp)
+;; (require 'lsp)
+;; (require 'lsp-haskell)
+;; (setq lsp-haskell-process-path-hie "hie-wrapper")
+;; (add-hook 'haskell-mode-hook #'lsp)
+;; (setq haskell-mode-stylish-haskell-path "brittany")
+
+(default-text-scale-mode 1)
+
+;; persistent undo
+(global-undo-tree-mode)
+(setq undo-tree-auto-save-history t)
+(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/.local/undo")))
+
+;; exec-path-from-shell
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))

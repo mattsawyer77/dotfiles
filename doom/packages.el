@@ -1,16 +1,21 @@
 ;;;  -*- no-byte-compile: t; -*-
 
 (package! doom-modeline)
+(package! exec-path-from-shell)
 (package! prettier-js)
 (package! evil-leader)
 (package! evil-nerd-commenter)
 (package! hindent)
 (package! transpose-frame)
 (package! nginx-mode)
+(package! default-text-scale)
 ;; (package! gruvbox-theme)
 ;; (package! darktooth-theme)
+(package! base16-theme)
+(package! hemisu-theme)
 (package! mustache-mode)
-
+(package! golden-ratio)
 (package! lsp-mode)
 (package! lsp-ui)
-(package! lsp-haskell)
+(package! ivy-rich)
+;; (package! lsp-haskell)

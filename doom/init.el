@@ -11,7 +11,6 @@
        ;; snippets module isn't working, so it's currently being manually cloned
        ;snippets          ; my elves. They type so I don't have to
        ;spellcheck        ; tasing you for misspelling mispelling
-       syntax-checker    ; tasing you for every semicolon you forget
        workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
@@ -25,8 +24,8 @@
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
        ; doom-modeline     ; a snazzy Atom-inspired mode-line
-       doom-quit         ; DOOM quit-message prompts when you quit Emacs
-       evil-goggles      ; display visual hints when editing in evil
+       ; doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;evil-goggles      ; display visual hints when editing in evil
        ;;fci               ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        modeline          ; snazzy, Atom-inspired modeline, plus API
@@ -53,7 +52,7 @@
 
        :emacs
        dired            ; making dired pretty [functional]
-       +ranger         ; bringing the goodness of ranger to dired
+       ;+ranger         ; bringing the goodness of ranger to dired
        electric          ; smarter, keyword-based electric-indent
        ;;eshell            ; a consistent, cross-platform shell (WIP)
        imenu             ; an imenu sidebar and searchable code index
@@ -95,7 +94,7 @@
        emacs-lisp        ; drown in parentheses
        ;;ess               ; emacs speaks statistics
        go                ; the hipster dialect
-       haskell ; a language that's lazier than I am
+       (haskell +intero) ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
