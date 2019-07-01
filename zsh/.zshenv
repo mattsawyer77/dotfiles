@@ -13,20 +13,21 @@ export VISUAL=$EDITOR
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export BAT_THEME=1337
 PATH=node_modules/.bin
-PATH=$PATH:$HOME/.nvm/versions/node/v8.11.3/bin
+PATH=$PATH:$HOME/.nvm/versions/node/v10.8.0/bin
 PATH=$PATH:$HOME/.cargo/bin
 PATH=$PATH:$HOME/.tmuxifier/bin
 PATH=$PATH:$HOME/.fzf/bin
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin
+PATH=$PATH:$GOPATH/bin
 PATH=$PATH:$HOME/Library/Python/2.7/bin
+PATH=$PATH:/usr/local/opt/curl/bin
 PATH=$PATH:/usr/local/bin
 PATH=$PATH:/usr/local/sbin
 PATH=$PATH:/usr/bin
 PATH=$PATH:/bin
 PATH=$PATH:/usr/sbin
 PATH=$PATH:/sbin
-PATH=$PATH:$GOPATH/bin
 export PATH
 
 export LESS='-F -g -i -M -r -w -X -z-4'

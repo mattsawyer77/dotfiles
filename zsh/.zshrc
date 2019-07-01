@@ -298,3 +298,4 @@ source $HOME/tokens
 
 # OPAM configuration
 # . /Users/sawyer/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+alias airport=/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport

@@ -1,5 +1,6 @@
 ;;;  -*- no-byte-compile: t; -*-
 
+(package! yasnippet)
 (package! doom-modeline)
 (package! exec-path-from-shell)
 (package! prettier-js)
@@ -17,5 +18,9 @@
 (package! golden-ratio)
 (package! lsp-mode)
 (package! lsp-ui)
-(package! ivy-rich)
+(package! company-lsp)
+(package! company-go)
+(package! vmd-mode)
+(package! evil-terminal-cursor-changer)
+(package! paren-face)
 ;; (package! lsp-haskell)

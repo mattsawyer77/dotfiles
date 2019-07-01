@@ -34,9 +34,9 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'sbdchd/neoformat'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'ervandew/supertab'
-Plug 'carlitux/deoplete-ternjs'
+" Plug 'carlitux/deoplete-ternjs'
 Plug 'leafgarland/typescript-vim'
 Plug 'mxw/vim-jsx'
 Plug 'othree/javascript-libraries-syntax.vim'
@@ -153,7 +153,7 @@ let g:bufferline_echo = 0
 let g:rooter_patterns = ['biq.def.inc', '.git', '.git/']
 
 " deoplete
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
 " ALE
 let g:ale_linters = { 'html': [] }
