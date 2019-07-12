@@ -11,7 +11,7 @@
 (package! nginx-mode)
 (package! default-text-scale)
 ;; (package! gruvbox-theme)
-;; (package! darktooth-theme)
+(package! darktooth-theme)
 (package! base16-theme)
 (package! hemisu-theme)
 (package! mustache-mode)
