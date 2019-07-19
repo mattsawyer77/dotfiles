@@ -7,7 +7,8 @@ yabai -m config status_bar_icon_font         "FontAwesome:Regular:16.0"
 yabai -m config status_bar_background_color  0xaa222222
 yabai -m config status_bar_foreground_color  0xbbffffff
 # yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
-yabai -m config status_bar_space_icon_strip  1 2 3 4 5 6 7 8 9 10
+
+yabai -m config status_bar_space_icon_strip  1 2 3 4 5 6 7 8 9
 yabai -m config status_bar_power_icon_strip   
 yabai -m config status_bar_space_icon        
 yabai -m config status_bar_clock_icon        
@@ -16,7 +17,7 @@ yabai -m config status_bar_clock_icon        
 yabai -m config mouse_follows_focus          off
 yabai -m config focus_follows_mouse          off
 yabai -m config window_placement             second_child
-yabai -m config window_topmost               off
+yabai -m config window_topmost               on
 yabai -m config window_opacity               on
 yabai -m config window_shadow                on
 yabai -m config window_border                on
@@ -42,5 +43,12 @@ yabai -m config window_gap                   5
 
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add app="^BIG-IP Edge Client$" manage=off
+yabai -m rule --add app="Emacs" space=2
+yabai -m rule --add app="iTerm" space=2
+# yabai -m rule --add app="Firefox" space=3
+# yabai -m rule --add app="Teams" space=4
+# yabai -m rule --add title="Outlook" space=4
+# yabai -m rule --add app="Calendar" space=5
+# yabai -m rule --add app="Messages" space=5
 
 echo "yabai configuration loaded.."
