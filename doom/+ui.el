@@ -29,7 +29,7 @@
 ;; (setq doom-theme 'base16-oceanicnext)
 ;; (setq doom-theme 'base16-ocean)
 ;; (setq doom-theme 'base16-tomorrow-night)
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 23))
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 21))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
 
 (require 'doom-themes)
