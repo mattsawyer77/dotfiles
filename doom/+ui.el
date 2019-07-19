@@ -6,22 +6,36 @@
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-opera-light)
 ;; (setq doom-theme 'doom-opera)
-(setq doom-theme 'doom-peacock)
+;; (setq doom-theme 'doom-peacock)
 ;; (setq doom-theme 'doom-solarized-light)
 ;; (setq doom-theme 'doom-sourcerer)
 ;; (setq doom-theme 'doom-spacegrey)
 ;; (setq doom-theme 'doom-tomorrow-day)
-;; (setq doom-theme 'doom-tomorrow-night)
+(setq doom-theme 'doom-tomorrow-night)
 ;; (setq doom-theme 'gruvbox)
 ;; (setq doom-theme 'clues)
 ;; (setq doom-theme 'creamsody)
 ;; (setq doom-theme 'darktooth)
 ;; (setq doom-theme 'doom-vibrant)
 
+;; doom-peacock customization NOT WORKING
+(require 'doom-themes)
+(load-theme 'doom-tomorrow-night t)
+;;(load-theme 'doom-peacock t)
+;;(set-face-background 'variable (doom-color 'cyan))
+;;(set-face-background 'type (doom-color 'violet))
+(set-face-foreground 'font-lock-variable-name-face (doom-color 'blue))
+(set-face-foreground 'font-lock-type-face (doom-color 'orange))
+(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
+
+(setq confirm-kill-emacs nil)
+
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
 
-(global-visual-line-mode)
+(add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+
 (global-company-mode)
 (setq company-idle-delay 0.2)
 (setq company-selection-wrap-around t)
@@ -49,21 +63,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(treemacs-collapse-dirs 3)
+ '(font-lock-variable-name-face ((t (:foreground "cyan"))))
+ '(hl-line-face ((t (:background "color-235"))))
  '(treemacs-directory-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
  '(treemacs-directory-collapsed-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
  '(treemacs-file-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
  '(treemacs-tags-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
  '(treemacs-term-node-face ((t (:foreground "#c5c8c6" :height 0.8 :family "Fira Sans"))))
- '(treemacs-filewatch-mode t)
- '(treemacs-follow-after-init t)
- '(treemacs-follow-mode t)
  '(treemacs-fringe-indicator-face ((t (:foreground "DarkGoldenrod2" :family "Fira Sans" :height 0.8))))
- '(treemacs-fringe-indicator-mode t)
  '(treemacs-git-added-face ((t (:foreground "#b5bd68" :family "Fira Sans" :height 0.8))))
  '(treemacs-git-conflict-face ((t (:foreground "#cc6666" :family "Fira Sans" :height 0.8))))
  '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "Fira Sans" :height 0.8))))
- '(treemacs-git-mode 'deferred)
  '(treemacs-git-modified-face ((t (:foreground "#b294bb" :family "Fira Sans" :height 0.8))))
  '(treemacs-git-unmodified-face ((t (:foreground "#b294bb" :family "Fira Sans" :height 0.8))))
  '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "Fira Sans" :height 0.8))))
@@ -81,3 +91,8 @@
   (-when-let (window (flycheck-get-error-list-window t))
     (with-selected-window window
       (fit-window-to-buffer window 15))))
+
+;; persistent undo
+(global-undo-tree-mode)
+(setq undo-tree-auto-save-history t)
+(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/.local/undo")))

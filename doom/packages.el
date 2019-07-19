@@ -11,3 +11,4 @@
 (package! creamsody-theme)
 (package! darktooth-theme)
 (package! mustache-mode)
+(package! doom-themes)
