@@ -22,5 +22,6 @@
 (package! company-go)
 (package! vmd-mode)
 (package! evil-terminal-cursor-changer)
-(package! paren-face)
-;; (package! lsp-haskell)
+(package! highlight-indent-guides)
+(package! ormolu :recipe (:fetcher github :repo "vyorkin/ormolu.el"))
+  ;; (package! lsp-haskell)

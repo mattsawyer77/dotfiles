@@ -29,7 +29,7 @@
 ;; (setq doom-theme 'base16-oceanicnext)
 ;; (setq doom-theme 'base16-ocean)
 ;; (setq doom-theme 'base16-tomorrow-night)
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 21))
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 23))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
 
 (require 'doom-themes)
@@ -113,24 +113,24 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(treemacs-directory-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-git-unmodified-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-directory-collapsed-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-file-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-tags-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-term-node-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-fringe-indicator-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-added-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-conflict-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-modified-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-unmodified-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "PragmataPro Liga" :height 0.8 :color 'blue))))
- '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "PragmataPro Liga" :height 0.8))))
- '(treemacs-help-title-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-on-failure-pulse-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-on-success-pulse-face ((t (:family "PragmataPro Liga" :height 0.8))))
+ '(treemacs-directory-face ((t (:height 0.7 :family "PragmataPro Liga"))))
+ '(treemacs-git-unmodified-face ((t (:height 0.7 :family "PragmataPro Liga"))))
+ '(treemacs-directory-collapsed-face ((t (:height 0.7 :family "PragmataPro Liga"))))
+ '(treemacs-file-face ((t (:height 0.7 :family "PragmataPro Liga"))))
+ '(treemacs-tags-face ((t (:height 0.7 :family "PragmataPro Liga"))))
+ '(treemacs-term-node-face ((t (:height 0.7 :family "PragmataPro Liga"))))
+ '(treemacs-fringe-indicator-face ((t (:family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-git-added-face ((t (:family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-git-conflict-face ((t (:family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-git-modified-face ((t (:family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-git-unmodified-face ((t (:family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "PragmataPro Liga" :height 0.7 :color 'blue))))
+ '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-help-title-face ((t (:family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-on-failure-pulse-face ((t (:family "PragmataPro Liga" :height 0.7))))
+ '(treemacs-on-success-pulse-face ((t (:family "PragmataPro Liga" :height 0.7))))
  '(treemacs-root-face ((t (:inherit font-lock-string-face :weight semi-bold :height 1.0 :family "PragmataPro Liga"))))
 )
 
@@ -171,56 +171,12 @@
    (mac-auto-operator-composition-mode)
    (mac-mouse-wheel-mode 0))
 
-;; Treemacs
-(treemacs-follow-mode t)
-;; (setq treemacs-width 35
-;;       treemacs-display-in-side-window t
-;;       treemacs-indentation-string (propertize " " 'face 'font-lock-comment-face)
-;;       treemacs-indentation 1)
-;; (add-hook 'treemacs-mode-hook #'hide-mode-line-mode)
-;; (add-hook 'treemacs-mode-hook (lambda ()
-;;                                 (linum-mode -1)
-;;                                 (fringe-mode 0)
-;;                                 ;; (setq buffer-face-mode-face `(:background "#211C1C"))
-;;                                 (buffer-face-mode 1)))
-;; Improve treemacs icons
-;; (require 'all-the-icons)
-;; (let ((all-the-icons-default-adjust 0)
-;;       (tab-width 1))
-;;   ;; Root icon
-;;   (setq treemacs-icon-root-png
-;;         (concat (all-the-icons-octicon "repo" :height 0.8 :v-adjust -0.2)  " "))
-;;   ;; File icons
-;;   (setq treemacs-icon-open-png
-;;         (concat
-;;          (all-the-icons-octicon "chevron-down" :height 0.8 :v-adjust 0.1)
-;;          "\t"
-;;          (all-the-icons-octicon "file-directory" :v-adjust 0)
-;;          "\t")
-;;         treemacs-icon-closed-png
-;;         (concat
-;;          (all-the-icons-octicon "chevron-right" :height 0.8
-;;                                 :v-adjust 0.1 :face 'font-lock-doc-face)
-;;          "\t"
-;;          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'font-lock-doc-face)
-;;          "\t"))
-;;   ;; File type icons
-;;   (setq treemacs-icons-hash (make-hash-table :size 200 :test #'equal)
-;;         treemacs-icon-fallback (concat
-;;                                 "\t\t"
-;;                                 (all-the-icons-faicon "file-o" :face 'all-the-icons-dsilver
-;;                                                       :height 0.8 :v-adjust 0.0)
-;;                                 "\t")
-;;         treemacs-icon-text treemacs-icon-fallback)
+(require 'haskell-mode)
+(require 'ormolu)
+(add-hook 'haskell-mode-hook 'ormolu-mode)
+(setq ormolu-reformat-buffer-on-save t)
 
-;;   (dolist (item all-the-icons-icon-alist)
-;;     (let* ((extension (car item))
-;;            (func (cadr item))
-;;            (args (append (list (caddr item)) '(:v-adjust -0.05) (cdddr item)))
-;;            (icon (apply func args))
-;;            (key (s-replace-all '(("^" . "") ("\\" . "") ("$" . "") ("." . "")) extension))
-;;            (value (concat "\t\t" icon "\t")))
-;;       (unless (ht-get treemacs-icons-hash (s-replace-regexp "\\?" "" key))
-;;         (ht-set! treemacs-icons-hash (s-replace-regexp "\\?" "" key) value))
-;;       (unless (ht-get treemacs-icons-hash (s-replace-regexp ".\\?" "" key))
-;;         (ht-set! treemacs-icons-hash (s-replace-regexp ".\\?" "" key) value)))))
+(require 'highlight-indent-guides)
+(add-hook 'haskell-mode-hook 'highlight-indent-guides-mode)
+(add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
+(add-hook 'python-mode-hook 'highlight-indent-guides-mode)
