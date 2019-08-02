@@ -40,10 +40,8 @@ ln -sf ~/dotfiles/vim/keymaps.vim ~/.config/nvim/keymaps.vim
 ln -sf ~/dotfiles/vim/plugins.vim ~/.config/nvim/plugins.vim
 ln -sf ~/dotfiles/vim/settings.vim ~/.config/nvim/settings.vim
 
-# spacemacs
-echo 'installing spacemacs configuration...'
-ln -sf ~/dotfiles/spacemacs/.spacemacs ~/.spacemacs
-ln -sf ~/dotfiles/spacemacs/doom-peacock-matt-theme.el ~/.emacs.d/doom-peacock-matt-theme.el
+# doom emacs
+ln -sf ~/dotfiles/doom ~/.config/doom
 
 # tmux
 echo 'installing tmux configuration...'
@@ -51,17 +49,17 @@ ln -sf ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
 ln -sf ~/dotfiles/tmux/.tmux-osx.conf ~/.tmux-osx.conf
 
 # tmuxifier
-echo 'installing tmuxifier configuration...'
-if [[ -d "$HOME/.tmuxifier" ]]; then
-	mkdir -p ~/.tmuxifier/layouts
-	pushd ~/.tmuxifier/layouts >/dev/null
-	for layout in ~/dotfiles/tmuxifier/layouts/*; do
-		ln -sf $layout
-	done
-	popd >/dev/null
-else
-	echo 'tmuxifier is not installed, skipping'
-fi
+# echo 'installing tmuxifier configuration...'
+# if [[ -d "$HOME/.tmuxifier" ]]; then
+# 	mkdir -p ~/.tmuxifier/layouts
+# 	pushd ~/.tmuxifier/layouts >/dev/null
+# 	for layout in ~/dotfiles/tmuxifier/layouts/*; do
+# 		ln -sf $layout
+# 	done
+# 	popd >/dev/null
+# else
+# 	echo 'tmuxifier is not installed, skipping'
+# fi
 
 # ctags
 echo 'installing ctags configuration...'
