@@ -15,11 +15,5 @@
 (define-key evil-normal-state-map (kbd "SPC e p") 'flycheck-previous-error)
 (define-key evil-normal-state-map (kbd "SPC e v") 'flycheck-verify-setup)
 (define-key evil-normal-state-map (kbd "SPC t g") 'golden-ratio-toggle-widescreen)
-(require 'vmd-mode)
-(evil-define-key evil-normal-state-map markdown-mode-map (kbd "SPC m b") 'vmd-mode)
-(require 'haskell-mode)
-(evil-define-key evil-visual-state-map haskell-mode-map (kbd "=") 'hindent-reformat-region)
-(evil-define-key evil-normal-state-map haskell-mode-map (kbd "SPC m f") 'hindent-reformat-buffer)
-
-;; (define-key counsel-imenu-map (kbd "C-s-n") 'ivy-next-line-and-call)
-;; (define-key counsel-imenu-map (kbd "C-s-p") 'ivy-previous-line-and-call)
+;; (require 'vmd)
+;; (evil-define-key evil-normal-state-map markdown-mode-map (kbd "SPC m b") 'vmd-mode)
