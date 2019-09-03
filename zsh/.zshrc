@@ -286,10 +286,6 @@ eval "$(tmuxifier init -)"
 # z
 source `brew --prefix`/etc/profile.d/z.sh
 
-# FZF
-export FZF_DEFAULT_COMMAND='ag -g ""'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # rustup
 source $HOME/.cargo/env
 
@@ -299,3 +295,7 @@ source $HOME/tokens
 # OPAM configuration
 # . /Users/sawyer/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 alias airport=/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -e "$HOME/.fzf-extras/fzf-extras.zsh" ]] \
+  && source "$HOME/.fzf-extras/fzf-extras.zsh"
