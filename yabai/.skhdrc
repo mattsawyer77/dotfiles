@@ -149,3 +149,7 @@ alt - p : yabai -m window --toggle sticky;          yabai -m window --grid 5:5:4
 # change layout of desktop
 ctrl + alt - a : yabai -m space --layout bsp
 ctrl + alt - d : yabai -m space --layout float
+
+# swap/focus
+# TODO: not working, fix
+shift + alt - space : yabai -m window --swap next;           yabai -m window --focus prev
