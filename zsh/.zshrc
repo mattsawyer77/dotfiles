@@ -71,6 +71,13 @@ alias ta='tmux attach -t'
 alias k=kubectl
 alias doom='~/.emacs.d/bin/doom run -nw'
 
+# update an app's icon with the specified icns file
+update-icon() {
+  echo "read 'icns' (-16455) \"$1\";" > tmpicns.rsrc
+  Rez -a tmpicns.rsrc -o $2/Icon$'\r'
+  SetFile -a C $2; SetFile -a V $2/Icon$'\r'; rm tmpicns.rsrc
+}
+
 get-sa-token() {
     context=$1
     secret=$(kubectl --context "$context" -n kube-system get secret \
