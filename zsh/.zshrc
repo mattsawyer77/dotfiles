@@ -49,6 +49,7 @@ zplugin ice wait"0" lucid atinit"zpcompinit; zpcdreplay"; zplugin light zdharma/
 source `brew --prefix`/etc/profile.d/z.sh
 
 # vi style incremental search
+bindkey -v
 bindkey '^R' history-incremental-search-backward
 bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
