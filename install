@@ -47,6 +47,7 @@ ln -sf ~/dotfiles/doom ~/.config/doom
 echo 'installing tmux configuration...'
 ln -sf ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
 ln -sf ~/dotfiles/tmux/.tmux-osx.conf ~/.tmux-osx.conf
+mkdir -p ~/.local/bin
 
 # tmuxifier
 # echo 'installing tmuxifier configuration...'
