@@ -68,6 +68,11 @@ bindkey '^N' history-search-forward
 [[ -e "$HOME/.fzf-extras/fzf-extras.zsh" ]] \
   && source "$HOME/.fzf-extras/fzf-extras.zsh"
 
+# nix
+if [[ -d ~/.nix-profile ]]; then
+  . ~/.nix-profile/etc/profile.d/nix.sh
+fi
+
 ulimit -n 4096
 
 alias ssh='TERM=xterm-256color ssh'
