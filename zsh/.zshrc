@@ -1,10 +1,19 @@
 #!/usr/bin/env zsh
+
+# install zplugin if not already installed
+if [[ ! -d ~/.zplugin ]]; then
+   mkdir ~/.zplugin
+   (git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin \
+     && source ~/.zplugin/bin/zplugin.zsh \
+     && zplugin self-update \
+     && exec zsh) \
+     || echo 2> "error: could not clone/install zplugin..."
+fi
+
 bindkey -v
-### Added by Zplugin's installer
-source '/Users/sawyer/.zplugin/bin/zplugin.zsh'
+source ~/.zplugin/bin/zplugin.zsh
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
-### End of Zplugin's installer chunk
 
 zplugin ice pick"async.zsh" src"pure.zsh"; zplugin light sindresorhus/pure
 
