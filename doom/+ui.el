@@ -22,7 +22,7 @@
 ;;(setq doom-theme 'doom-solarized-light) ;; light variant of Solarized (thanks to fuxialexander)
 ;;(setq doom-theme 'doom-sourcerer) ;; based on Sourcerer (thanks to defphil)
 ;;(setq doom-theme 'doom-spacegrey) ;; I'm sure you've heard of it (thanks to teesloane)
-;;(setq doom-theme 'doom-tomorrow-day) ;; Tomorrow's light variant (thanks to emacswatcher)
+;; (setq doom-theme 'doom-tomorrow-day) ;; Tomorrow's light variant (thanks to emacswatcher)
 ;;(setq doom-theme 'doom-tomorrow-night) ;; one of the dark variants of Tomorrow (thanks to emacswatcher)
 ;; (setq doom-theme 'doom-wilmersdorf) ;; port of Ian Pan's Wilmersdorf (thanks to ema2159)
 
@@ -36,6 +36,8 @@
 (set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
 (set-face-foreground 'font-lock-string-face (doom-blend 'yellow 'fg 0.1))
 (set-face-foreground 'default (doom-blend 'blue 'fg 0.1))
+(require 'hl-line)
+(set-face-background 'hl-line (doom-lighten 'bg 0.2))
 
 ;; (load-theme 'doom-tomorrow-night t)
 
@@ -57,6 +59,7 @@
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
 (setq-default line-spacing 5)
+(setq-default mac-command-modifier 'super)
 
 (add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'markdown-mode-hook 'turn-on-visual-line-mode)
@@ -122,24 +125,24 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(treemacs-directory-face ((t (:height 0.6 :family "Fira Sans"))))
- '(treemacs-git-unmodified-face ((t (:height 0.6 :family "Fira Sans"))))
- '(treemacs-directory-collapsed-face ((t (:height 0.6 :family "Fira Sans"))))
- '(treemacs-file-face ((t (:height 0.6 :family "Fira Sans"))))
- '(treemacs-tags-face ((t (:height 0.6 :family "Fira Sans"))))
- '(treemacs-term-node-face ((t (:height 0.6 :family "Fira Sans"))))
- '(treemacs-fringe-indicator-face ((t (:family "Fira Sans" :height 0.6))))
- '(treemacs-git-added-face ((t (:family "Fira Sans" :height 0.6))))
- '(treemacs-git-conflict-face ((t (:family "Fira Sans" :height 0.6))))
- '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "Fira Sans" :height 0.6))))
- '(treemacs-git-modified-face ((t (:family "Fira Sans" :height 0.6))))
- '(treemacs-git-unmodified-face ((t (:family "Fira Sans" :height 0.6))))
- '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "Fira Sans" :height 0.6))))
- '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "Fira Sans" :height 0.6 :color 'blue))))
- '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "Fira Sans" :height 0.6))))
- '(treemacs-help-title-face ((t (:family "Fira Sans" :height 0.6))))
- '(treemacs-on-failure-pulse-face ((t (:family "Fira Sans" :height 0.6))))
- '(treemacs-on-success-pulse-face ((t (:family "Fira Sans" :height 0.6))))
+ '(treemacs-directory-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-git-unmodified-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-directory-collapsed-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-file-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-tags-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-term-node-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-fringe-indicator-face ((t (:family "Fira Sans" :height 0.8))))
+ '(treemacs-git-added-face ((t (:family "Fira Sans" :height 0.8))))
+ '(treemacs-git-conflict-face ((t (:family "Fira Sans" :height 0.8))))
+ '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "Fira Sans" :height 0.8))))
+ '(treemacs-git-modified-face ((t (:family "Fira Sans" :height 0.8 :color 'orange))))
+ '(treemacs-git-unmodified-face ((t (:family "Fira Sans" :height 0.8))))
+ '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "Fira Sans" :height 0.8))))
+ '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "Fira Sans" :height 0.8 :color 'blue))))
+ '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "Fira Sans" :height 0.8))))
+ '(treemacs-help-title-face ((t (:family "Fira Sans" :height 0.8))))
+ '(treemacs-on-failure-pulse-face ((t (:family "Fira Sans" :height 0.8))))
+ '(treemacs-on-success-pulse-face ((t (:family "Fira Sans" :height 0.8))))
  '(treemacs-root-face ((t (:inherit font-lock-string-face :weight semi-bold :height 1.0 :family "Fira Sans"))))
 )
 

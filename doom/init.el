@@ -3,15 +3,9 @@
 
 (doom! :feature
        ;;debugger          ; FIXME stepping through code, to help you add bugs
-       eval              ; run code, run (also, repls)
-       (evil +everywhere); come to the dark side, we have cookies
-       file-templates    ; auto-snippets for empty files
-       (lookup           ; helps you navigate your code and documentation
-        +docsets)        ; ...or in Dash docsets locally
        ;; snippets module isn't working, so it's currently being manually cloned
        ;snippets          ; my elves. They type so I don't have to
        ;spellcheck        ; tasing you for misspelling mispelling
-       workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
        (company +auto)    ; the ultimate code completion backend
@@ -27,6 +21,7 @@
        ; doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;evil-goggles      ; display visual hints when editing in evil
        ;;fci               ; a `fill-column' indicator
+       workspaces        ; tab emulation, persistence & separate workspaces
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        modeline          ; snazzy, Atom-inspired modeline, plus API
        ;nav-flash         ; blink the current line after jumping
@@ -43,6 +38,8 @@
        window-select     ; visually switch windows
 
        :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        ;;(format +onsave)  ; automated prettiness
        ;;lispy             ; vim for lisp, for people who dont like vim
@@ -55,12 +52,14 @@
        ;+ranger         ; bringing the goodness of ranger to dired
        electric          ; smarter, keyword-based electric-indent
        ;;eshell            ; a consistent, cross-platform shell (WIP)
-       imenu             ; an imenu sidebar and searchable code index
-       term              ; terminals in Emacs
+       ;;imenu             ; an imenu sidebar and searchable code index
        vc                ; version-control and Emacs, sitting in a tree
 
        :tools
+       (lookup           ; helps you navigate your code and documentation
+        +docsets)        ; ...or in Dash docsets locally
        ;;ansible
+       eval              ; run code, run (also, repls)
        docker
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
@@ -95,6 +94,7 @@
        ;;ess               ; emacs speaks statistics
        go                ; the hipster dialect
        (haskell +intero) ; a language that's lazier than I am
+       ;; haskell             ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
@@ -146,6 +146,9 @@
        ;;floobits          ; peer programming for a price
        ;;impatient-mode    ; show off code over HTTP
 
+       :term
+       term              ; terminals in Emacs
+
        :config
        ;; For literate config users. This will tangle+compile a config.org
        ;; literate config in your `doom-private-dir' whenever it changes.
@@ -157,43 +160,3 @@
        ;; config. Use it as a reference for your own modules.
        (default +bindings +smartparens))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#181E24" "#FB4934" "#B8BB26" "#FABD2F" "#83A598" "#D3869B" "#17CCD5" "#EBDBB2"])
- '(custom-safe-themes
-   (quote
-    ("868abc288f3afe212a70d24de2e156180e97c67ca2e86ba0f2bf9a18c9672f07" "88049c35e4a6cedd4437ff6b093230b687d8a1fb65408ef17bfcf9b7338734f6" default)))
- '(pdf-view-midnight-colors (quote ("#FDF4C1" . "#282828")))
- '(pos-tip-background-color "#36473A")
- '(pos-tip-foreground-color "#FFFFC8")
- '(safe-local-variable-values
-   (quote
-    ((js2-basic-offset . 2)
-     (intero-targets "Cipher:exe:caesar-cipher")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(treemacs-directory-collapsed-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-directory-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-file-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-fringe-indicator-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-added-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-conflict-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-modified-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "PragmataPro Liga" :height 0.8))))
- '(treemacs-git-unmodified-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "PragmataPro Liga" :height 0.8 :color (quote blue)))))
- '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "PragmataPro Liga" :height 0.8))))
- '(treemacs-help-title-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-on-failure-pulse-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-on-success-pulse-face ((t (:family "PragmataPro Liga" :height 0.8))))
- '(treemacs-root-face ((t (:inherit font-lock-string-face :weight semi-bold :height 1.0 :family "PragmataPro Liga"))))
- '(treemacs-tags-face ((t (:height 0.8 :family "PragmataPro Liga"))))
- '(treemacs-term-node-face ((t (:height 0.8 :family "PragmataPro Liga")))))
