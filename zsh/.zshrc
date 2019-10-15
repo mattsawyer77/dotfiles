@@ -55,6 +55,9 @@ zplugin ice from"gh-r" as"program"; zplugin load junegunn/fzf-bin
 zplugin ice wait"0" lucid atload"_zsh_autosuggest_start"; zplugin light zsh-users/zsh-autosuggestions
 zplugin ice wait"0" lucid atinit"zpcompinit; zpcdreplay"; zplugin light zdharma/fast-syntax-highlighting
 
+zstyle :prompt:pure:path color 242
+zstyle :prompt:pure:git:branch color cyan
+
 source `brew --prefix`/etc/profile.d/z.sh
 
 # vi style incremental search
@@ -68,11 +71,6 @@ bindkey '^N' history-search-forward
 [[ -e "$HOME/.fzf-extras/fzf-extras.zsh" ]] \
   && source "$HOME/.fzf-extras/fzf-extras.zsh"
 
-# nix
-if [[ -d ~/.nix-profile ]]; then
-  . ~/.nix-profile/etc/profile.d/nix.sh
-fi
-
 ulimit -n 4096
 
 alias ssh='TERM=xterm-256color ssh'
@@ -84,7 +82,6 @@ alias l='exa -alF'
 alias ts='tmux new-session -n main -s'
 alias ta='tmux attach -t'
 alias k=kubectl
-alias doom='~/.emacs.d/bin/doom run -nw'
 
 # update an app's icon with the specified icns file
 update-icon() {
