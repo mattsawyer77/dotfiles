@@ -26,4 +26,7 @@
 (package! ormolu :recipe (:host github :repo "vyorkin/ormolu.el"))
 (package! fzf)
 (package! dhall-mode)
+(package! manage-minor-mode)
+(package! toml-mode)
+(package! company-nginx)
 ;; (package! lsp-haskell)
