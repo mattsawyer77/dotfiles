@@ -92,7 +92,7 @@
 ;; covers the entire window
 ;; (setq lsp-ui-doc-max-height 5)
 ;; (setq lsp-ui-doc-max-height 20)
-(setq lsp-ui-doc-enable nil)
+(setq lsp-ui-doc-enable t)
 
 ;; TODO: split this out into other files
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -153,11 +153,12 @@
     (with-selected-window window
       (fit-window-to-buffer window 15))))
 
-;; (require 'lsp)
-;; (require 'lsp-haskell)
-;; (setq lsp-haskell-process-path-hie "hie-wrapper")
-;; (add-hook 'haskell-mode-hook #'lsp)
-;; (setq haskell-mode-stylish-haskell-path "brittany")
+(require 'lsp)
+(require 'lsp-haskell)
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskell-mode-hook 'lsp-ui-mode)
+;; HIE
+(setq lsp-haskell-process-path-hie "hie-wrapper")
 
 (default-text-scale-mode 1)
 

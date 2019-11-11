@@ -29,4 +29,5 @@
 (package! manage-minor-mode)
 (package! toml-mode)
 (package! company-nginx)
-;; (package! lsp-haskell)
+(package! lsp-haskell)
+(package! hlint-refactor)
