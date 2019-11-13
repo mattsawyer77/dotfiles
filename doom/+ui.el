@@ -109,12 +109,12 @@
 (add-hook 'evil-insert-state-entry-hook (lambda nil (flycheck-mode -1)))
 (add-hook 'evil-insert-state-exit-hook (lambda nil (flycheck-mode 1)))
 
-(setq projectile-project-search-path '("~/F5/workspaces/f5aas/"
-                                       "~/F5/workspaces/f5aas/build"
-                                       "~/F5/workspaces/f5aas/infra"
-                                       "~/F5/workspaces/f5aas/frontend"
-                                       "~/exercism/rust"
-                                       "~/src/"))
+;(setq projectile-project-search-path '("~/F5/workspaces/f5aas/"
+;                                       "~/F5/workspaces/f5aas/build"
+;                                       "~/F5/workspaces/f5aas/infra"
+;                                       "~/F5/workspaces/f5aas/frontend"
+;                                       "~/exercism/rust"
+;                                       "~/src/"))
 
 (require 'treemacs)
 (treemacs-follow-mode)
@@ -157,6 +157,7 @@
 (require 'lsp-haskell)
 (add-hook 'haskell-mode-hook #'lsp)
 (add-hook 'haskell-mode-hook 'lsp-ui-mode)
+(add-hook 'haskell-mode-hook 'lsp-ui-doc-mode)
 ;; HIE
 (setq lsp-haskell-process-path-hie "hie-wrapper")
 

@@ -16,3 +16,4 @@
 
 (load! "+ui")
 (load! "+keybindings")
+(load! "+ghcid")

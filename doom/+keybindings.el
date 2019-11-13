@@ -18,6 +18,7 @@
 (define-key evil-normal-state-map (kbd "SPC t g") 'golden-ratio-toggle-widescreen)
 (define-key evil-normal-state-map (kbd "SPC v l") 'visual-line-mode)
 (define-key evil-normal-state-map (kbd "SPC l n") 'display-line-numbers-mode)
+(define-key evil-normal-state-map (kbd "SPC b i") 'ivy-switch-buffer)
 (define-key evil-normal-state-map (kbd "SPC m t") 'lsp-describe-thing-at-point)
 (define-key treemacs-mode-map (kbd "o p") (lambda () (interactive) (treemacs-visit-node-no-split t)))
 (define-key evil-normal-state-map (kbd "<f9>") 'projectile-project-buffers-other-buffer)
