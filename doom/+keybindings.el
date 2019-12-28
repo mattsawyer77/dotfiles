@@ -1,7 +1,7 @@
 ;;;  -*- lexical-binding: t; -*-
 
 (map! "<f4>" 'transpose-frame)
-(map! "<f9>" 'projectile-project-buffers-other-buffer)
+(map! "C-l" 'projectile-project-buffers-other-buffer)
 (map! "C-s" 'swiper)
 (map! "C-;" 'iedit-mode)
 (map! "s--" 'default-text-scale-decrease)

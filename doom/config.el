@@ -1,5 +1,7 @@
 ;;;  -*- lexical-binding: t; -*-
 
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 ;; make kops edit automatically use yaml mode
 (add-to-list 'auto-mode-alist '("\\kops-edit.+yaml$" . yaml-mode))
 ;; make helm templates automatically use mustache mode
@@ -17,3 +19,4 @@
 (load! "+ui")
 (load! "+keybindings")
 (load! "+ghcid")
+(load! "+cloudformation-mode")

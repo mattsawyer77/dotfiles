@@ -26,7 +26,7 @@
 ;;(setq doom-theme 'doom-tomorrow-night) ;; one of the dark variants of Tomorrow (thanks to emacswatcher)
 ;; (setq doom-theme 'doom-wilmersdorf) ;; port of Ian Pan's Wilmersdorf (thanks to ema2159)
 
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 23))
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 21))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
 
 (require 'doom-themes)
@@ -36,6 +36,7 @@
 (set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
 (set-face-foreground 'font-lock-string-face (doom-blend 'yellow 'fg 0.1))
 (set-face-foreground 'default (doom-blend 'blue 'fg 0.1))
+(set-face-background 'default "#101718")
 (require 'hl-line)
 (set-face-background 'hl-line (doom-lighten 'bg 0.2))
 
@@ -52,13 +53,14 @@
 (set-face-background 'haskell-pragma-face (doom-darken 'bg 0.5))
 (set-face-foreground 'haskell-operator-face (doom-color 'orange))
 (set-face-foreground 'haskell-definition-face (doom-color 'blue))
+(set-face-foreground 'haskell-quasi-quote-face (doom-color 'magenta))
 (set-face-bold 'haskell-type-face t)
 (set-face-bold 'haskell-definition-face t)
 
 (setq confirm-kill-emacs nil)
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
-(setq-default line-spacing 5)
+(setq-default line-spacing 8)
 (setq-default mac-command-modifier 'super)
 
 (add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
@@ -92,7 +94,6 @@
 ;; covers the entire window
 ;; (setq lsp-ui-doc-max-height 5)
 ;; (setq lsp-ui-doc-max-height 20)
-(setq lsp-ui-doc-enable t)
 
 ;; TODO: split this out into other files
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -105,6 +106,8 @@
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 (add-hook 'before-save-hook 'gofmt-before-save)
 (add-hook 'go-mode-hook #'lsp)
+(add-hook 'go-mode-hook 'lsp-ui-doc-mode)
+;; (add-hook 'go-mode-hook (lambda nil (lsp-ui-sideline-enable nil))
 (add-hook 'go-mode-hook 'flycheck-mode)
 (add-hook 'evil-insert-state-entry-hook (lambda nil (flycheck-mode -1)))
 (add-hook 'evil-insert-state-exit-hook (lambda nil (flycheck-mode 1)))
@@ -125,25 +128,24 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(treemacs-root-face ((t (:height 1.0 :weight bold :family "Fira Sans"))))
  '(treemacs-directory-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-git-unmodified-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-directory-collapsed-face ((t (:height 0.8 :family "Fira Sans"))))
  '(treemacs-file-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-directory-collapsed-face ((t (:family "Fira Sans"))))
+ '(treemacs-fringe-indicator-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-git-added-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-git-conflict-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-git-ignored-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-git-modified-face ((t (:height 0.8 :family "Fira Sans" :color 'orange))))
+ '(treemacs-git-renamed-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-git-unmodified-face ((t (:family "Fira Sans"))))
+ '(treemacs-git-untracked-face ((t (:height 0.8 :family "Fira Sans" :color 'blue))))
+ '(treemacs-help-column-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-help-title-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-on-failure-pulse-face ((t (:height 0.8 :family "Fira Sans"))))
+ '(treemacs-on-success-pulse-face ((t (:height 0.8 :family "Fira Sans"))))
  '(treemacs-tags-face ((t (:height 0.8 :family "Fira Sans"))))
  '(treemacs-term-node-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-fringe-indicator-face ((t (:family "Fira Sans" :height 0.8))))
- '(treemacs-git-added-face ((t (:family "Fira Sans" :height 0.8))))
- '(treemacs-git-conflict-face ((t (:family "Fira Sans" :height 0.8))))
- '(treemacs-git-ignored-face ((t (:inherit font-lock-comment-face :family "Fira Sans" :height 0.8))))
- '(treemacs-git-modified-face ((t (:family "Fira Sans" :height 0.8 :color 'orange))))
- '(treemacs-git-unmodified-face ((t (:family "Fira Sans" :height 0.8))))
- '(treemacs-git-renamed-face ((t (:inherit font-lock-doc-face :family "Fira Sans" :height 0.8))))
- '(treemacs-git-untracked-face ((t (:inherit font-lock-doc-face :family "Fira Sans" :height 0.8 :color 'blue))))
- '(treemacs-help-column-face ((t (:inherit font-lock-keyword-face :underline t :family "Fira Sans" :height 0.8))))
- '(treemacs-help-title-face ((t (:family "Fira Sans" :height 0.8))))
- '(treemacs-on-failure-pulse-face ((t (:family "Fira Sans" :height 0.8))))
- '(treemacs-on-success-pulse-face ((t (:family "Fira Sans" :height 0.8))))
- '(treemacs-root-face ((t (:inherit font-lock-string-face :weight semi-bold :height 1.0 :family "Fira Sans"))))
 )
 
 ;; make flycheck window auto-resize (with a max height of 15 lines)
@@ -155,11 +157,9 @@
 
 (require 'lsp)
 (require 'lsp-haskell)
-(add-hook 'haskell-mode-hook #'lsp)
-(add-hook 'haskell-mode-hook 'lsp-ui-mode)
-(add-hook 'haskell-mode-hook 'lsp-ui-doc-mode)
-;; HIE
 (setq lsp-haskell-process-path-hie "hie-wrapper")
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'lsp-ui-mode-hook 'lsp-ui-doc-mode)
 
 (default-text-scale-mode 1)
 
@@ -181,13 +181,13 @@
           )
 ;; enable ligatures on macOS GUI
 ;; and disable "smooth" scrolling
-(if (fboundp 'mac-auto-operator-composition-mode)
-   (mac-auto-operator-composition-mode)
-   (mac-mouse-wheel-mode 0))
+; (if (fboundp 'mac-auto-operator-composition-mode)
+;    (mac-auto-operator-composition-mode)
+;    (mac-mouse-wheel-mode 0))
 
 (require 'haskell-mode)
 (require 'ormolu)
-(add-hook 'haskell-mode-hook 'ormolu-mode)
+(add-hook 'haskell-mode-hook 'ormolu-format-on-save-mode)
 (setq ormolu-reformat-buffer-on-save t)
 
 (require 'highlight-indent-guides)
