@@ -57,6 +57,10 @@
           publicKey = "3AV9TvRupZgv9cMfrfMyghgi1fZj49qzauV/6eUdJXE=";
           allowedIPs = [ "10.100.0.4/32" ];
         }
+        { # Justin's phone's key
+          publicKey = "jPbI7Pr7vPPYxjs54bsgjaQjkh2Opo7xcGeiSCPiXV8=";
+          allowedIPs = [ "10.100.0.10/32" ];
+        }
       ];
     };
   };

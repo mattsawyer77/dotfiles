@@ -14,8 +14,8 @@
     interfaces = {
       eth0 = {
         ipv4.addresses = [
-          { address="167.172.202.207"; prefixLength=20; }
-          #{ address="10.46.0.5"; prefixLength=16; }
+          #{ address="167.172.202.207"; prefixLength=20; }
+          { address="10.46.0.5"; prefixLength=16; }
         ];
         #ipv6.addresses = [
           #{ address="fe80::60b1:9eff:feea:bac9"; prefixLength=64; }

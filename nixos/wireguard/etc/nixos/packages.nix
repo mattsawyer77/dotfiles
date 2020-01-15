@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }: 
+{
   environment.systemPackages = with pkgs; [
     bind
     git
@@ -8,7 +9,6 @@
     wireguard
     eternal-terminal
     pcre
-    unbound-updater
     (neovim.override {
       configure = {
         packages.myVimPackage = with pkgs.vimPlugins; {
