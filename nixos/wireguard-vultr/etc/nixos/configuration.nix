@@ -15,7 +15,7 @@
     enable = true;
     allowPing = true;
     allowedUDPPorts = [ 51820 53 ];
-    allowedTCPPorts = [ 22 53 ];
+    allowedTCPPorts = [ 22 53 2022 ];
 
     # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
     # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
@@ -78,6 +78,7 @@
 
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "no";
+  services.eternal-terminal.enable = true;
   users.users.matt = {
     isNormalUser = true;
     home = "/home/matt";
