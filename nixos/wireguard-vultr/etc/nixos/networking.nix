@@ -3,9 +3,9 @@
   # details gathered from the active system.
   networking = {
     nameservers = [
-      "8.8.4.4"         # Google Public DNS-2
-      "156.154.70.22"   # Comodo Secure DNS
-      "74.82.42.42"     # Hurricane Electric
+      "8.8.4.4"                # Google Public DNS-2
+      "208.67.222.220"         # OpenDNS-3
+      "2001:418:3ff::1:53"     # NTT-2 IPv6
     ];
     defaultGateway = "45.32.224.1";
     #defaultGateway6 = "";
