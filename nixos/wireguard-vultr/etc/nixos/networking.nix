@@ -12,22 +12,21 @@
     dhcpcd.enable = true;
     usePredictableInterfaceNames = lib.mkForce true;
     interfaces = {
-      eth0 = {
+      ens3 = {
         ipv4.addresses = [
-          #{ address="167.172.202.207"; prefixLength=20; }
-          { address="45.32.224.145"; prefixLength=16; }
+          { address="45.32.224.145"; prefixLength=22; }
         ];
         #ipv6.addresses = [
-          #{ address="fe80::60b1:9eff:feea:bac9"; prefixLength=64; }
+        #  { address="2001:19f0:8001:1a85:5400:02ff:fe7e:f4e1"; prefixLength=64; }
         #];
-        ipv4.routes = [ { address = "45.32.224.1"; prefixLength = 32; } ];
-        #ipv6.routes = [ { address = ""; prefixLength = 32; } ];
+        #ipv4.routes = [ { address = "45.32.224.1"; prefixLength = 22; } ];
+        #ipv6.routes = [ { address = "2001:19f0:8001:1a85::"; prefixLength = 32; } ];
       };
       
     };
   };
   #services.udev.extraRules = ''
-    #ATTR{address}=="62:b1:9e:ea:ba:c9", NAME="eth0"
+    #ATTR{address}=="62:b1:9e:ea:ba:c9", NAME="ens3"
     #
   #'';
 }
