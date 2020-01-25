@@ -3,12 +3,12 @@
 ;; (setq doom-theme 'doom-one) ;; doom-themes' flagship theme, inspired by Atom's One Dark themes
 ;;(setq doom-theme 'doom-one-light) ;; light version of doom-one (thanks to ztlevi)
 ;; (setq doom-theme 'doom-vibrant) ;; a slightly more vibrant version of doom-one
-(setq doom-theme 'doom-city-lights) ;; based on Atom's City lights (thanks to fuxialexander)
-;; (setq doom-theme 'doom-challenger-deep) ;; based on Vim's Challenger deep theme (thanks to fuxialexander)
+;; (setq doom-theme 'doom-city-lights) ;; based on Atom's City lights (thanks to fuxialexander)
+(setq doom-theme 'doom-challenger-deep) ;; based on Vim's Challenger deep theme (thanks to fuxialexander)
 ;; (setq doom-theme 'doom-dracula) ;; an implementation of Dracula theme (thanks to fuxialexander)
 ;; (setq doom-theme 'doom-gruvbox) ;; adapted from Mohretz's Gruvbox (thanks to JongW)
 ;;;;(setq doom-theme 'doom-Iosvkem) ;; adapted from Iosvkem (thanks to neutaaaaan)
-;;(setq doom-theme 'doom-molokai) ;; based on Textmate's monokai
+;; (setq doom-theme 'doom-molokai) ;; based on Textmate's monokai
 ;;(setq doom-theme 'doom-moonlight ported from VS Code's Moonlight Theme (thanks to Brettm12345)
 ;;(setq doom-theme 'doom-nord) ;; dark variant of Nord (thanks to fuxialexander)
 ;;(setq doom-theme 'doom-nord-light) ;; light variant of Nord (thanks to fuxialexander)
@@ -23,29 +23,38 @@
 ;;(setq doom-theme 'doom-sourcerer) ;; based on Sourcerer (thanks to defphil)
 ;;(setq doom-theme 'doom-spacegrey) ;; I'm sure you've heard of it (thanks to teesloane)
 ;; (setq doom-theme 'doom-tomorrow-day) ;; Tomorrow's light variant (thanks to emacswatcher)
-;;(setq doom-theme 'doom-tomorrow-night) ;; one of the dark variants of Tomorrow (thanks to emacswatcher)
+;; (setq doom-theme 'doom-tomorrow-night) ;; one of the dark variants of Tomorrow (thanks to emacswatcher)
 ;; (setq doom-theme 'doom-wilmersdorf) ;; port of Ian Pan's Wilmersdorf (thanks to ema2159)
 
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 21))
+(setq doom-font (font-spec :family "PragmataPro Liga 1.2" :size 21))
+;; (setq doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 17))
+(setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
 
 (require 'doom-themes)
 
-(load-theme 'doom-city-lights t)
-(set-face-foreground 'font-lock-variable-name-face (doom-blend 'blue 'fg 0.5))
-(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
-(set-face-foreground 'font-lock-string-face (doom-blend 'yellow 'fg 0.1))
-(set-face-foreground 'default (doom-blend 'blue 'fg 0.1))
-(set-face-background 'default "#101718")
-(require 'hl-line)
-(set-face-background 'hl-line (doom-lighten 'bg 0.2))
-
+;; (load-theme 'doom-city-lights t)
+;; (set-face-foreground 'font-lock-variable-name-face (doom-blend 'blue 'fg 0.5))
+;; (set-face-foreground 'font-lock-string-face (doom-blend 'yellow 'fg 0.1))
+;; (set-face-foreground 'default (doom-blend 'blue 'fg 0.1))
+;; (set-face-background 'default "#101718")
 ;; (load-theme 'doom-tomorrow-night t)
+;; (load-theme 'doom-molokai t)
+;; (require 'hl-line)
+;; (set-face-background 'hl-line (doom-lighten 'bg 0.2))
+;;
+(load-theme 'doom-challenger-deep)
+(require 'company)
+(set-face-foreground 'company-tooltip-selection (doom-color 'black))
+(set-face-foreground 'company-tooltip-common (doom-color 'black))
+(set-face-foreground 'company-tooltip-annotation (doom-color 'grey))
+(set-face-foreground 'font-lock-preprocessor-face (doom-darken 'blue 0.3))
+(set-face-foreground 'font-lock-variable-name-face (doom-darken 'fg 0.1))
+(set-face-foreground 'font-lock-function-name-face (doom-darken 'fg 0.1))
 
-;; (load-theme 'doom-challenger-deep)
-;; (set-face-foreground 'font-lock-variable-name-face (doom-darken 'fg 0.1))
-;; (set-face-foreground 'font-lock-function-name-face (doom-darken 'fg 0.1))
-;; (set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
+(set-face-bold 'font-lock-type-face t)
+(set-face-bold 'font-lock-function-name-face t)
+(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
 
 (require 'haskell-mode)
 (set-face-foreground 'haskell-keyword-face "coral")
@@ -57,12 +66,32 @@
 (set-face-bold 'haskell-type-face t)
 (set-face-bold 'haskell-definition-face t)
 
+(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
+
+(require 'git-gutter)
+(setq git-gutter:modified-sign "▕")
+(setq git-gutter:added-sign "▕")
+(setq git-gutter:deleted-sign "▕")
+
+(require 'rust-mode)
+(require 'rustic)
+;; (setq lsp-rust-rls-server-command '("rls")) ;; stable
+;; (setq lsp-rust-rls-server-command '("rustup" "run" "nightly" "rls")) ;; nightly
+;; (setq racer-cmd '("rustup" "run" "nightly" "racer")) ;; nightly
+(setq rust-format-on-save t)
+(set-face-italic 'rustic-string-interpolation-face nil)
+(set-face-foreground 'rustic-string-interpolation-face (doom-lighten 'fg 0.1))
+;; (setq rustic-ansi-faces ["black" (doom-color 'red) (doom-color 'orange) (doom-color 'yellow) (doom-color 'blue) (doom-color 'magenta) (doom-color 'cyan) "white"])
+;; oaiwejfoaijef
 (setq confirm-kill-emacs nil)
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
-(setq-default line-spacing 8)
+;; (setq select-enable-clipboard t)
+;; (setq select-enable-primary t)
+(setq-default line-spacing 0)
+(setq-default line-)
 (setq-default mac-command-modifier 'super)
-
+;; super
 (add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'markdown-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'yaml-mode-hook 'turn-on-visual-line-mode)
@@ -112,41 +141,16 @@
 (add-hook 'evil-insert-state-entry-hook (lambda nil (flycheck-mode -1)))
 (add-hook 'evil-insert-state-exit-hook (lambda nil (flycheck-mode 1)))
 
-;(setq projectile-project-search-path '("~/F5/workspaces/f5aas/"
-;                                       "~/F5/workspaces/f5aas/build"
-;                                       "~/F5/workspaces/f5aas/infra"
-;                                       "~/F5/workspaces/f5aas/frontend"
-;                                       "~/exercism/rust"
-;                                       "~/src/"))
+(setq projectile-project-search-path '("~/workspaces"
+                                      "~/haskell"))
 
+(setq doom-themes-treemacs-theme "doom-atom")
 (require 'treemacs)
+(require 'treemacs-persp)
 (treemacs-follow-mode)
-;; (treemacs-resize-icons 18)
-;; (setq-default 'treemacs--icon-size 18)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(treemacs-root-face ((t (:height 1.0 :weight bold :family "Fira Sans"))))
- '(treemacs-directory-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-file-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-directory-collapsed-face ((t (:family "Fira Sans"))))
- '(treemacs-fringe-indicator-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-git-added-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-git-conflict-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-git-ignored-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-git-modified-face ((t (:height 0.8 :family "Fira Sans" :color 'orange))))
- '(treemacs-git-renamed-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-git-unmodified-face ((t (:family "Fira Sans"))))
- '(treemacs-git-untracked-face ((t (:height 0.8 :family "Fira Sans" :color 'blue))))
- '(treemacs-help-column-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-help-title-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-on-failure-pulse-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-on-success-pulse-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-tags-face ((t (:height 0.8 :family "Fira Sans"))))
- '(treemacs-term-node-face ((t (:height 0.8 :family "Fira Sans"))))
-)
+(set-face-attribute 'treemacs-root-face nil :height 1.5)
+(set-face-bold 'treemacs-root-face t)
+(setq doom-themes-treemacs-line-spacing 0)
 
 ;; make flycheck window auto-resize (with a max height of 15 lines)
 (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
@@ -181,9 +185,7 @@
           )
 ;; enable ligatures on macOS GUI
 ;; and disable "smooth" scrolling
-; (if (fboundp 'mac-auto-operator-composition-mode)
-;    (mac-auto-operator-composition-mode)
-;    (mac-mouse-wheel-mode 0))
+(mac-auto-operator-composition-mode)
 
 (require 'haskell-mode)
 (require 'ormolu)
@@ -195,3 +197,7 @@
 (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
 (add-hook 'json-mode-hook 'highlight-indent-guides-mode)
 (add-hook 'python-mode-hook 'highlight-indent-guides-mode)
+
+;; rust
+(setq rust-format-on-save t)
+(add-hook 'rust-mode-hook #'lsp)

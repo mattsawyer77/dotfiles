@@ -31,3 +31,4 @@
 (package! company-nginx)
 (package! lsp-haskell)
 (package! hlint-refactor)
+(package! treemacs-persp)
