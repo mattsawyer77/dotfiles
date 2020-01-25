@@ -25,6 +25,9 @@ zplugin ice atclone"dircolors -b LS_COLORS > c.zsh" atpull'%atclone' pick"c.zsh"
 zplugin light trapd00r/LS_COLORS
 
 export ZSH_CACHE_DIR=~/.local/cache
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 
 # OMZ things to source
 local _ZSHRC_OMZ_SOURCES=(
@@ -78,10 +81,16 @@ alias vim=nvim
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
 alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias k=kubectl
-alias l='exa -alF'
+if which exa >/dev/null; then
+  alias l='exa -alF'
+else
+  alias l='ls -alFG'
+fi
 alias ts='tmux new-session -n main -s'
 alias ta='tmux attach -t'
 alias k=kubectl
+alias tf-apply='time terraform apply .plan 2>&1 | tee apply.out'
+alias tf-plan='terraform plan -out=.plan 2>&1 | tee plan.out'
 
 # update an app's icon with the specified icns file
 update-icon() {
@@ -119,3 +128,6 @@ tmux-color-command () {
         fi
     done
 }
+
+# edit a file with emacsclient -- if no session exists, create one automatically
+alias em='emacsclient --nw -c -a emacs -nw "$@"'
