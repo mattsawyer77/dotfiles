@@ -61,6 +61,14 @@
           publicKey = "jPbI7Pr7vPPYxjs54bsgjaQjkh2Opo7xcGeiSCPiXV8=";
           allowedIPs = [ "10.100.0.10/32" ];
         }
+        { # Amy's phone's key
+          publicKey = "l2hjORnIc5l/4XITz9U61bvfHe/lrLslwtSFpBaYLSo=";
+          allowedIPs = [ "10.100.0.20/32" ];
+        }
+        { # Justin's iPad's key
+          publicKey = "YEocQBPgaHZE/lDo8HzRgqTlisl4GCIwEfoutxT3d0k=";
+          allowedIPs = [ "10.100.0.11/32" ];
+        }
       ];
     };
   };
@@ -68,11 +76,23 @@
   services.unbound.allowedAccess = [ "10.100.0.0/24" "127.0.0.1" ];
   services.unbound.interfaces = [ "0.0.0.0" ];
   services.unbound.forwardAddresses = [
-    "8.8.4.4"                # Google Public DNS-2
-    "208.67.222.220"         # OpenDNS-3
-    "2001:418:3ff::1:53"     # NTT-2 IPv6
+    "1.0.0.1"         # 1.0.0.1
+    "205.171.3.65"    # Qwest US
+    "208.67.222.222"  # OpenDNS-2
+    # "205.171.2.65"             # Qwest-2 US
+    # "129.250.35.251"           # NTT-2
+    # "2001:470:20::2"         # Hurricane Electric
+    # "208.67.220.220"         # OpenDNS
+    # "108.61.10.10"           # Vultr (retrieved from dhcpcd)
+    # "8.8.4.4"                # Google Public DNS-2
+    # "208.67.222.220"         # OpenDNS-3
+    # "2001:418:3ff::1:53"     # NTT-2 IPv6
   ];
   services.unbound.extraConfig = ''
+    verbosity: 3
+    log-queries: yes
+    log-replies: yes
+    log-local-actions: yes
     include: /var/lib/unbound/ads.conf
   '';
 

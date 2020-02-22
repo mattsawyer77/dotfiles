@@ -9,6 +9,7 @@
     wireguard
     eternal-terminal
     pcre
+    python
     (neovim.override {
       configure = {
         packages.myVimPackage = with pkgs.vimPlugins; {

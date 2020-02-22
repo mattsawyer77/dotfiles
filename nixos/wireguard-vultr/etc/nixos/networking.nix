@@ -3,9 +3,17 @@
   # details gathered from the active system.
   networking = {
     nameservers = [
-      "8.8.4.4"                # Google Public DNS-2
-      "208.67.222.220"         # OpenDNS-3
-      "2001:418:3ff::1:53"     # NTT-2 IPv6
+    "1.0.0.1"         # 1.0.0.1
+    "205.171.3.65"    # Qwest US
+    "208.67.222.222"  # OpenDNS-2
+    # "205.171.2.65"             # Qwest-2 US
+    # "129.250.35.251"           # NTT-2
+    # "2001:470:20::2"         # Hurricane Electric
+    # "208.67.220.220"         # OpenDNS
+    # "108.61.10.10"           # Vultr (retrieved from dhcpcd)
+    # "8.8.4.4"                # Google Public DNS-2
+    # "208.67.222.220"         # OpenDNS-3
+    # "2001:418:3ff::1:53"     # NTT-2 IPv6
     ];
     defaultGateway = "45.32.224.1";
     #defaultGateway6 = "";
