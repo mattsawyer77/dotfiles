@@ -1,203 +1,55 @@
 ;;;  -*- lexical-binding: t; -*-
-;;;
-;; (setq doom-theme 'doom-one) ;; doom-themes' flagship theme, inspired by Atom's One Dark themes
-;;(setq doom-theme 'doom-one-light) ;; light version of doom-one (thanks to ztlevi)
-;; (setq doom-theme 'doom-vibrant) ;; a slightly more vibrant version of doom-one
-;; (setq doom-theme 'doom-city-lights) ;; based on Atom's City lights (thanks to fuxialexander)
-(setq doom-theme 'doom-challenger-deep) ;; based on Vim's Challenger deep theme (thanks to fuxialexander)
-;; (setq doom-theme 'doom-dracula) ;; an implementation of Dracula theme (thanks to fuxialexander)
-;; (setq doom-theme 'doom-gruvbox) ;; adapted from Mohretz's Gruvbox (thanks to JongW)
-;;;;(setq doom-theme 'doom-Iosvkem) ;; adapted from Iosvkem (thanks to neutaaaaan)
-;; (setq doom-theme 'doom-molokai) ;; based on Textmate's monokai
-;;(setq doom-theme 'doom-moonlight ported from VS Code's Moonlight Theme (thanks to Brettm12345)
-;;(setq doom-theme 'doom-nord) ;; dark variant of Nord (thanks to fuxialexander)
-;;(setq doom-theme 'doom-nord-light) ;; light variant of Nord (thanks to fuxialexander)
-;;(setq doom-theme 'doom-nova) ;; adapted from Nova (thanks to bigardone)
-;;(setq doom-theme 'doom-opera) ;; a dark theme created by (thanks to jwintz)
-;;(setq doom-theme 'doom-opera-light) ;; a light theme created by (thanks to jwintz)
-;; (setq doom-theme 'doom-outrun-electric) ;; a neon colored theme inspired in VS Code's Outrun Electric (thanks to ema2159)
-;; (setq doom-theme 'doom-palenight) ;; adapted from Material Themes (thanks to Brettm12345)
-;; (setq doom-theme 'doom-peacock) ;; based on Peacock from daylerees' themes (thanks to teesloane)
-;; (setq doom-theme 'doom-solarized-dark) ;; dark variant of Solarized (thanks to ema2159)
-;;(setq doom-theme 'doom-solarized-light) ;; light variant of Solarized (thanks to fuxialexander)
-;;(setq doom-theme 'doom-sourcerer) ;; based on Sourcerer (thanks to defphil)
-;;(setq doom-theme 'doom-spacegrey) ;; I'm sure you've heard of it (thanks to teesloane)
-;; (setq doom-theme 'doom-tomorrow-day) ;; Tomorrow's light variant (thanks to emacswatcher)
-;; (setq doom-theme 'doom-tomorrow-night) ;; one of the dark variants of Tomorrow (thanks to emacswatcher)
-;; (setq doom-theme 'doom-wilmersdorf) ;; port of Ian Pan's Wilmersdorf (thanks to ema2159)
 
-(setq doom-font (font-spec :family "PragmataPro Liga 1.2" :size 21))
-;; (setq doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 17))
-(setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
+(setq doom-theme 'doom-challenger-deep)
+(setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 19))
+(setq doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 17))
+;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
 
-(require 'doom-themes)
+(after! doom-themes
+  (load-theme 'doom-challenger-deep)
+  (set-face-foreground 'font-lock-preprocessor-face (doom-darken 'blue 0.3))
+  (set-face-foreground 'font-lock-variable-name-face (doom-lighten 'blue 0.4))
+  (set-face-foreground 'font-lock-function-name-face (doom-color 'red))
+  (set-face-foreground 'font-lock-comment-face (doom-darken 'magenta 0.5))
+  (set-face-bold 'font-lock-type-face t)
+  (set-face-bold 'font-lock-function-name-face t)
+  (set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
+  )
 
-;; (load-theme 'doom-city-lights t)
-;; (set-face-foreground 'font-lock-variable-name-face (doom-blend 'blue 'fg 0.5))
-;; (set-face-foreground 'font-lock-string-face (doom-blend 'yellow 'fg 0.1))
-;; (set-face-foreground 'default (doom-blend 'blue 'fg 0.1))
-;; (set-face-background 'default "#101718")
-;; (load-theme 'doom-tomorrow-night t)
-;; (load-theme 'doom-molokai t)
-;; (require 'hl-line)
-;; (set-face-background 'hl-line (doom-lighten 'bg 0.2))
-;;
-(load-theme 'doom-challenger-deep)
-(require 'company)
-(set-face-foreground 'company-tooltip-selection (doom-color 'black))
-(set-face-foreground 'company-tooltip-common (doom-color 'black))
-(set-face-foreground 'company-tooltip-annotation (doom-color 'grey))
-(set-face-foreground 'font-lock-preprocessor-face (doom-darken 'blue 0.3))
-(set-face-foreground 'font-lock-variable-name-face (doom-darken 'fg 0.1))
-(set-face-foreground 'font-lock-function-name-face (doom-darken 'fg 0.1))
+(after! company
+  (set-face-foreground 'company-tooltip-selection (doom-color 'black))
+  (set-face-foreground 'company-tooltip-common (doom-color 'black))
+  (set-face-foreground 'company-tooltip-annotation (doom-color 'grey))
+  )
 
-(set-face-bold 'font-lock-type-face t)
-(set-face-bold 'font-lock-function-name-face t)
-(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
+(after! haskell-mode
+  (set-face-foreground 'haskell-keyword-face "coral")
+  (set-face-foreground 'haskell-pragma-face (doom-color 'red))
+  (set-face-background 'haskell-pragma-face (doom-darken 'bg 0.5))
+  (set-face-foreground 'haskell-operator-face (doom-color 'orange))
+  (set-face-foreground 'haskell-definition-face (doom-color 'blue))
+  (set-face-foreground 'haskell-quasi-quote-face (doom-color 'magenta))
+  (set-face-bold 'haskell-type-face t)
+  (set-face-bold 'haskell-definition-face t)
+  )
 
-(require 'haskell-mode)
-(set-face-foreground 'haskell-keyword-face "coral")
-(set-face-foreground 'haskell-pragma-face (doom-color 'red))
-(set-face-background 'haskell-pragma-face (doom-darken 'bg 0.5))
-(set-face-foreground 'haskell-operator-face (doom-color 'orange))
-(set-face-foreground 'haskell-definition-face (doom-color 'blue))
-(set-face-foreground 'haskell-quasi-quote-face (doom-color 'magenta))
-(set-face-bold 'haskell-type-face t)
-(set-face-bold 'haskell-definition-face t)
+(after! hl-todo
+  (setq hl-todo-keyword-faces
+        `(("TODO"  . ,(face-foreground 'warning))
+          ("FIXME" . ,(face-foreground 'error))
+          ("XXX" . ,(face-foreground 'error))
+          ("NOTE"  . ,(face-foreground 'success))))
+  )
 
-(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
+(after! treemacs
+  (set-face-attribute 'treemacs-root-face nil :height 1.8)
+  (set-face-bold 'treemacs-root-face t)
+  )
 
-(require 'git-gutter)
-(setq git-gutter:modified-sign "▕")
-(setq git-gutter:added-sign "▕")
-(setq git-gutter:deleted-sign "▕")
-
-(require 'rust-mode)
-(require 'rustic)
-;; (setq lsp-rust-rls-server-command '("rls")) ;; stable
-;; (setq lsp-rust-rls-server-command '("rustup" "run" "nightly" "rls")) ;; nightly
-;; (setq racer-cmd '("rustup" "run" "nightly" "racer")) ;; nightly
-(setq rust-format-on-save t)
-(set-face-italic 'rustic-string-interpolation-face nil)
-(set-face-foreground 'rustic-string-interpolation-face (doom-lighten 'fg 0.1))
-;; (setq rustic-ansi-faces ["black" (doom-color 'red) (doom-color 'orange) (doom-color 'yellow) (doom-color 'blue) (doom-color 'magenta) (doom-color 'cyan) "white"])
-;; oaiwejfoaijef
-(setq confirm-kill-emacs nil)
-(setq company-idle-delay 0.2
-      company-minimum-prefix-length 2)
-;; (setq select-enable-clipboard t)
-;; (setq select-enable-primary t)
-(setq-default line-spacing 0)
-(setq-default line-)
-(setq-default mac-command-modifier 'super)
-;; super
-(add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
-(add-hook 'markdown-mode-hook 'turn-on-visual-line-mode)
-(add-hook 'yaml-mode-hook 'turn-on-visual-line-mode)
-(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-
-(global-company-mode)
-(setq company-idle-delay 0.2)
-(setq company-selection-wrap-around t)
-(global-evil-surround-mode 1)
-(set-default 'truncate-lines t)
-(setq-default tab-width 2)
-
-(setq doom-modeline-icon t)
-(setq doom-modeline-major-mode-icon t)
-(setq doom-modeline-vcs-max-length 30)
-(setq doom-modeline-persp-name t)
-
-(require 'yasnippet)
-;; optional - provides fancier overlays
-(use-package lsp-ui
-  :commands lsp-ui-mode)
-
-(require 'company-lsp)
-(push 'company-lsp company-backends)
-;; if you use company-mode for completion (otherwise, complete-at-point works out of the box):
-(use-package company-lsp
-  :commands company-lsp)
-;; TODO: the following feature, for some reason, creates a popup that
-;; covers the entire window
-;; (setq lsp-ui-doc-max-height 5)
-;; (setq lsp-ui-doc-max-height 20)
-
-;; TODO: split this out into other files
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
-(add-hook 'js2-mode-hook 'display-line-numbers-mode)
-(add-hook 'js2-mode-hook 'prettier-js-mode)
-(add-hook 'emacs-lisp-mode-hook 'display-line-numbers-mode)
-(add-hook 'yaml-mode-hook 'display-line-numbers-mode)
-(add-hook 'mustache-mode-hook 'display-line-numbers-mode)
-(add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
-(add-hook 'before-save-hook 'gofmt-before-save)
-(add-hook 'go-mode-hook #'lsp)
-(add-hook 'go-mode-hook 'lsp-ui-doc-mode)
-;; (add-hook 'go-mode-hook (lambda nil (lsp-ui-sideline-enable nil))
-(add-hook 'go-mode-hook 'flycheck-mode)
-(add-hook 'evil-insert-state-entry-hook (lambda nil (flycheck-mode -1)))
-(add-hook 'evil-insert-state-exit-hook (lambda nil (flycheck-mode 1)))
-
-(setq projectile-project-search-path '("~/workspaces"
-                                      "~/haskell"))
-
-(setq doom-themes-treemacs-theme "doom-atom")
-(require 'treemacs)
-(require 'treemacs-persp)
-(treemacs-follow-mode)
-(set-face-attribute 'treemacs-root-face nil :height 1.5)
-(set-face-bold 'treemacs-root-face t)
-(setq doom-themes-treemacs-line-spacing 0)
-
-;; make flycheck window auto-resize (with a max height of 15 lines)
-(defadvice flycheck-error-list-refresh (around shrink-error-list activate)
-  ad-do-it
-  (-when-let (window (flycheck-get-error-list-window t))
-    (with-selected-window window
-      (fit-window-to-buffer window 15))))
-
-(require 'lsp)
-(require 'lsp-haskell)
-(setq lsp-haskell-process-path-hie "hie-wrapper")
-(add-hook 'haskell-mode-hook #'lsp)
-(add-hook 'lsp-ui-mode-hook 'lsp-ui-doc-mode)
-
-(default-text-scale-mode 1)
-
-;; persistent undo
-(global-undo-tree-mode)
-(setq undo-tree-auto-save-history t)
-(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/.local/undo")))
-
-;; exec-path-from-shell
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
-(add-to-list 'company-lsp-filter-candidates '(gopls . nil))
-
-;; evil-terminal-cursor-changer
-(unless (display-graphic-p)
-          (require 'evil-terminal-cursor-changer)
-          (evil-terminal-cursor-changer-activate) ; or (etcc-on)
-          )
-;; enable ligatures on macOS GUI
-;; and disable "smooth" scrolling
-(mac-auto-operator-composition-mode)
-
-(require 'haskell-mode)
-(require 'ormolu)
-(add-hook 'haskell-mode-hook 'ormolu-format-on-save-mode)
-(setq ormolu-reformat-buffer-on-save t)
-
-(require 'highlight-indent-guides)
-(add-hook 'haskell-mode-hook 'highlight-indent-guides-mode)
-(add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
-(add-hook 'json-mode-hook 'highlight-indent-guides-mode)
-(add-hook 'python-mode-hook 'highlight-indent-guides-mode)
-
-;; rust
-(setq rust-format-on-save t)
-(add-hook 'rust-mode-hook #'lsp)
+;;; rust
+(after! rustic
+  (set-face-italic 'rustic-string-interpolation-face nil)
+  (set-face-foreground 'rustic-string-interpolation-face
+                       (doom-lighten 'fg 0.1))
+  )
