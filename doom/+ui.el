@@ -1,12 +1,11 @@
 ;;;  -*- lexical-binding: t; -*-
 
-(require 'doom-themes)
-(setq doom-theme 'doom-challenger-deep)
+;; (require 'doom-themes)
+(load-theme 'doom-challenger-deep)
 (setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 19))
 (setq doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 17))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
-(load-theme 'doom-challenger-deep)
 (set-face-foreground 'font-lock-preprocessor-face (doom-darken 'blue 0.3))
 (set-face-foreground 'font-lock-variable-name-face (doom-lighten 'blue 0.4))
 (set-face-foreground 'font-lock-function-name-face (doom-color 'red))
@@ -41,7 +40,7 @@
   )
 
 (after! treemacs
-  (set-face-attribute 'treemacs-root-face nil :height 1.8)
+  (set-face-attribute 'treemacs-root-face nil :height 1.6)
   (set-face-bold 'treemacs-root-face t)
   )
 

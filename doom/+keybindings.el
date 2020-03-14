@@ -2,70 +2,41 @@
 
 (map! "<mouse-4>" 'up-slightly)
 (map! "<mouse-5>" 'down-slightly)
-(define-key evil-normal-state-map (kbd "SPC v l") 'visual-line-mode)
 
-(use-package! display-line-numbers
-  :defer
-  :config
-  (define-key evil-normal-state-map (kbd "SPC l n") 'display-line-numbers-mode)
-  )
+(map! :after lsp-ui
+      :mode lsp-ui-mode
+      :nv "SPC m d" #'lsp-ui-doc-glance)
 
-(use-package! transpose-frame
-  :defer
-  :config
-  (map! "<f4>" 'transpose-frame)
-  )
+(map! :after transpose-frame
+      :nv "<f4>" #'transpose-frame)
 
-(use-package! counsel
-  :defer
-  :config
-  (map! "C-s" 'swiper)
-  (map! "C-<tab>" 'counsel-fzf)
-  )
+(map! :after counsel
+      :nv "C-s" #'swiper
+      :n "C-<tab>" #'counsel-fzf)
 
-(use-package! ivy
-  :defer
-  :config
-  (define-key evil-normal-state-map (kbd "SPC b i") 'ivy-switch-buffer)
-  )
+(map! :after ivy
+      :nv "SPC b i" #'ivy-switch-buffer)
 
-(use-package! iedit
-  :defer
-  :config
-  (map! "C-;" 'iedit-mode)
-  )
+(map! :after iedit
+      :nv "C-;" #'iedit-mode)
 
-(use-package! default-text-scale
-  :defer
-  :config
-  (map! "s--" 'default-text-scale-decrease)
-  (map! "s-+" 'default-text-scale-increase)
-  (map! "s-0" 'default-text-scale-reset)
-  )
+(map! :after treemacs
+      :map treemacs-mode-map
+      :mode treemacs-mode
+      :n "o p" (lambda ()
+                 (interactive)
+                 (treemacs-visit-node-no-split t)))
 
-(use-package! treemacs
-  :defer
-  :config
-  (define-key treemacs-mode-map (kbd "o p") (lambda () (interactive) (treemacs-visit-node-no-split t)))
-  )
+(map! :after flycheck
+      :n "SPC e n" #'flycheck-next-error
+      :n "SPC e n" #'flycheck-next-error
+      :n "SPC e p" #'flycheck-previous-error
+      :n "SPC e v" #'flycheck-verify-setup)
 
-(use-package! flycheck
-  :defer
-  :config
-  (define-key evil-normal-state-map (kbd "SPC e n") 'flycheck-next-error)
-  (define-key evil-normal-state-map (kbd "SPC e n") 'flycheck-next-error)
-  (define-key evil-normal-state-map (kbd "SPC e p") 'flycheck-previous-error)
-  (define-key evil-normal-state-map (kbd "SPC e v") 'flycheck-verify-setup)
-  )
+(map! :after golden-ratio
+      :map general-override-mode-map
+      :n "SPC w g" #'golden-ratio-toggle-widescreen)
 
-(use-package! golden-ratio
-  :defer
-  :config
-  (define-key evil-normal-state-map (kbd "SPC t g") 'golden-ratio-toggle-widescreen)
-  )
-
-(use-package! vmd
-  :defer
-  :config
-  (evil-define-key evil-normal-state-map markdown-mode-map (kbd "SPC m b") 'vmd-mode)
-  )
+(map! :after vmd
+      :mode markdown-mode
+      :n "SPC m p" #'vmd-mode)
