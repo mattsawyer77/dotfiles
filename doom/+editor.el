@@ -79,8 +79,7 @@
   (setq company-selection-wrap-around t)
   )
 
-;; (after! lsp-ui
-;;   :defer t
+;; (use-package! lsp-ui
 ;;   :commands lsp-ui-mode
 ;;   )
 
@@ -130,7 +129,7 @@
   (add-hook! haskell-mode 'ormolu-format-on-save-mode)
   )
 
-(after! (rust-mode rustic-mode lsp)
+(after! (rustic lsp-mode)
   (setq rustic-lsp-server 'rust-analyzer)
   (add-hook! rust-mode #'lsp)
   )

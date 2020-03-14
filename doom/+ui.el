@@ -1,21 +1,19 @@
 ;;;  -*- lexical-binding: t; -*-
 
+(require 'doom-themes)
 (setq doom-theme 'doom-challenger-deep)
 (setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 19))
 (setq doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 17))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
-
-(after! doom-themes
-  (load-theme 'doom-challenger-deep)
-  (set-face-foreground 'font-lock-preprocessor-face (doom-darken 'blue 0.3))
-  (set-face-foreground 'font-lock-variable-name-face (doom-lighten 'blue 0.4))
-  (set-face-foreground 'font-lock-function-name-face (doom-color 'red))
-  (set-face-foreground 'font-lock-comment-face (doom-darken 'magenta 0.5))
-  (set-face-bold 'font-lock-type-face t)
-  (set-face-bold 'font-lock-function-name-face t)
-  (set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
-  )
+(load-theme 'doom-challenger-deep)
+(set-face-foreground 'font-lock-preprocessor-face (doom-darken 'blue 0.3))
+(set-face-foreground 'font-lock-variable-name-face (doom-lighten 'blue 0.4))
+(set-face-foreground 'font-lock-function-name-face (doom-color 'red))
+(set-face-foreground 'font-lock-comment-face (doom-darken 'magenta 0.5))
+(set-face-bold 'font-lock-type-face t)
+(set-face-bold 'font-lock-function-name-face t)
+(set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
 
 (after! company
   (set-face-foreground 'company-tooltip-selection (doom-color 'black))
