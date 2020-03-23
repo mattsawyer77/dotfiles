@@ -13,7 +13,7 @@
 (package! company-lsp)
 (package! company-go)
 (package! vmd-mode)
-(when (display-graphic-p)
+(when (not (display-graphic-p))
   (package! evil-terminal-cursor-changer)
   )
 (package! highlight-indent-guides)

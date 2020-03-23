@@ -9,10 +9,14 @@
 (set-face-foreground 'font-lock-preprocessor-face (doom-darken 'blue 0.3))
 (set-face-foreground 'font-lock-variable-name-face (doom-lighten 'blue 0.4))
 (set-face-foreground 'font-lock-function-name-face (doom-color 'red))
-(set-face-foreground 'font-lock-comment-face (doom-darken 'magenta 0.5))
+(set-face-foreground 'font-lock-comment-face (doom-darken 'magenta 0.3))
 (set-face-bold 'font-lock-type-face t)
 (set-face-bold 'font-lock-function-name-face t)
 (set-face-background 'font-lock-string-face (doom-lighten 'bg 0.05))
+
+(after! hl-line
+  (set-face-background 'hl-line (doom-lighten 'bg 0.2))
+  )
 
 (after! company
   (set-face-foreground 'company-tooltip-selection (doom-color 'black))
