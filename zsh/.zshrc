@@ -1,6 +1,13 @@
 #!/usr/bin/env zsh
+bindkey -v
 
-export ZPLUG_HOME=/usr/local/opt/zplug
+if [[ $(uname) == "Darwin" ]]; then
+  OS=mac
+  export ZPLUG_HOME=/usr/local/opt/zplug
+else
+  OS=linux
+  export ZPLUG_HOME=/usr/share/zsh/scripts/zplug
+fi
 source $ZPLUG_HOME/init.zsh
 
 zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
@@ -17,14 +24,6 @@ zplug "plugins/terraform", from:oh-my-zsh, defer:1
 zplug "plugins/stack", from:oh-my-zsh, defer:1
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check; then
-  printf "Install zsh plugins? [y/N]: "
-  if read -q; then
-    echo; zplug install
-  fi
-fi
-
 # Then, source plugins and add commands to $PATH
 zplug load
 
@@ -32,7 +31,6 @@ ulimit -n 4096
 
 zstyle ':completion:*:*:*:*:*' menu select
 
-bindkey -v
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
@@ -41,9 +39,11 @@ export AWS_SDK_LOAD_CONFIG=1
 alias ssh='TERM=xterm-256color ssh'
 alias vim=nvim
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
-alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
+if [[ $OS == "mac" ]]; then
+  alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
+fi
 alias k=kubectl
-if which exa >/dev/null; then
+if command -v exa >/dev/null; then
   alias l='exa -alF'
 else
   alias l='ls -alFG'
@@ -110,4 +110,16 @@ z () {
     ("query: "*) cd "${_Z_RESULT:7}" ;;
     (*) echo "${_Z_RESULT}" ;;
   esac
+}
+
+zplug-upgrade() {
+  # Install plugins if there are plugins that have not been installed
+  if ! zplug check --verbose; then
+    printf "Install zsh plugins? [y/N]: "
+    if read -q; then
+      echo; zplug install --verbose && zplug load --verbose
+    fi
+  else
+    echo "plugins are up to date."
+  fi
 }
