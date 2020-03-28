@@ -1,79 +1,142 @@
 #!/usr/bin/env bash
 
-pushd ~/dotfiles >/dev/null
+set -eEuo pipefail
+
+command -v greadlink >/dev/null \
+	&& SELF=$(greadlink -f "$0") \
+	|| SELF=$(readlink -f "$0")
+
+DOTFILES_DIR=$(dirname "$SELF")
 
 # zsh
-# echo 'installing zsh configuration...'
-# if [[ -f "$HOME/.zshrc" ]]; then
-# 	echo '- backing up existing .zshrc...'
-# 	mv ~/.zshrc ~/.zshrc-backup
-# fi
-# if [[ -f "$HOME/.zshenv" ]]; then
-# 	echo '- backing up existing .zshenv...'
-# 	mv ~/.zshenv ~/.zshenv-backup
-# fi
-# ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
-# ln -sf ~/dotfiles/zsh/.zshenv ~/.zshenv
-ln -sf ~/dotfiles/zsh/.zsh_favlist ~/.zsh_favlist
-
-if [[ -d "$HOME/.oh-my-zsh" ]]; then
-    IFS=$'\n'
-    local zsh_themes="$(find $(pwd) -name '*.zsh-theme')"
-
-    for theme in $zsh_themes; do
-        echo "installing zsh theme $(basename $theme | sed 's/\.zsh-theme/')..."
-        ln -sf "$theme" $HOME/.oh-my-zsh/themes/$(basename $theme)
-    done
+echo 'installing zsh configuration...'
+if [[ -f "$HOME/.zshrc" ]]; then
+	echo '- backing up existing .zshrc...'
+	mv ~/.zshrc ~/.zshrc-backup
 fi
+if [[ -f "$HOME/.zshenv" ]]; then
+	echo '- backing up existing .zshenv...'
+	mv ~/.zshenv ~/.zshenv-backup
+fi
+ln -sf "${DOTFILES_DIR}/zsh/.zshrc" ~/.zshrc
+ln -sf "${DOTFILES_DIR}/zsh/.zshenv" ~/.zshenv
+ln -sf "${DOTFILES_DIR}/zsh/.zsh_favlist" ~/.zsh_favlist
 
 # vim
 echo 'installing vim configuration...'
 mkdir -p ~/.config/nvim
 
-ln -sf ~/dotfiles/vim/colors.vim ~/.config/nvim/colors.vim
-ln -sf ~/dotfiles/vim/colors ~/.config/nvim/colors
-ln -sf ~/dotfiles/vim/commands.vim ~/.config/nvim/commands.vim
-ln -sf ~/dotfiles/vim/events.vim ~/.config/nvim/events.vim
-ln -sf ~/dotfiles/vim/functions.vim ~/.config/nvim/functions.vim
-ln -sf ~/dotfiles/vim/init.vim ~/.config/nvim/init.vim
-ln -sf ~/dotfiles/vim/keymaps.vim ~/.config/nvim/keymaps.vim
-ln -sf ~/dotfiles/vim/plugins.vim ~/.config/nvim/plugins.vim
-ln -sf ~/dotfiles/vim/settings.vim ~/.config/nvim/settings.vim
-
-# doom emacs
-ln -sf ~/dotfiles/doom ~/.config/doom
+ln -sf "${DOTFILES_DIR}/vim/colors.vim" ~/.config/nvim/colors.vim
+ln -sf "${DOTFILES_DIR}/vim/colors" ~/.config/nvim/colors
+ln -sf "${DOTFILES_DIR}/vim/commands.vim" ~/.config/nvim/commands.vim
+ln -sf "${DOTFILES_DIR}/vim/events.vim" ~/.config/nvim/events.vim
+ln -sf "${DOTFILES_DIR}/vim/functions.vim" ~/.config/nvim/functions.vim
+ln -sf "${DOTFILES_DIR}/vim/init.vim" ~/.config/nvim/init.vim
+ln -sf "${DOTFILES_DIR}/vim/keymaps.vim" ~/.config/nvim/keymaps.vim
+ln -sf "${DOTFILES_DIR}/vim/plugins.vim" ~/.config/nvim/plugins.vim
+ln -sf "${DOTFILES_DIR}/vim/settings.vim" ~/.config/nvim/settings.vim
 
 # tmux
 echo 'installing tmux configuration...'
-ln -sf ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
-ln -sf ~/dotfiles/tmux/.tmux-osx.conf ~/.tmux-osx.conf
+ln -sf "${DOTFILES_DIR}/tmux/.tmux.conf" ~/.tmux.conf
+ln -sf "${DOTFILES_DIR}/tmux/.tmux-osx.conf" ~/.tmux-osx.conf
 mkdir -p ~/.local/bin
-
-# tmuxifier
-# echo 'installing tmuxifier configuration...'
-# if [[ -d "$HOME/.tmuxifier" ]]; then
-# 	mkdir -p ~/.tmuxifier/layouts
-# 	pushd ~/.tmuxifier/layouts >/dev/null
-# 	for layout in ~/dotfiles/tmuxifier/layouts/*; do
-# 		ln -sf $layout
-# 	done
-# 	popd >/dev/null
-# else
-# 	echo 'tmuxifier is not installed, skipping'
-# fi
 
 # ctags
 echo 'installing ctags configuration...'
-ln -sf ~/dotfiles/ctags/.ctags ~/.ctags
+ln -sf "${DOTFILES_DIR}/ctags/.ctags" ~/.ctags
 
 # alacritty
 echo 'installing alacritty configuration...'
 mkdir -p ~/.config
-ln -sf ~/dotfiles/alacritty/alacritty.yml ~/.config/alacritty.yml
-
-popd >/dev/null
+ln -sf "${DOTFILES_DIR}/alacritty/alacritty.yml" ~/.config/alacritty.yml
 
 echo 'setting up terminfo file...'
-tic -x -o ~/.terminfo terminfo-24bit.src
+tic -x -o ~/.terminfo "${DOTFILES_DIR}/terminfo-24bit.src"
 
-exit 0
+echo 'setting up homebrew and packages...'
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+brew install autoconf
+brew install automake
+brew install aws-iam-authenticator
+brew install awscli
+brew install bash
+brew install bat
+brew install cloc
+brew install cmake
+brew install coreutils
+brew install diff-so-fancy
+brew install editorconfig
+brew install emacs-mac && cp -av /usr/local/opt/emacs-mac/Emacs.app /Applications/
+brew install et
+brew install exa
+brew install fd
+brew install fileicon
+brew install fontconfig
+brew install freetype
+brew install git
+brew install glib
+brew install gmp
+brew install gnu-sed
+brew install gnu-tar
+brew install gnupg
+brew install gnutls
+brew install go
+brew install golangci-lint
+brew install graphviz
+brew install jpeg
+brew install jq
+brew install kubernetes-cli
+brew install libpng
+brew install librsvg
+brew install libtasn1
+brew install libtermkey
+brew install libtiff
+brew install libtool
+brew install libuv
+brew install libvterm
+brew install lzo
+brew install make
+brew install msgpack
+brew install musl-cross
+brew install ncurses
+brew install neovim
+brew install nmap
+brew install node
+brew install oniguruma
+brew install openjpeg
+brew install openssl@1.1
+brew install pcre2
+brew install pkg-config
+brew install protobuf
+brew install python
+brew install python@3.8
+brew install rainbarf
+brew install readline
+brew install reattach-to-user-namespace
+brew install ripgrep
+brew install shared-mime-info
+brew install shellcheck
+brew install sk
+brew install skhd
+brew install terraform
+brew install tmux
+brew install upx
+brew install webp
+brew install wget
+brew install x265
+brew install xsv
+brew install xz
+brew install yabai
+brew install yq
+brew install zenith
+brew install zplug
+brew install zsh
+brew cask install alacritty
+brew cask install osxfuse
+brew cask install wireshark-chmodbpf
+
+# doom emacs
+ln -sf "${DOTFILES_DIR}/doom" ~/.config/doom
+test -d ~/.emacs.d || git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
+~/.emacs.d/bin/doom -y install
