@@ -3,20 +3,20 @@
 set -eEuo pipefail
 
 command -v greadlink >/dev/null \
-	&& SELF=$(greadlink -f "$0") \
-	|| SELF=$(readlink -f "$0")
+  && SELF=$(greadlink -f "$0") \
+  || SELF=$(readlink -f "$0")
 
 DOTFILES_DIR=$(dirname "$SELF")
 
 # zsh
 echo 'installing zsh configuration...'
 if [[ -f "$HOME/.zshrc" ]]; then
-	echo '- backing up existing .zshrc...'
-	mv ~/.zshrc ~/.zshrc-backup
+  echo '- backing up existing .zshrc...'
+  mv ~/.zshrc ~/.zshrc-backup
 fi
 if [[ -f "$HOME/.zshenv" ]]; then
-	echo '- backing up existing .zshenv...'
-	mv ~/.zshenv ~/.zshenv-backup
+  echo '- backing up existing .zshenv...'
+  mv ~/.zshenv ~/.zshenv-backup
 fi
 ln -sf "${DOTFILES_DIR}/zsh/.zshrc" ~/.zshrc
 ln -sf "${DOTFILES_DIR}/zsh/.zshenv" ~/.zshenv
@@ -55,98 +55,77 @@ echo 'setting up terminfo file...'
 tic -x -o ~/.terminfo "${DOTFILES_DIR}/terminfo-24bit.src"
 
 if [[ $(uname) == "Darwin" ]]; then
-	echo 'setting up homebrew and packages...'
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-	brew install autoconf
-	brew install automake
-	brew install aws-iam-authenticator
-	brew install awscli
-	brew install bash
-	brew install bat
-	brew install cloc
-	brew install cmake
-	brew install coreutils
-	brew install diff-so-fancy
-	brew install editorconfig
-	brew install emacs-mac 
-	brew install et
-	brew install exa
-	brew install fd
-	brew install fileicon
-	brew install fontconfig
-	brew install freetype
-	brew install git
-	brew install glib
-	brew install gmp
-	brew install gnu-sed
-	brew install gnu-tar
-	brew install gnupg
-	brew install gnutls
-	brew install go
-	brew install golangci-lint
-	brew install graphviz
-	brew install jpeg
-	brew install jq
-	brew install kubernetes-cli
-	brew install libpng
-	brew install librsvg
-	brew install libtasn1
-	brew install libtermkey
-	brew install libtiff
-	brew install libtool
-	brew install libuv
-	brew install libvterm
-	brew install lzo
-	brew install make
-	brew install msgpack
-	brew install musl-cross
-	brew install ncurses
-	brew install neovim
-	brew install nmap
-	brew install node
-	brew install oniguruma
-	brew install openjpeg
-	brew install openssl@1.1
-	brew install pcre2
-	brew install pkg-config
-	brew install protobuf
-	brew install python
-	brew install python@3.8
-	brew install rainbarf
-	brew install readline
-	brew install reattach-to-user-namespace
-	brew install ripgrep
-	brew install shared-mime-info
-	brew install shellcheck
-	brew install sk
-	brew install skhd
-	brew install terraform
-	brew install tmux
-	brew install upx
-	brew install webp
-	brew install wget
-	brew install x265
-	brew install xsv
-	brew install xz
-	brew install yabai
-	brew install yq
-	brew install zenith
-	brew install zplug
-	brew install zsh
-	brew cask install alacritty
-	brew cask install osxfuse
-	brew cask install wireshark-chmodbpf
+  echo 'setting up homebrew and packages...'
+  command -v brew >/dev/null \
+    || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  packages="autoconf automake aws-iam-authenticator awscli bash bat cloc cmake coreutils diff-so-fancy editorconfig emacs-mac et exa fd fileicon fontconfig freetype git glib gmp gnu-sed gnu-tar gnupg gnutls go golangci-lint graphviz jpeg jq kubernetes-cli libpng librsvg libtasn1 libtermkey libtiff libtool libuv libvterm lzo make msgpack musl-cross ncurses neovim nmap node oniguruma openjpeg openssl@1.1 pcre2 pkg-config protobuf python python@3.8 rainbarf readline reattach-to-user-namespace ripgrep shared-mime-info shellcheck sk skhd terraform tmux unbound upx webp wget x265 xsv xz yabai yq zenith zplug zsh"
+  installed_packages=$(brew ls)
+  for package in $packages; do
+    if ! echo "$installed_packages" | grep -q "$package"; then
+      brew install "$package"
+    fi
+  done
+  casks="alacritty osxfuse wireshark-chmodbpf"
+  installed_casks=$(brew cask ls)
+  for cask in $casks; do
+    if ! echo "$installed_casks" | grep -q "$cask"; then
+      brew cask install "$cask"
+    fi
+  done
+  # macOS only: install emacs into /Applications and fix its icon
+  echo "setting up local unbound server..."
+  set -e
+  cp -av /usr/local/opt/emacs-mac/Emacs.app /Applications/
+  fileicon set /Applications/Emacs.app ~/Library/Mobile\ Documents/com\~apple\~CloudDocs/Emacs-icon.icns
 
-	# macOS only: install emacs into /Applications and fix its icon
-	cp -av /usr/local/opt/emacs-mac/Emacs.app /Applications/
-	fileicon set /Applications/Emacs.app ~/Library/Mobile\ Documents/com\~apple\~CloudDocs/Emacs-icon.icns
+  # macOS only: setup unbound as a local recursive dns server
+  set -xeEuo pipefail
+  sudo dscl . -create /Groups/_unbound
+  sudo dscl . -create /Groups/_unbound PrimaryGroupID 444
+  sudo dscl . -create /Users/_unbound
+  sudo dscl . -create /Users/_unbound RecordName _unbound unbound
+  sudo dscl . -create /Users/_unbound RealName "Unbound DNS server"
+  sudo dscl . -create /Users/_unbound UniqueID 444
+  sudo dscl . -create /Users/_unbound PrimaryGroupID 444
+  sudo dscl . -create /Users/_unbound UserShell /usr/bin/false
+  sudo dscl . -create /Users/_unbound Password '*'
+  sudo dscl . -create /Groups/_unbound GroupMembership _unbound
+  sudo cp "${DOTFILES_DIR}/unbound/unbound.conf" /usr/local/etc/unbound/unbound.conf
+  # TODO: transform file using dns_blocklist_updater
+  scp wireguard.mattsawyer.net:/var/lib/unbound/ads.conf /tmp/ads.conf
+  sudo chown root /tmp/ads.conf
+  sudo mv /tmp/ads.conf /usr/local/etc/unbound/zone-block-general.conf
+  # sudo unbound-anchor -a /usr/local/etc/unbound/root.key
+  # sudo unbound-control-setup -d /usr/local/etc/unbound  
+  sudo chown -R _unbound:staff /usr/local/etc/unbound
+  sudo chmod 640 /usr/local/etc/unbound/*
+  sudo cp "${DOTFILES_DIR}/unbound/net.unbound.plist" /Library/LaunchDaemons/net.unbound.plist
+  # curl --output /tmp/root.hints https://www.internic.net/domain/named.cache
+  # sudo mv /tmp/root.hints /usr/local/etc/unbound/root.hints
+  if ! pgrep -flai unbound; then
+    echo "starting unbound..."
+    sudo launchctl load /Library/LaunchDaemons/net.unbound.plist
+    echo "checking unbound status..."
+    sleep 2
+    pgrep -flai unbound
+  else
+    echo "restarting unbound..."
+    sudo launchctl unload /Library/LaunchDaemons/net.unbound.plist
+    sleep 2
+    sudo launchctl load /Library/LaunchDaemons/net.unbound.plist
+    echo "checking unbound status..."
+    sleep 2
+    pgrep -flai unbound
+  fi
+  echo "setting nameservers to 127.0.0.1..."
+	networksetup -setdnsservers Wi-Fi 127.0.0.1
 fi
 
 # doom emacs
-if [[ $(command -v emacs >/dev/null) ]]; then
-	ln -sf "${DOTFILES_DIR}/doom" ~/.config/doom
-	test -d ~/.emacs.d || git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
-	~/.emacs.d/bin/doom -y install
+if command -v emacs >/dev/null; then
+  ln -sf "${DOTFILES_DIR}/doom" ~/.config/doom
+  test -d ~/.emacs.d || git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
+  ~/.emacs.d/bin/doom -y install
 else
-	echo "emacs is not installed! skipping doom setup."
+  echo "emacs is not installed! skipping doom setup."
 fi
