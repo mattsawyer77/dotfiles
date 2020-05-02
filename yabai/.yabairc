@@ -53,6 +53,7 @@ yabai -m rule --add app="Music" title!="Music" manage=off
 # yabai -m rule --add app="Firefox" space=3
 yabai -m rule --add app="Teams" space=4
 yabai -m rule --add label=ignoreTeamsNotification app="Microsoft Teams" title="Microsoft Teams Notification" manage=off border=off
+yabai -m rule --add title="Minecraft" manage=off border=off
 # The below signal only works on current master, not in 1.1.2
 # Tries to focus the window under the cursor whenever the MS teams notification gains focus
 # Probably conflicts with mouse follows focus in some ways

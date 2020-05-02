@@ -29,7 +29,7 @@
 ;; (add-to-list 'auto-mode-alist '("\\\.ssh\/authorized_keys" . prog-mode))
 
 ;; make underscore considered as a "word" character
-(modify-syntax-entry ?_ "w")
+;; (modify-syntax-entry ?_ "w")
 
 (after! display-line-numbers
   (add-hook! prog-mode
@@ -67,6 +67,7 @@
 
 (after! treemacs
   (treemacs-follow-mode)
+  (setq-default treemacs--width-is-locked nil)
   )
 
 (after! company
@@ -98,11 +99,13 @@
         (fit-window-to-buffer window 15))))
   )
 
-(after! git-gutter
-  (setq git-gutter:modified-sign "▕")
-  (setq git-gutter:added-sign "▕")
-  (setq git-gutter:deleted-sign "▕")
-  )
+(unless (display-graphic-p)
+  (after! git-gutter
+    (setq git-gutter:modified-sign "▕")
+    (setq git-gutter:added-sign "▕")
+    (setq git-gutter:deleted-sign "▕")
+    )
+)
 
 (unless (display-graphic-p)
   (require 'evil-terminal-cursor-changer)

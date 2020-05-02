@@ -36,8 +36,8 @@ set background=dark
 " colorscheme hybrid
 " colorscheme abra | let g:airline_theme='tomorrow'
 " colorscheme mattland | let g:airline_theme='lucius'
-colorscheme base16-ocean | let g:airline_theme='zenburn'
-
+" colorscheme base16-ocean | let g:airline_theme='zenburn'
+colorscheme Tomorrow-Night-Eighties | let g:airline_theme='tomorrow'
 " good light color schemes for neovim
 " set background=light
 " colorscheme github | let g:airline_theme='sol'
@@ -45,7 +45,7 @@ colorscheme base16-ocean | let g:airline_theme='zenburn'
 " colorscheme hemisu | let g:airline_theme='lucius'
 " au BufWinEnter * colorscheme cinematic
 " au BufWinEnter *.hs colorscheme badwolf
-colorscheme cinematic | let g:airline_theme='twofirewatch'
+" colorscheme cinematic | let g:airline_theme='twofirewatch'
 
 " toggle between light and dark themes
 function! ToggleTheme()

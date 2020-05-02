@@ -124,24 +124,24 @@ nnoremap <leader>t :CtrlPTag<CR>
 nnoremap <c-z> :MundoShow<CR>
 
 " Haskell
-augroup interoMaps
-  au!
-
-  au FileType haskell nnoremap <silent> <leader>io :InteroOpen<CR>
-  au FileType haskell nnoremap <silent> <leader>iov :InteroOpen<CR><C-W>H
-  au FileType haskell nnoremap <silent> <leader>ih :InteroHide<CR>
-  au FileType haskell nnoremap <silent> <leader>is :InteroStart<CR>
-  au FileType haskell nnoremap <silent> <leader>ik :InteroKill<CR>
-
-  au FileType haskell nnoremap <silent> <leader>wr :w \| :InteroReload<CR>
-  au FileType haskell nnoremap <silent> <leader>il :InteroLoadCurrentModule<CR>
-  au FileType haskell nnoremap <silent> <leader>if :InteroLoadCurrentFile<CR>
-
-  au FileType haskell map <leader>t <Plug>InteroGenericType
-  au FileType haskell map <leader>T <Plug>InteroType
-  au FileType haskell nnoremap <silent> <leader>it :InteroTypeInsert<CR>
-
-  au FileType haskell nnoremap <silent> <leader>jd :InteroGoToDef<CR>
-  au FileType haskell nnoremap <silent> <leader>iu :InteroUses<CR>
-  au FileType haskell nnoremap <leader>ist :InteroSetTargets<SPACE>
-augroup END
+" augroup interoMaps
+"   au!
+"
+"   au FileType haskell nnoremap <silent> <leader>io :InteroOpen<CR>
+"   au FileType haskell nnoremap <silent> <leader>iov :InteroOpen<CR><C-W>H
+"   au FileType haskell nnoremap <silent> <leader>ih :InteroHide<CR>
+"   au FileType haskell nnoremap <silent> <leader>is :InteroStart<CR>
+"   au FileType haskell nnoremap <silent> <leader>ik :InteroKill<CR>
+"
+"   au FileType haskell nnoremap <silent> <leader>wr :w \| :InteroReload<CR>
+"   au FileType haskell nnoremap <silent> <leader>il :InteroLoadCurrentModule<CR>
+"   au FileType haskell nnoremap <silent> <leader>if :InteroLoadCurrentFile<CR>
+"
+"   au FileType haskell map <leader>t <Plug>InteroGenericType
+"   au FileType haskell map <leader>T <Plug>InteroType
+"   au FileType haskell nnoremap <silent> <leader>it :InteroTypeInsert<CR>
+"
+"   au FileType haskell nnoremap <silent> <leader>jd :InteroGoToDef<CR>
+"   au FileType haskell nnoremap <silent> <leader>iu :InteroUses<CR>
+"   au FileType haskell nnoremap <leader>ist :InteroSetTargets<SPACE>
+" augroup END

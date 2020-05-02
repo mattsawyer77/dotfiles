@@ -95,13 +95,13 @@ if [[ $(uname) == "Darwin" ]]; then
   scp wireguard.mattsawyer.net:/var/lib/unbound/ads.conf /tmp/ads.conf
   sudo chown root /tmp/ads.conf
   sudo mv /tmp/ads.conf /usr/local/etc/unbound/zone-block-general.conf
-  # sudo unbound-anchor -a /usr/local/etc/unbound/root.key
+  sudo unbound-anchor -a /usr/local/etc/unbound/root.key
   # sudo unbound-control-setup -d /usr/local/etc/unbound  
   sudo chown -R _unbound:staff /usr/local/etc/unbound
   sudo chmod 640 /usr/local/etc/unbound/*
   sudo cp "${DOTFILES_DIR}/unbound/net.unbound.plist" /Library/LaunchDaemons/net.unbound.plist
-  # curl --output /tmp/root.hints https://www.internic.net/domain/named.cache
-  # sudo mv /tmp/root.hints /usr/local/etc/unbound/root.hints
+  curl --output /tmp/root.hints https://www.internic.net/domain/named.cache
+  sudo mv /tmp/root.hints /usr/local/etc/unbound/root.hints
   if ! pgrep -flai unbound; then
     echo "starting unbound..."
     sudo launchctl load /Library/LaunchDaemons/net.unbound.plist

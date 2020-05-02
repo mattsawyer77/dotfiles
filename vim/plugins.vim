@@ -3,8 +3,8 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'bling/vim-airline'
 Plug 'moll/vim-bbye'
-Plug 'burnettk/vim-angular'
-Plug 'claco/jasmine.vim'
+"Plug 'burnettk/vim-angular'
+"Plug 'claco/jasmine.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'groenewege/vim-less'
 Plug 'https://github.com/heavenshell/vim-jsdoc.git'
@@ -64,6 +64,15 @@ Plug 'atelierbram/Base2Tone-vim'
 Plug 'prettier/vim-prettier'
 Plug 'tpope/vim-unimpaired'
 Plug 'ap/vim-css-color'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': './install.sh'
+    \ }
+"Plug 'ghci-syntax'
+"Plug 'cabal-project-vim'
+"Plug 'hs-conceal'
+"Plug 'vim-hoogle'
+
 " Plug 'thinca/vim-ref'
 " Plug 'bash-support.vim'
 " Plug 'blueyed/vim-diminactive'

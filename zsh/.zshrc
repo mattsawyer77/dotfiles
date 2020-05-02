@@ -22,6 +22,7 @@ zplug "plugins/kubectl", from:oh-my-zsh, defer:1
 zplug "plugins/tmux", from:oh-my-zsh, defer:1
 zplug "plugins/terraform", from:oh-my-zsh, defer:1
 zplug "plugins/stack", from:oh-my-zsh, defer:1
+zplug "zdharma/zsh-diff-so-fancy", as:command, use:"bin/", defer:1
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 # Then, source plugins and add commands to $PATH
@@ -117,9 +118,10 @@ zplug-upgrade() {
   if ! zplug check --verbose; then
     printf "Install zsh plugins? [y/N]: "
     if read -q; then
-      echo; zplug install --verbose && zplug load --verbose
+      echo; zplug install && zplug load --verbose
     fi
   else
-    echo "plugins are up to date."
+    echo "plugins are installed."
   fi
+  zplug update
 }

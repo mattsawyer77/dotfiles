@@ -14,7 +14,15 @@ export VISUAL=$EDITOR
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export BAT_THEME=1337
 export NVM_DIR="$HOME/.nvm"
+# For compilers to find openssl@1.1 you may need to set:
+export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+
+#For pkg-config to find openssl@1.1 you may need to set:
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 PATH=node_modules/.bin
+# If you need to have openssl@1.1 first in your PATH run:
+PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 PATH=$PATH:$HOME/.nvm/versions/node/v12.11.1/bin
 PATH=$PATH:$HOME/.cargo/bin
 PATH=$PATH:$HOME/.tmuxifier/bin
