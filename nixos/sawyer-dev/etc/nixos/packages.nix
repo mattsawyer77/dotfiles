@@ -29,11 +29,13 @@ in {
     fzf-zsh
     gcc
     git
+    gitAndTools.delta
     go
     jq
     libcap
     neovim
     nix-zsh-completions
+    nmap
     nodejs
     openssl
     pkg-config
