@@ -150,6 +150,22 @@
       (add-hook before-save-hook 'gofmt-before-save)))
   )
 
+;; terraform-lsp doesn't work right now, try again later
+;; (after! (terraform-mode lsp-mode)
+;;   (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
+
+;;   (lsp-register-client
+;;   (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-lsp" "-enable-log-file"))
+;;                     :major-modes '(terraform-mode)
+;;                     :server-id 'terraform-ls))
+
+;;   (add-hook 'terraform-mode-hook #'lsp)
+;;   )
+
 (add-hook! js2-mode
   (prettier-js-mode)
+  )
+
+(add-hook! terraform-mode
+  (terraform-format-on-save-mode)
   )

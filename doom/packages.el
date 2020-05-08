@@ -22,6 +22,7 @@
 (package! company-nginx)
 (package! lsp-haskell)
 (package! treemacs-persp)
+(package! elisp-benchmarks)
 ;; (package! hlint-refactor)
 ;; (package! dash)
 ;; (package! ht)
