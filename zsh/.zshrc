@@ -10,13 +10,13 @@ else
 fi
 source $ZPLUG_HOME/init.zsh
 
-zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
-zplug "sindresorhus/pure", use:"pure.zsh", as:theme, on:"mafredri/zsh-async"
+# zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
+# zplug "sindresorhus/pure", use:"pure.zsh", as:theme, on:"mafredri/zsh-async"
 zplug "zsh-users/zsh-autosuggestions", defer:1
 zplug "lotabout/skim", use:"shell/*.zsh", defer:1
 zplug "vim/vim", defer:1
 zplug "trapd00r/LS_COLORS", defer:1
-zplug "plugins/aws", from:oh-my-zsh, defer:1
+# zplug "plugins/aws", from:oh-my-zsh, defer:1
 zplug "plugins/docker", from:oh-my-zsh, defer:1
 zplug "plugins/kubectl", from:oh-my-zsh, defer:1
 zplug "plugins/tmux", from:oh-my-zsh, defer:1
@@ -54,6 +54,8 @@ alias ta='tmux attach -t'
 alias k=kubectl
 # edit a file with emacsclient -- if no session exists, create one automatically
 alias em='emacsclient -t -c --alternate-editor=""'
+
+eval "$(starship init zsh)"
 
 get-sa-token() {
   context=$1
