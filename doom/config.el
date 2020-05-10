@@ -1,5 +1,5 @@
 ;;;  -*- lexical-binding: t; -*-
-
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 (load! "+cloudformation-mode")
 ;; (load! "+ghcid")
 ;; exec-path-from-shell

@@ -9,7 +9,6 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq-default truncate-lines t)
 (setq-default tab-width 2)
-
 (when (and (display-graphic-p) IS-MAC)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -42,13 +41,13 @@
   (golden-ratio-mode)
   )
 
-(after! undo-tree-mode
+(after! undo-tree
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/.local/undo")))
   (global-undo-tree-mode)
   )
 
-(after! evil-surround-mode
+(after! evil-surround
   (global-evil-surround-mode 1)
   )
 
@@ -58,10 +57,10 @@
                                          "~/workspaces/f5aas/orchestration"
                                          "~/workspaces/f5aas/infra"
                                          "~/haskell"
-                                         "~/rust"))
+                                         "~/src/rust"))
   )
 
-(after! persp-mode
+(after! persp
   (setq uniquify-buffer-name-style 'forward)
   )
 
@@ -118,7 +117,7 @@
   (mac-auto-operator-composition-mode)
   )
 
-(after! (haskell-mode lsp-haskell ormolu lsp-ui)
+(after! (haskell lsp-haskell ormolu lsp-ui)
   (setq lsp-haskell-process-path-hie "hie-wrapper")
   (add-hook! haskell-mode #'lsp)
   (add-hook! haskell-mode 'highlight-indent-guides-mode)
@@ -126,24 +125,24 @@
   (add-hook! haskell-mode 'ormolu-format-on-save-mode)
   )
 
-(after! (rustic lsp-mode lsp-ui)
+(after! (rustic lsp lsp-ui)
   (setq rustic-lsp-server 'rust-analyzer)
   (add-hook! rust-mode #'lsp)
   )
 
-(after! yaml-mode
+(after! yaml
   (add-hook! yaml-mode 'highlight-indent-guides-mode)
   )
 
-(after! json-mode
+(after! json
   (add-hook! json-mode 'highlight-indent-guides-mode)
   )
 
-(after! python-mode
+(after! python
   (add-hook! python-mode 'highlight-indent-guides-mode)
   )
 
-(after! (go-mode lsp-mode lsp-ui)
+(after! (go lsp lsp-ui)
   (add-hook! go-mode #'lsp)
   (add-hook! go-mode
     (lambda nil
@@ -151,7 +150,7 @@
   )
 
 ;; terraform-lsp doesn't work right now, try again later
-;; (after! (terraform-mode lsp-mode)
+;; (after! (terraform lsp)
 ;;   (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
 
 ;;   (lsp-register-client
