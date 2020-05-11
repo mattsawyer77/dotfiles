@@ -51,6 +51,11 @@ echo 'installing alacritty configuration...'
 mkdir -p ~/.config
 ln -sf "${DOTFILES_DIR}/alacritty/alacritty.yml" ~/.config/alacritty.yml
 
+# starship
+echo 'installing starship configuration...'
+mkdir -p ~/.config
+ln -sf "${DOTFILES_DIR}/starship.toml" ~/.config/starship.toml
+
 echo 'setting up terminfo file...'
 tic -x -o ~/.terminfo "${DOTFILES_DIR}/terminfo-24bit.src"
 
@@ -58,7 +63,7 @@ if [[ $(uname) == "Darwin" ]]; then
   echo 'setting up homebrew and packages...'
   command -v brew >/dev/null \
     || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  packages="autoconf automake aws-iam-authenticator awscli bash bat cloc cmake coreutils diff-so-fancy editorconfig emacs-mac et exa fd fileicon fontconfig freetype git glib gmp gnu-sed gnu-tar gnupg gnutls go golangci-lint graphviz jpeg jq kubernetes-cli libpng librsvg libtasn1 libtermkey libtiff libtool libuv libvterm lzo make msgpack musl-cross ncurses neovim nmap node oniguruma openjpeg openssl@1.1 pcre2 pkg-config protobuf python python@3.8 rainbarf readline reattach-to-user-namespace ripgrep shared-mime-info shellcheck sk skhd terraform tmux unbound upx webp wget x265 xsv xz yabai yq zenith zplug zsh"
+  packages="autoconf automake aws-iam-authenticator awscli bash bat cloc cmake coreutils diff-so-fancy editorconfig emacs-mac et exa fd fileicon fontconfig freetype git glib gmp gnu-sed gnu-tar gnupg gnutls go golangci-lint graphviz jpeg jq kubernetes-cli libpng librsvg libtasn1 libtermkey libtiff libtool libuv libvterm lzo make msgpack musl-cross ncurses neovim nmap node oniguruma openjpeg openssl@1.1 pcre2 pkg-config protobuf python python@3.8 rainbarf readline reattach-to-user-namespace ripgrep shared-mime-info shellcheck sk skhd starship terraform tmux unbound upx webp wget x265 xsv xz yabai yq zenith zplug zsh"
   installed_packages=$(brew ls)
   for package in $packages; do
     if ! echo "$installed_packages" | grep -q "$package"; then
