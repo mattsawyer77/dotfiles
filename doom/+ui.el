@@ -51,31 +51,34 @@
   )
 
 (custom-theme-set-faces! 'doom-spacegrey
-  `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'blue))
-  `(font-lock-constant-face :weight bold :foreground ,(doom-lighten (doom-color 'blue) 0.4))
+  `(font-lock-keyword-face :weight bold
+                           :foreground ,(doom-color 'blue))
+  `(font-lock-constant-face :weight bold
+                            :foreground ,(doom-lighten (doom-color 'blue) 0.4))
   `(font-lock-preprocessor-face :foreground ,(doom-blend (doom-color 'cyan) (doom-color 'grey) 0.8))
   `(font-lock-string-face :foreground ,(doom-lighten (doom-color 'blue) 0.3))
   `(font-lock-type-face :foreground ,(doom-blend (doom-color 'yellow) (doom-color 'grey) 0.7))
   `(font-lock-function-name-face :foreground ,(doom-color 'green))
  )
 
-;; (after! company
-;;   (custom-set-faces!
-;;     `(company-tooltip-selection :foreground ,(doom-color 'black))
-;;     `(company-tooltip-common :foreground ,(doom-color 'black))
-;;     `(company-tooltip-annotation :foreground ,(doom-color 'grey))
-;;     )
-;;   )
+(after! doom-modeline
+  (setq doom-modeline-major-mode-icon t)
+  (custom-set-faces!
+    `(doom-modeline-project-dir :weight bold :background ,(doom-color 'default))
+    `(doom-modeline-persp-name :slant normal)
+    )
+  )
 
 (after! haskell
   (custom-set-faces!
     `(haskell-keyword-face :foreground "coral")
-    `(haskell-pragma-face :foreground ,(doom-color 'red))
-    `(haskell-pragma-face :foreground ,(doom-darken 'bg 0.5))
+    `(haskell-pragma-face :weight bold
+                          :foreground ,(doom-color 'red)
+                          :background ,(doom-darken 'bg 0.5))
     `(haskell-operator-face :foreground ,(doom-color 'orange))
     `(haskell-definition-face :foreground ,(doom-color 'blue))
     `(haskell-quasi-quote-face :foreground ,(doom-color 'magenta))
-    `(haskell-type-face :weight bold)
+    `(haskell-type-face :weight bold :foreground ,(doom-color 'orange))
     `(haskell-definition-face :weight bold)
     )
   )

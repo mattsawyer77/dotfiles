@@ -14,6 +14,11 @@
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+;; attempting to make emacs with with the native compilation build
+;; see https://github.com/shshkn/emacs.d/blob/master/docs/nativecomp.md
+(setq comp-speed 2
+      comp-deferred-compilation t)
+
 (doom! :input
        ;;chinese
        ;;japanese
@@ -33,12 +38,12 @@
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
-       modeline          ; snazzy, Atom-inspired modeline, plus API
+       (modeline)          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
-       ;;pretty-code       ; ligatures or substitute text with pretty symbols
+       (pretty-code +pragmata-pro)       ; ligatures or substitute text with pretty symbols
        ;;tabs              ; an tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
@@ -63,10 +68,10 @@
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       dired             ; making dired pretty [functional]
+       (dired +icons +ranger)             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       ibuffer           ; interactive buffer management
-       undo              ; persistent, smarter undo for your inevitable mistakes
+       (ibuffer +icons)           ; interactive buffer management
+       (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
@@ -172,4 +177,4 @@
 
        :config
        ;;literate
-       (default +bindings +smartparens))
+       (default +bindings))

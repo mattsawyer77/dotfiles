@@ -113,9 +113,9 @@
     )
 )
 
-(when (and (display-graphic-p) IS-MAC)
-  (mac-auto-operator-composition-mode)
-  )
+;; (when (and (display-graphic-p) IS-MAC)
+;;   (mac-auto-operator-composition-mode)
+;;   )
 
 (after! (haskell lsp-haskell ormolu lsp-ui)
   (setq lsp-haskell-process-path-hie "hie-wrapper")
