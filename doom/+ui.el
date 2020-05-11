@@ -59,13 +59,13 @@
   `(font-lock-function-name-face :foreground ,(doom-color 'green))
  )
 
-(after! company
-  (custom-set-faces!
-    `(company-tooltip-selection :foreground ,(doom-color 'black))
-    `(company-tooltip-common :foreground ,(doom-color 'black))
-    `(company-tooltip-annotation :foreground ,(doom-color 'grey))
-    )
-  )
+;; (after! company
+;;   (custom-set-faces!
+;;     `(company-tooltip-selection :foreground ,(doom-color 'black))
+;;     `(company-tooltip-common :foreground ,(doom-color 'black))
+;;     `(company-tooltip-annotation :foreground ,(doom-color 'grey))
+;;     )
+;;   )
 
 (after! haskell
   (custom-set-faces!
@@ -112,7 +112,7 @@
   )
 
 ;;; rust
-(after! rust rustic
+(after! rustic
   (custom-set-faces!
     `(rustic-string-interpolation-face :slant normal)
     `(rustic-string-interpolation-face :foreground ,(doom-lighten (doom-color 'magenta) 0.1)
