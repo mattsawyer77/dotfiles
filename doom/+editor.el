@@ -1,6 +1,5 @@
 ;;;  -*- lexical-binding: t; -*-
 
-(setq doom-modeline-icon t)
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
 (setq confirm-kill-emacs nil)
@@ -10,6 +9,7 @@
 (setq-default truncate-lines t)
 (setq-default tab-width 2)
 (when (and (display-graphic-p) IS-MAC)
+  (setq doom-modeline-icon t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   )
