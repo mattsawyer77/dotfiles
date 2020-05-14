@@ -28,6 +28,8 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:2
 # Then, source plugins and add commands to $PATH
 zplug load
 
+command -v aws_completer >/dev/null && complete -C "$(which aws_completer)" aws
+
 ulimit -n 4096
 
 zstyle ':completion:*:*:*:*:*' menu select
@@ -54,7 +56,7 @@ alias ta='tmux attach -t'
 alias k=kubectl
 # edit a file with emacsclient -- if no session exists, create one automatically
 alias em='emacsclient -t -c --alternate-editor=""'
-
+eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
 get-sa-token() {
