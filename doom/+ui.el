@@ -52,7 +52,7 @@
 
 (custom-theme-set-faces! 'doom-spacegrey
   `(font-lock-keyword-face :weight bold
-                           :foreground ,(doom-color 'blue))
+                           :foreground "coral3")
   `(font-lock-constant-face :weight bold
                             :foreground ,(doom-lighten (doom-color 'blue) 0.4))
   `(font-lock-preprocessor-face :foreground ,(doom-blend (doom-color 'cyan) (doom-color 'grey) 0.8))

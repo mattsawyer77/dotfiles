@@ -86,17 +86,17 @@
   )
 
 (after! flycheck
-  ;; disable flycheck while in insert mode
-  (add-hook! evil-insert-state-entry (lambda nil (flycheck-mode -1)))
-  ;; re-enable flycheck when exiting insert mode
-  (add-hook! evil-insert-state-exit (lambda nil (flycheck-mode 1)))
-  ;; make flycheck window auto-resize (with a max height of 15 lines)
   (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
     ad-do-it
     (-when-let (window (flycheck-get-error-list-window t))
       (with-selected-window window
         (fit-window-to-buffer window 15))))
   )
+;; disable flycheck while in insert mode
+(add-hook! evil-insert-state-entry (lambda nil (flycheck-mode -1)))
+;; re-enable flycheck when exiting insert mode
+(add-hook! evil-insert-state-exit (lambda nil (flycheck-mode 1)))
+;; make flycheck window auto-resize (with a max height of 15 lines)
 
 (unless (display-graphic-p)
   (after! git-gutter
@@ -119,47 +119,40 @@
 
 (after! (haskell lsp-haskell ormolu lsp-ui)
   (setq lsp-haskell-process-path-hie "hie-wrapper")
-  (add-hook! haskell-mode #'lsp)
-  (add-hook! haskell-mode 'highlight-indent-guides-mode)
   (setq ormolu-reformat-buffer-on-save t)
-  (add-hook! haskell-mode 'ormolu-format-on-save-mode)
   )
+(add-hook! haskell-mode #'lsp)
+(add-hook! haskell-mode 'highlight-indent-guides-mode)
+(add-hook! haskell-mode 'ormolu-format-on-save-mode)
 
 (after! (rustic lsp lsp-ui)
   (setq rustic-lsp-server 'rust-analyzer)
-  (add-hook! rust-mode #'lsp)
+  (setq rust-format-on-save t)
   )
+(add-hook! rust-mode #'lsp)
 
-(after! yaml
-  (add-hook! yaml-mode 'highlight-indent-guides-mode)
-  )
+(add-hook! yaml-mode 'highlight-indent-guides-mode)
 
-(after! json
-  (add-hook! json-mode 'highlight-indent-guides-mode)
-  )
+(add-hook! json-mode 'highlight-indent-guides-mode)
 
-(after! python
-  (add-hook! python-mode 'highlight-indent-guides-mode)
-  )
+(add-hook! python-mode 'highlight-indent-guides-mode)
 
-(after! (go lsp lsp-ui)
-  (add-hook! go-mode #'lsp)
-  (add-hook! go-mode
-    (lambda nil
-      (add-hook before-save-hook 'gofmt-before-save)))
-  )
+(add-hook! go-mode #'lsp)
+(add-hook! go-mode
+  (lambda nil
+    (add-hook before-save-hook 'gofmt-before-save)))
 
 ;; terraform-lsp doesn't work right now, try again later
-;; (after! (terraform lsp)
-;;   (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
+(after! (terraform lsp)
+  (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
 
-;;   (lsp-register-client
-;;   (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-lsp" "-enable-log-file"))
-;;                     :major-modes '(terraform-mode)
-;;                     :server-id 'terraform-ls))
+  (lsp-register-client
+  (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-lsp" "-enable-log-file"))
+                    :major-modes '(terraform-mode)
+                    :server-id 'terraform-ls))
 
-;;   (add-hook 'terraform-mode-hook #'lsp)
-;;   )
+  )
+(add-hook! terraform-mode #'lsp)
 
 (add-hook! js2-mode
   (prettier-js-mode)
