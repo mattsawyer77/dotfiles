@@ -127,7 +127,7 @@
 
 (after! (rustic lsp lsp-ui)
   (setq rustic-lsp-server 'rust-analyzer)
-  (setq rust-format-on-save t)
+  (setq rustic-format-on-save t)
   )
 (add-hook! rust-mode #'lsp)
 
