@@ -1,2 +1,8 @@
 [terraform]
 disabled = true
+[haskell]
+symbol = " "
+disabled = false
+[kubernetes]
+symbol = "☸️️ "
+disabled = false
