@@ -38,6 +38,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export AWS_SDK_LOAD_CONFIG=1
+export AWS_DEFAULT_PROFILE=f5cs
 
 alias ssh='TERM=xterm-256color ssh'
 alias vim=nvim
