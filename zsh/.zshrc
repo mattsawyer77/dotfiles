@@ -130,3 +130,21 @@ zplug-upgrade() {
   fi
   zplug update
 }
+
+unbound-update() {
+  if command -v dns_blocklist_updater >/dev/null; then
+    echo "getting latest block list and transforming..." \
+      && dns_blocklist_updater >zone-block-general.conf \
+      && echo "installing block list configuration..." \
+      && sudo cp zone-block-general.conf /usr/local/etc/unbound/zone-block-general.conf \
+      && echo "restarting unbound..." \
+      && sudo launchctl unload /Library/LaunchDaemons/net.unbound.plist \
+      && sleep 2 \
+      && sudo launchctl load /Library/LaunchDaemons/net.unbound.plist \
+      && sleep 2 \
+      && pgrep -flai unbound
+  else
+    echo >&2 "dns_blocklist_updater is not installed, skipping."
+    exit 1
+  fi
+}
