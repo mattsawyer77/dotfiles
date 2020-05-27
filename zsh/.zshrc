@@ -106,18 +106,6 @@ tf-destroy() {
   terraform destroy $@ 2>&1 | tee destroy.out
 }
 
-z () {
-  if [ $# -ne 0 ]; then
-    _Z_RESULT=$(zoxide query "$@")
-  else
-    _Z_RESULT=$(zoxide query -i)
-  fi
-  case $_Z_RESULT in
-    ("query: "*) cd "${_Z_RESULT:7}" ;;
-    (*) echo "${_Z_RESULT}" ;;
-  esac
-}
-
 zplug-upgrade() {
   # Install plugins if there are plugins that have not been installed
   if ! zplug check --verbose; then
