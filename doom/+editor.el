@@ -125,7 +125,10 @@
 (add-hook! haskell-mode 'highlight-indent-guides-mode)
 (add-hook! haskell-mode 'ormolu-format-on-save-mode)
 
-(after! (rustic lsp lsp-ui)
+
+;; (after! (rustic lsp lsp-ui)
+(use-package! rustic
+  :config
   (setq rustic-lsp-server 'rust-analyzer)
   (setq rustic-format-on-save t)
   )
