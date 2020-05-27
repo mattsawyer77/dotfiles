@@ -132,6 +132,7 @@
   (setq rustic-lsp-server 'rust-analyzer)
   (setq rustic-format-on-save t)
   )
+
 (add-hook! rust-mode #'lsp)
 
 (add-hook! yaml-mode 'highlight-indent-guides-mode)
@@ -163,4 +164,16 @@
 
 (add-hook! terraform-mode
   (terraform-format-on-save-mode)
+  )
+
+(use-package! ivy-posframe
+  :config
+  ;; display at `ivy-posframe-style'
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-bottom-left)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
+  (ivy-posframe-mode 1)
   )

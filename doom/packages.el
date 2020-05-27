@@ -19,6 +19,7 @@
 (package! company-nginx)
 (package! lsp-haskell)
 (package! treemacs-persp)
+(package! ivy-posframe)
 ;; (package! elisp-benchmarks)
 ;; (package! hl-line+)
 ;; (package! hlint-refactor)
