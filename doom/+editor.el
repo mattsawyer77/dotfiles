@@ -30,15 +30,41 @@
 ;; make underscore considered as a "word" character
 ;; (modify-syntax-entry ?_ "w")
 
+(use-package! rustic
+  :defer
+  :config
+  (setq rustic-lsp-server 'rust-analyzer)
+  (setq rustic-format-on-save t)
+  )
+
+;; (use-package! ivy-posframe
+;;   :config
+(after! ivy-posframe
+  ;; display at `ivy-posframe-style'
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-bottom-left)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
+  (ivy-posframe-mode 1)
+  )
+
+(use-package! hl-line+
+  :defer
+  :config
+  (hl-line-when-idle-interval 0.1)
+  (toggle-hl-line-when-idle t))
+
+;; (after! golden-ratio
+;;   (golden-ratio-mode)
+;;   )
+
 (after! display-line-numbers
   (add-hook! prog-mode
     (turn-on-visual-line-mode)
     (display-line-numbers-mode)
     )
-  )
-
-(after! golden-ratio
-  (golden-ratio-mode)
   )
 
 (after! undo-tree
@@ -126,13 +152,6 @@
 (add-hook! haskell-mode 'ormolu-format-on-save-mode)
 
 
-;; (after! (rustic lsp lsp-ui)
-(use-package! rustic
-  :config
-  (setq rustic-lsp-server 'rust-analyzer)
-  (setq rustic-format-on-save t)
-  )
-
 (add-hook! rust-mode #'lsp)
 
 (add-hook! yaml-mode 'highlight-indent-guides-mode)
@@ -164,16 +183,4 @@
 
 (add-hook! terraform-mode
   (terraform-format-on-save-mode)
-  )
-
-(use-package! ivy-posframe
-  :config
-  ;; display at `ivy-posframe-style'
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-bottom-left)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
-  (ivy-posframe-mode 1)
   )
