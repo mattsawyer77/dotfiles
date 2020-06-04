@@ -34,6 +34,19 @@ ulimit -n 4096
 
 zstyle ':completion:*:*:*:*:*' menu select
 
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+# expire duplicates first
+setopt HIST_EXPIRE_DUPS_FIRST
+# do not store duplications
+setopt HIST_IGNORE_DUPS
+#ignore duplicates when searching
+setopt HIST_FIND_NO_DUPS
+# removes blank lines from history
+setopt HIST_REDUCE_BLANKS
+export SAVEHIST=5000
+export HISTSIZE=100000
+
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
