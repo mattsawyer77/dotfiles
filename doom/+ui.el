@@ -39,7 +39,10 @@
 ;; (load-theme 'doom-tomorrow-night t) ;;one of the dark variants of Tomorrow (thanks to emacswatcher)
 ;; (load-theme 'doom-wilmersdorf t) ;;port of Ian Pan's Wilmersdorf (thanks to ema2159)
 
-(setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 23))
+(setq-default line-spacing 8)
+;; (setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 23))
+;; (setq doom-font (font-spec :family "Input" :size 22))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 22))
 ;; (setq doom-font (font-spec :family "SF Mono" :size 19))
 ;; (setq doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 17))
 (setq doom-variable-pitch-font (font-spec :family "Proxima Nova" :size 18))
