@@ -115,6 +115,12 @@
     )
   )
 
+;;; flycheck
+;; (defface flycheck-small-face
+;;   '((t (:inherit default :height 0.7)))
+;;    "flycheck-small-face")
+;; (add-hook! flycheck-mode-major-mode (face-remap-add-relative 'default 'flycheck-small-face))
+
 ;;; rust
 (after! rustic
   (custom-set-faces!
@@ -123,3 +129,8 @@
                                        :background ,(doom-lighten 'bg 0.07))
     )
   )
+(defface compilation-face
+  '((t (:inherit default :height 0.7)))
+   "compilation-face")
+(add-hook! rustic-compilation-mode (face-remap-add-relative 'default 'compilation-face))
+(add-hook! compilation-mode (face-remap-add-relative 'default 'compilation-face))

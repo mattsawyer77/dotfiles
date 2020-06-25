@@ -40,3 +40,10 @@
 (map! :after vmd
       :mode markdown-mode
       :n "SPC m p" #'vmd-mode)
+
+(map! :after go-mode
+      :map go-mode-map
+      :localleader
+      (:prefix ("b" . "build")
+        :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
+        ))

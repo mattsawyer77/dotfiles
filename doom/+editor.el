@@ -3,7 +3,6 @@
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
 (setq confirm-kill-emacs nil)
-(setq-default line-spacing 3)
 (setq mac-command-modifier 'super)
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq-default truncate-lines t)
@@ -37,9 +36,20 @@
   (setq rustic-format-on-save t)
   )
 
-;; (use-package! ivy-posframe
-;;   :config
-(after! ivy-posframe
+(after! (go-mode flycheck)
+  ;; some of these are redundant, and errcheck is awesome but super slow --
+  ;; so there is a keybinding to manually kick off errcheck in +keybindings.el
+  (setq-default flycheck-disabled-checkers '(go-golint go-build go-vet go-errcheck))
+  )
+
+(add-hook! go-mode #'+format-enable-on-save-h)
+(add-hook! go-mode #'turn-on-visual-line-mode)
+;; the following is super broken
+;; see https://github.com/weijiangan/flycheck-golangci-lint/issues/8
+;; (add-hook! go-mode #'flycheck-golangci-lint-setup)
+
+(use-package! ivy-posframe
+  :config
   ;; display at `ivy-posframe-style'
   ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
   ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
@@ -51,14 +61,9 @@
   )
 
 (use-package! hl-line+
-  :defer
   :config
   (hl-line-when-idle-interval 0.1)
   (toggle-hl-line-when-idle t))
-
-;; (after! golden-ratio
-;;   (golden-ratio-mode)
-;;   )
 
 (after! display-line-numbers
   (add-hook! prog-mode
@@ -79,7 +84,7 @@
 
 (after! projectile
   (setq projectile-project-search-path '("~/workspaces"
-                                         "~/workspaces/f5aas"
+                                         "~/workspaces/f5cs-orchestration"
                                          "~/workspaces/f5aas/orchestration"
                                          "~/workspaces/f5aas/infra"
                                          "~/haskell"
@@ -102,27 +107,22 @@
   (setq company-selection-wrap-around t)
   )
 
-;; (add-hook! lsp-ui-mode
-;;   (lsp-ui-sideline-enable nil)
-;;   (lsp-ui-doc-enable t)
-;;   )
-
 (after! company-lsp
   (push 'company-lsp company-backends)
   )
 
 (after! flycheck
+  ;; make flycheck window auto-resize (with a max height of 15 lines)
   (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
     ad-do-it
     (-when-let (window (flycheck-get-error-list-window t))
       (with-selected-window window
         (fit-window-to-buffer window 15))))
+  ;; disable flycheck while in insert mode
+  (add-hook! evil-insert-state-entry (lambda nil (flycheck-mode -1)))
+  ;; re-enable flycheck when exiting insert mode
+  (add-hook! evil-insert-state-exit (lambda nil (flycheck-mode 1)))
   )
-;; disable flycheck while in insert mode
-(add-hook! evil-insert-state-entry (lambda nil (flycheck-mode -1)))
-;; re-enable flycheck when exiting insert mode
-(add-hook! evil-insert-state-exit (lambda nil (flycheck-mode 1)))
-;; make flycheck window auto-resize (with a max height of 15 lines)
 
 (unless (display-graphic-p)
   (after! git-gutter
@@ -154,16 +154,13 @@
 
 (add-hook! rust-mode #'lsp)
 
+(add-hook! 'haskell-mode-hook (face-remap-add-relative 'default 'my-haskell-default-face))
+
 (add-hook! yaml-mode 'highlight-indent-guides-mode)
 
 (add-hook! json-mode 'highlight-indent-guides-mode)
 
 (add-hook! python-mode 'highlight-indent-guides-mode)
-
-(add-hook! go-mode #'lsp)
-(add-hook! go-mode
-  (lambda nil
-    (add-hook before-save-hook 'gofmt-before-save)))
 
 ;; terraform-lsp doesn't work right now, try again later
 (after! (terraform lsp)

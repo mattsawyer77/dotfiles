@@ -27,4 +27,4 @@
 ;; (package! ht)
 ;; (package! fzf)
 ;; (package! dhall-mode)
-(disable-packages! hl-line)
+(disable-packages! hl-line flycheck-golangci-lint)
