@@ -52,6 +52,9 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export AWS_SDK_LOAD_CONFIG=1
 export AWS_DEFAULT_PROFILE=f5cs
+if command -v go >/dev/null; then
+  export GOROOT="/usr/local/Cellar/go/$(go version -v 2>&1 | pcregrep -o '\d+\.\d+\.\d+')/libexec"
+fi
 
 alias ssh='TERM=xterm-256color ssh'
 alias vim=nvim
