@@ -181,3 +181,10 @@
 (add-hook! terraform-mode
   (terraform-format-on-save-mode)
   )
+
+(after! lsp-ui
+  ;; disable lsp-ui-sideline while in insert mode
+  (add-hook! evil-insert-state-entry (lambda nil (lsp-ui-sideline-enable -1)))
+  ;; re-enable lsp-ui-sideline when exiting insert mode
+  (add-hook! evil-insert-state-entry (lambda nil (lsp-ui-sideline-enable 1)))
+ )
