@@ -47,3 +47,10 @@
       (:prefix ("b" . "build")
         :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
         ))
+
+(map! :after rustic
+      :map rustic-mode-map
+      :localleader
+      (:prefix ("c" . "check")
+        :desc "cargo check" "c" (cmd! (compile "cargo check"))
+        ))
