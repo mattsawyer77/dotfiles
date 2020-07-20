@@ -35,8 +35,8 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 0
-    y: 0
+    x: 5
+    y: 2
 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
@@ -104,10 +104,10 @@ font:
     # family: Fira Code
     # style: Regular
     # family: Monoid HalfTight
-    # family: PragmataPro Liga 1.1
+    family: PragmataPro Liga 1.2
     # family: Input
     # family: SF Mono
-    family: JetBrains Mono
+    # family: JetBrains Mono
 
     # The `style` can be specified to pick a specific face.
     # style: Light
@@ -123,10 +123,10 @@ font:
     # family: Fira Code
     # style: Regular
     # family: Monoid HalfTight
-    # family: PragmataPro Liga 1.1
+    family: PragmataPro Liga 1.2
     # family: Input
     # family: SF Mono
-    family: JetBrains Mono
+    # family: JetBrains Mono
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -149,14 +149,14 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
     x: 0
-    y: 8
+    y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
   glyph_offset:
     x: 0
-    y: 4
+    y: 0
 
   # Thin stroke font rendering (macOS only)
   #
@@ -172,93 +172,39 @@ font:
   #
   # This is a global setting and will require a log out or restart to take
   # effect.
-  use_thin_strokes: true
+  use_thin_strokes: false
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
-# Colors (Tomorrow Night Bright)
+# Colors (Ayu Dark)
 colors:
   # Default colors
   primary:
-    background: '0x161C21'
-    foreground: '0xb4bfb9'
-
-    # Bright and dim foreground colors
-    #
-    # The dimmed foreground color is calculated automatically if it is not present.
-    # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-    # is `false`, the normal foreground color will be used.
-    #dim_foreground: '0x9a9a9a'
-    #bright_foreground: '0xffffff'
-
-  # Cursor colors
-  #
-  # Colors which should be used to draw the terminal cursor. If these are unset,
-  # the cursor color will be the inverse of the cell color.
-  #cursor:
-  #  text: '0x000000'
-  #  cursor: '0xffffff'
-
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area. If selection
-  # background is unset, selection color will be the inverse of the cell colors.
-  # If only text is unset the cell text color will remain the same.
-  #selection:
-  #  text: '0xeaeaea'
-  #  background: '0x404040'
+    background: '0x1f2429'
+    foreground: '0xe6e1cf'
 
   # Normal colors
   normal:
-    black:   '0x1c1f26'
-    red:     '0xc16069'
-    green:   '0xa2bf8a'
-    yellow:  '0xd2876d'
-    blue:    '0x8ea1b4'
-    magenta: '0xb58dae'
-    cyan:    '0x90d5d5'
-    white:   '0xc0c5ce'
+    black:   '0x000000'
+    red:     '0xf34a4a'
+    green:   '0xbae67e'
+    yellow:  '0xffee99'
+    blue:    '0x73d0ff'
+    magenta: '0xd4bfff'
+    cyan:    '0x83CEC6'
+    white:   '0xf2f2f2'
 
   # Bright colors
   bright:
-    black:   '0x686868'
-    red:     '0xf2777a'
-    green:   '0x98ea98'
-    yellow:  '0xffcc66'
-    blue:    '0x6699cc'
-    magenta: '0xcc99cc'
-    cyan:    '0x67cccc'
-    white:   '0xfefefe'
-
-# Colors (Solarized Dark)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0x002b36'
-#     foreground: '0x839496'
-#
-#   # Normal colors
-#   normal:
-#     black:   '0x073642'
-#     red:     '0xdc322f'
-#     green:   '0x859900'
-#     yellow:  '0xb58900'
-#     blue:    '0x268bd2'
-#     magenta: '0xd33682'
-#     cyan:    '0x2aa198'
-#     white:   '0xeee8d5'
-#
-#   # Bright colors
-#   bright:
-#     black:   '0x002b36'
-#     red:     '0xcb4b16'
-#     green:   '0x586e75'
-#     yellow:  '0x657b83'
-#     blue:    '0x839496'
-#     magenta: '0x6c71c4'
-#     cyan:    '0x93a1a1'
-#     white:   '0xfdf6e3'
+    black:   '0x737d87'
+    red:     '0xff3333'
+    green:   '0xc2d94c'
+    yellow:  '0xe7c547'
+    blue:    '0x59c2ff'
+    magenta: '0xb77ee0'
+    cyan:    '0x5ccfe6'
+    white:   '0xffffff'
 
 # Visual Bell
 #
