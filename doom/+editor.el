@@ -178,6 +178,10 @@
   (prettier-js-mode)
   )
 
+(after! js2-mode
+  (setq-default js2-basic-offset 2)
+  )
+
 (add-hook! terraform-mode
   (terraform-format-on-save-mode)
   )
