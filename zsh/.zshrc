@@ -55,6 +55,9 @@ export AWS_DEFAULT_PROFILE=f5cs
 if command -v go >/dev/null; then
   export GOROOT="/usr/local/Cellar/go/$(go version -v 2>&1 | pcregrep -o '\d+\.\d+\.\d+')/libexec"
 fi
+if command -v pyenv >/dev/null; then
+  eval "$(pyenv init -)"
+fi
 
 alias ssh='TERM=xterm-256color ssh'
 alias vim=nvim
