@@ -43,7 +43,7 @@
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup +all +defaults)   ; tame sudden yet inevitable temporary windows
-       ;; (pretty-code +pragmata-pro)       ; ligatures or substitute text with pretty symbols
+       (pretty-code +pragmata-pro)       ; ligatures or substitute text with pretty symbols
        ;; pretty-code       ; ligatures or substitute text with pretty symbols
        ;;tabs              ; an tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
@@ -178,4 +178,4 @@
 
        :config
        ;;literate
-       (default +bindings))
+       (default +bindings +smarparens))

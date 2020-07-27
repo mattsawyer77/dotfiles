@@ -39,8 +39,9 @@
 ;; (load-theme 'doom-tomorrow-night t) ;;one of the dark variants of Tomorrow (thanks to emacswatcher)
 ;; (load-theme 'doom-wilmersdorf t) ;;port of Ian Pan's Wilmersdorf (thanks to ema2159)
 
-(setq-default line-spacing 0)
-(setq doom-font (font-spec :family "PragmataPro Liga 1.2" :size 23))
+(setq-default line-spacing 4)
+;; (setq doom-font (font-spec :family "PragmataPro Liga 1.2" :size 23))
+(setq doom-font (font-spec :family "Rec Mono Linear" :size 22))
 ;; (setq doom-font (font-spec :family "Input" :size 22))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 22))
 ;; (setq doom-font (font-spec :family "SF Mono" :size 19))
@@ -102,7 +103,7 @@
 
 (after! treemacs
   (custom-set-faces!
-    `(treemacs-root-face :height 1.3 :weight bold :slant normal :family "Roboto" :background ,(doom-color 'bg))
+    `(treemacs-root-face :height 1.3 :weight bold :slant normal :family "Roboto" :background ,(doom-darken 'bg 0.1))
     `(treemacs-directory-collapsed-face :height 0.8 :weight normal :slant normal :family "Roboto")
     `(treemacs-directory-face :height 0.8 :weight normal :slant normal :family "Roboto")
     `(treemacs-file-face :height 0.8 :weight normal :slant normal :family "Roboto")
