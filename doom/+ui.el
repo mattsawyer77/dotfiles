@@ -53,18 +53,19 @@
   `(font-lock-type-face :weight bold)
   `(font-lock-function-name-face :weight bold)
   `(font-lock-string-face :background ,(doom-lighten 'bg 0.05))
+  `(popup-face :family "Fira Sans" :size 16)
   )
 
 (custom-theme-set-faces! 'doom-spacegrey
   `(solaire-default-face :background ,(doom-darken 'bg 0.1))
-  `(line-number :foreground "gray20"
+  `(line-number :foreground "#353b45"
                 :background ,(doom-darken 'bg 0.1))
   `(font-lock-keyword-face :weight bold
                            :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
   `(font-lock-constant-face :weight bold
                             :foreground ,(doom-lighten (doom-color 'blue) 0.3))
   `(font-lock-variable-name-face :foreground ,(doom-color 'blue))
-  `(font-lock-preprocessor-face :foreground ,(doom-lighten (doom-color 'red) 0.1))
+  `(font-lock-preprocessor-face :foreground "tomato")
   `(font-lock-string-face :foreground ,(doom-lighten (doom-color 'green) 0.3))
   `(font-lock-type-face :foreground ,(doom-darken (doom-color 'red) 0.1))
   `(font-lock-function-name-face :foreground ,(doom-color 'green))
@@ -103,7 +104,7 @@
 
 (after! treemacs
   (custom-set-faces!
-    `(treemacs-root-face :height 1.3 :weight bold :slant normal :family "Roboto" :background ,(doom-darken 'bg 0.1))
+    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "Roboto" :background "#24282F")
     `(treemacs-directory-collapsed-face :height 0.8 :weight normal :slant normal :family "Roboto")
     `(treemacs-directory-face :height 0.8 :weight normal :slant normal :family "Roboto")
     `(treemacs-file-face :height 0.8 :weight normal :slant normal :family "Roboto")
@@ -122,6 +123,7 @@
     `(treemacs-tags-face :height 0.8 :weight normal :slant normal :family "Roboto")
     `(treemacs-term-node-face :height 0.8 :weight normal :slant normal :family "Roboto")
     )
+  (setq treemacs-width 30)
   )
 
 ;;; flycheck

@@ -44,6 +44,7 @@
 
 (add-hook! go-mode #'+format-enable-on-save-h)
 (add-hook! go-mode #'turn-on-visual-line-mode)
+(add-hook! go-mode #'+word-wrap-mode)
 ;; the following is super broken
 ;; see https://github.com/weijiangan/flycheck-golangci-lint/issues/8
 ;; (add-hook! go-mode #'flycheck-golangci-lint-setup)
@@ -192,3 +193,4 @@
   ;; re-enable lsp-ui-sideline when exiting insert mode
   (add-hook! evil-insert-state-entry (lambda nil (lsp-ui-sideline-enable 1)))
  )
+
