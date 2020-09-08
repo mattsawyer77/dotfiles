@@ -46,6 +46,7 @@
       :localleader
       (:prefix ("b" . "build")
         :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
+        :desc "lint" "l" (cmd! (compile "make lint"))
         ))
 
 (map! :after rustic

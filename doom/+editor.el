@@ -49,18 +49,6 @@
 ;; see https://github.com/weijiangan/flycheck-golangci-lint/issues/8
 ;; (add-hook! go-mode #'flycheck-golangci-lint-setup)
 
-(use-package! ivy-posframe
-  :config
-  ;; display at `ivy-posframe-style'
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-bottom-left)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
-  (ivy-posframe-mode 1)
-  )
-
 (use-package! hl-line+
   :config
   (hl-line-when-idle-interval 0.1)
@@ -140,9 +128,9 @@
     )
 )
 
-;; (when (and (display-graphic-p) IS-MAC)
-;;   (mac-auto-operator-composition-mode)
-;;   )
+; (when (and (display-graphic-p) IS-MAC)
+;   (mac-auto-operator-composition-mode)
+;   )
 
 (after! (haskell lsp-haskell ormolu lsp-ui)
   (setq lsp-haskell-process-path-hie "hie-wrapper")
@@ -153,7 +141,8 @@
 (add-hook! haskell-mode 'ormolu-format-on-save-mode)
 
 
-(add-hook! rust-mode #'lsp)
+(add-hook! rustic-mode #'lsp)
+(add-hook! rustic-mode #'+word-wrap-mode)
 
 (add-hook! 'haskell-mode-hook (face-remap-add-relative 'default 'my-haskell-default-face))
 
@@ -188,9 +177,11 @@
   )
 
 (after! lsp-ui
-  ;; disable lsp-ui-sideline while in insert mode
-  (add-hook! evil-insert-state-entry (lambda nil (lsp-ui-sideline-enable -1)))
-  ;; re-enable lsp-ui-sideline when exiting insert mode
-  (add-hook! evil-insert-state-entry (lambda nil (lsp-ui-sideline-enable 1)))
+  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-peek-enable t)
  )
 
+(after! zoom
+  (setq zoom-size '(0.618 . 0.618))
+  (add-hook! prog-mode (zoom-mode t))
+  )

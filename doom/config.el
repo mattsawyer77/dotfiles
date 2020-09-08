@@ -1,3 +1,5 @@
+(setq comp-speed 2
+      comp-deferred-compilation t)
 ;;;  -*- lexical-binding: t; -*-
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 (load! "+cloudformation-mode")
