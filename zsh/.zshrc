@@ -76,6 +76,9 @@ alias ta='tmux attach -t'
 alias k=kubectl
 # edit a file with emacsclient -- if no session exists, create one automatically
 alias em='emacsclient -t -c --alternate-editor=""'
+
+alias terraform='/usr/local/opt/terraform@0.12/bin/terraform'
+
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
