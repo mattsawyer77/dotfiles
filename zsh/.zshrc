@@ -53,7 +53,7 @@ export LANGUAGE=en_US.UTF-8
 export AWS_SDK_LOAD_CONFIG=1
 export AWS_DEFAULT_PROFILE=f5cs
 if command -v go >/dev/null; then
-  export GOROOT="/usr/local/Cellar/go/$(go version -v 2>&1 | pcregrep -o '\d+\.\d+\.\d+')/libexec"
+  export GOROOT="/usr/local/Cellar/go/$(brew ls --versions go | cut -d' ' -f2)/libexec"
 fi
 if command -v pyenv >/dev/null; then
   eval "$(pyenv init -)"
