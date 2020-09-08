@@ -20,15 +20,14 @@ export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 
 #For pkg-config to find openssl@1.1 you may need to set:
 export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
-PATH=node_modules/.bin
 # If you need to have openssl@1.1 first in your PATH run:
 PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
 PATH=$PATH:$HOME/.nvm/versions/node/v12.11.1/bin
-PATH=$PATH:$HOME/.cargo/bin
-PATH=$PATH:$HOME/.tmuxifier/bin
-PATH=$PATH:$HOME/.fzf/bin
 PATH=$PATH:$HOME/.local/bin
+PATH=$PATH:$HOME/.cargo/bin
 PATH=$PATH:$HOME/.cabal/bin
+PATH=$PATH:$HOME/.fzf/bin
 PATH=$PATH:$GOPATH/bin
 PATH=$PATH:$HOME/.pyenv/shims
 PATH=$PATH:/usr/local/opt/curl/bin
