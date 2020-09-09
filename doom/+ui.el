@@ -66,6 +66,8 @@
   `(font-lock-string-face :background ,(doom-color 'bg))
   ;; `(popup-face :height 0.7)
   `(line-number :height 1.3)
+  `(mode-line :family "Roboto")
+  `(mode-line-inactive :family "Roboto")
   )
 
 (custom-theme-set-faces! 'doom-spacegrey
@@ -148,8 +150,8 @@
 (defface code-face
   '((t (:inherit default :height 1.3)))
   "code-face")
-(add-hook! (prog-mode toml-mode conf-toml-mode yaml-mode) (face-remap-add-relative 'default 'code-face))
-(add-hook! (prog-mode toml-mode conf-toml-mode yaml-mode) (face-remap-add-relative 'solaire-default-face 'code-face))
+(add-hook! (prog-mode toml-mode conf-toml-mode yaml-mode git-commit-mode) (face-remap-add-relative 'default 'code-face))
+(add-hook! (prog-mode toml-mode conf-toml-mode yaml-mode git-commit-mode) (face-remap-add-relative 'solaire-default-face 'code-face))
 
 ;;; flycheck
 ;; (defface flycheck-small-face
