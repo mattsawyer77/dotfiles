@@ -33,9 +33,9 @@
       :n "SPC e p" #'flycheck-previous-error
       :n "SPC e v" #'flycheck-verify-setup)
 
-(map! :after golden-ratio
-      :map general-override-mode-map
-      :n "SPC w g" #'golden-ratio-toggle-widescreen)
+(map! :after zoom
+      :desc "toggle Zoom"
+      :n "SPC t z" #'zoom-mode)
 
 (map! :after vmd
       :mode markdown-mode

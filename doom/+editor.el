@@ -181,7 +181,7 @@
   (setq lsp-ui-peek-enable t)
  )
 
-(after! zoom
-  (setq zoom-size '(0.618 . 0.618))
-  (add-hook! prog-mode (zoom-mode t))
-  )
+(use-package! zoom
+  ;; :hook (doom-first-input . zoom-mode)
+  :config (setq zoom-size '(0.7 . 0.7)
+                zoom-ignored-major-modes '(treemacs-mode)))
