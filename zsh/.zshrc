@@ -52,7 +52,9 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export AWS_SDK_LOAD_CONFIG=1
 export AWS_DEFAULT_PROFILE=f5cs
-if command -v go >/dev/null; then
+if command -v gvm >/dev/null; then
+  gvm use go1.14 >/dev/null
+elif command -v go >/dev/null; then
   export GOROOT="/usr/local/Cellar/go/$(brew ls --versions go | cut -d' ' -f2)/libexec"
 fi
 if command -v pyenv >/dev/null; then
@@ -77,7 +79,8 @@ alias k=kubectl
 # edit a file with emacsclient -- if no session exists, create one automatically
 alias em='emacsclient -t -c --alternate-editor=""'
 
-alias terraform='/usr/local/opt/terraform@0.12/bin/terraform'
+alias zenith="sudo -E zenith --disk-height 0"
+alias clippy="touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy"
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
