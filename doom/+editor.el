@@ -7,6 +7,8 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq-default truncate-lines t)
 (setq-default tab-width 2)
+(setq-default scroll-margin 100)
+(setq-default maximum-scroll-margin 0.25)
 (when (and (display-graphic-p) IS-MAC)
   (setq doom-modeline-icon t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -49,10 +51,10 @@
 ;; see https://github.com/weijiangan/flycheck-golangci-lint/issues/8
 ;; (add-hook! go-mode #'flycheck-golangci-lint-setup)
 
-(use-package! hl-line+
-  :config
-  (hl-line-when-idle-interval 0.1)
-  (toggle-hl-line-when-idle t))
+; (use-package! hl-line+
+;   :config
+;   (hl-line-when-idle-interval 0.1)
+;   (toggle-hl-line-when-idle t))
 
 (after! display-line-numbers
   (add-hook! prog-mode
@@ -146,18 +148,14 @@
 
 (add-hook! 'haskell-mode-hook (face-remap-add-relative 'default 'my-haskell-default-face))
 
-(add-hook! yaml-mode 'highlight-indent-guides-mode)
-
-(add-hook! json-mode 'highlight-indent-guides-mode)
-
-(add-hook! python-mode 'highlight-indent-guides-mode)
+(add-hook! (haskell-mode yaml-mode json-mode makefile-mode) 'highlight-indent-guides-mode)
 
 ;; terraform-lsp doesn't work right now, try again later
 (after! (terraform lsp)
   (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
 
   (lsp-register-client
-  (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-lsp" "-enable-log-file"))
+  (make-lsp-client :new-connection (lsp-stdio-connection '("~/.local/bin/terraform-lsp" "-enable-log-file"))
                     :major-modes '(terraform-mode)
                     :server-id 'terraform-ls))
 

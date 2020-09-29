@@ -22,7 +22,7 @@
 (package! flycheck-posframe)
 (package! zoom)
 ;; (package! elisp-benchmarks)
-(package! hl-line+)
+;; (package! hl-line+)
 ;; (package! hlint-refactor)
 ;; (package! dash)
 ;; (package! ht)

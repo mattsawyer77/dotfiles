@@ -161,6 +161,11 @@
 ;; (add-hook! flycheck-mode-major-mode (face-remap-add-relative 'default 'flycheck-small-face))
 ;; (add-hook! flycheck-mode-major-mode-hook (face-remap-add-relative 'default 'flycheck-small-face))
 
+(after! flycheck-posframe
+  (custom-set-faces!
+    `(flycheck-posframe-background-face :background ,(doom-lighten 'bg 0.1))
+    )
+  )
 ;;; rust
 (after! rustic
   (custom-set-faces!

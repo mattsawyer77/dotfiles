@@ -4,7 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((lsp--override-calculate-lisp-indent\? . t)
+   '((js2-basic-offset . 2)
+     (lsp--override-calculate-lisp-indent\? . t)
      (flycheck-disabled-checkers quote
                                  (emacs-lisp-checkdoc))
      (eval progn
@@ -210,6 +211,7 @@ is the buffer position of the start of the containing expression."
  ;; If there is more than one, they won't work right.
  '(doom-modeline-persp-name ((t (:slant normal))))
  '(doom-modeline-project-dir ((t (:weight bold :background nil))))
+ '(flycheck-posframe-background-face ((t (:background "#40444e"))))
  '(haskell-definition-face ((t (:foreground "#8FA1B3"))))
  '(haskell-keyword-face ((t (:foreground "coral"))))
  '(haskell-operator-face ((t (:foreground "#D08770"))))
