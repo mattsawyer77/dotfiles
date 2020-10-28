@@ -55,3 +55,10 @@
       (:prefix ("c" . "check")
         :desc "cargo check" "c" (cmd! (compile "cargo check"))
         ))
+
+(map! :after org
+      :map org-mode-map
+      :nv "SPC m -" #'org-cycle-list-bullet
+      :i "TAB" #'evil-org->
+      :i "S-TAB" #'evil-org-<
+      :i "RET" #'evil-org-return)

@@ -55,7 +55,7 @@
 ;; (setq doom-font (font-spec :family "Input" :size 22))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 22))
 ;; (setq doom-font (font-spec :family "SF Mono" :size 19))
-(setq doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 18))
+(setq doom-variable-pitch-font (font-spec :family "Avenir Next" :size 18))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
@@ -63,8 +63,9 @@
   `(font-lock-type-face :weight bold)
   `(font-lock-function-name-face :weight bold)
   `(font-lock-string-face :background ,(doom-color 'bg))
-  `(mode-line :family "SF Pro Display")
-  `(mode-line-inactive :family "SF Pro Display")
+  `(mode-line :family "Avenir Next")
+  `(mode-line-inactive :family "Avenir Next")
+  `(variable-pitch :family "Avenir Next")
   ;; `(popup-face :height 0.7)
   )
 
@@ -120,24 +121,24 @@
 
 (after! treemacs
   (custom-set-faces!
-    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "SF Pro Display" :background ,(doom-color 'bg))
-    `(treemacs-directory-collapsed-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-directory-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-file-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-fringe-indicator-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-git-added-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-git-conflict-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-git-ignored-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-git-modified-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-git-renamed-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-git-unmodified-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-git-untracked-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-help-column-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-help-title-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-on-failure-pulse-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-on-success-pulse-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-tags-face :weight normal :slant normal :family "SF Pro Display")
-    `(treemacs-term-node-face :weight normal :slant normal :family "SF Pro Display")
+    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "Avenir Next" :background ,(doom-color 'bg))
+    `(treemacs-directory-collapsed-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-directory-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-file-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-fringe-indicator-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-git-added-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-git-conflict-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-git-ignored-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-git-modified-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-git-renamed-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-git-unmodified-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-git-untracked-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-help-column-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-help-title-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-on-failure-pulse-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-on-success-pulse-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-tags-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-term-node-face :weight normal :slant normal :family "Avenir Next")
     )
   (custom-theme-set-faces!
     `(treemacs-root-face :background ,(doom-darken (doom-color 'bg) 0.1))
@@ -146,9 +147,16 @@
   )
 
 (defface code-face
-  '((t (:inherit default :height 1.3)))
+  '((t (:inherit default
+        :height 1.3
+        :family "PragmataPro Liga 1.1")))
   "code-face")
-(add-hook! (prog-mode toml-mode conf-toml-mode yaml-mode git-commit-mode)
+(add-hook! (prog-mode
+            toml-mode
+            conf-toml-mode
+            yaml-mode
+            git-commit-mode
+            markdown-mode)
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
   (face-remap-add-relative 'line-number 'code-face)
@@ -186,3 +194,46 @@
 ;; (add-hook! compilation-mode (face-remap-add-relative 'default 'compilation-face))
 ;; (add-hook! rustic-mode (face-remap-add-relative 'default 'code-face))
 
+(defface org-face
+  '((t (:inherit default-face :family "Avenir Next" :height 1.2)))
+  "org-face")
+(defface org-code-face
+  '((t (:inherit default-face :family "PragmataPro Liga 1.1")))
+  "org-code-face")
+(after! org
+  (custom-set-faces!
+    `(org-table :family "PragmataPro Liga 1.1")
+    `(org-code :family "PragmataPro Liga 1.1")
+    `(org-block :family "PragmataPro Liga 1.1")
+    `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
+    `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
+    `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
+    `(solaire-org-hide-face :foreground ,(doom-color 'bg) :background ,(doom-color 'bg))
+    `(header-line :height 1.4 :background ,(doom-color 'bg))
+    `(org-superstar-header-bullet :inherit 'org-face :foreground "#ECBE7B")
+    `(org-level-8 :inherit 'org-face :height 0.4)
+    `(org-level-7 :inherit 'org-face :height 0.5)
+    `(org-level-6 :inherit 'org-face :height 0.6)
+    `(org-level-5 :inherit 'org-face :height 0.7)
+    `(org-level-4 :inherit 'org-face :height 0.8)
+    `(org-level-3 :inherit 'org-face :height 0.9 :weight normal :foreground "#8FA1B3")
+    `(org-level-2 :inherit 'org-face :height 1.0 :weight bold :foreground "#8FA1B3")
+    `(org-level-1 :inherit 'org-face :height 1.2 :weight bold :foreground "#8FA1B3")
+    `(org-document-title :inherit 'org-face :height 1.3 :weight normal)
+    )
+  )
+
+(add-hook! org-mode
+  (variable-pitch-mode t)
+  (hl-line-mode t)
+  (face-remap-add-relative 'default 'org-face)
+  (face-remap-add-relative 'solaire-default-face 'org-face)
+  (setq-local line-spacing 6)
+  (setq-local left-margin-width 5)
+  (setq-local right-margin-width 5)
+  (setq-local display-line-numbers-type nil)
+  (display-line-numbers-mode -1)
+  (setq-local header-line-format " ")
+  (setq treemacs-sorting 'mod-time-desc)
+  (set-window-buffer nil (current-buffer))
+  )

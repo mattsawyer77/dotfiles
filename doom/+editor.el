@@ -41,7 +41,7 @@
 (after! (go-mode flycheck)
   ;; some of these are redundant, and errcheck is awesome but super slow --
   ;; so there is a keybinding to manually kick off errcheck in +keybindings.el
-  (setq-default flycheck-disabled-checkers '(go-golint go-build go-vet go-errcheck))
+  (setq-default flycheck-disabled-checkers '(go-golint go-build go-errcheck))
   )
 
 (add-hook! go-mode #'+format-enable-on-save-h)
@@ -146,20 +146,26 @@
 (add-hook! rustic-mode #'lsp)
 (add-hook! rustic-mode #'+word-wrap-mode)
 
-(add-hook! 'haskell-mode-hook (face-remap-add-relative 'default 'my-haskell-default-face))
-
 (add-hook! (haskell-mode yaml-mode json-mode makefile-mode) 'highlight-indent-guides-mode)
 
 ;; terraform-lsp doesn't work right now, try again later
+;; (after! lsp
+;;   (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-ls" "serve"))
+;;                     :major-modes '(terraform-mode)
+;;                     :server-id 'terraform-ls)))
+;;
+;; temporarily use terraform-ls until teraform-lsp matures:
 (after! (terraform lsp)
   (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
 
   (lsp-register-client
   (make-lsp-client :new-connection (lsp-stdio-connection '("~/.local/bin/terraform-lsp" "-enable-log-file"))
                     :major-modes '(terraform-mode)
-                    :server-id 'terraform-ls))
+                    :server-id 'terraform-ls)))
 
-  )
+(add-hook 'terraform-mode-hook #'lsp)
+
 (add-hook! terraform-mode #'lsp)
 
 (add-hook! js2-mode
@@ -183,6 +189,15 @@
   ;; :hook (doom-first-input . zoom-mode)
   :config (setq zoom-size '(0.7 . 0.7)
                 zoom-ignored-major-modes '(treemacs-mode)))
+
+(after! org
+  (setq org-agenda-files '("/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes")
+        org-hide-emphasis-markers t
+        org-hide-block-startup t
+        org-hide-leading-stars t
+        org-hide-macro-markers t
+        )
+  )
 
 (when-let (dims (doom-store-get 'last-frame-size))
   (cl-destructuring-bind ((left . top) width height fullscreen) dims
