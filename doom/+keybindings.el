@@ -62,3 +62,7 @@
       :i "TAB" #'evil-org->
       :i "S-TAB" #'evil-org-<
       :i "RET" #'evil-org-return)
+
+(map! :after evil-embrace
+      :v "v" #'er/expand-region
+      :v "V" #'er/contract-region)

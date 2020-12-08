@@ -7,7 +7,7 @@
 ;;;; (load-theme 'doom-acario-light t) ;; an original light theme (thanks to gagbo)
 ;; (load-theme 'doom-city-lights t) ;; based on Atom's City lights (thanks to fuxialexander)
 ;; (load-theme 'doom-challenger-deep t) ;; based on Vim's Challenger deep theme (thanks to fuxialexander)
-;;;;(load-theme 'doom-dark+) ;; ported from VS Code's Dark+ theme (thanks to ema2159)
+;; (load-theme 'doom-dark+) ;; ported from VS Code's Dark+ theme (thanks to ema2159)
 ;; (load-theme 'doom-dracula t) ;; an implementation of Dracula theme (thanks to fuxialexander)
 ;;;;(load-theme 'doom-ephemeral t) ;; inspired in the Ephemeral Theme from elenapan's dotfiles (thanks to karetsu)
 ;; (load-theme 'doom-fairy-floss t) ;; a candy colored Sublime theme by sailorhg (thanks to ema2159)
@@ -15,7 +15,7 @@
 ;; (load-theme 'doom-gruvbox t) ;; adapted from Morhetz's Gruvbox (thanks to JongW)
 ;; (load-theme 'doom-gruvbox-light t) ;; adapted from Morhetz's Gruvbox light variant (thanks for jsoa)
 ;;;; (load-theme 'doom-henna t) ;; based on VS Code's Henna (thanks to jsoa)
-;;;; (load-theme 'doom-horizon t) ;; ported from VS Code's Horizon (thanks to karetsu)
+;; (load-theme 'doom-horizon t) ;; ported from VS Code's Horizon (thanks to karetsu)
 ;;;; (load-theme 'doom-Iosvkem t) ;; adapted from Iosvkem (thanks to neutaaaaan)
 ;;;; (load-theme 'doom-laserwave t) ;; a clean 80's synthwave / outrun theme inspired by VS Code's laserwave (thanks to hyakt)
 ;; (load-theme 'doom-material t) ;; adapted from Material Themes (thanks to tam5)
@@ -62,26 +62,60 @@
 (custom-set-faces!
   `(font-lock-type-face :weight bold)
   `(font-lock-function-name-face :weight bold)
-  `(font-lock-string-face :background ,(doom-color 'bg))
+  `(font-lock-string-face :background ,(doom-lighten 'bg 0.1))
   `(mode-line :family "Avenir Next")
   `(mode-line-inactive :family "Avenir Next")
   `(variable-pitch :family "Avenir Next")
-  ;; `(popup-face :height 0.7)
+  `(+workspace-tab-face :family "Avenir Next")
+  `(+workspace-tab-selected-face :family "Avenir Next")
+  )
+
+(after! tree-sitter
+  (custom-theme-set-faces!
+    '(tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face :slant normal))))
+    )
   )
 
 (custom-theme-set-faces! 'doom-spacegrey
+  `(default :foreground "#b1bbcb")
   `(line-number :foreground "#353b45"
                 :background ,(doom-darken 'bg 0.1))
   `(font-lock-keyword-face :weight bold
                            :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
   `(font-lock-constant-face :weight bold
                             :foreground ,(doom-lighten (doom-color 'blue) 0.3))
+  `(font-lock-builtin-face :weight bold)
   `(font-lock-variable-name-face :foreground ,(doom-color 'blue))
   `(font-lock-preprocessor-face :foreground "tomato")
   `(font-lock-string-face :foreground ,(doom-lighten (doom-color 'green) 0.3))
   `(font-lock-type-face :foreground ,(doom-darken (doom-color 'red) 0.1))
   `(font-lock-function-name-face :foreground ,(doom-color 'green))
   `(font-lock-doc-face :foreground ,(doom-color 'orange))
+ )
+
+(custom-theme-set-faces! 'doom-old-hope
+  `(default :foreground "#87939c" :background "#0A0E14")
+  ;; `(solaire-default-face :foreground "#87939c" :background "#0A0E14")
+  `(line-number :foreground ,(doom-darken 'fg 0.8)
+                :background ,(doom-darken 'bg 0.5)
+                )
+  `(font-lock-keyword-face :weight bold
+                           :foreground "#FF8F40"
+                           )
+  `(font-lock-builtin-face :weight bold
+                           :foreground "#F29668")
+  `(font-lock-constant-face :weight bold
+                            :foreground "#FFEE99"
+                            )
+  `(font-lock-variable-name-face :foreground "#59C2FF")
+  `(font-lock-preprocessor-face :foreground "tomato")
+  `(font-lock-string-face :foreground "#b6ce89" :background "#1c2512")
+  `(font-lock-type-face :weight bold :foreground "#F07178")
+  `(font-lock-function-name-face :foreground "#FFB454")
+  `(font-lock-doc-face :foreground "#A1AC88")
+  `(font-lock-comment-face :foreground "#626A73")
+  `(highlight-numbers-number :foreground "#E6B673")
+  `(border :foreground "#4D5566")
  )
 
 (custom-theme-set-faces! 'doom-tomorrow-day
@@ -94,6 +128,14 @@
   (custom-set-faces!
     `(doom-modeline-project-dir :weight bold :background ,(doom-color 'default))
     `(doom-modeline-persp-name :slant normal)
+    )
+  )
+
+
+(after! terraform
+  (custom-set-faces!
+    `(terraform--resource-name-face :weight bold :foreground ,(doom-color 'green))
+    `(terraform--resource-type-face :weight bold :foreground ,(doom-color 'blue))
     )
   )
 
@@ -152,11 +194,10 @@
         :family "PragmataPro Liga 1.1")))
   "code-face")
 (add-hook! (prog-mode
+            text-mode
             toml-mode
             conf-toml-mode
-            yaml-mode
-            git-commit-mode
-            markdown-mode)
+            git-commit-mode)
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
   (face-remap-add-relative 'line-number 'code-face)
@@ -176,11 +217,21 @@
   )
 ;;; rust
 (after! rustic
+  ;; (custom-set-faces!
+  ;;   `(rustic-string-interpolation-face :slant normal)
+  ;;   `(rustic-string-interpolation-face :foreground ,(doom-lighten (doom-color 'magenta) 0.1)
+  ;;                                      :background ,(doom-lighten 'bg 0.07))
+  ;;   `(rustic-builtin-formatting-macro :foreground "tomato")
+  ;;   )
+  )
+
+(after! (rustic tree-sitter)
   (custom-set-faces!
-    `(rustic-string-interpolation-face :slant normal)
-    `(rustic-string-interpolation-face :foreground ,(doom-lighten (doom-color 'magenta) 0.1)
-                                       :background ,(doom-lighten 'bg 0.07))
-    `(rustic-builtin-formatting-macro :foreground "tomato")
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
     )
   )
 
@@ -195,7 +246,7 @@
 ;; (add-hook! rustic-mode (face-remap-add-relative 'default 'code-face))
 
 (defface org-face
-  '((t (:inherit default-face :family "Avenir Next" :height 1.2)))
+  '((t (:inherit default-face :family "Avenir Next" :height 1.1)))
   "org-face")
 (defface org-code-face
   '((t (:inherit default-face :family "PragmataPro Liga 1.1")))
@@ -211,15 +262,15 @@
     `(solaire-org-hide-face :foreground ,(doom-color 'bg) :background ,(doom-color 'bg))
     `(header-line :height 1.4 :background ,(doom-color 'bg))
     `(org-superstar-header-bullet :inherit 'org-face :foreground "#ECBE7B")
-    `(org-level-8 :inherit 'org-face :height 0.4)
-    `(org-level-7 :inherit 'org-face :height 0.5)
-    `(org-level-6 :inherit 'org-face :height 0.6)
-    `(org-level-5 :inherit 'org-face :height 0.7)
-    `(org-level-4 :inherit 'org-face :height 0.8)
+    `(org-level-8 :inherit 'org-face :height 0.8)
+    `(org-level-7 :inherit 'org-face :height 0.8)
+    `(org-level-6 :inherit 'org-face :height 0.8)
+    `(org-level-5 :inherit 'org-face :height 0.8)
+    `(org-level-4 :inherit 'org-face :height 0.8 :weight bold :foreground "#8FA1B3")
     `(org-level-3 :inherit 'org-face :height 0.9 :weight normal :foreground "#8FA1B3")
     `(org-level-2 :inherit 'org-face :height 1.0 :weight bold :foreground "#8FA1B3")
-    `(org-level-1 :inherit 'org-face :height 1.2 :weight bold :foreground "#8FA1B3")
-    `(org-document-title :inherit 'org-face :height 1.3 :weight normal)
+    `(org-level-1 :inherit 'org-face :height 1.2 :weight normal :foreground "#8FA1B3")
+    `(org-document-title :inherit 'org-face :height 1.1 :weight bold)
     )
   )
 
@@ -236,4 +287,5 @@
   (setq-local header-line-format " ")
   (setq treemacs-sorting 'mod-time-desc)
   (set-window-buffer nil (current-buffer))
+  (auto-save-mode t)
   )

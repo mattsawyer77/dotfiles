@@ -29,13 +29,21 @@
 ;; (add-to-list 'auto-mode-alist '("\\\.ssh\/authorized_keys" . prog-mode))
 
 ;; make underscore considered as a "word" character
-;; (modify-syntax-entry ?_ "w")
+(modify-syntax-entry ?_ "w")
+
+;; use tree-sitter for syntax highlighting
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (use-package! rustic
   :defer
   :config
   (setq rustic-lsp-server 'rust-analyzer)
   (setq rustic-format-on-save t)
+  (auto-save-mode -1)
   )
 
 (after! (go-mode flycheck)
@@ -62,6 +70,10 @@
     (display-line-numbers-mode)
     )
   )
+
+;; (after! rainbow-delimiters
+;;   (add-hook! (prog-mode rustic-mode) #'rainbow-delimiters-mode-enable)
+;;   )
 
 (after! undo-tree
   (setq undo-tree-auto-save-history t)
@@ -143,19 +155,21 @@
 (add-hook! haskell-mode 'ormolu-format-on-save-mode)
 
 
+;; (add-hook! rustic-mode #'tree-sitter-mode)
 (add-hook! rustic-mode #'lsp)
 (add-hook! rustic-mode #'+word-wrap-mode)
 
 (add-hook! (haskell-mode yaml-mode json-mode makefile-mode) 'highlight-indent-guides-mode)
 
-;; terraform-lsp doesn't work right now, try again later
-;; (after! lsp
+;; terraform-ls doesn't work right now, try again later
+;; (use-package! lsp
+;;   :config
 ;;   (lsp-register-client
-;;    (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-ls" "serve"))
+;;    (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
 ;;                     :major-modes '(terraform-mode)
-;;                     :server-id 'terraform-ls)))
-;;
-;; temporarily use terraform-ls until teraform-lsp matures:
+;;                     :server-id 'terraform-ls))
+;;   )
+;; temporarily use terraform-lsp until teraform-ls matures:
 (after! (terraform lsp)
   (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
 
@@ -163,8 +177,6 @@
   (make-lsp-client :new-connection (lsp-stdio-connection '("~/.local/bin/terraform-lsp" "-enable-log-file"))
                     :major-modes '(terraform-mode)
                     :server-id 'terraform-ls)))
-
-(add-hook 'terraform-mode-hook #'lsp)
 
 (add-hook! terraform-mode #'lsp)
 

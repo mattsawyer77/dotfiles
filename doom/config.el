@@ -1,5 +1,5 @@
-(setq comp-speed 2
-      comp-deferred-compilation t)
+;(setq comp-speed 2
+;      comp-deferred-compilation t)
 ; (setq comp-deferred-compilation nil)
 ;;;  -*- lexical-binding: t; -*-
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
