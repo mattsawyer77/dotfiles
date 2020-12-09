@@ -194,10 +194,7 @@
         :family "PragmataPro Liga 1.1")))
   "code-face")
 (add-hook! (prog-mode
-            text-mode
-            toml-mode
-            conf-toml-mode
-            git-commit-mode)
+            text-mode)
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
   (face-remap-add-relative 'line-number 'code-face)
@@ -259,8 +256,8 @@
     `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
-    `(solaire-org-hide-face :foreground ,(doom-color 'bg) :background ,(doom-color 'bg))
-    `(header-line :height 1.4 :background ,(doom-color 'bg))
+    `(header-line :inherit 'default :height 1.4)
+    `(solaire-header-line-face :inherit 'default :height 1.4)
     `(org-superstar-header-bullet :inherit 'org-face :foreground "#ECBE7B")
     `(org-level-8 :inherit 'org-face :height 0.8)
     `(org-level-7 :inherit 'org-face :height 0.8)
@@ -277,8 +274,8 @@
 (add-hook! org-mode
   (variable-pitch-mode t)
   (hl-line-mode t)
-  (face-remap-add-relative 'default 'org-face)
   (face-remap-add-relative 'solaire-default-face 'org-face)
+  (face-remap-add-relative 'default 'org-face)
   (setq-local line-spacing 6)
   (setq-local left-margin-width 5)
   (setq-local right-margin-width 5)
