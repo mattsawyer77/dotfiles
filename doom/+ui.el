@@ -195,6 +195,7 @@
   "code-face")
 (add-hook! (prog-mode
             text-mode)
+  (solaire-mode 1)
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
   (face-remap-add-relative 'line-number 'code-face)
