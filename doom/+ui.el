@@ -77,9 +77,10 @@
   )
 
 (custom-theme-set-faces! 'doom-spacegrey
-  `(default :foreground "#b1bbcb")
-  `(line-number :foreground "#353b45"
-                :background ,(doom-darken 'bg 0.1))
+  `(default :foreground "#b1bbcb" :background "#171b21")
+  `(solaire-default-face :foreground "#87939c" :background "#171b21")
+  `(line-number :foreground "#292e35"
+                :background ,(doom-darken 'bg 0.5))
   `(font-lock-keyword-face :weight bold
                            :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
   `(font-lock-constant-face :weight bold
@@ -132,7 +133,9 @@
   )
 
 
-(after! terraform
+(use-package! terraform-mode
+  :defer
+  :config
   (custom-set-faces!
     `(terraform--resource-name-face :weight bold :foreground ,(doom-color 'green))
     `(terraform--resource-type-face :weight bold :foreground ,(doom-color 'blue))
@@ -163,7 +166,7 @@
 
 (after! treemacs
   (custom-set-faces!
-    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "Avenir Next" :background ,(doom-color 'bg))
+    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "Avenir Next" :background ,(doom-darken (doom-color 'bg) 0.4))
     `(treemacs-directory-collapsed-face :weight normal :slant normal :family "Avenir Next")
     `(treemacs-directory-face :weight normal :slant normal :family "Avenir Next")
     `(treemacs-file-face :weight normal :slant normal :family "Avenir Next")
@@ -181,9 +184,6 @@
     `(treemacs-on-success-pulse-face :weight normal :slant normal :family "Avenir Next")
     `(treemacs-tags-face :weight normal :slant normal :family "Avenir Next")
     `(treemacs-term-node-face :weight normal :slant normal :family "Avenir Next")
-    )
-  (custom-theme-set-faces!
-    `(treemacs-root-face :background ,(doom-darken (doom-color 'bg) 0.1))
     )
   (setq treemacs-width 30)
   )

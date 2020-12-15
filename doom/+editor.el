@@ -8,7 +8,7 @@
 (setq-default truncate-lines t)
 (setq-default tab-width 2)
 (setq-default scroll-margin 100)
-(setq-default maximum-scroll-margin 0.25)
+(setq-default maximum-scroll-margin 0.15)
 (when (and (display-graphic-p) IS-MAC)
   (setq doom-modeline-icon t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
