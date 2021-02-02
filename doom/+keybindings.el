@@ -66,3 +66,7 @@
 (map! :after evil-embrace
       :v "v" #'er/expand-region
       :v "V" #'er/contract-region)
+
+(map! :after ponylang-mode
+      :map ponylang-mode-map
+      :nv "SPC m" #'ponylang-menu)
