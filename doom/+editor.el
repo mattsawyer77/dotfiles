@@ -119,7 +119,9 @@
   )
 
 (after! projectile
+  (setq projectile-auto-discover 't)
   (setq projectile-project-search-path '("~/workspaces"
+                                         "~/workspaces/f5cs-orchestration/management-plane"
                                          "~/workspaces/f5cs-orchestration"
                                          "~/workspaces/volterra/ves.io"
                                          "~/haskell"
