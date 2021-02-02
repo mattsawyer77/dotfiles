@@ -45,7 +45,7 @@ export TERM=xterm-24bit
 export XDG_DATA_HOME=~/.local/share
 export XDG_CONFIG_HOME=~/.config
 export BAT_THEME=1337
-if [ -e /Users/sawyer/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sawyer/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 get-sa-token() {
   context=$1
@@ -86,103 +86,11 @@ tf-plan() {
 }
 
 tf-apply() {
-  sudo systemsetup -setcomputersleep Never \
-    && terraform apply .plan $@ 2>&1 | tee apply.out;
-  sudo systemsetup -setcomputersleep 15
+  terraform apply .plan $@ 2>&1 | tee apply.out;
 }
 
 tf-destroy() {
   terraform destroy $@ 2>&1 | tee destroy.out
-}
-
-zplug-upgrade() {
-  # Install plugins if there are plugins that have not been installed
-  if ! zplug check --verbose; then
-    printf "Install zsh plugins? [y/N]: "
-    if read -q; then
-      echo; zplug install && zplug load --verbose
-    fi
-  else
-    echo "plugins are installed."
-  fi
-  zplug update
-}
-
-unbound-update() {
-  if command -v dns_blocklist_updater >/dev/null; then
-    echo "getting latest block list and transforming..." \
-      && dns_blocklist_updater >zone-block-general.conf \
-      && echo "installing block list configuration..." \
-      && sudo cp zone-block-general.conf /usr/local/etc/unbound/zone-block-general.conf \
-      && echo "restarting unbound..." \
-      && sudo launchctl unload /Library/LaunchDaemons/net.unbound.plist \
-      && sleep 2 \
-      && sudo launchctl load /Library/LaunchDaemons/net.unbound.plist \
-      && sleep 2 \
-      && pgrep -flai unbound
-  else
-    echo >&2 "dns_blocklist_updater is not installed, skipping."
-    exit 1
-  fi
-}
-
-brewin() {
-  if [[ -z "$1" ]]; then
-    brew search --formulae | pcregrep '^\w' | fzf --multi --preview 'brew info {1}' | xargs -I% -o brew install "%"
-  else
-    brew search --formulae "$1" | pcregrep '^\w' | fzf --multi --preview 'brew info {1}' | xargs -I% -o brew install "%"
-  fi
-}
-
-rust-analyzer-upgrade() {
-  if [[ -v 1 ]]; then
-    RA_VERSION="$1"
-    echo "checking rust-analyzer releases for version ${RA_VERSION}..."
-    RELEASE=$(curl -SsH "Accept: application/vnd.github.v3+json" \
-      https://api.github.com/repos/rust-analyzer/rust-analyzer/releases \
-      | jq -r '.[]|select(.tag_name=="'"$RA_VERSION"'")')
-    if [[ -n "$RELEASE" ]]; then
-      RA_URL=$(echo "$RELEASE" \
-        | jq -r '.assets[]|select(.name=="rust-analyzer-mac")|.browser_download_url' \
-        | sort -r \
-        | head -1) || echo "something went wrong"
-    else
-      echo >&2 "could not find a release for $RA_VERSION"
-    fi
-  else
-    echo "querying rust-analyzer releases to find the latest version..."
-    RA_URL=$(curl -SsfH "Accept: application/vnd.github.v3+json" \
-      https://api.github.com/repos/rust-analyzer/rust-analyzer/releases \
-      | jq -r '.[]|select(.prerelease==false)|.assets[]|select(.name=="rust-analyzer-mac")|.browser_download_url' \
-      | sort -r \
-      | head -1)
-    if [[ -z "$RA_URL" ]]; then
-      echo >&2 "could not find a URL for the latest rust-analyzer"
-    fi
-  fi
-  if [[ -n "$RA_URL" ]]; then
-    echo "installing rust-analyzer from ${RA_URL}..."
-    curl -SsfLo ~/.local/bin/rust-analyzer "$RA_URL" \
-      && chmod 755 ~/.local/bin/rust-analyzer \
-      && echo "rust-analyzer installed successfully."
-  fi
-}
-
-launchctl-restart() {
-  if [[ -v 1 ]]; then
-    pattern="$1"
-    services=($(launchctl list | pcregrep "$pattern" | awk '{print $3}'))
-    for service in $services; do
-      plist=($(find /Library/Launch* ~/Library/LaunchAgents -name "${service}.plist" | head -1 || :))
-      echo "stopping service ${service}..."
-      launchctl unload "$plist" \
-        && echo "service ${service} stopped, restarting..." \
-        && launchctl load "$plist" \
-        && echo "service ${service} restarted successfully."
-    done
-  else
-    echo >&2 "must specify a pattern for a service to restart"
-  fi
 }
 
 ec2-instance-info() {
@@ -215,3 +123,4 @@ ssm() {
     echo "no instances found."
   fi
 }
+source "$HOME/.cargo/env"
