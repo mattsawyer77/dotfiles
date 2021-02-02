@@ -151,15 +151,14 @@
   (setq ormolu-reformat-buffer-on-save t)
   )
 (add-hook! haskell-mode #'lsp)
-(add-hook! haskell-mode 'highlight-indent-guides-mode)
 (add-hook! haskell-mode 'ormolu-format-on-save-mode)
 
 
-;; (add-hook! rustic-mode #'tree-sitter-mode)
+(add-hook! rustic-mode #'tree-sitter-mode)
 (add-hook! rustic-mode #'lsp)
 (add-hook! rustic-mode #'+word-wrap-mode)
 
-(add-hook! (haskell-mode yaml-mode json-mode makefile-mode) 'highlight-indent-guides-mode)
+(add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) 'highlight-indent-guides-mode)
 
 ;; terraform-ls doesn't work right now, try again later
 ;; (use-package! lsp
@@ -229,3 +228,22 @@
                         (frame-parameter nil 'fullscreen))))
 
 (add-hook 'kill-emacs-hook #'save-frame-dimensions)
+
+(add-hook! ponylang-mode
+  (setq create-lockfiles nil)
+  (require 'flycheck-pony)
+  (require 'pony-snippets)
+  (flycheck-select-checker 'pony)
+  (whitespace-mode -1)
+  )
+
+(after! lsp-mode
+  (setq lsp-file-watch-ignored-directories
+        (cl-union lsp-file-watch-ignored-directories
+                  '("[/\\\\]\\.terraform\\'"
+                    "[/\\\\]target\\'"
+                    "[/\\\\]\\vendor\\'"
+                    )))
+  (setq lsp-headerline-breadcrumb-enable 't)
+  (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
+  )

@@ -53,7 +53,7 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background, but no title bar buttons
-  decorations: full
+  decorations: transparent
 
   # Startup Mode (changes require restart)
   #
@@ -67,7 +67,7 @@ window:
   startup_mode: Maximized
 
   # Window title
-  #title: Alacritty
+  # title: Alacritty
 
   # Window class (Linux/BSD only):
   #class:
@@ -82,10 +82,10 @@ window:
   # Set this to `None` to use the default theme variant.
   #gtk_theme_variant: None
 
-#scrolling:
+scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
-  #history: 10000
+  history: 0
 
   # Number of lines the viewport will move for every line scrolled when
   # scrollback is enabled (history > 0).
@@ -107,8 +107,8 @@ font:
     # family: Fira Code
     # style: Regular
     # family: Monoid HalfTight
-    family: PragmataPro Liga 1.1
-    # family: Rec Mono Linear
+    # family: PragmataPro Liga
+    family: Rec Mono Linear
     # family: Input
     # family: SF Mono
     # family: JetBrains Mono
@@ -127,8 +127,8 @@ font:
     # family: Fira Code
     # style: Regular
     # family: Monoid HalfTight
-    family: PragmataPro Liga 1.1
-    # family: Rec Mono Linear
+    # family: PragmataPro Liga
+    family: Rec Mono Linear
     # family: Input
     # family: SF Mono
     # family: JetBrains Mono
@@ -154,14 +154,14 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
     x: 0
-    y: 0
+    y: 17
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
   glyph_offset:
     x: 0
-    y: 0
+    y: 9
 
   # Thin stroke font rendering (macOS only)
   #
@@ -177,7 +177,7 @@ font:
   #
   # This is a global setting and will require a log out or restart to take
   # effect.
-  use_thin_strokes: true
+  use_thin_strokes: false
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: false
@@ -185,8 +185,8 @@ draw_bold_text_with_bright_colors: false
 schemes:
   ayu_dark: &dark
     primary:
-      background: '0x1f2429'
-      foreground: '0xe6e1cf'
+      background: '0x0c1016'
+      foreground: '0xa2bed2'
 
     # Normal colors
     normal:
@@ -194,7 +194,7 @@ schemes:
       red:     '0xf34a4a'
       green:   '0xbae67e'
       yellow:  '0xffee99'
-      blue:    '0x73d0ff'
+      blue:    '0x5ea1e2'
       magenta: '0xd4bfff'
       cyan:    '0x83CEC6'
       white:   '0xf2f2f2'

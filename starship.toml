@@ -6,3 +6,5 @@ disabled = false
 [kubernetes]
 symbol = "☸️️ "
 disabled = false
+[status]
+disabled = false

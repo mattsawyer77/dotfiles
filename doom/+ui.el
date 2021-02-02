@@ -49,13 +49,13 @@
 ;; (load-theme 'doom-mono-light t) ;; a minimalistic, monochromatic theme
 ;;;; (load-theme 'doom-tron t) ;; based on Tron Legacy from daylerees' themes
 
-;; (setq-default line-spacing 4)
-(setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 18))
-;; (setq doom-font (font-spec :family "Rec Mono Linear" :size 22))
+(setq-default line-spacing 5)
+;; (setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 18))
+(setq doom-font (font-spec :family "Rec Mono Linear" :size 18))
 ;; (setq doom-font (font-spec :family "Input" :size 22))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 22))
 ;; (setq doom-font (font-spec :family "SF Mono" :size 19))
-(setq doom-variable-pitch-font (font-spec :family "Avenir Next" :size 18))
+(setq doom-variable-pitch-font (font-spec :family "Avenir Next" :size 19))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 ;; (setq doom-font (font-spec :family "Monoid" :size 19))
@@ -68,6 +68,21 @@
   `(variable-pitch :family "Avenir Next")
   `(+workspace-tab-face :family "Avenir Next")
   `(+workspace-tab-selected-face :family "Avenir Next")
+  `(header-line :background "#171b21" :family "Avenir Next" :height 1.3 :weight bold)
+  `(lsp-headerline-breadcrumb-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0 :weight bold)
+  `(lsp-headerline-breadcrumb-path-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-hint-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-info-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-separator-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-deprecated-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-error-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-hint-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-info-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-warning-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-error-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-warning-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0)
   )
 
 (after! tree-sitter
@@ -79,6 +94,7 @@
 (custom-theme-set-faces! 'doom-spacegrey
   `(default :foreground "#b1bbcb" :background "#171b21")
   `(solaire-default-face :foreground "#87939c" :background "#171b21")
+  `(solaire-header-line-face :background "#171b21" :family "Avenir Next" :height 1.3 :weight bold)
   `(line-number :foreground "#292e35"
                 :background ,(doom-darken 'bg 0.5))
   `(font-lock-keyword-face :weight bold
@@ -185,16 +201,18 @@
     `(treemacs-tags-face :weight normal :slant normal :family "Avenir Next")
     `(treemacs-term-node-face :weight normal :slant normal :family "Avenir Next")
     )
-  (setq treemacs-width 30)
+  (setq treemacs-width 40)
+  (setq treemacs-position 'right)
   )
 
 (defface code-face
   '((t (:inherit default
         :height 1.3
-        :family "PragmataPro Liga 1.1")))
+        :family "Rec Mono Linear")))
   "code-face")
 (add-hook! (prog-mode
-            text-mode)
+            text-mode
+            toml-mode)
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
   (face-remap-add-relative 'line-number 'code-face)
@@ -246,13 +264,13 @@
   '((t (:inherit default-face :family "Avenir Next" :height 1.1)))
   "org-face")
 (defface org-code-face
-  '((t (:inherit default-face :family "PragmataPro Liga 1.1")))
+  '((t (:inherit default-face :family "Rec Mono Linear")))
   "org-code-face")
 (after! org
   (custom-set-faces!
-    `(org-table :family "PragmataPro Liga 1.1")
-    `(org-code :family "PragmataPro Liga 1.1")
-    `(org-block :family "PragmataPro Liga 1.1")
+    `(org-table :family "Rec Mono Linear")
+    `(org-code :family "Rec Mono Linear")
+    `(org-block :family "Rec Mono Linear")
     `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))

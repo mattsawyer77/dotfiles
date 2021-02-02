@@ -22,9 +22,10 @@ export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 # If you need to have openssl@1.1 first in your PATH run:
 PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
-PATH=$PATH:$HOME/.nvm/versions/node/v12.11.1/bin
+# PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
 PATH=$PATH:$HOME/.local/bin
+PATH=$PATH:$HOME/.local/share/ponyup/bin
+PATH=$PATH:$HOME/.nvm/versions/node/v12.11.1/bin
 PATH=$PATH:$HOME/.cargo/bin
 PATH=$PATH:$HOME/.cabal/bin
 PATH=$PATH:$HOME/.fzf/bin

@@ -25,6 +25,8 @@
 (package! zoom)
 ;; (package! elisp-benchmarks)
 (package! hl-line+)
+(package! eyebrowse)
+(package! unison-mode)
 ; (package! dap-mode)
 ;; (package! hlint-refactor)
 ;; (package! dash)
@@ -32,3 +34,7 @@
 ;; (package! fzf)
 ;; (package! dhall-mode)
 (disable-packages! hl-line flycheck-golangci-lint)
+
+(package! ponylang-mode)
+(package! flycheck-pony)
+(package! pony-snippets)
