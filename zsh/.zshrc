@@ -1,34 +1,24 @@
 #!/usr/bin/env zsh
 bindkey -v
-
+# vi style incremental search
+bindkey '^R' history-incremental-search-backward
+bindkey '^S' history-incremental-search-forward
+bindkey '^P' history-search-backward
+bindkey '^N' history-search-forward
 if [[ $(uname) == "Darwin" ]]; then
   OS=mac
-  export ZPLUG_HOME=/usr/local/opt/zplug
 else
   OS=linux
-  export ZPLUG_HOME=/usr/share/zsh/scripts/zplug
 fi
-source $ZPLUG_HOME/init.zsh
 
-# zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
-# zplug "sindresorhus/pure", use:"pure.zsh", as:theme, on:"mafredri/zsh-async"
-zplug "zsh-users/zsh-autosuggestions", defer:1
-zplug "lotabout/skim", use:"shell/*.zsh", defer:1
-zplug "vim/vim", defer:1
-zplug "trapd00r/LS_COLORS", defer:1
-# zplug "plugins/aws", from:oh-my-zsh, defer:1
-zplug "plugins/docker", from:oh-my-zsh, defer:1
-zplug "plugins/kubectl", from:oh-my-zsh, defer:1
-zplug "plugins/tmux", from:oh-my-zsh, defer:1
-zplug "plugins/terraform", from:oh-my-zsh, defer:1
-zplug "plugins/stack", from:oh-my-zsh, defer:1
-zplug "zdharma/zsh-diff-so-fancy", as:command, use:"bin/", defer:1
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-
-# Then, source plugins and add commands to $PATH
-zplug load
+autoload -Uz compinit
+autoload bashcompinit
+compinit
+bashcompinit
 
 command -v aws_completer >/dev/null && complete -C "$(which aws_completer)" aws
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 ulimit -n 4096
 
@@ -44,18 +34,24 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 # removes blank lines from history
 setopt HIST_REDUCE_BLANKS
-export SAVEHIST=5000
+# record history immediately
+setopt INC_APPEND_HISTORY
+export SAVEHIST=100000
 export HISTSIZE=100000
-
+export HISTFILE=~/.zsh_history
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export AWS_SDK_LOAD_CONFIG=1
 export AWS_DEFAULT_PROFILE=f5cs
+export MAKEFLAGS="${MAKEFLAGS:-""} -j$(nproc)"
+export BUILDDIR=/tmp/makepkg
+export TZ=America/Los_Angeles
+export SAML2AWS_USER_AGENT="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.00) Gecko/20100101 Firefox/82.0"
 if command -v gvm >/dev/null; then
   gvm use go1.14 >/dev/null
 elif command -v go >/dev/null; then
-  export GOROOT="/usr/local/Cellar/go/$(brew ls --versions go | cut -d' ' -f2)/libexec"
+  export GOROOT='/usr/local/Cellar/go/$(brew ls --versions go | cut -d' ' -f2)/libexec'
 fi
 if command -v pyenv >/dev/null; then
   eval "$(pyenv init -)"
@@ -80,9 +76,9 @@ alias k=kubectl
 alias em='emacsclient -t -c --alternate-editor=""'
 
 alias zenith="sudo -E zenith --disk-height 0"
-alias clippy="touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy"
+alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy'
 
-eval "$(zoxide init zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
 get-sa-token() {
@@ -131,33 +127,35 @@ tf-destroy() {
   terraform destroy $@ 2>&1 | tee destroy.out
 }
 
-zplug-upgrade() {
-  # Install plugins if there are plugins that have not been installed
-  if ! zplug check --verbose; then
-    printf "Install zsh plugins? [y/N]: "
-    if read -q; then
-      echo; zplug install && zplug load --verbose
-    fi
-  else
-    echo "plugins are installed."
-  fi
-  zplug update
+aurain() {
+  aura -As "$1" | cut -d'/' -f2 | cut -d' ' -f1 | pcregrep '^\w' | fzf --preview 'aura -Ai {1}' | xargs -ro sudo aura -Akax
 }
 
-unbound-update() {
-  if command -v dns_blocklist_updater >/dev/null; then
-    echo "getting latest block list and transforming..." \
-      && dns_blocklist_updater >zone-block-general.conf \
-      && echo "installing block list configuration..." \
-      && sudo cp zone-block-general.conf /usr/local/etc/unbound/zone-block-general.conf \
-      && echo "restarting unbound..." \
-      && sudo launchctl unload /Library/LaunchDaemons/net.unbound.plist \
-      && sleep 2 \
-      && sudo launchctl load /Library/LaunchDaemons/net.unbound.plist \
-      && sleep 2 \
-      && pgrep -flai unbound
+pacin() {
+  if [[ -z "$1" ]]; then
+    pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -Syu
   else
-    echo >&2 "dns_blocklist_updater is not installed, skipping."
-    exit 1
+    pacman -Ssq "$1" | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -Syu
   fi
 }
+
+# install the latest non-nightly rust-analyzer
+install-rust-analyzer() {
+  curl \
+    -Ssf \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/repos/rust-analyzer/rust-analyzer/releases" \
+    | jq -r '[.[]|select(.name != "nightly")|.assets[]|select(.name == "rust-analyzer-linux")][0]|.browser_download_url' \
+    | xargs -I% curl -Ssf -Lo ~/.local/bin/rust-analyzer "%"
+}
+
+upgrade() {
+  sudo pacman -Syuu
+  sudo aura -Akaux
+}
+
+[[ -s "/home/sawyer/.gvm/scripts/gvm" ]] && source "/home/sawyer/.gvm/scripts/gvm"
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+printf '\e]2;sawyer-dev\a'

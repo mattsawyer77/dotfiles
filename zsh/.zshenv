@@ -44,3 +44,4 @@ export TERM=xterm-24bit
 export XDG_DATA_HOME=~/.local/share
 export XDG_CONFIG_HOME=~/.config
 export BAT_THEME=1337
+source "$HOME/.cargo/env"
