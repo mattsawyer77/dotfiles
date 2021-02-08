@@ -45,3 +45,4 @@ export TERM=xterm-24bit
 export XDG_DATA_HOME=~/.local/share
 export XDG_CONFIG_HOME=~/.config
 export BAT_THEME=1337
+if [ -e /Users/sawyer/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sawyer/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
