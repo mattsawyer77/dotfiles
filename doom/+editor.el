@@ -160,22 +160,19 @@
 
 (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) 'highlight-indent-guides-mode)
 
-;; terraform-ls doesn't work right now, try again later
-;; (use-package! lsp
-;;   :config
-;;   (lsp-register-client
-;;    (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-;;                     :major-modes '(terraform-mode)
-;;                     :server-id 'terraform-ls))
-;;   )
-;; temporarily use terraform-lsp until teraform-ls matures:
-(after! (terraform lsp)
-  (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
-
+(after! (terraform-mode lsp-mode)
   (lsp-register-client
-  (make-lsp-client :new-connection (lsp-stdio-connection '("~/.local/bin/terraform-lsp" "-enable-log-file"))
+   (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-ls" "serve"))
                     :major-modes '(terraform-mode)
                     :server-id 'terraform-ls)))
+
+;; (after! (terraform lsp)
+;;   (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
+
+;;   (lsp-register-client
+;;   (make-lsp-client :new-connection (lsp-stdio-connection '("~/.local/bin/terraform-lsp" "-enable-log-file"))
+;;                     :major-modes '(terraform-mode)
+;;                     :server-id 'terraform-ls)))
 
 (add-hook! terraform-mode #'lsp)
 
