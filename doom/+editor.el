@@ -1,5 +1,7 @@
 ;;;  -*- lexical-binding: t; -*-
 
+; workaround for https://github.com/emacs-evil/evil/issues/1168
+(setq-default evil-respect-visual-line-mode nil)
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
 (setq confirm-kill-emacs nil)
@@ -207,15 +209,16 @@
         )
   )
 
-(when-let (dims (doom-store-get 'last-frame-size))
-  (cl-destructuring-bind ((left . top) width height fullscreen) dims
-    (setq initial-frame-alist
-          (append initial-frame-alist
-                  `((left . ,left)
-                    (top . ,top)
-                    (width . ,width)
-                    (height . ,height)
-                    (fullscreen . ,fullscreen))))))
+;; currently broken:
+;; (when-let (dims (doom-store-get 'last-frame-size))
+;;   (cl-destructuring-bind ((left . top) width height fullscreen) dims
+;;     (setq initial-frame-alist
+;;           (append initial-frame-alist
+;;                   `((left . ,left)
+;;                     (top . ,top)
+;;                     (width . ,width)
+;;                     (height . ,height)
+;;                     (fullscreen . ,fullscreen))))))
 
 (defun save-frame-dimensions ()
   (doom-store-put 'last-frame-size
