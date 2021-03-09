@@ -22,8 +22,11 @@ zplug "plugins/kubectl", from:oh-my-zsh, defer:1
 zplug "plugins/tmux", from:oh-my-zsh, defer:1
 zplug "plugins/terraform", from:oh-my-zsh, defer:1
 zplug "plugins/stack", from:oh-my-zsh, defer:1
+zplug "plugins/rustup", from:oh-my-zsh, defer:1
 zplug "zdharma/zsh-diff-so-fancy", as:command, use:"bin/", defer:1
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+# #compdef cargo
+# source $(rustc --print sysroot)/share/zsh/site-functions/_cargo
 
 # Then, source plugins and add commands to $PATH
 zplug load
@@ -44,6 +47,8 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 # removes blank lines from history
 setopt HIST_REDUCE_BLANKS
+# to keep a command from being stored in history, lead it with a space
+setopt HIST_IGNORE_SPACE
 export SAVEHIST=5000
 export HISTSIZE=100000
 
@@ -52,6 +57,7 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export AWS_SDK_LOAD_CONFIG=1
 export AWS_DEFAULT_PROFILE=f5cs
+export SAML2AWS_USER_AGENT="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.00) Gecko/20100101 Firefox/82.0"
 if command -v gvm >/dev/null; then
   gvm use go1.14 >/dev/null
 elif command -v go >/dev/null; then
@@ -77,10 +83,16 @@ alias ts='tmux new-session -n main -s'
 alias ta='tmux attach -t'
 alias k=kubectl
 # edit a file with emacsclient -- if no session exists, create one automatically
+# export EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
 alias em='emacsclient -t -c --alternate-editor=""'
 
 alias zenith="sudo -E zenith --disk-height 0"
-alias clippy="touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy"
+alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy --color=always 2>&1 | less'
+
+if [ -n "${commands[fzf-share]}" ]; then
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
+fi
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
@@ -161,3 +173,69 @@ unbound-update() {
     exit 1
   fi
 }
+
+brewin() {
+  if [[ -z "$1" ]]; then
+    brew search --formulae | pcregrep '^\w' | fzf --multi --preview 'brew info {1}' | xargs -I% -o brew install "%"
+  else
+    brew search --formulae "$1" | pcregrep '^\w' | fzf --multi --preview 'brew info {1}' | xargs -I% -o brew install "%"
+  fi
+}
+
+rust-analyzer-upgrade() {
+  if [[ -v 1 ]]; then
+    RA_VERSION="$1"
+    echo "checking rust-analyzer releases for version ${RA_VERSION}..."
+    RELEASE=$(curl -SsH "Accept: application/vnd.github.v3+json" \
+      https://api.github.com/repos/rust-analyzer/rust-analyzer/releases \
+      | jq -r '.[]|select(.tag_name=="'"$RA_VERSION"'")')
+    if [[ -n "$RELEASE" ]]; then
+      RA_URL=$(echo "$RELEASE" \
+        | jq -r '.assets[]|select(.name=="rust-analyzer-mac")|.browser_download_url' \
+        | sort -r \
+        | head -1) || echo "something went wrong"
+    else
+      echo >&2 "could not find a release for $RA_VERSION"
+    fi
+  else
+    echo "querying rust-analyzer releases to find the latest version..."
+    RA_URL=$(curl -SsfH "Accept: application/vnd.github.v3+json" \
+      https://api.github.com/repos/rust-analyzer/rust-analyzer/releases \
+      | jq -r '.[]|select(.prerelease==false)|.assets[]|select(.name=="rust-analyzer-mac")|.browser_download_url' \
+      | sort -r \
+      | head -1)
+    if [[ -z "$RA_URL" ]]; then
+      echo >&2 "could not find a URL for the latest rust-analyzer"
+    fi
+  fi
+  if [[ -n "$RA_URL" ]]; then
+    echo "installing rust-analyzer from ${RA_URL}..."
+    curl -SsfLo ~/.local/bin/rust-analyzer "$RA_URL" \
+      && chmod 755 ~/.local/bin/rust-analyzer \
+      && echo "rust-analyzer installed successfully."
+  fi
+}
+
+launchctl-restart() {
+  if [[ -v 1 ]]; then
+    pattern="$1"
+    services=($(launchctl list | pcregrep "$pattern" | awk '{print $3}'))
+    for service in $services; do
+      plist=($(find /Library/Launch* ~/Library/LaunchAgents -name "${service}.plist" | head -1 || :))
+      echo "stopping service ${service}..."
+      launchctl unload "$plist" \
+        && echo "service ${service} stopped, restarting..." \
+        && launchctl load "$plist" \
+        && echo "service ${service} restarted successfully."
+    done
+  else
+    echo >&2 "must specify a pattern for a service to restart"
+  fi
+}
+
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+# nix
+test -f ~/.nix-profile/etc/profile.d/nix.sh \
+  && source ~/.nix-profile/etc/profile.d/nix.sh
+export NIXPKGS_ALLOW_UNFREE=1
