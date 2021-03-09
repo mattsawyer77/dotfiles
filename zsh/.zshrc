@@ -50,8 +50,6 @@ export TZ=America/Los_Angeles
 export SAML2AWS_USER_AGENT="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.00) Gecko/20100101 Firefox/82.0"
 if command -v gvm >/dev/null; then
   gvm use go1.14 >/dev/null
-elif command -v go >/dev/null; then
-  export GOROOT='/usr/local/Cellar/go/$(brew ls --versions go | cut -d' ' -f2)/libexec'
 fi
 if command -v pyenv >/dev/null; then
   eval "$(pyenv init -)"

@@ -34,6 +34,7 @@
 ;; (package! fzf)
 ;; (package! dhall-mode)
 (disable-packages! hl-line flycheck-golangci-lint)
+;; (disable-packages! hl-line)
 
 (package! ponylang-mode)
 (package! flycheck-pony)
