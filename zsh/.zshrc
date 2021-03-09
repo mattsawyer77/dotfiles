@@ -34,9 +34,10 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 # removes blank lines from history
 setopt HIST_REDUCE_BLANKS
-# record history immediately
 setopt INC_APPEND_HISTORY
 export SAVEHIST=100000
+# to keep a command from being stored in history, lead it with a space
+setopt HIST_IGNORE_SPACE
 export HISTSIZE=100000
 export HISTFILE=~/.zsh_history
 export LC_ALL=en_US.UTF-8
@@ -45,6 +46,8 @@ export LANGUAGE=en_US.UTF-8
 export AWS_SDK_LOAD_CONFIG=1
 export AWS_DEFAULT_PROFILE=f5cs
 export MAKEFLAGS="${MAKEFLAGS:-""} -j$(nproc)"
+export BUILDDIR=/tmp/makepkg
+export TZ=America/Los_Angeles
 export BUILDDIR=/tmp/makepkg
 export TZ=America/Los_Angeles
 export SAML2AWS_USER_AGENT="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.00) Gecko/20100101 Firefox/82.0"
@@ -71,11 +74,11 @@ alias ts='tmux new-session -n main -s'
 alias ta='tmux attach -t'
 alias k=kubectl
 # edit a file with emacsclient -- if no session exists, create one automatically
+alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy'
 alias em='emacsclient -t -c --alternate-editor=""'
 
 alias zenith="sudo -E zenith --disk-height 0"
-alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy'
-
+alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy --color=always 2>&1 | less'
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
@@ -87,26 +90,6 @@ get-sa-token() {
   kubectl --context "$context" -n kube-system describe secret "$secret" \
     | pcregrep '^token:' \
     | awk '{print $2}'
-}
-
-tmux-color-command () {
-  local hostname="$1"
-  shift
-  local style="$1"
-  shift
-  local windowname="$hostname"
-  local unique=false
-  local i=0
-  while ! $unique; do
-    i=$(expr $i + 1)
-    windowname="${hostname}-$i"
-    already_created=$(tmux list-windows | grep "$windowname")
-    if [[ -z "$already_created" ]]; then
-      unique=true
-      tmux new-window -n "$windowname" $@ "$hostname"
-      tmux select-window -t "$windowname" && tmux select-pane -P "$style"
-    fi
-  done
 }
 
 tf-reinit() {
@@ -136,17 +119,6 @@ pacin() {
     pacman -Ssq "$1" | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -Syu
   fi
 }
-
-# install the latest non-nightly rust-analyzer
-install-rust-analyzer() {
-  curl \
-    -Ssf \
-    -H "Accept: application/vnd.github.v3+json" \
-    "https://api.github.com/repos/rust-analyzer/rust-analyzer/releases" \
-    | jq -r '[.[]|select(.name != "nightly")|.assets[]|select(.name == "rust-analyzer-linux")][0]|.browser_download_url' \
-    | xargs -I% curl -Ssf -Lo ~/.local/bin/rust-analyzer "%"
-}
-
 upgrade() {
   sudo pacman -Syuu
   sudo aura -Akaux
@@ -155,5 +127,39 @@ upgrade() {
 [[ -s "/home/sawyer/.gvm/scripts/gvm" ]] && source "/home/sawyer/.gvm/scripts/gvm"
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
+
+rust-analyzer-upgrade() {
+  if [[ -v 1 ]]; then
+    RA_VERSION="$1"
+    echo "checking rust-analyzer releases for version ${RA_VERSION}..."
+    RELEASE=$(curl -SsH "Accept: application/vnd.github.v3+json" \
+      https://api.github.com/repos/rust-analyzer/rust-analyzer/releases \
+      | jq -r '.[]|select(.tag_name=="'"$RA_VERSION"'")')
+    if [[ -n "$RELEASE" ]]; then
+      RA_URL=$(echo "$RELEASE" \
+        | jq -r '.assets[]|select(.name=="rust-analyzer-linux")|.browser_download_url' \
+        | sort -r \
+        | head -1) || echo "something went wrong"
+    else
+      echo >&2 "could not find a release for $RA_VERSION"
+    fi
+  else
+    echo "querying rust-analyzer releases to find the latest version..."
+    RA_URL=$(curl -SsfH "Accept: application/vnd.github.v3+json" \
+      https://api.github.com/repos/rust-analyzer/rust-analyzer/releases \
+      | jq -r '.[]|select(.prerelease==false)|.assets[]|select(.name=="rust-analyzer-linux")|.browser_download_url' \
+      | sort -r \
+      | head -1)
+    if [[ -z "$RA_URL" ]]; then
+      echo >&2 "could not find a URL for the latest rust-analyzer"
+    fi
+  fi
+  if [[ -n "$RA_URL" ]]; then
+    echo "installing rust-analyzer from ${RA_URL}..."
+    curl -SsfLo ~/.local/bin/rust-analyzer "$RA_URL" \
+      && chmod 755 ~/.local/bin/rust-analyzer \
+      && echo "rust-analyzer installed successfully."
+  fi
+}
 
 printf '\e]2;sawyer-dev\a'

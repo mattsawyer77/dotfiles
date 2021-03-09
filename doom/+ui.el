@@ -5,6 +5,8 @@
 ;; (load-theme 'doom-one-light t) ;; light version of doom-one (thanks to ztlevi)
 ;;;;(load-theme 'doom-acario-dark t) ;; an original dark theme (thanks to gagbo)
 ;;;; (load-theme 'doom-acario-light t) ;; an original light theme (thanks to gagbo)
+(load-theme 'doom-ayu-mirage) ;; Mirage variant from Ayu themes (thanks to LoveSponge)
+;; doom-ayu-light: Light variant from Ayu themes(thanks to LoveSponge)
 ;; (load-theme 'doom-city-lights t) ;; based on Atom's City lights (thanks to fuxialexander)
 ;; (load-theme 'doom-challenger-deep t) ;; based on Vim's Challenger deep theme (thanks to fuxialexander)
 ;; (load-theme 'doom-dark+) ;; ported from VS Code's Dark+ theme (thanks to ema2159)
@@ -41,7 +43,7 @@
 ;; (load-theme 'doom-solarized-dark t) ;; dark variant of Solarized (thanks to ema2159)
 ;; (load-theme 'doom-solarized-light t) ;; light variant of Solarized (thanks to fuxialexander)
 ;;;;(load-theme 'doom-sourcerer t) ;; based on Sourcerer (thanks to defphil)
-(load-theme 'doom-spacegrey t) ;; I'm sure you've heard of it (thanks to teesloane)
+;; (load-theme 'doom-spacegrey t) ;; I'm sure you've heard of it (thanks to teesloane)
 ;; (load-theme 'doom-tomorrow-day t) ;; Tomorrow's light variant (thanks to emacswatcher)
 ;; (load-theme 'doom-tomorrow-night t) ;; one of the dark variants of Tomorrow (thanks to emacswatcher)
 ;; (load-theme 'doom-wilmersdorf t) ;; port of Ian Pan's Wilmersdorf (thanks to ema2159)
@@ -49,26 +51,29 @@
 ;; (load-theme 'doom-mono-light t) ;; a minimalistic, monochromatic theme
 ;;;; (load-theme 'doom-tron t) ;; based on Tron Legacy from daylerees' themes
 
-(setq-default line-spacing 5)
-;; (setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 18))
-(setq doom-font (font-spec :family "Rec Mono Linear" :size 18))
+;; (setq-default line-spacing 3)
+(setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 19))
+;; (setq doom-font (font-spec :family "Rec Mono Duotone" :size 18))
 ;; (setq doom-font (font-spec :family "Input" :size 22))
-;; (setq doom-font (font-spec :family "JetBrains Mono" :size 22))
+;; (setq doom-font (font-spec :family "JetBrains Mono" :size 18))
 ;; (setq doom-font (font-spec :family "SF Mono" :size 19))
 (setq doom-variable-pitch-font (font-spec :family "Avenir Next" :size 19))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
-;; (setq doom-font (font-spec :family "Monoid" :size 19))
+;; (setq doom-font (font-spec :family "Monoid" :size 16))
+;; (setq doom-font (font-spec :family "Victor Mono" :size 19))
+;; (after! solaire-mode (solaire-global-mode -1)) ;; disable solaire mode
 (custom-set-faces!
   `(font-lock-type-face :weight bold)
   `(font-lock-function-name-face :weight bold)
   `(font-lock-string-face :background ,(doom-lighten 'bg 0.1))
+  `(line-number :height 1.3)
   `(mode-line :family "Avenir Next")
   `(mode-line-inactive :family "Avenir Next")
   `(variable-pitch :family "Avenir Next")
   `(+workspace-tab-face :family "Avenir Next")
   `(+workspace-tab-selected-face :family "Avenir Next")
-  `(header-line :background "#171b21" :family "Avenir Next" :height 1.3 :weight bold)
+  `(header-line :background "#171b21" :family "Avenir Next" :height 1.1 :weight bold)
   `(lsp-headerline-breadcrumb-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0 :weight bold)
   `(lsp-headerline-breadcrumb-path-face :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-symbols-face :background "#171b21" :family "Avenir Next" :height 1.0)
@@ -86,15 +91,15 @@
   )
 
 (after! tree-sitter
-  (custom-theme-set-faces!
-    '(tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face :slant normal))))
+  (custom-set-faces!
+    '(tree-sitter-hl-face:property :slant normal)
     )
   )
 
 (custom-theme-set-faces! 'doom-spacegrey
   `(default :foreground "#b1bbcb" :background "#171b21")
   `(solaire-default-face :foreground "#87939c" :background "#171b21")
-  `(solaire-header-line-face :background "#171b21" :family "Avenir Next" :height 1.3 :weight bold)
+  `(solaire-header-line-face :background "#171b21" :family "Avenir Next" :height 1.2 :weight bold)
   `(line-number :foreground "#292e35"
                 :background ,(doom-darken 'bg 0.5))
   `(font-lock-keyword-face :weight bold
@@ -109,6 +114,22 @@
   `(font-lock-function-name-face :foreground ,(doom-color 'green))
   `(font-lock-doc-face :foreground ,(doom-color 'orange))
  )
+
+(custom-theme-set-faces! 'doom-ayu-mirage
+  `(line-number :foreground "#292e35"
+                :background ,(doom-darken 'bg 0.3))
+  `(solaire-header-line-face :height 1.2)
+  `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'orange))
+  `(font-lock-builtin-face :weight bold :foreground ,(doom-color 'orange))
+  `(font-lock-constant-face :weight bold)
+  `(font-lock-builtin-face :weight bold)
+  `(font-lock-function-name-face :weight bold :foreground ,(doom-color 'red))
+  `(font-lock-function :weight bold)
+  `(font-lock-type-face :weight bold :foreground ,(doom-color 'orange))
+  `(font-lock-string-face :background ,(doom-lighten 'bg 0.01))
+  `(font-lock-variable-name-face :foreground ,(doom-lighten 'fg 0.1))
+  `(font-lock-doc-face :foreground ,(doom-color 'blue))
+  )
 
 (custom-theme-set-faces! 'doom-old-hope
   `(default :foreground "#87939c" :background "#0A0E14")
@@ -208,14 +229,14 @@
 (defface code-face
   '((t (:inherit default
         :height 1.3
-        :family "Rec Mono Linear")))
+        :family "PragmataPro Liga 1.1")))
   "code-face")
 (add-hook! (prog-mode
             text-mode)
   (solaire-mode 1)
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
-  (face-remap-add-relative 'line-number 'code-face)
+  ;; (face-remap-add-relative 'line-number 'code-face)
   )
 
 ;;; flycheck
@@ -231,46 +252,36 @@
     )
   )
 ;;; rust
-(after! rustic
+;; (after! rustic
   ;; (custom-set-faces!
   ;;   `(rustic-string-interpolation-face :slant normal)
   ;;   `(rustic-string-interpolation-face :foreground ,(doom-lighten (doom-color 'magenta) 0.1)
   ;;                                      :background ,(doom-lighten 'bg 0.07))
   ;;   `(rustic-builtin-formatting-macro :foreground "tomato")
   ;;   )
-  )
+  ;; )
 
-(after! (rustic tree-sitter)
-  (custom-set-faces!
-    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
-    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
-    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
-    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
-    `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
-    )
-  )
-
-(add-hook! rustic-mode (face-remap-add-relative 'solaire-default-face 'code-face))
+;; (add-hook! rustic-mode (face-remap-add-relative 'solaire-default-face 'code-face))
 ;; (add-hook! rustic-mode (face-remap-add-relative 'default 'code-face))
 
-;; (defface compilation-face
-;;   '((t (:inherit default :height 0.7)))
-;;    "compilation-face")
-;; (add-hook! rustic-compilation-mode (face-remap-add-relative 'default 'compilation-face))
-;; (add-hook! compilation-mode (face-remap-add-relative 'default 'compilation-face))
-;; (add-hook! rustic-mode (face-remap-add-relative 'default 'code-face))
+(defface compilation-face
+  '((t (:inherit default :height 0.7)))
+   "compilation-face")
+(add-hook! rustic-compilation-mode (face-remap-add-relative 'default 'compilation-face))
+(add-hook! compilation-mode (face-remap-add-relative 'default 'compilation-face))
+(add-hook! rustic-mode (face-remap-add-relative 'default 'code-face))
 
 (defface org-face
   '((t (:inherit default-face :family "Avenir Next" :height 1.1)))
   "org-face")
 (defface org-code-face
-  '((t (:inherit default-face :family "Rec Mono Linear")))
+  '((t (:inherit default-face :family "PragmataPro Liga 1.1")))
   "org-code-face")
 (after! org
   (custom-set-faces!
-    `(org-table :family "Rec Mono Linear")
-    `(org-code :family "Rec Mono Linear")
-    `(org-block :family "Rec Mono Linear")
+    `(org-table :family "PragmataPro Liga 1.1")
+    `(org-code :family "PragmataPro Liga 1.1")
+    `(org-block :family "PragmataPro Liga 1.1")
     `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
@@ -290,7 +301,7 @@
   )
 
 (add-hook! org-mode
-  (variable-pitch-mode t)
+  (mixed-pitch-mode t)
   (hl-line-mode t)
   (face-remap-add-relative 'solaire-default-face 'org-face)
   (face-remap-add-relative 'default 'org-face)
@@ -303,4 +314,25 @@
   (setq treemacs-sorting 'mod-time-desc)
   (set-window-buffer nil (current-buffer))
   (auto-save-mode t)
+  )
+
+(after! (rustic tree-sitter)
+  (custom-theme-set-faces! 'doom-spacegrey
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
+    )
+  (custom-theme-set-faces! 'doom-ayu-mirage
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'cyan) 0.2))
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'cyan) 0.2))
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'cyan) 0.2))
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'cyan) 0.2))
+    `(tree-sitter-hl-face:function.method.call :foreground ,(doom-color 'red))
+    `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'red))
+    `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
+    `(tree-sitter-hl-face:variable :foreground ,(doom-color 'yellow))
+    `(tree-sitter-hl-face:property :foreground ,(doom-color 'yellow))
+    )
   )
