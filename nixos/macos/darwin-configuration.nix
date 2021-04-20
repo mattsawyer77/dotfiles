@@ -21,7 +21,8 @@
     curlFull
     diff-so-fancy
     dos2unix
-    # emacs # currently using a custom gccEmacs that appears to work ok
+    # emacs
+    # emacsMacport
     emacsGit
     eternal-terminal
     exa
@@ -35,6 +36,7 @@
     glib
     gmp6
     gnumake
+    go
     golangci-lint
     graphviz
     grpcurl
@@ -44,12 +46,13 @@
     jansson
     jq
     kubectl
-    # libgccjit # currently broken, but emacs 28+gccjit is also broken anyway
+    less
+    libgccjit # currently broken, but emacs 28+gccjit is also broken anyway
     libressl
     libsndfile
     libssh2
     libxml2
-    llvm_11
+    # llvm_11
     msgpack
     ncurses
     neovim
@@ -64,14 +67,14 @@
     pcre2
     pinentry
     pkgconfig
-    procs
+    # procs
     protobuf3_11
     python39Packages.cfn-lint
     readline
     reattach-to-user-namespace
     ripgrep
-    rust-analyzer
-    rustup
+    # rust-analyzer
+    # rustup
     sd
     shared-mime-info
     shellcheck
@@ -94,6 +97,8 @@
     zlib
     zoxide
     zsh
+    zsh-autosuggestions
+    zsh-syntax-highlighting
     zstd
   ];
 
@@ -194,7 +199,10 @@
   programs.zsh.enableFzfCompletion = true;
   programs.zsh.enableFzfGit = true;
   programs.zsh.enableFzfHistory = true;
-  # programs.fish.enable = true;
+  # TODO: investigate syntax highlighting and autosuggestions, which aren't loading right now
+  programs.zsh.interactiveShellInit = ''
+    source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.nix
+  '';
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
