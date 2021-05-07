@@ -57,9 +57,10 @@
 (add-hook! go-mode #'+format-enable-on-save-h)
 (add-hook! go-mode #'turn-on-visual-line-mode)
 (add-hook! go-mode #'+word-wrap-mode)
+(add-hook! go-mode #'lsp)
 ;; the following is super broken
 ;; see https://github.com/weijiangan/flycheck-golangci-lint/issues/8
-(add-hook! go-mode #'flycheck-golangci-lint-setup)
+;; (add-hook! go-mode #'flycheck-golangci-lint-setup)
 
 ; (use-package! hl-line+
 ;   :config

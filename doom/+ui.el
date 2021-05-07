@@ -5,7 +5,7 @@
 ;; (load-theme 'doom-one-light t) ;; light version of doom-one (thanks to ztlevi)
 ;;;;(load-theme 'doom-acario-dark t) ;; an original dark theme (thanks to gagbo)
 ;;;; (load-theme 'doom-acario-light t) ;; an original light theme (thanks to gagbo)
-(load-theme 'doom-ayu-mirage) ;; Mirage variant from Ayu themes (thanks to LoveSponge)
+(load-theme 'doom-ayu-mirage t) ;; Mirage variant from Ayu themes (thanks to LoveSponge)
 ;; doom-ayu-light: Light variant from Ayu themes(thanks to LoveSponge)
 ;; (load-theme 'doom-city-lights t) ;; based on Atom's City lights (thanks to fuxialexander)
 ;; (load-theme 'doom-challenger-deep t) ;; based on Vim's Challenger deep theme (thanks to fuxialexander)
@@ -129,6 +129,7 @@
   `(font-lock-string-face :background ,(doom-lighten 'bg 0.01))
   `(font-lock-variable-name-face :foreground ,(doom-lighten 'fg 0.1))
   `(font-lock-doc-face :foreground ,(doom-color 'blue))
+  `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :bold 'bold)
   )
 
 (custom-theme-set-faces! 'doom-old-hope
