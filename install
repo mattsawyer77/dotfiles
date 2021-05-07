@@ -48,8 +48,13 @@ ln -sf "${DOTFILES_DIR}/ctags/.ctags" ~/.ctags
 
 # alacritty
 echo 'installing alacritty configuration...'
-mkdir -p ~/.config
+mkdir -p ~/.config/alacritty
 ln -sf "${DOTFILES_DIR}/alacritty/alacritty.yml" ~/.config/alacritty.yml
+
+# kitty
+echo 'installing kitty configuration...'
+mkdir -p ~/.config/kitty
+ln -sf "${DOTFILES_DIR}/kitty/kitty.conf" ~/.config/kitty.conf
 
 # starship
 echo 'installing starship configuration...'
