@@ -20,9 +20,11 @@
 
        :completion
        (company +childframe)           ; the ultimate code completion backend
+       ; company           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        (ivy +prescient +icons +childframe)               ; a search engine for love and life
+       ; (ivy +prescient +icons)               ; a search engine for love and life
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -34,7 +36,7 @@
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
-       (ligatures +pragmata-pro)         ; ligatures and symbols to make your code pretty again
+       (:if (display-graphic-p) (ligatures +pragmata-pro))         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
@@ -48,7 +50,7 @@
        ;vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;;window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
-       zen               ; distraction-free coding or writing
+       ;; zen               ; distraction-free coding or writing
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies
@@ -74,11 +76,11 @@
        :term
        ;;eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
-       ;;term              ; basic terminal emulator for Emacs
+       term              ; basic terminal emulator for Emacs
        ;;vterm             ; the best terminal emulation in Emacs
 
        :checkers
-       ;; syntax              ; tasing you for every semicolon you forget
+       ; syntax              ; tasing you for every semicolon you forget
        (syntax +childframe)              ; tasing you for every semicolon you forget
        ;;spell             ; tasing you for misspelling mispelling
        ;;grammar           ; tasing grammar mistake every you make
@@ -87,8 +89,8 @@
        ;;ansible
        debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
-       docker
-       editorconfig      ; let someone else argue about tabs vs spaces
+       (docker +lsp)
+       ;; editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
@@ -97,7 +99,7 @@
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
-       pdf               ; pdf enhancements
+       ;; pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
        terraform         ; infrastructure as code
@@ -106,15 +108,15 @@
 
        :os
        (:if IS-MAC macos)  ; improve compatibility with macOS
-       ;;tty               ; improve the terminal Emacs experience
+       tty               ; improve the terminal Emacs experience
 
        :lang
        ;;agda              ; types of types of types of types...
-       ;;cc                ; C/C++/Obj-C madness
+       (cc +lsp)                ; C/C++/Obj-C madness
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
-       crystal           ; ruby at the speed of c
+       ;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans
        data              ; config/data formats
        ;;elixir            ; erlang done right
@@ -140,30 +142,30 @@
        ;;ledger            ; an accounting system in Emacs
        lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
-       nim               ; python + lisp at the speed of c
+       ;nim               ; python + lisp at the speed of c
        nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org +hugo +pandoc +present +pretty)               ; organize your plain life in plain text
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
-       purescript        ; javascript, but functional
-       ;;python            ; beautiful is better than ugly
+       ;purescript        ; javascript, but functional
+       (python +lsp +pyenv)            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
-       racket            ; a DSL for DSLs
+       ;racket            ; a DSL for DSLs
        ;;rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
        ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (rust +lsp)             ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;scheme            ; a fully conniving family of lisps
-       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +lsp)                ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        web               ; the tubes
-       yaml              ; JSON, but readable
+       (yaml +lsp)              ; JSON, but readable
 
        :email
        ;;(mu4e +gmail)

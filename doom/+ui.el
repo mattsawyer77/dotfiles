@@ -5,7 +5,7 @@
 ;; (load-theme 'doom-one-light t) ;; light version of doom-one (thanks to ztlevi)
 ;;;;(load-theme 'doom-acario-dark t) ;; an original dark theme (thanks to gagbo)
 ;;;; (load-theme 'doom-acario-light t) ;; an original light theme (thanks to gagbo)
-(load-theme 'doom-ayu-mirage) ;; Mirage variant from Ayu themes (thanks to LoveSponge)
+(load-theme 'doom-ayu-mirage t) ;; Mirage variant from Ayu themes (thanks to LoveSponge)
 ;; doom-ayu-light: Light variant from Ayu themes(thanks to LoveSponge)
 ;; (load-theme 'doom-city-lights t) ;; based on Atom's City lights (thanks to fuxialexander)
 ;; (load-theme 'doom-challenger-deep t) ;; based on Vim's Challenger deep theme (thanks to fuxialexander)
@@ -73,7 +73,7 @@
   `(variable-pitch :family "Avenir Next")
   `(+workspace-tab-face :family "Avenir Next")
   `(+workspace-tab-selected-face :family "Avenir Next")
-  `(header-line :background "#171b21" :family "Avenir Next" :height 1.1 :weight bold)
+  `(header-line :background "#171b21" :family "Avenir Next" :height 1.3 :weight bold)
   `(lsp-headerline-breadcrumb-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0 :weight bold)
   `(lsp-headerline-breadcrumb-path-face :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-symbols-face :background "#171b21" :family "Avenir Next" :height 1.0)
@@ -88,6 +88,7 @@
   `(lsp-headerline-breadcrumb-symbols-error-face :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-symbols-warning-face :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :bold 'bold)
   )
 
 (after! tree-sitter
@@ -99,7 +100,7 @@
 (custom-theme-set-faces! 'doom-spacegrey
   `(default :foreground "#b1bbcb" :background "#171b21")
   `(solaire-default-face :foreground "#87939c" :background "#171b21")
-  `(solaire-header-line-face :background "#171b21" :family "Avenir Next" :height 1.2 :weight bold)
+  `(solaire-header-line-face :background "#171b21" :family "Avenir Next" :height 1.3 :weight bold)
   `(line-number :foreground "#292e35"
                 :background ,(doom-darken 'bg 0.5))
   `(font-lock-keyword-face :weight bold
@@ -116,9 +117,9 @@
  )
 
 (custom-theme-set-faces! 'doom-ayu-mirage
-  `(line-number :foreground "#292e35"
+  `(line-number :foreground "#4b4f57"
                 :background ,(doom-darken 'bg 0.3))
-  `(solaire-header-line-face :height 1.2)
+  `(solaire-header-line-face :height 1.3)
   `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'orange))
   `(font-lock-builtin-face :weight bold :foreground ,(doom-color 'orange))
   `(font-lock-constant-face :weight bold)
@@ -233,6 +234,7 @@
   "code-face")
 (add-hook! (prog-mode
             text-mode
+            conf-toml-mode
             toml-mode)
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
@@ -285,8 +287,8 @@
     `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
-    `(header-line :inherit 'default :height 1.4)
-    `(solaire-header-line-face :inherit 'default :height 1.4)
+    ;; `(header-line :inherit 'default :height 1.3)
+    ;; `(solaire-header-line-face :inherit 'default :height 1.3)
     `(org-superstar-header-bullet :inherit 'org-face :foreground "#ECBE7B")
     `(org-level-8 :inherit 'org-face :height 0.8)
     `(org-level-7 :inherit 'org-face :height 0.8)
