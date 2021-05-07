@@ -52,6 +52,7 @@
   ;; some of these are redundant, and errcheck is awesome but super slow --
   ;; so there is a keybinding to manually kick off errcheck in +keybindings.el
   (setq-default flycheck-disabled-checkers '(go-golint go-build go-errcheck))
+  (require 'dap-go)
   )
 
 (add-hook! go-mode #'+format-enable-on-save-h)
@@ -248,3 +249,7 @@
   (setq lsp-headerline-breadcrumb-enable 't)
   (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
   )
+
+(after! ccls
+  (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t))))
+(add-hook! ccls #'tree-sitter-mode)

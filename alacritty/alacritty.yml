@@ -38,8 +38,8 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 5
-    y: 5
+    x: 10
+    y: 10
 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
@@ -154,7 +154,7 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
     x: 0
-    y: 10
+    y: 5
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
@@ -183,34 +183,64 @@ font:
 draw_bold_text_with_bright_colors: false
 
 schemes:
-  ayu_dark: &dark
+  ayu_mirage: &ayu_mirage
+    colors:
+      # Default colors
+      primary:
+        background: '#202734'
+        foreground: '#DCDDD7'
+
+      # Normal colors
+      normal:
+        black: '#191E2A'
+        red: '#FF3333'
+        green: '#BAE67E'
+        yellow: '#FFA759'
+        blue: '#73D0FF'
+        magenta: '#FFD580'
+        cyan: '#95E6CB'
+        white: '#C7C7C7'
+
+      # Bright colors
+      bright:
+        black: '#686868'
+        red: '#F27983'
+        green: '#A6CC70'
+        yellow: '#FFCC66'
+        blue: '#5CCFE6'
+        magenta: '#FFEE99'
+        cyan: '#95E6CB'
+        white: '#FFFFFF'
+
+  ayu_dark: &ayu_dark
+  # Default colors
     primary:
-      background: '0x0c1016'
-      foreground: '0xa2bed2'
+      background: '#0A0E14'
+      foreground: '#B3B1AD'
 
     # Normal colors
     normal:
-      black:   '0x000000'
-      red:     '0xf34a4a'
-      green:   '0xbae67e'
-      yellow:  '0xffee99'
-      blue:    '0x5ea1e2'
-      magenta: '0xd4bfff'
-      cyan:    '0x83CEC6'
-      white:   '0xf2f2f2'
+      black: '#01060E'
+      red: '#EA6C73'
+      green: '#91B362'
+      yellow: '#F9AF4F'
+      blue: '#53BDFA'
+      magenta: '#FAE994'
+      cyan: '#90E1C6'
+      white: '#C7C7C7'
 
     # Bright colors
     bright:
-      black:   '0x737d87'
-      red:     '0xff3333'
-      green:   '0xc2d94c'
-      yellow:  '0xe7c547'
-      blue:    '0x59c2ff'
-      magenta: '0xb77ee0'
-      cyan:    '0x5ccfe6'
-      white:   '0xffffff'
+      black: '#686868'
+      red: '#F07178'
+      green: '#C2D94C'
+      yellow: '#FFB454'
+      blue: '#59C2FF'
+      magenta: '#FFEE99'
+      cyan: '#95E6CB'
+      white: '#FFFFFF'
 
-  gruvbox_light_tweaked: &light
+  gruvbox_light_tweaked: &gruvbox_light_tweaked
     # Default colors
     primary:
       # hard contrast: background = '#f9f5d7'
@@ -241,7 +271,8 @@ schemes:
       white:   '#3c3836'
 
 # Colors (Ayu Dark)
-colors: *dark
+colors: *ayu_mirage
+# colors: *ayu_dark
 # colors: *light
 
 # Visual Bell
@@ -572,18 +603,28 @@ key_bindings:
   - { key: Down,     mods: Alt,     chars: "\x1b[1;3B"                       }
   - { key: Down,                    chars: "\x1b[B",        mode: ~AppCursor }
   - { key: Down,                    chars: "\x1bOB",        mode: AppCursor  }
-  - { key: F1,                      chars: "\x1bOP"                          }
-  - { key: F2,                      chars: "\x1bOQ"                          }
-  - { key: F3,                      chars: "\x1bOR"                          }
-  - { key: F4,                      chars: "\x1bOS"                          }
-  - { key: F5,                      chars: "\x1b[15~"                        }
-  - { key: F6,                      chars: "\x1b[17~"                        }
-  - { key: F7,                      chars: "\x1b[18~"                        }
-  - { key: F8,                      chars: "\x1b[19~"                        }
-  - { key: F9,                      chars: "\x1b[20~"                        }
-  - { key: F10,                     chars: "\x1b[21~"                        }
-  - { key: F11,                     chars: "\x1b[23~"                        }
-  - { key: F12,                     chars: "\x1b[24~"                        }
+# Use function keys to switch tmux window
+  - { key: F1,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 0"] } }
+  - { key: F2,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 1"] } }
+  - { key: F3,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 2"] } }
+  - { key: F4,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 3"] } }
+  - { key: F5,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 4"] } }
+  - { key: F6,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 5"] } }
+  - { key: F7,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 6"] } }
+  - { key: F8,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 7"] } }
+  - { key: F9,      mods: Command,  command: { program: "tmux", args: ["select-window", "-t 8"] } }
+  # - { key: F1,                      chars: "\x1bOP"                          }
+  # - { key: F2,                      chars: "\x1bOQ"                          }
+  # - { key: F3,                      chars: "\x1bOR"                          }
+  # - { key: F4,                      chars: "\x1bOS"                          }
+  # - { key: F5,                      chars: "\x1b[15~"                        }
+  # - { key: F6,                      chars: "\x1b[17~"                        }
+  # - { key: F7,                      chars: "\x1b[18~"                        }
+  # - { key: F8,                      chars: "\x1b[19~"                        }
+  # - { key: F9,                      chars: "\x1b[20~"                        }
+  # - { key: F10,                     chars: "\x1b[21~"                        }
+  # - { key: F11,                     chars: "\x1b[23~"                        }
+  # - { key: F12,                     chars: "\x1b[24~"                        }
   - { key: F1,       mods: Shift,   chars: "\x1b[1;2P"                       }
   - { key: F2,       mods: Shift,   chars: "\x1b[1;2Q"                       }
   - { key: F3,       mods: Shift,   chars: "\x1b[1;2R"                       }

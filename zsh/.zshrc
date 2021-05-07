@@ -5,11 +5,6 @@ bindkey '^R' history-incremental-search-backward
 bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
-if [[ $(uname) == "Darwin" ]]; then
-  OS=mac
-else
-  OS=linux
-fi
 
 autoload -Uz compinit
 autoload bashcompinit
@@ -51,15 +46,9 @@ export TZ=America/Los_Angeles
 export BUILDDIR=/tmp/makepkg
 export TZ=America/Los_Angeles
 export SAML2AWS_USER_AGENT="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.00) Gecko/20100101 Firefox/82.0"
-if command -v gvm >/dev/null; then
-  gvm use go1.14 >/dev/null
-fi
 if command -v pyenv >/dev/null; then
   eval "$(pyenv init -)"
 fi
-
-alias ssh='TERM=xterm-256color ssh'
-alias vim=nvim
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
 if [[ $OS == "mac" ]]; then
   alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
@@ -72,59 +61,23 @@ else
 fi
 alias ts='tmux new-session -n main -s'
 alias ta='tmux attach -t'
+alias tl='tmux list-sessions'
 alias k=kubectl
 # edit a file with emacsclient -- if no session exists, create one automatically
-alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy'
+# export EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
 alias em='emacsclient -t -c --alternate-editor=""'
-
 alias zenith="sudo -E zenith --disk-height 0"
-alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy --color=always 2>&1 | less'
+alias ssh='TERM=xterm-256color ssh'
+alias k=kubectl
+if command -v exa >/dev/null; then
+  alias l='exa -alF'
+else
+  alias l='ls -alFG'
+fi
+alias zenith="sudo -E zenith --disk-height 0"
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
-get-sa-token() {
-  context=$1
-  secret=$(kubectl --context "$context" -n kube-system get secret \
-    | grep f5aas- \
-    | awk '{print $1}')
-  kubectl --context "$context" -n kube-system describe secret "$secret" \
-    | pcregrep '^token:' \
-    | awk '{print $2}'
-}
-
-tf-reinit() {
-  rm -rf .terraform && terraform init 2>&1 | tee init.out
-}
-
-tf-plan() {
-  terraform plan -out .plan $@ 2>&1 | tee plan.out
-}
-
-tf-apply() {
-  terraform apply .plan $@ 2>&1 | tee apply.out
-}
-
-tf-destroy() {
-  terraform destroy $@ 2>&1 | tee destroy.out
-}
-
-aurain() {
-  aura -As "$1" | cut -d'/' -f2 | cut -d' ' -f1 | pcregrep '^\w' | fzf --preview 'aura -Ai {1}' | xargs -ro sudo aura -Akax
-}
-
-pacin() {
-  if [[ -z "$1" ]]; then
-    pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -Syu
-  else
-    pacman -Ssq "$1" | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -Syu
-  fi
-}
-upgrade() {
-  sudo pacman -Syuu
-  sudo aura -Akaux
-}
-
-[[ -s "/home/sawyer/.gvm/scripts/gvm" ]] && source "/home/sawyer/.gvm/scripts/gvm"
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
@@ -161,5 +114,7 @@ rust-analyzer-upgrade() {
       && echo "rust-analyzer installed successfully."
   fi
 }
+# nix
+export NIXPKGS_ALLOW_UNFREE=1
 
-printf '\e]2;sawyer-dev\a'
+printf '\e]2;'$(hostname)'\a'
