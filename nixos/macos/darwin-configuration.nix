@@ -11,18 +11,23 @@
     automake
     aws-iam-authenticator
     awscli2
+    azure-cli
     bash_5
     bat
     cachix
     cairo
+    ccls
     cloc
     cmake
     coreutils
     curlFull
+    delve
     diff-so-fancy
     dos2unix
-    # emacs # currently using a custom gccEmacs that appears to work ok
-    emacsGit
+    # emacs
+    # emacsGit
+    emacsGcc
+    etcd
     eternal-terminal
     exa
     fd
@@ -36,6 +41,8 @@
     gmp6
     gnumake
     golangci-lint
+    go
+    gopls
     graphviz
     grpcurl
     harfbuzzFull
@@ -43,17 +50,20 @@
     httrack
     jansson
     jq
+    kitty
     kubectl
-    # libgccjit # currently broken, but emacs 28+gccjit is also broken anyway
+    libgccjit
+    libiconv
     libressl
     libsndfile
     libssh2
     libxml2
-    llvm_11
+    llvm
     msgpack
     ncurses
-    neovim
+    # neovim
     netcat
+    nixfmt
     nmap
     nodejs
     oniguruma
@@ -64,14 +74,15 @@
     pcre2
     pinentry
     pkgconfig
-    procs
+    # procs
     protobuf3_11
     python39Packages.cfn-lint
     readline
     reattach-to-user-namespace
     ripgrep
-    rust-analyzer
-    rustup
+    # rust-analyzer
+    # rustup
+    scons
     sd
     shared-mime-info
     shellcheck
@@ -85,10 +96,12 @@
     tmux
     unixtools.watch
     upx
+    vgo2nix
     wget
     wireshark
     xsv
     yabai
+    yaml-language-server
     yq-go
     zenith
     zlib
@@ -99,7 +112,8 @@
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+      # url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/92f5ebe76f984c831f748339e07b683318add09a.tar.gz;
     }))
   ];
 
