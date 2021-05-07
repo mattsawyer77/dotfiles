@@ -155,6 +155,7 @@
   `(font-lock-string-face :background ,(doom-lighten 'bg 0.01))
   `(font-lock-variable-name-face :foreground ,(doom-lighten 'fg 0.1))
   `(font-lock-doc-face :foreground ,(doom-color 'blue))
+  `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :bold 'bold)
   )
 
 (custom-theme-set-faces! 'doom-old-hope
