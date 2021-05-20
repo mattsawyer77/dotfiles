@@ -123,7 +123,16 @@ if [[ $(uname) == "Darwin" ]]; then
   fi
   echo "setting nameservers to 127.0.0.1..."
   networksetup -setdnsservers Wi-Fi 127.0.0.1
+# git
+current_git_user=$(git config --global user.email)
+if [[ "$current_git_user" != "m.sawyer@f5.com" ]]; then
+  git config --global user.email "matt.sawyer@gmail.com"
+  git config --global user.name "Matt Sawyer"
 fi
+git config --global pull.rebase false
+git config --global push.default simple
+git config --global alias.lp "log --format='%C(yellow) %h %C(green)%m %cn, %cr %D%C(cyan bold)%m %<(80,trunc)%s%C(reset) %C(normal)%C(reset)'"
+git config --global alias.lpg "log --graph --format='%C(yellow) %h %C(green)%m %cn, %cr %D%C(cyan bold)%m %<(80,trunc)%s%C(reset) %C(normal)%C(reset)'"
 
 # doom emacs
 if command -v emacs >/dev/null; then
