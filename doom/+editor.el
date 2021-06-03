@@ -2,6 +2,7 @@
 
 ; workaround for https://github.com/emacs-evil/evil/issues/1168
 (setq-default evil-respect-visual-line-mode nil)
+(setq native-comp-async-report-warnings-errors nil)
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
 (setq confirm-kill-emacs nil)
@@ -18,6 +19,7 @@
   )
 ;; make kops edit automatically use yaml mode
 (add-to-list 'auto-mode-alist '("\\kops-edit.+yaml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\yaml\.tmpl$" . yaml-mode))
 ;; make helm templates automatically use mustache mode
 (add-to-list 'auto-mode-alist '("\\k8s\/templates" . mustache-mode))
 (add-to-list 'auto-mode-alist '("\\kubernetes\/templates" . mustache-mode))
@@ -27,8 +29,11 @@
 (add-to-list 'auto-mode-alist '("\\\.aws/*" . conf-toml-mode))
 (add-to-list 'auto-mode-alist '("\\\.saml2aws" . conf-toml-mode))
 (add-to-list 'auto-mode-alist '("\\\.kube/config.*" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\\.hpp$" . cpp-mode))
+(add-to-list 'auto-mode-alist '("\\\.h$" . cpp-mode))
 ;; make SSH authorized keys files more readable
 ;; (add-to-list 'auto-mode-alist '("\\\.ssh\/authorized_keys" . prog-mode))
+(add-to-list 'auto-mode-alist '("\\SCons.*". python-mode))
 
 ;; make underscore considered as a "word" character
 (modify-syntax-entry ?_ "w")
@@ -211,15 +216,15 @@
   )
 
 ;; currently broken:
-;; (when-let (dims (doom-store-get 'last-frame-size))
-;;   (cl-destructuring-bind ((left . top) width height fullscreen) dims
-;;     (setq initial-frame-alist
-;;           (append initial-frame-alist
-;;                   `((left . ,left)
-;;                     (top . ,top)
-;;                     (width . ,width)
-;;                     (height . ,height)
-;;                     (fullscreen . ,fullscreen))))))
+(when-let (dims (doom-store-get 'last-frame-size))
+  (cl-destructuring-bind ((left . top) width height fullscreen) dims
+    (setq initial-frame-alist
+          (append initial-frame-alist
+                  `((left . ,left)
+                    (top . ,top)
+                    (width . ,width)
+                    (height . ,height)
+                    (fullscreen . ,fullscreen))))))
 
 (defun save-frame-dimensions ()
   (doom-store-put 'last-frame-size
@@ -249,6 +254,44 @@
   (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
   )
 
-(after! ccls
+(add-hook! makefile-mode #'+word-wrap-mode)
+
+(after! (lsp-mode docker-tramp ccls)
+ (lsp-register-client
+  (make-lsp-client
+   ;; :new-connection (lsp-stdio-connection (lambda () (cons ccls-executable ccls-args)))
+   :new-connection (lsp-tramp-connection (lambda () (cons ccls-executable ccls-args)))
+   :remote? t
+   :major-modes '(cpp-mode c-mode c++-mode cuda-mode objc-mode)
+   :server-id 'ccls
+   :multi-root nil
+   :notification-handlers
+   (lsp-ht ("$ccls/publishSkippedRanges" #'ccls--publish-skipped-ranges)
+           ("$ccls/publishSemanticHighlight" #'ccls--publish-semantic-highlight))
+   :initialization-options (lambda () ccls-initialization-options)
+   :library-folders-fn ccls-library-folders-fn))
   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t))))
+
 (add-hook! ccls #'tree-sitter-mode)
+
+(add-hook! protobuf-mode #'display-line-numbers--turn-on)
+
+(after! (yaml-mode lsp-mode)
+    (setq lsp-yaml-format-enable nil)
+    ;; (setq lsp-yaml-prose-wrap nil)
+    ;; (setq lsp-yaml-print-width nil)
+    ;; (setq lsp-yaml-bracket-spacing nil)
+    ;; (setq lsp-yamlls-after-open-hook nil)
+    (setq lsp-yaml-completion nil)
+    (setq lsp-yaml-validate nil)
+    ;; (setq lsp-yaml--schema-store-schemas-alist nil)
+    ;; (setq lsp-yaml-single-quote nil)
+    ;; (setq lsp-yaml-schema-store-enable nil)
+    ;; (setq lsp-yaml-schemas nil)
+    ;; (setq lsp-yaml-schema-store-local-db nil)
+    (setq lsp-yaml--built-in-kubernetes-schema nil)
+    ;; (setq lsp-yaml-server-command nil)
+    ;; (setq lsp-yaml-schema-store-uri nil)
+    ;; (setq lsp-yaml-hover nil)
+    ;; (setq lsp-yaml-custom-tags nil)
+    )

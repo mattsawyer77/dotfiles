@@ -51,56 +51,60 @@
 ;; (load-theme 'doom-mono-light t) ;; a minimalistic, monochromatic theme
 ;;;; (load-theme 'doom-tron t) ;; based on Tron Legacy from daylerees' themes
 
-;; (setq-default line-spacing 3)
-(setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 19))
+(setq-default line-spacing 8)
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 19))
 ;; (setq doom-font (font-spec :family "Rec Mono Duotone" :size 18))
 ;; (setq doom-font (font-spec :family "Input" :size 22))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 18))
 ;; (setq doom-font (font-spec :family "SF Mono" :size 19))
-(setq doom-variable-pitch-font (font-spec :family "Avenir Next" :size 19))
-;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
+;; (setq doom-variable-pitch-font (font-spec :family "Proxima Nova" :size 19))
+(setq doom-variable-pitch-font (font-spec :family "Proxima Nova" :size 15))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 ;; (setq doom-font (font-spec :family "Monoid" :size 16))
 ;; (setq doom-font (font-spec :family "Victor Mono" :size 19))
-;; (after! solaire-mode (solaire-global-mode -1)) ;; disable solaire mode
+;; disable solaire mode on GUI
+;; (after! solaire-mode
+;;   (when (display-graphic-p)
+;;     (solaire-global-mode -1)))
 (custom-set-faces!
   `(font-lock-type-face :weight bold)
   `(font-lock-function-name-face :weight bold)
   `(font-lock-string-face :background ,(doom-lighten 'bg 0.1))
-  `(line-number :height 1.3)
-  `(mode-line :family "Avenir Next")
-  `(mode-line-inactive :family "Avenir Next")
-  `(variable-pitch :family "Avenir Next")
-  `(+workspace-tab-face :family "Avenir Next")
-  `(+workspace-tab-selected-face :family "Avenir Next")
-  `(header-line :background "#171b21" :family "Avenir Next" :height 1.3 :weight bold)
-  `(lsp-headerline-breadcrumb-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0 :weight bold)
-  `(lsp-headerline-breadcrumb-path-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-path-hint-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-path-info-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-separator-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-deprecated-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-path-error-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-hint-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-info-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-path-warning-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-error-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-warning-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(line-number :height 1.2)
+  `(mode-line :family "Proxima Nova")
+  `(mode-line-inactive :family "Proxima Nova")
+  `(variable-pitch :family "Proxima Nova")
+  `(tooltip :background ,(doom-lighten 'bg 0.2) :background ,(doom-color 'grey))
+  `(+workspace-tab-face :family "Proxima Nova")
+  `(+workspace-tab-selected-face :family "Proxima Nova")
+  `(header-line :background "#1F242F" :family "Proxima Nova" :height 1.1 :weight bold)
+  `(lsp-headerline-breadcrumb-project-prefix-face :background "#1f242f" :family "Proxima Nova" :height 1.0 :weight bold)
+  `(lsp-headerline-breadcrumb-path-face :background "#1f242f" :family "Proxima Nova" :height 1.0 :weight normal)
+  `(lsp-headerline-breadcrumb-symbols-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-hint-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-info-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-separator-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-deprecated-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-error-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-hint-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-info-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-warning-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-error-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-warning-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
+  `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background "#1f242f" :family "Proxima Nova" :height 1.0)
   `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :bold 'bold)
   )
 
-(after! tree-sitter
+;; (after! tree-sitter
   (custom-set-faces!
     '(tree-sitter-hl-face:property :slant normal)
     )
-  )
+  ;; )
 
 (custom-theme-set-faces! 'doom-spacegrey
-  `(default :foreground "#b1bbcb" :background "#171b21")
-  `(solaire-default-face :foreground "#87939c" :background "#171b21")
-  `(solaire-header-line-face :background "#171b21" :family "Avenir Next" :height 1.3 :weight bold)
+  `(default :foreground "#b1bbcb" :background "#1f242f")
+  `(solaire-default-face :foreground "#87939c" :background "#1f242f")
+  `(solaire-header-line-face :background "#1f242f" :family "Proxima Nova" :height 1.3 :weight bold)
   `(line-number :foreground "#292e35"
                 :background ,(doom-darken 'bg 0.5))
   `(font-lock-keyword-face :weight bold
@@ -117,8 +121,8 @@
  )
 
 (custom-theme-set-faces! 'doom-ayu-mirage
-  `(line-number :foreground "#4b4f57"
-                :background ,(doom-darken 'bg 0.3))
+  `(line-number :foreground ,(doom-lighten 'bg 0.1)
+                :background ,(doom-darken 'bg 0.1))
   `(solaire-header-line-face :height 1.3)
   `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'orange))
   `(font-lock-builtin-face :weight bold :foreground ,(doom-color 'orange))
@@ -162,14 +166,13 @@
   `(treemacs-root-face :background ,(doom-darken 'bg 0.1))
   )
 
-(after! doom-modeline
+;; (after! doom-modeline
   (setq doom-modeline-major-mode-icon t)
   (custom-set-faces!
     `(doom-modeline-project-dir :weight bold :background ,(doom-color 'default))
     `(doom-modeline-persp-name :slant normal)
     )
-  )
-
+  ;; )
 
 (use-package! terraform-mode
   :defer
@@ -204,37 +207,39 @@
 
 (after! treemacs
   (custom-set-faces!
-    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "Avenir Next" :background ,(doom-darken (doom-color 'bg) 0.4))
-    `(treemacs-directory-collapsed-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-directory-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-file-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-fringe-indicator-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-added-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-conflict-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-ignored-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-modified-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-renamed-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-unmodified-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-untracked-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-help-column-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-help-title-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-on-failure-pulse-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-on-success-pulse-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-tags-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-term-node-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "Proxima Nova" :background ,(doom-darken (doom-color 'bg) 0.3))
+    `(treemacs-directory-collapsed-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-directory-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-file-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-fringe-indicator-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-git-added-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-git-conflict-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-git-ignored-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-git-modified-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-git-renamed-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-git-unmodified-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-git-untracked-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-help-column-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-help-title-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-on-failure-pulse-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-on-success-pulse-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-tags-face :weight normal :slant normal :family "Proxima Nova")
+    `(treemacs-term-node-face :weight normal :slant normal :family "Proxima Nova")
     )
-  (setq treemacs-width 40)
+  (setq treemacs-width 60)
   (setq treemacs-position 'right)
   )
 
 (defface code-face
   '((t (:inherit default
-        :height 1.3
-        :family "PragmataPro Liga 1.1")))
+        :height 1.2
+        :family "PragmataPro Liga")))
   "code-face")
 (add-hook! (prog-mode
             text-mode
             conf-toml-mode
+            conf-space-mode
+            protobuf-mode
             toml-mode)
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
@@ -274,28 +279,28 @@
 (add-hook! rustic-mode (face-remap-add-relative 'default 'code-face))
 
 (defface org-face
-  '((t (:inherit default-face :family "Avenir Next" :height 1.1)))
+  '((t (:inherit default-face :family "Proxima Nova" :height 1.1)))
   "org-face")
 (defface org-code-face
-  '((t (:inherit default-face :family "PragmataPro Liga 1.1")))
+  '((t (:inherit default-face :family "PragmataPro Liga")))
   "org-code-face")
 (after! org
   (custom-set-faces!
-    `(org-table :family "PragmataPro Liga 1.1")
-    `(org-code :family "PragmataPro Liga 1.1")
-    `(org-block :family "PragmataPro Liga 1.1")
+    `(org-table :family "PragmataPro Liga")
+    `(org-code :family "PragmataPro Liga")
+    `(org-block :family "PragmataPro Liga")
     `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
     ;; `(header-line :inherit 'default :height 1.3)
     ;; `(solaire-header-line-face :inherit 'default :height 1.3)
     `(org-superstar-header-bullet :inherit 'org-face :foreground "#ECBE7B")
-    `(org-level-8 :inherit 'org-face :height 0.8)
-    `(org-level-7 :inherit 'org-face :height 0.8)
-    `(org-level-6 :inherit 'org-face :height 0.8)
-    `(org-level-5 :inherit 'org-face :height 0.8)
-    `(org-level-4 :inherit 'org-face :height 0.8 :weight bold :foreground "#8FA1B3")
-    `(org-level-3 :inherit 'org-face :height 0.9 :weight normal :foreground "#8FA1B3")
+    `(org-level-8 :inherit 'org-face :height 0.7)
+    `(org-level-7 :inherit 'org-face :height 0.7)
+    `(org-level-6 :inherit 'org-face :height 0.7)
+    `(org-level-5 :inherit 'org-face :height 0.7)
+    `(org-level-4 :inherit 'org-face :height 0.7 :weight bold :foreground "#8FA1B3")
+    `(org-level-3 :inherit 'org-face :height 0.8 :weight normal :foreground "#8FA1B3")
     `(org-level-2 :inherit 'org-face :height 1.0 :weight bold :foreground "#8FA1B3")
     `(org-level-1 :inherit 'org-face :height 1.2 :weight normal :foreground "#8FA1B3")
     `(org-document-title :inherit 'org-face :height 1.1 :weight bold)
@@ -303,11 +308,10 @@
   )
 
 (add-hook! org-mode
-  (mixed-pitch-mode t)
   (hl-line-mode t)
   (face-remap-add-relative 'solaire-default-face 'org-face)
   (face-remap-add-relative 'default 'org-face)
-  (setq-local line-spacing 6)
+  (setq-local line-spacing 8)
   (setq-local left-margin-width 5)
   (setq-local right-margin-width 5)
   (setq-local display-line-numbers-type nil)
@@ -336,5 +340,11 @@
     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
     `(tree-sitter-hl-face:variable :foreground ,(doom-color 'yellow))
     `(tree-sitter-hl-face:property :foreground ,(doom-color 'yellow))
+    )
+  )
+
+(after! ccls
+  (custom-set-faces!
+    `(ccls-skipped-range-face :inherit 'font-lock-comment-face)
     )
   )

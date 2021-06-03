@@ -28,6 +28,9 @@
 (package! eyebrowse)
 (package! unison-mode)
 (package! dap-mode)
+(package! protobuf-mode)
+; https://github.com/hlissner/doom-emacs/issues/5095
+(package! magit-section)
 ;; (package! hlint-refactor)
 ;; (package! dash)
 ;; (package! ht)
