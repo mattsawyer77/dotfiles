@@ -1,28 +1,28 @@
 ;;;  -*- lexical-binding: t; -*-
 
 ;; (require 'doom-themes)
-;; (load-theme 'doom-one t) ;; doom-themes' flagship theme, inspired by Atom's One Dark themes
+;;;; (load-theme 'doom-one t) ;; doom-themes' flagship theme, inspired by Atom's One Dark themes
+;; (load-theme 'doom-1337 t)
 ;; (load-theme 'doom-one-light t) ;; light version of doom-one (thanks to ztlevi)
-;;;;(load-theme 'doom-acario-dark t) ;; an original dark theme (thanks to gagbo)
+;;;; (load-theme 'doom-acario-dark t) ;; an original dark theme (thanks to gagbo)
 ;;;; (load-theme 'doom-acario-light t) ;; an original light theme (thanks to gagbo)
-(load-theme 'doom-ayu-mirage) ;; Mirage variant from Ayu themes (thanks to LoveSponge)
-;; doom-ayu-light: Light variant from Ayu themes(thanks to LoveSponge)
-;; (load-theme 'doom-city-lights t) ;; based on Atom's City lights (thanks to fuxialexander)
+;; (load-theme 'doom-ayu-mirage t) ;; Mirage variant from Ayu themes (thanks to LoveSponge)
+(load-theme 'doom-city-lights t) ;; based on Atom's City lights (thanks to fuxialexander)
 ;; (load-theme 'doom-challenger-deep t) ;; based on Vim's Challenger deep theme (thanks to fuxialexander)
 ;; (load-theme 'doom-dark+) ;; ported from VS Code's Dark+ theme (thanks to ema2159)
 ;; (load-theme 'doom-dracula t) ;; an implementation of Dracula theme (thanks to fuxialexander)
 ;;;;(load-theme 'doom-ephemeral t) ;; inspired in the Ephemeral Theme from elenapan's dotfiles (thanks to karetsu)
 ;; (load-theme 'doom-fairy-floss t) ;; a candy colored Sublime theme by sailorhg (thanks to ema2159)
-;; broken? (load-theme 'doom-flatwhite t) ;; a unique light theme ported from Flatwhite Syntax (thanks to ShaneKilkelly)
+;; (load-theme 'doom-flatwhite t) ;; a unique light theme ported from Flatwhite Syntax (thanks to ShaneKilkelly)
 ;; (load-theme 'doom-gruvbox t) ;; adapted from Morhetz's Gruvbox (thanks to JongW)
 ;; (load-theme 'doom-gruvbox-light t) ;; adapted from Morhetz's Gruvbox light variant (thanks for jsoa)
-;;;; (load-theme 'doom-henna t) ;; based on VS Code's Henna (thanks to jsoa)
+;; (load-theme 'doom-henna t) ;; based on VS Code's Henna (thanks to jsoa)
 ;; (load-theme 'doom-horizon t) ;; ported from VS Code's Horizon (thanks to karetsu)
-;;;; (load-theme 'doom-Iosvkem t) ;; adapted from Iosvkem (thanks to neutaaaaan)
-;;;; (load-theme 'doom-laserwave t) ;; a clean 80's synthwave / outrun theme inspired by VS Code's laserwave (thanks to hyakt)
+;; (load-theme 'doom-Iosvkem t) ;; adapted from Iosvkem (thanks to neutaaaaan)
+;; (load-theme 'doom-laserwave t) ;; a clean 80's synthwave / outrun theme inspired by VS Code's laserwave (thanks to hyakt)
 ;; (load-theme 'doom-material t) ;; adapted from Material Themes (thanks to tam5)
-;;;; (load-theme 'doom-manegarm t) ;; an original autumn-inspired dark theme (thanks to kenranunderscore)
-;; broken? (load-theme 'doom-miramare t) ;; a port of Franbach's Miramare, a variant of gruvbox theme (thanks to sagittaros)
+;; (load-theme 'doom-manegarm t) ;; an original autumn-inspired dark theme (thanks to kenranunderscore)
+;; (load-theme 'doom-miramare t) ;; a port of Franbach's Miramare, a variant of gruvbox theme (thanks to sagittaros)
 ;; (load-theme 'doom-molokai t) ;; a theme based on Texmate's Monokai
 ;; (load-theme 'doom-monokai-classic t) ;; port of Monokai's Classic variant (thanks to ema2159)
 ;; (load-theme 'doom-monokai-pro t) ;; port of Monokai's Pro variant (thanks to kadenbarlow)
@@ -42,22 +42,22 @@
 ;; (load-theme 'doom-snazzy t) ;; a dark theme inspired in Atom's Hyper Snazzy (thanks to ar1a)
 ;; (load-theme 'doom-solarized-dark t) ;; dark variant of Solarized (thanks to ema2159)
 ;; (load-theme 'doom-solarized-light t) ;; light variant of Solarized (thanks to fuxialexander)
-;;;;(load-theme 'doom-sourcerer t) ;; based on Sourcerer (thanks to defphil)
+;; (load-theme 'doom-sourcerer t) ;; based on Sourcerer (thanks to defphil)
 ;; (load-theme 'doom-spacegrey t) ;; I'm sure you've heard of it (thanks to teesloane)
 ;; (load-theme 'doom-tomorrow-day t) ;; Tomorrow's light variant (thanks to emacswatcher)
 ;; (load-theme 'doom-tomorrow-night t) ;; one of the dark variants of Tomorrow (thanks to emacswatcher)
 ;; (load-theme 'doom-wilmersdorf t) ;; port of Ian Pan's Wilmersdorf (thanks to ema2159)
 ;; (load-theme 'doom-zenburn t) ;; port of the popular Zenburn theme (thanks to jsoa)
 ;; (load-theme 'doom-mono-light t) ;; a minimalistic, monochromatic theme
-;;;; (load-theme 'doom-tron t) ;; based on Tron Legacy from daylerees' themes
 
-;; (setq-default line-spacing 3)
-(setq doom-font (font-spec :family "PragmataPro Liga 1.1" :size 19))
+(setq-default line-spacing 0)
+;; (setq doom-font (font-spec :family "PragmataPro Liga" :size 18))
+(setq doom-font (font-spec :family "Iosevka" :size 18))
 ;; (setq doom-font (font-spec :family "Rec Mono Duotone" :size 18))
 ;; (setq doom-font (font-spec :family "Input" :size 22))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 18))
 ;; (setq doom-font (font-spec :family "SF Mono" :size 19))
-(setq doom-variable-pitch-font (font-spec :family "Avenir Next" :size 19))
+(setq doom-variable-pitch-font (font-spec :family "SF Pro" :size 19))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 15))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 ;; (setq doom-font (font-spec :family "Monoid" :size 16))
@@ -66,28 +66,31 @@
 (custom-set-faces!
   `(font-lock-type-face :weight bold)
   `(font-lock-function-name-face :weight bold)
-  `(font-lock-string-face :background ,(doom-lighten 'bg 0.1))
-  `(line-number :height 1.3)
-  `(mode-line :family "Avenir Next")
-  `(mode-line-inactive :family "Avenir Next")
-  `(variable-pitch :family "Avenir Next")
-  `(+workspace-tab-face :family "Avenir Next")
-  `(+workspace-tab-selected-face :family "Avenir Next")
-  `(header-line :background "#171b21" :family "Avenir Next" :height 1.1 :weight bold)
-  `(lsp-headerline-breadcrumb-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0 :weight bold)
-  `(lsp-headerline-breadcrumb-path-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-path-hint-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-path-info-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-separator-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-deprecated-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-path-error-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-hint-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-info-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-path-warning-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-error-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-warning-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(font-lock-string-face :background ,(doom-blend 'bg 'blue 0.95))
+  `(font-lock-constant-face :weight bold)
+  `(font-lock-builtin-face :weight bold)
+  `(font-lock-function :weight bold)
+  `(line-number :height 1.0)
+  `(mode-line :family "SF Pro")
+  `(mode-line-inactive :family "SF Pro")
+  `(variable-pitch :family "SF Pro")
+  `(+workspace-tab-face :family "SF Pro")
+  `(+workspace-tab-selected-face :family "SF Pro")
+  `(header-line :background ,(doom-color 'bg) :family "SF Pro" :height 1.0 :weight bold)
+  `(lsp-headerline-breadcrumb-project-prefix-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0 :weight bold)
+  `(lsp-headerline-breadcrumb-path-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-hint-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-info-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-separator-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-deprecated-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-error-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-hint-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-info-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-path-warning-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-error-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-symbols-warning-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
+  `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background ,(doom-color 'bg) :family "SF Pro" :height 1.0)
   )
 
 (after! tree-sitter
@@ -99,7 +102,7 @@
 (custom-theme-set-faces! 'doom-spacegrey
   `(default :foreground "#b1bbcb" :background "#171b21")
   `(solaire-default-face :foreground "#87939c" :background "#171b21")
-  `(solaire-header-line-face :background "#171b21" :family "Avenir Next" :height 1.2 :weight bold)
+  `(solaire-header-line-face :background "#171b21" :family "SF Pro" :height 1.2 :weight bold)
   `(line-number :foreground "#292e35"
                 :background ,(doom-darken 'bg 0.5))
   `(font-lock-keyword-face :weight bold
@@ -118,17 +121,28 @@
 (custom-theme-set-faces! 'doom-ayu-mirage
   `(line-number :foreground "#292e35"
                 :background ,(doom-darken 'bg 0.3))
-  `(solaire-header-line-face :height 1.2)
+  `(solaire-header-line-face :height 1.1)
   `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'orange))
   `(font-lock-builtin-face :weight bold :foreground ,(doom-color 'orange))
-  `(font-lock-constant-face :weight bold)
-  `(font-lock-builtin-face :weight bold)
-  `(font-lock-function-name-face :weight bold :foreground ,(doom-color 'red))
-  `(font-lock-function :weight bold)
-  `(font-lock-type-face :weight bold :foreground ,(doom-color 'orange))
   `(font-lock-string-face :background ,(doom-lighten 'bg 0.01))
+  `(font-lock-function-name-face :weight bold :foreground ,(doom-color 'red))
+  `(font-lock-type-face :weight bold :foreground ,(doom-color 'orange))
   `(font-lock-variable-name-face :foreground ,(doom-lighten 'fg 0.1))
   `(font-lock-doc-face :foreground ,(doom-color 'blue))
+  )
+
+(custom-theme-set-faces! 'doom-oceanic-next
+  `(default :background "#212c39" :foreground "#91a6bf")
+  `(line-number :foreground "#373947"
+                :height 1.3)
+  `(solaire-header-line-face :height 1.1)
+  `(font-lock-keyword-face :weight bold)
+  `(font-lock-builtin-face :weight bold)
+  `(font-lock-string-face :background ,(doom-lighten 'bg 0.01))
+  `(font-lock-function-name-face :weight bold)
+  `(font-lock-type-face :weight bold)
+  `(mode-line :background ,(doom-darken 'bg 0.2))
+  `(solaire-mode-line-face :background ,(doom-darken 'bg 0.1))
   )
 
 (custom-theme-set-faces! 'doom-old-hope
@@ -203,24 +217,24 @@
 
 (after! treemacs
   (custom-set-faces!
-    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "Avenir Next" :background ,(doom-darken (doom-color 'bg) 0.4))
-    `(treemacs-directory-collapsed-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-directory-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-file-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-fringe-indicator-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-added-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-conflict-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-ignored-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-modified-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-renamed-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-unmodified-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-git-untracked-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-help-column-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-help-title-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-on-failure-pulse-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-on-success-pulse-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-tags-face :weight normal :slant normal :family "Avenir Next")
-    `(treemacs-term-node-face :weight normal :slant normal :family "Avenir Next")
+    `(treemacs-root-face :height 1.2 :weight bold :slant normal :family "SF Pro" :background ,(doom-darken (doom-color 'bg) 0.4))
+    `(treemacs-directory-collapsed-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-directory-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-file-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-fringe-indicator-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-git-added-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-git-conflict-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-git-ignored-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-git-modified-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-git-renamed-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-git-unmodified-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-git-untracked-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-help-column-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-help-title-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-on-failure-pulse-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-on-success-pulse-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-tags-face :weight normal :slant normal :family "SF Pro")
+    `(treemacs-term-node-face :weight normal :slant normal :family "SF Pro")
     )
   (setq treemacs-width 40)
   (setq treemacs-position 'right)
@@ -228,14 +242,18 @@
 
 (defface code-face
   '((t (:inherit default
-        :height 1.3
-        :family "PragmataPro Liga 1.1")))
+        :height 1.25
+        :family "Iosevka")))
   "code-face")
 (add-hook! (prog-mode
             text-mode
-            toml-mode)
+            toml-mode
+            haskell-cabal-mode
+            )
   (face-remap-add-relative 'default 'code-face)
   (face-remap-add-relative 'solaire-default-face 'code-face)
+  (setq-local default-text-properties '(line-spacing 0.3 line-height 1.4))
+  (hl-line-mode 1)
   ;; (face-remap-add-relative 'line-number 'code-face)
   )
 
@@ -248,7 +266,7 @@
 
 (after! flycheck-posframe
   (custom-set-faces!
-    `(flycheck-posframe-background-face :background ,(doom-lighten 'bg 0.1))
+    `(flycheck-posframe-background-face :background ,(doom-darken 'bg 0.5))
     )
   )
 ;;; rust
@@ -272,21 +290,21 @@
 (add-hook! rustic-mode (face-remap-add-relative 'default 'code-face))
 
 (defface org-face
-  '((t (:inherit default-face :family "Avenir Next" :height 1.1)))
+  '((t (:inherit default-face :family "SF Pro" :height 1.1)))
   "org-face")
 (defface org-code-face
-  '((t (:inherit default-face :family "PragmataPro Liga 1.1")))
+  '((t (:inherit default-face :family "Iosevka" :height 0.9)))
   "org-code-face")
 (after! org
   (custom-set-faces!
-    `(org-table :family "PragmataPro Liga 1.1")
-    `(org-code :family "PragmataPro Liga 1.1")
-    `(org-block :family "PragmataPro Liga 1.1")
+    `(org-table :family "Iosevka")
+    `(org-code :family "Iosevka")
+    `(org-block :family "Iosevka")
     `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
-    `(header-line :inherit 'default :height 1.4)
-    `(solaire-header-line-face :inherit 'default :height 1.4)
+    ;; `(header-line :inherit 'default :height 1.2)
+    ;; `(solaire-header-line-face :inherit 'default :height 1.2)
     `(org-superstar-header-bullet :inherit 'org-face :foreground "#ECBE7B")
     `(org-level-8 :inherit 'org-face :height 0.8)
     `(org-level-7 :inherit 'org-face :height 0.8)
@@ -301,11 +319,11 @@
   )
 
 (add-hook! org-mode
-  (mixed-pitch-mode t)
+  ;; (mixed-pitch-mode t)
   (hl-line-mode t)
   (face-remap-add-relative 'solaire-default-face 'org-face)
   (face-remap-add-relative 'default 'org-face)
-  (setq-local line-spacing 6)
+  (setq-local default-text-properties '(line-spacing 0.4 line-height 1.4))
   (setq-local left-margin-width 5)
   (setq-local right-margin-width 5)
   (setq-local display-line-numbers-type nil)
@@ -334,5 +352,11 @@
     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
     `(tree-sitter-hl-face:variable :foreground ,(doom-color 'yellow))
     `(tree-sitter-hl-face:property :foreground ,(doom-color 'yellow))
+    )
+  )
+
+(after! marginalia
+  (custom-set-faces!
+    `(marginalia-file-name :slant normal)
     )
   )

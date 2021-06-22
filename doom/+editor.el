@@ -73,6 +73,9 @@
     )
   )
 
+(after! (haskell-mode display-line-numbers)
+  (add-hook! haskell-cabal-mode #'display-line-numbers--turn-on)
+  )
 ;; (after! rainbow-delimiters
 ;;   (add-hook! (prog-mode rustic-mode) #'rainbow-delimiters-mode-enable)
 ;;   )
@@ -159,6 +162,9 @@
 (add-hook! rustic-mode #'tree-sitter-mode)
 (add-hook! rustic-mode #'lsp)
 (add-hook! rustic-mode #'+word-wrap-mode)
+(add-hook! rustic-mode
+  (require 'dap-gdb-lldb)
+  )
 
 (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) 'highlight-indent-guides-mode)
 
@@ -266,19 +272,19 @@
         org-hide-block-startup t
         org-hide-leading-stars t
         org-hide-macro-markers t
+        org-directory "/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes"
         )
   )
 
-;; currently broken:
-;; (when-let (dims (doom-store-get 'last-frame-size))
-;;   (cl-destructuring-bind ((left . top) width height fullscreen) dims
-;;     (setq initial-frame-alist
-;;           (append initial-frame-alist
-;;                   `((left . ,left)
-;;                     (top . ,top)
-;;                     (width . ,width)
-;;                     (height . ,height)
-;;                     (fullscreen . ,fullscreen))))))
+(when-let (dims (doom-store-get 'last-frame-size))
+  (cl-destructuring-bind ((left . top) width height fullscreen) dims
+    (setq initial-frame-alist
+          (append initial-frame-alist
+                  `((left . ,left)
+                    (top . ,top)
+                    (width . ,width)
+                    (height . ,height)
+                    (fullscreen . ,fullscreen))))))
 
 (defun save-frame-dimensions ()
   (doom-store-put 'last-frame-size
@@ -307,3 +313,19 @@
   (setq lsp-headerline-breadcrumb-enable 't)
   (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
   )
+
+(after! twittering-mode
+  (setq twittering-icon-mode t)
+  (setq twittering-allow-insecure-server-cert t))
+
+;; (use-package! embark
+;;   :after selectrum
+;;   :bind (:map minibuffer-local-map
+;;          ("C-o" . embark-act)
+;;          ("C-S-o" . embark-act-noexit)
+;;          :map embark-file-map
+;;          ("j" . dired-jump)))
+;; ;; (after! (selectrum embark marginalia)
+;;   (selectrum-mode)
+;;   (marginalia-mode)
+;;   ;; )
