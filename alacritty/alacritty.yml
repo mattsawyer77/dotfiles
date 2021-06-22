@@ -1,5 +1,16 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
+# Import additional configuration files
+#
+# Imports are loaded in order, skipping all missing files, with the importing
+# file being loaded last. If a field is already present in a previous import, it
+# will be replaced.
+#
+# All imports must either be absolute paths starting with `/`, or paths relative
+# to the user's home directory starting with `~/`.
+#import:
+#  - /path/to/alacritty.yml
+
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
@@ -10,12 +21,7 @@ env:
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: xterm-256color
-  TERM: xterm-24bit
-
-window:
-  # Allow terminal applications to change Alacritty's window title.
-  dynamic_title: true
+  TERM: alacritty
 
   # Window dimensions (changes require restart)
   #
@@ -107,7 +113,7 @@ font:
     # family: Fira Code
     # style: Regular
     # family: Victor Mono
-    family: PragmataPro Liga 1.1
+    family: PragmataPro Liga
     # family: Rec Mono Linear
     # family: Input
     # family: SF Mono
@@ -127,7 +133,7 @@ font:
     # family: Fira Code
     # style: Regular
     # family: Victor Mono
-    family: PragmataPro Liga 1.1
+    family: PragmataPro Liga
     # family: Rec Mono Linear
     # family: Input
     # family: SF Mono
@@ -161,7 +167,7 @@ font:
   # increasing `y` moves the glyph upwards.
   glyph_offset:
     x: 0
-    y: 0
+    y: 5
 
   # Thin stroke font rendering (macOS only)
   #
@@ -183,33 +189,33 @@ font:
 draw_bold_text_with_bright_colors: false
 
 schemes:
-  ayu_dark: &dark
+  ayu_dark: &ayu_dark
+    # Default colors
     primary:
-      background: '0x0c1016'
-      foreground: '0xa2bed2'
+      background: '#191924'
+      foreground: '#CBCCC6'
 
     # Normal colors
     normal:
-      black:   '0x000000'
-      red:     '0xf34a4a'
-      green:   '0xbae67e'
-      yellow:  '0xffee99'
-      blue:    '0x5ea1e2'
-      magenta: '0xd4bfff'
-      cyan:    '0x83CEC6'
-      white:   '0xf2f2f2'
+      black: '#191E2A'
+      red: '#FF3333'
+      green: '#BAE67E'
+      yellow: '#FFA759'
+      blue: '#73D0FF'
+      magenta: '#FFD580'
+      cyan: '#95E6CB'
+      white: '#C7C7C7'
 
     # Bright colors
     bright:
-      black:   '0x737d87'
-      red:     '0xff3333'
-      green:   '0xc2d94c'
-      yellow:  '0xe7c547'
-      blue:    '0x59c2ff'
-      magenta: '0xb77ee0'
-      cyan:    '0x5ccfe6'
-      white:   '0xffffff'
-
+      black: '#686868'
+      red: '#F27983'
+      green: '#A6CC70'
+      yellow: '#FFCC66'
+      blue: '#5CCFE6'
+      magenta: '#FFEE99'
+      cyan: '#95E6CB'
+      white: '#FFFFFF'
   gruvbox_light_tweaked: &light
     # Default colors
     primary:
@@ -241,7 +247,7 @@ schemes:
       white:   '#3c3836'
 
 # Colors (Ayu Dark)
-colors: *dark
+colors: *ayu_dark
 # colors: *light
 
 # Visual Bell

@@ -191,9 +191,69 @@
   )
 
 (after! lsp-ui
+  ;; 1. Symbol highlighting
+  (setq lsp-enable-symbol-highlighting t)
+
+  ;; 2. lsp-ui-doc - on hover dialogs. * disable via
+  (setq lsp-ui-doc-enable nil)
+
+  ;; * disable cursor hover (keep mouse hover)
+  (setq lsp-ui-doc-show-with-cursor nil)
+
+  ;; * disable mouse hover (keep cursor hover)
+  (setq lsp-ui-doc-show-with-mouse nil)
+
+  ;; 3. Lenses
+  (setq lsp-lens-enable t)
+
+  ;; 4. Headerline
+  (setq lsp-headerline-breadcrumb-enable t)
+
+  ;; 5. Sideline code actions * disable whole sideline via
   (setq lsp-ui-sideline-enable nil)
-  (setq lsp-ui-peek-enable t)
- )
+
+  ;; * hide code actions
+  (setq lsp-ui-sideline-show-code-actions nil)
+
+  ;; 6. Sideline hover symbols * disable whole sideline via
+  (setq lsp-ui-sideline-enable nil)
+
+  ;; * hide only hover symbols
+  (setq lsp-ui-sideline-show-hover nil)
+
+  ;; 7. Modeline code actions
+  (setq lsp-modeline-code-actions-enable t)
+
+  ;; Turn Off 2 8. Flycheck (or flymake if no flycheck is present)
+  ;; (setq lsp-diagnostics-provider :none)
+
+  ;; 9. Sideline diagnostics * disable whole sideline via
+  (setq lsp-ui-sideline-enable nil)
+
+  ;; * hide only errors
+  (setq lsp-ui-sideline-show-diagnostics nil)
+
+  ;; 10. Eldoc
+  ;; (setq lsp-eldoc-enable-hover nil)
+
+  ;; 11. Modeline diagnostics statistics
+  (setq lsp-modeline-diagnostics-enable t)
+
+  ;; Turn Off 3 12. Signature help
+  (setq lsp-signature-auto-activate t) ;; you could manually request them via `lsp-signature-activate`
+
+  ;; 13. Signature help documentation (keep the signatures)
+  (setq lsp-signature-render-documentation t)
+
+  ;; Turn Off 4 14. Completion (company-mode)
+  ;; (setq lsp-completion-provider :none)
+
+  ;; 15. Completion item detail
+  (setq lsp-completion-show-detail t)
+
+  ;; 16. Completion item kind
+  (setq lsp-completion-show-kind t)
+)
 
 (use-package! zoom
   ;; :hook (doom-first-input . zoom-mode)
