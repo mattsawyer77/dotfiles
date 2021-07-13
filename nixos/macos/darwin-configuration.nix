@@ -55,7 +55,7 @@
     # llvm_11
     msgpack
     ncurses
-    neovim
+    neovim # customized in ./neovim.nix overlay
     netcat
     nmap
     nodejs
@@ -106,6 +106,7 @@
     (import (builtins.fetchTarball {
       url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
     }))
+    (import ./neovim.nix)
   ];
 
   # workaround for annoying warning bug: https://github.com/LnL7/nix-darwin/issues/145
@@ -115,6 +116,8 @@
       "$HOME/.nix-defexpr/channels"
     ];
   }];
+
+  nix.package = pkgs.nixUnstable;
 
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
