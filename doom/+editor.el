@@ -1,7 +1,7 @@
 ;;;  -*- lexical-binding: t; -*-
 
 ; workaround for https://github.com/emacs-evil/evil/issues/1168
-(setq-default evil-respect-visual-line-mode nil)
+;; (setq-default evil-respect-visual-line-mode nil)
 (setq native-comp-async-report-warnings-errors nil)
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
@@ -10,7 +10,7 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq-default truncate-lines t)
 (setq-default tab-width 2)
-(setq-default scroll-margin 100)
+;; (setq-default scroll-margin 100)
 (setq-default maximum-scroll-margin 0.15)
 (when (and (display-graphic-p) IS-MAC)
   (setq doom-modeline-icon t)
@@ -19,7 +19,7 @@
   )
 ;; make kops edit automatically use yaml mode
 (add-to-list 'auto-mode-alist '("\\kops-edit.+yaml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\yaml\.tmpl$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\ya?ml\.tmpl$" . yaml-mode))
 ;; make helm templates automatically use mustache mode
 (add-to-list 'auto-mode-alist '("\\k8s\/templates" . mustache-mode))
 (add-to-list 'auto-mode-alist '("\\kubernetes\/templates" . mustache-mode))
@@ -33,7 +33,9 @@
 (add-to-list 'auto-mode-alist '("\\\.h$" . cpp-mode))
 ;; make SSH authorized keys files more readable
 ;; (add-to-list 'auto-mode-alist '("\\\.ssh\/authorized_keys" . prog-mode))
-(add-to-list 'auto-mode-alist '("\\SCons.*". python-mode))
+(add-to-list 'auto-mode-alist '("\\SConscript". python-mode))
+(add-to-list 'auto-mode-alist '("\\SConstruct". python-mode))
+(add-to-list 'auto-mode-alist '("\\go\.mod". go-mode))
 
 ;; make underscore considered as a "word" character
 (modify-syntax-entry ?_ "w")
@@ -53,24 +55,47 @@
   (auto-save-mode -1)
   )
 
+(after! dap-mode
+  (add-hook! 'dap-stopped-hook
+            (lambda (arg) (call-interactively #'dap-hydra)))
+  )
+
 (after! (go-mode flycheck)
   ;; some of these are redundant, and errcheck is awesome but super slow --
   ;; so there is a keybinding to manually kick off errcheck in +keybindings.el
   (setq-default flycheck-disabled-checkers '(go-golint go-build go-errcheck))
   (require 'dap-go)
+  (dap-go-setup)
+  (setq flycheck-golangci-lint-fast t)
   )
 
-(add-hook! go-mode #'+format-enable-on-save-h)
+(add-hook! emacs-lisp-mode #'+word-wrap-mode)
+
+(add-hook! go-mode #'+format-enable-on-save-maybe-h)
 (add-hook! go-mode #'turn-on-visual-line-mode)
 (add-hook! go-mode #'+word-wrap-mode)
-;; the following is super broken
-;; see https://github.com/weijiangan/flycheck-golangci-lint/issues/8
-;; (add-hook! go-mode #'flycheck-golangci-lint-setup)
+(after! (go-mode dap-mode lsp-lens)
+  (add-hook! go-mode
+    (setq dap-print-io t)
+    (dap-ui-mode t)
+    )
+)
+(defvar-local flycheck-local-checkers nil)
+(defun +flycheck-checker-get(fn checker property)
+  (or (alist-get property (alist-get checker flycheck-local-checkers))
+      (funcall fn checker property)))
 
-; (use-package! hl-line+
-;   :config
-;   (hl-line-when-idle-interval 0.1)
-;   (toggle-hl-line-when-idle t))
+(advice-add 'flycheck-checker-get :around '+flycheck-checker-get)
+
+(add-hook 'go-mode-hook
+          (lambda()
+            (flycheck-golangci-lint-setup)
+            (setq flycheck-local-checkers '((lsp . ((next-checkers . (golangci-lint))))))))
+
+(use-package! hl-line+
+  :config
+  (hl-line-when-idle-interval 0.1)
+  (toggle-hl-line-when-idle t))
 
 (after! display-line-numbers
   (add-hook! prog-mode
@@ -96,10 +121,9 @@
 (after! projectile
   (setq projectile-project-search-path '("~/workspaces"
                                          "~/workspaces/f5cs-orchestration"
-                                         "~/workspaces/f5aas/orchestration"
-                                         "~/workspaces/f5aas/infra"
+                                         "~/workspaces/volterra/ves.io"
                                          "~/haskell"
-                                         "~/src/rust"))
+                                         "~/rust"))
   )
 
 (after! persp
@@ -196,10 +220,84 @@
   (terraform-format-on-save-mode)
   )
 
-(after! lsp-ui
+(after! (lsp-mode lsp-ui)
+  (setq lsp-file-watch-ignored-directories
+        (cl-union lsp-file-watch-ignored-directories
+                  '("[/\\\\]\\.terraform\\'"
+                    "[/\\\\]target\\'"
+                    "[/\\\\]\\vendor\\'"
+                    "[/\\\\]\\pbgo\\'"
+                    "[/\\\\]\\pbswagger\\'"
+                    "[/\\\\]\\extschema\\'"
+                    )))
+  (setq lsp-file-watch-threshold 8000)
+  (setq lsp-headerline-breadcrumb-enable 't)
+  (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
+  ;; 1. Symbol highlighting
+  (setq lsp-enable-symbol-highlighting t)
+
+  ;; 2. lsp-ui-doc - on hover dialogs. * disable via
+  (setq lsp-ui-doc-enable nil)
+
+  ;; * disable cursor hover (keep mouse hover)
+  (setq lsp-ui-doc-show-with-cursor nil)
+
+  ;; * disable mouse hover (keep cursor hover)
+  (setq lsp-ui-doc-show-with-mouse nil)
+
+  ;; 3. Lenses
+  (setq lsp-lens-enable t)
+  ;; 'above-line causes C-e to snag
+  (setq lsp-lens-place-position 'end-of-line)
+
+  ;; 4. Headerline
+  (setq lsp-headerline-breadcrumb-enable t)
+
+  ;; 5. Sideline code actions * disable whole sideline via
   (setq lsp-ui-sideline-enable nil)
-  (setq lsp-ui-peek-enable t)
- )
+
+  ;; * hide code actions
+  (setq lsp-ui-sideline-show-code-actions nil)
+
+  ;; 6. Sideline hover symbols * disable whole sideline via
+  (setq lsp-ui-sideline-enable nil)
+
+  ;; * hide only hover symbols
+  (setq lsp-ui-sideline-show-hover nil)
+
+  ;; 7. Modeline code actions
+  (setq lsp-modeline-code-actions-enable t)
+
+  ;; Turn Off 2 8. Flycheck (or flymake if no flycheck is present)
+  ;; (setq lsp-diagnostics-provider :none)
+
+  ;; 9. Sideline diagnostics * disable whole sideline via
+  (setq lsp-ui-sideline-enable nil)
+
+  ;; * hide only errors
+  (setq lsp-ui-sideline-show-diagnostics nil)
+
+  ;; 10. Eldoc
+  ;; (setq lsp-eldoc-enable-hover nil)
+
+  ;; 11. Modeline diagnostics statistics
+  (setq lsp-modeline-diagnostics-enable t)
+
+  ;; Turn Off 3 12. Signature help
+  (setq lsp-signature-auto-activate t) ;; you could manually request them via `lsp-signature-activate`
+
+  ;; 13. Signature help documentation (keep the signatures)
+  (setq lsp-signature-render-documentation t)
+
+  ;; Turn Off 4 14. Completion (company-mode)
+  ;; (setq lsp-completion-provider :none)
+
+  ;; 15. Completion item detail
+  (setq lsp-completion-show-detail t)
+
+  ;; 16. Completion item kind
+  (setq lsp-completion-show-kind t)
+)
 
 (use-package! zoom
   ;; :hook (doom-first-input . zoom-mode)
@@ -243,17 +341,6 @@
   (whitespace-mode -1)
   )
 
-(after! lsp-mode
-  (setq lsp-file-watch-ignored-directories
-        (cl-union lsp-file-watch-ignored-directories
-                  '("[/\\\\]\\.terraform\\'"
-                    "[/\\\\]target\\'"
-                    "[/\\\\]\\vendor\\'"
-                    )))
-  (setq lsp-headerline-breadcrumb-enable 't)
-  (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
-  )
-
 (add-hook! makefile-mode #'+word-wrap-mode)
 
 (after! (lsp-mode docker-tramp ccls)
@@ -275,6 +362,7 @@
 (add-hook! ccls #'tree-sitter-mode)
 
 (add-hook! protobuf-mode #'display-line-numbers--turn-on)
+(put 'flycheck-protoc-import-path 'safe-local-variable #'listp)
 
 (after! (yaml-mode lsp-mode)
     (setq lsp-yaml-format-enable nil)
@@ -295,3 +383,23 @@
     ;; (setq lsp-yaml-hover nil)
     ;; (setq lsp-yaml-custom-tags nil)
     )
+
+(after! org-pandoc-import
+  ;; automatically convert markdown to org (and back) on-the-fly
+  (org-pandoc-import-transient-mode 1)
+  )
+
+(after! magit
+  (setq auto-revert-interval 30)
+  (setq auto-revert-check-vc-info t))
+;; update modeline git branch when the window switches
+;; (add-hook! doom-switch-buffer-hook #'vc-refresh-state)
+
+;; (use-package! makefile-executor
+;;   :defer
+;;   :config
+;;   ;; ".PHONY: emacs--makefile--list\n
+;;   ;; emacs--makefile--list:
+;;   ;; @$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ \"^[#.]\") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'\n"
+;;   (setq-default makefile-executor-list-target-code)
+;;   )

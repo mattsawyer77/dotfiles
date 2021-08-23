@@ -61,6 +61,8 @@
       :nv "SPC m -" #'org-cycle-list-bullet
       :i "TAB" #'evil-org->
       :i "S-TAB" #'evil-org-<
+      :nv "C-j" #'org-move-subtree-down
+      :nv "C-k" #'org-move-subtree-up
       :i "RET" #'evil-org-return)
 
 (map! :after evil-embrace

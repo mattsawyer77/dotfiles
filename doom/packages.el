@@ -29,6 +29,10 @@
 (package! unison-mode)
 (package! dap-mode)
 (package! protobuf-mode)
+(package! org-pandoc-import
+  :recipe (:host github
+           :repo "tecosaur/org-pandoc-import"
+           :files ("*.el" "filters" "preprocessors")))
 ; https://github.com/hlissner/doom-emacs/issues/5095
 (package! magit-section)
 ;; (package! hlint-refactor)
@@ -36,7 +40,9 @@
 ;; (package! ht)
 ;; (package! fzf)
 ;; (package! dhall-mode)
-(disable-packages! hl-line flycheck-golangci-lint)
+;; (disable-packages! hl-line flycheck-golangci-lint)
+(package! flycheck-golangci-lint)
+(disable-packages! hl-line)
 
 (package! ponylang-mode)
 (package! flycheck-pony)
