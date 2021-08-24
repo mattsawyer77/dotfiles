@@ -86,7 +86,7 @@ tf-plan() {
 }
 
 tf-apply() {
-  terraform apply .plan $@ 2>&1 | tee apply.out;
+  terraform apply .plan $@ 2>&1 | tee apply.out
 }
 
 tf-destroy() {
