@@ -62,7 +62,7 @@
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 ;; (setq doom-font (font-spec :family "Monoid" :size 16))
 ;; (setq doom-font (font-spec :family "Victor Mono" :size 19))
-;; (after! solaire-mode (solaire-global-mode -1)) ;; disable solaire mode
+(when IS-LINUX (solaire-mode))
 (custom-set-faces!
   `(font-lock-type-face :weight bold)
   `(font-lock-function-name-face :weight bold)
@@ -79,7 +79,7 @@
   `(lsp-headerline-breadcrumb-symbols-face :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-path-hint-face :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-path-info-face :background "#171b21" :family "Avenir Next" :height 1.0)
-  `(lsp-headerline-breadcrumb-separator-face :background "#171b21" :family "Avenir Next" :height 1.0)
+  `(lsp-headerline-breadcrumb-separator-face :foreground ,(doom-color 'cyan) :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-deprecated-face :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-path-error-face :background "#171b21" :family "Avenir Next" :height 1.0)
   `(lsp-headerline-breadcrumb-symbols-hint-face :background "#171b21" :family "Avenir Next" :height 1.0)
@@ -304,7 +304,7 @@
   )
 
 (add-hook! org-mode
-  (mixed-pitch-mode t)
+  ;; (mixed-pitch-mode t)
   (hl-line-mode t)
   (face-remap-add-relative 'solaire-default-face 'org-face)
   (face-remap-add-relative 'default 'org-face)

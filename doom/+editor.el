@@ -195,6 +195,7 @@
 (after! lsp-ui
   (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-peek-enable t)
+  (setq lsp-ui-doc-enable nil)
  )
 
 (use-package! zoom
@@ -251,5 +252,13 @@
   )
 
 (after! ccls
-  (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t))))
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-tramp-connection "ccls")
+                    :major-modes '(cpp-mode c-mode c++-mode objc-mode)
+                    :remote? t
+                    :priority -1
+                    :server-id 'ccls-docker))
+  (setq ccls-initialization-options
+        '(:index (:comments 2)
+          :completion (:detailedLabel t))))
 (add-hook! ccls #'tree-sitter-mode)
