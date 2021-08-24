@@ -104,9 +104,9 @@
     )
   )
 
-;; (after! rainbow-delimiters
-;;   (add-hook! (prog-mode rustic-mode) #'rainbow-delimiters-mode-enable)
-;;   )
+(after! rainbow-delimiters
+  (add-hook! (prog-mode rustic-mode) #'rainbow-delimiters-mode-enable)
+  )
 
 (after! undo-tree
   (setq undo-tree-auto-save-history t)
@@ -343,6 +343,17 @@
   (whitespace-mode -1)
   )
 
+(after! lsp-mode
+  (setq lsp-file-watch-ignored-directories
+        (cl-union lsp-file-watch-ignored-directories
+                  '("[/\\\\]\\.terraform\\'"
+                    "[/\\\\]target\\'"
+                    "[/\\\\]\\vendor\\'"
+                    )))
+  (setq lsp-headerline-breadcrumb-enable 't)
+  (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
+  )
+
 (add-hook! makefile-mode #'+word-wrap-mode)
 
 (after! (lsp-mode docker-tramp ccls)
@@ -361,16 +372,6 @@
    :library-folders-fn ccls-library-folders-fn))
   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t))))
 
-(after! ccls
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-tramp-connection "ccls")
-                    :major-modes '(cpp-mode c-mode c++-mode objc-mode)
-                    :remote? t
-                    :priority -1
-                    :server-id 'ccls-docker))
-  (setq ccls-initialization-options
-        '(:index (:comments 2)
-          :completion (:detailedLabel t))))
 (add-hook! ccls #'tree-sitter-mode)
 
 (add-hook! protobuf-mode #'display-line-numbers--turn-on)

@@ -122,9 +122,7 @@ tf-apply() {
   terraform apply .plan $@ 2>&1 | tee apply.out
 }
 
-tf-destroy() {
-  terraform destroy $@ 2>&1 | tee destroy.out
-}
+# pgrep -flai ssh-agent >/dev/null || eval $(ssh-agent) >/dev/null
 
 aurain() {
   aura -As "$1" | cut -d'/' -f2 | cut -d' ' -f1 | pcregrep '^\w' | fzf --preview 'aura -Ai {1}' | xargs -ro sudo aura -Akax
