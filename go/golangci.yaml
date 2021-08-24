@@ -1,0 +1,120 @@
+linters-settings:
+  exhaustive:
+    # check switch statements in generated files also
+    check-generated: false
+    # indicates that switch statements are to be considered exhaustive if a
+    # 'default' case is present, even if all enum members aren't listed in the
+    # switch
+    default-signifies-exhaustive: true
+
+  errcheck:
+    check-type-assertions: true
+  goconst:
+    min-len: 2
+    min-occurrences: 3
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - unnamedResult
+      - paramTypeCombine
+  gomnd:
+    settings:
+      mnd:
+        # the list of enabled checks, see https://github.com/tommy-muehle/go-mnd/#checks for description.
+        checks: argument,case,condition,operation,return,assign
+        ignored-numbers: 0,1,2,3,4,8,16,32,64,128,256,512,10,100,1000,1024
+        # ignored-files: magic_.*.go
+        # ignored-functions: math.*
+  govet:
+    check-shadowing: false
+  nolintlint:
+    require-explanation: true
+  revive:
+    # see https://github.com/mgechev/revive#available-rules for details.
+    ignore-generated-header: true
+    # severity: warning
+    rule:
+      var-naming:
+        disabled: true
+  # wsl:
+  #   # See https://github.com/bombsimon/wsl/blob/master/doc/configuration.md for
+  #   # documentation of available settings. These are the defaults for
+  #   # `golangci-lint`.
+  #   allow-assign-and-anything: false
+  #   allow-assign-and-call: true
+  #   allow-cuddle-declarations: false
+  #   allow-multiline-assign: true
+  #   allow-separated-leading-comment: false
+  #   allow-trailing-comment: true
+  #   force-case-trailing-whitespace: 0
+  #   force-err-cuddling: false
+  #   force-short-decl-cuddling: false
+  #   strict-append: true
+  #   require-specific: true
+
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - deadcode
+    - depguard
+    - dogsled
+    - dupl
+    # - errcheck
+    - exhaustive
+    - exportloopref
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - goimports
+    - gomnd
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - nolintlint
+    - predeclared
+    - revive
+    - staticcheck
+    - structcheck
+    - tparallel
+    - typecheck
+    - unconvert
+    - unparam
+    - varcheck
+    - whitespace
+    # - wsl
+
+run:
+  allow-parallel-runners: true
+  concurrency: 8
+  issues-exit-code: 1
+  skip-files:
+    - pbgo
+    - extschema
+    - vendor
+
+issues:
+  fix: true
+  exclude:
+    - var-naming
+    - error-strings
+    - S1008
+  exclude-rules:
+    # Exclude some linters from running on tests files.
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+        - goconst
+        - gomnd

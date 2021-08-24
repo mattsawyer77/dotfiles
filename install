@@ -139,3 +139,6 @@ if command -v emacs >/dev/null; then
 else
   echo "emacs is not installed! skipping doom setup."
 fi
+
+# go
+ln -sf "${DOTFILES_DIR}/go/golangci.yaml" ~/.golangci.yaml
