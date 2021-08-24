@@ -361,6 +361,16 @@
    :library-folders-fn ccls-library-folders-fn))
   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t))))
 
+(after! ccls
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-tramp-connection "ccls")
+                    :major-modes '(cpp-mode c-mode c++-mode objc-mode)
+                    :remote? t
+                    :priority -1
+                    :server-id 'ccls-docker))
+  (setq ccls-initialization-options
+        '(:index (:comments 2)
+          :completion (:detailedLabel t))))
 (add-hook! ccls #'tree-sitter-mode)
 
 (add-hook! protobuf-mode #'display-line-numbers--turn-on)

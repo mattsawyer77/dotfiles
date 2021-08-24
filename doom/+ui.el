@@ -63,10 +63,7 @@
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 ;; (setq doom-font (font-spec :family "Monoid" :size 16))
 ;; (setq doom-font (font-spec :family "Victor Mono" :size 19))
-;; disable solaire mode on GUI
-(after! solaire-mode
-  (when (display-graphic-p)
-    (solaire-global-mode -1)))
+(when IS-LINUX (solaire-mode))
 (custom-set-faces!
   `(font-lock-type-face :weight bold)
   `(font-lock-function-name-face :weight bold)
