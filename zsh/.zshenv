@@ -87,9 +87,7 @@ tf-plan() {
 }
 
 tf-apply() {
-  sudo systemsetup -setcomputersleep Never \
-    && terraform apply .plan $@ 2>&1 | tee apply.out;
-  sudo systemsetup -setcomputersleep 15
+  terraform apply .plan $@ 2>&1 | tee apply.out
 }
 
 tf-destroy() {

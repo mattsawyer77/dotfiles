@@ -81,40 +81,9 @@ eval "$(starship init zsh)"
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
-rust-analyzer-upgrade() {
-  if [[ -v 1 ]]; then
-    RA_VERSION="$1"
-    echo "checking rust-analyzer releases for version ${RA_VERSION}..."
-    RELEASE=$(curl -SsH "Accept: application/vnd.github.v3+json" \
-      https://api.github.com/repos/rust-analyzer/rust-analyzer/releases \
-      | jq -r '.[]|select(.tag_name=="'"$RA_VERSION"'")')
-    if [[ -n "$RELEASE" ]]; then
-      RA_URL=$(echo "$RELEASE" \
-        | jq -r '.assets[]|select(.name=="rust-analyzer-linux")|.browser_download_url' \
-        | sort -r \
-        | head -1) || echo "something went wrong"
-    else
-      echo >&2 "could not find a release for $RA_VERSION"
-    fi
-  else
-    echo "querying rust-analyzer releases to find the latest version..."
-    RA_URL=$(curl -SsfH "Accept: application/vnd.github.v3+json" \
-      https://api.github.com/repos/rust-analyzer/rust-analyzer/releases \
-      | jq -r '.[]|select(.prerelease==false)|.assets[]|select(.name=="rust-analyzer-linux")|.browser_download_url' \
-      | sort -r \
-      | head -1)
-    if [[ -z "$RA_URL" ]]; then
-      echo >&2 "could not find a URL for the latest rust-analyzer"
-    fi
-  fi
-  if [[ -n "$RA_URL" ]]; then
-    echo "installing rust-analyzer from ${RA_URL}..."
-    curl -SsfLo ~/.local/bin/rust-analyzer "$RA_URL" \
-      && chmod 755 ~/.local/bin/rust-analyzer \
-      && echo "rust-analyzer installed successfully."
-  fi
-}
 # nix
 export NIXPKGS_ALLOW_UNFREE=1
 
-printf '\e]2;'$(hostname)'\a'
+pgrep -flai ssh-agent || eval $(ssh-agent)
+
+printf '\e]2;'$(hostname 2>/dev/null || cat /etc/hostname)'\a'
