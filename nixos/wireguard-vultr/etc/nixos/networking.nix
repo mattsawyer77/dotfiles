@@ -3,9 +3,13 @@
   # details gathered from the active system.
   networking = {
     nameservers = [
-    "1.0.0.1"         # 1.0.0.1
-    "205.171.3.65"    # Qwest US
-    "208.67.222.222"  # OpenDNS-2
+    "1.0.0.1"                # Cloudflare
+    "1.1.1.1"                # Cloudflare
+    "208.67.222.222"         # OpenDNS-2
+    "2001:470:20::2"         # Hurricane Electric
+    "205.171.3.65"           # Qwest US
+    "129.250.35.251"         # NTT-2
+    "2001:418:3ff::1:53"     # NTT-2 IPv6
     # "205.171.2.65"             # Qwest-2 US
     # "129.250.35.251"           # NTT-2
     # "2001:470:20::2"         # Hurricane Electric

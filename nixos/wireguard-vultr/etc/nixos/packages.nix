@@ -70,5 +70,5 @@
          colo base16-tomorrow-night
        '';
      };
-  })];
+   })];
 }
