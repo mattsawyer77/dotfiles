@@ -107,11 +107,11 @@ font:
     # family: Fira Code
     # style: Regular
     # family: Victor Mono
-    family: PragmataPro Liga 1.1
+    family: PragmataPro Liga
     # family: Rec Mono Linear
     # family: Input
-    # family: SF Mono
-    # family: JetBrains Mono
+    # family: Iosevka
+    # family: JetBrains Mono NL
 
     # The `style` can be specified to pick a specific face.
     # style: Light
@@ -127,11 +127,11 @@ font:
     # family: Fira Code
     # style: Regular
     # family: Victor Mono
-    family: PragmataPro Liga 1.1
+    family: PragmataPro Liga
     # family: Rec Mono Linear
     # family: Input
-    # family: SF Mono
-    # family: JetBrains Mono
+    # family: Iosevka
+    # family: JetBrains Mono NL
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -154,14 +154,14 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
     x: 0
-    y: 5
+    y: 8
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
   glyph_offset:
     x: 0
-    y: 0
+    y: 5
 
   # Thin stroke font rendering (macOS only)
   #
@@ -178,7 +178,6 @@ font:
   # This is a global setting and will require a log out or restart to take
   # effect.
   use_thin_strokes: false
-
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: false
 
