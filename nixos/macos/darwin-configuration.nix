@@ -14,6 +14,7 @@
     azure-cli
     bash_5
     bat
+    boost
     cachix
     cairo
     ccls
@@ -23,6 +24,8 @@
     curlFull
     delve
     diff-so-fancy
+    direnv
+    docker
     dos2unix
     # emacs
     # emacsGit
@@ -42,6 +45,7 @@
     gnumake
     golangci-lint
     go
+    google-cloud-sdk
     gopls
     graphviz
     grpcurl
@@ -50,43 +54,55 @@
     httrack
     jansson
     jq
-    kitty
+    # kitty
     kubectl
+    less
+    libcxx
     libgccjit
     libiconv
-    libressl
+    # libressl
     libsndfile
     libssh2
     libxml2
     llvm
     msgpack
+    multitail
+    mutagen
     ncurses
-    # neovim
+    neovim
     netcat
+    nix-linter
+    nix-prefetch-git
     nixfmt
     nmap
     nodejs
     oniguruma
     openapi-generator-cli
     openldap
+    openssl_1_1
     pandoc
+    podman
     pcre
     pcre2
     pinentry
     pkgconfig
     # procs
     protobuf3_11
+    prototool
     python39Packages.cfn-lint
+    qmk
     readline
     reattach-to-user-namespace
     ripgrep
-    # rust-analyzer
+    rnix-lsp
+    rust-analyzer
     # rustup
     scons
     sd
     shared-mime-info
     shellcheck
     skhd
+    skopeo
     sqlite
     ssm-session-manager-plugin
     starship
@@ -94,6 +110,7 @@
     terraform-ls
     tflint
     tmux
+    tokei
     unixtools.watch
     upx
     vgo2nix
@@ -108,13 +125,15 @@
     zoxide
     zsh
     zstd
-  ];
+  ]);
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
       # url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-      url = https://github.com/nix-community/emacs-overlay/archive/92f5ebe76f984c831f748339e07b683318add09a.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/7f1c061166e80c19430eb5943f391b56c4362f71.tar.gz;
+      # url = https://github.com/nix-community/emacs-overlay/archive/41da7c2b2e268992b199566daa594ed770929d8c.tar.gz;
     }))
+    (import ./neovim.nix)
   ];
 
   # workaround for annoying warning bug: https://github.com/LnL7/nix-darwin/issues/145
