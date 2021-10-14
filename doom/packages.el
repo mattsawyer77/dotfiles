@@ -40,8 +40,12 @@
 ;; (package! ht)
 ;; (package! fzf)
 ;; (package! dhall-mode)
-;; (disable-packages! hl-line flycheck-golangci-lint)
-(package! flycheck-golangci-lint)
+(unpin! flycheck-golangci-lint)
+(package! flycheck-golangci-lint
+  :recipe (:host github
+           :repo "mattsawyer77/flycheck-golangci-lint"
+           :branch "main"
+           ))
 (disable-packages! hl-line)
 
 (package! ponylang-mode)

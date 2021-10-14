@@ -5,17 +5,25 @@ bindkey '^R' history-incremental-search-backward
 bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
-if [[ $(uname) == "Darwin" ]]; then
-  OS=mac
+if command -v exa >/dev/null; then
+  alias l='exa -alF'
 else
-  OS=linux
+  alias l='ls -alFG'
 fi
-
+alias k=kubectl
+alias kv='kubectl -n ves-system'
+alias ssh='TERM=xterm-256color ssh'
+alias ta='tmux attach -t'
+alias tl='tmux list-sessions'
+alias ts='tmux new-session -n main -s'
+alias vim=nvim
+# edit a file with emacsclient -- if no session exists, create one automatically
+# export EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
+export EDITOR='emacsclient -t -c --alternate-editor=""'
 autoload -Uz compinit
 autoload bashcompinit
 compinit
 bashcompinit
-
 command -v aws_completer >/dev/null && complete -C "$(which aws_completer)" aws
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -54,28 +62,6 @@ fi
 if command -v pyenv >/dev/null; then
   eval "$(pyenv init -)"
 fi
-
-alias ssh='TERM=xterm-256color ssh'
-alias vim=nvim
-alias socks4proxy='ssh -D 8888 -f -C -q -N'
-if [[ $OS == "mac" ]]; then
-  alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
-fi
-alias k=kubectl
-if command -v exa >/dev/null; then
-  alias l='exa -alF'
-else
-  alias l='ls -alFG'
-fi
-alias ts='tmux new-session -n main -s'
-alias ta='tmux attach -t'
-alias k=kubectl
-# edit a file with emacsclient -- if no session exists, create one automatically
-# export EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
-alias em='emacsclient -t -c --alternate-editor=""'
-
-alias zenith="sudo -E zenith --disk-height 0"
-alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy'
 
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"

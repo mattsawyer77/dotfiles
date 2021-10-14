@@ -3,9 +3,9 @@
 (map! "<mouse-4>" 'up-slightly)
 (map! "<mouse-5>" 'down-slightly)
 
-(map! :after lsp-ui
-      :mode lsp-ui-mode
-      :nv "SPC m d" #'lsp-ui-doc-glance)
+;; (map! :after lsp-ui
+;;       :mode lsp-ui-mode
+;;       :nv "SPC m d" #'lsp-ui-doc-glance)
 
 (map! :after transpose-frame
       :nv "<f4>" #'transpose-frame)
@@ -41,13 +41,19 @@
       :mode markdown-mode
       :n "SPC m p" #'vmd-mode)
 
-(map! :after go-mode
-      :map go-mode-map
-      :localleader
-      (:prefix ("b" . "build")
-        :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
-        :desc "lint" "l" (cmd! (compile "make lint"))
-        ))
+;; TODO: not working...
+;; (map! :after go-mode
+;;       :map go-mode-map
+;;       :localleader
+;;       (:prefix ("b" . "build")
+;;         :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
+;;         :desc "lint" "l" (cmd! (compile "make lint"))
+;;         )
+;;       :localleader
+;;       (:prefix ("d" . "debug")
+;;         :desc "DAP Hydra" "h" #'dap-hydra
+;;         :desc "DAP Debug" "d" #'dap-debug
+;;         ))
 
 (map! :after rustic
       :map rustic-mode-map
@@ -72,3 +78,12 @@
 (map! :after ponylang-mode
       :map ponylang-mode-map
       :nv "SPC m" #'ponylang-menu)
+
+(map! :after smerge-mode
+      :map smerge-mode-map
+      :nv "SPC g n" #'smerge-next
+      :nv "SPC g p" #'smerge-prev
+      :nv "SPC g M" #'smerge-keep-mine
+      :nv "SPC g m" #'smerge-keep-mine
+      :nv "SPC g T" #'smerge-keep-lower
+      )

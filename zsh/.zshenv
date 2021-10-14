@@ -12,7 +12,6 @@ export GO111MODULE=on
 export EDITOR="emacsclient -t -a 'emacs -nw'"
 export VISUAL=$EDITOR
 export FZF_DEFAULT_COMMAND='ag -g ""'
-export BAT_THEME=1337
 export NVM_DIR="$HOME/.nvm"
 # For compilers to find openssl@1.1 you may need to set:
 export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
@@ -20,8 +19,14 @@ export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 
 #For pkg-config to find openssl@1.1 you may need to set:
 export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+export LESS='-F -i -M -R -X --incsearch'
+export TERM=xterm-24bit
+export XDG_DATA_HOME=~/.local/share
+export XDG_CONFIG_HOME=~/.config
+export BAT_THEME=1337
+export BAT_PAGER="less $LESS"
 # If you need to have openssl@1.1 first in your PATH run:
-PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+# PATH="/usr/local/opt/openssl@1.1/bin:$PATH":$PATH
 # PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.local/share/ponyup/bin
@@ -40,12 +45,8 @@ PATH=$PATH:/usr/sbin
 PATH=$PATH:/sbin
 export PATH
 
-export LESS='-F -i -M -R -X --incsearch'
-export TERM=xterm-24bit
-export XDG_DATA_HOME=~/.local/share
-export XDG_CONFIG_HOME=~/.config
-export BAT_THEME=1337
-if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+=======
+if [ -e /Users/sawyer/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sawyer/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 get-sa-token() {
   context=$1
@@ -99,29 +100,6 @@ ec2-instance-info() {
   echo "$instances" \
       | jq -r 'select(.InstanceId=="'$instance_id'")|.Tags|from_entries|to_entries|map("\(.key): \(.value)")|.[]' 2>/dev/null \
       | sort
-}
-
-ssm() {
-  local instances=$(aws ec2 describe-instances --output json \
-      | jq -r '.Reservations[].Instances[]|select(.State.Name=="running")' \
-      2>/dev/null)
-  if [[ $? -eq 0 ]] && [[ -n "$instances" ]]; then
-    instance_id=$(echo "$instances" \
-        | jq -r '{InstanceId,Tags:.Tags|from_entries}|"\(.Tags.Name): \(.InstanceId)"' \
-        2>/dev/null \
-      | sort \
-      | INSTANCES=$instances fzf \
-        --preview-window "right:60%" \
-        --preview $'ec2-instance-info $INSTANCES {2}' \
-      | awk '{print $2}')
-    if [[ -n "$instance_id" ]]; then
-      aws ssm start-session --target $instance_id
-    else
-      echo "no instance selected."
-    fi
-  else
-    echo "no instances found."
-  fi
 }
 
 aurain() {
@@ -212,37 +190,6 @@ EOF
   done
 }
 
-# git-cache() {
-#   pushd . >/dev/null
-#   cd $(git rev-parse --show-toplevel)
-#   local project_name=$(git remote -v | grep '(push)' | awk '{print $2}' | cut -d':' -f2)
-#   local branch_name=$(git branch | grep '^*' | cut -c3-)
-#   local ignored_paths=($(git status --ignored --porcelain | cut -c4-))
-#   local cache_dir="$HOME/.local/cache/${project_name}/${branch_name}"
-#   test -d "$cache_dir" || (echo "creating cache dir ${cache_dir}...")
-#   mkdir -p "$cache_dir" || (echo >&2 "could not create cache dir $cache_dir"; exit 1)
-#   for ignored_path in $ignored_paths; do
-#     echo "syncing $ignored_path"' -> '"${cache_dir}/${ignored_path}"
-#     rsync -a --delete "$ignored_path" "${cache_dir}"
-#   done
-#   popd >/dev/null
-# }
-
-# git-restore() {
-#   pushd . >/dev/null
-#   cd $(git rev-parse --show-toplevel)
-#   local project_name=$(git remote -v | grep '(push)' | awk '{print $2}' | cut -d':' -f2)
-#   local branch_name=$(git branch | grep '^*' | cut -c3-)
-#   local cache_dir="$HOME/.local/cache/${project_name}/${branch_name}"
-#   test -d "$cache_dir" || (echo >&2 "no cache found for ${project_name}/${branch_name}"; exit 1)
-#   local cached_paths=($(find "${cache_dir}/"* -maxdepth 0))
-#   for cached_path in $cached_paths; do
-#     echo "restoring $cached_path"
-#     rsync -a "$cached_path" .
-#   done
-#   popd >/dev/null
-# }
-
 skopeo-inspect() {
   local url
   if echo "$url" | grep '^docker://' >/dev/null; then
@@ -295,4 +242,35 @@ volterra-ds-commit() {
     skopeo inspect docker://"$image" \
       | jq -r '.Labels."commit-sha"'
   fi
+}
+
+docker-shell() {
+  local image="volterra.azurecr.io/ves.io/go-builder:0.31"
+  local temp_passwd_file="$(mktemp)"
+  local project_root="$(git rev-parse --show-toplevel)"
+  local go_src_dir=$(echo $project_root | sed "s^.*src/\(.*\)^src/\1^")
+  local go_cache_dir="${project_root}/.cache-docker/go"
+  echo "running container shell with $image"
+  echo "${USER}:x:${UID}:${GID}:Volterra User:${HOME}:/bin/bash" > "$temp_passwd_file" && \
+    mkdir -p "${project_root}/.cache.go" && \
+    docker run --rm -it \
+      --user ${UID}:${GID} --userns=host \
+      --env GOCACHE=${go_cache_dir} \
+      --env GOPATH=${GOPATH} \
+      --env HOME=${HOME} \
+      --env TERM=xterm-256color \
+      --env PS1="${image}:\w> " \
+      --env DOCKER_IMAGE="$image" \
+      --net host \
+      -v "$temp_passwd_file":/etc/passwd:ro,Z \
+      -v ${PWD}:/go/${GOPATH}/src:Z \
+      -v ${HOME}/.gitconfig:${HOME}/.gitconfig:ro \
+      -v ${HOME}/.ssh:${HOME}/.ssh:ro \
+      -v ${GOPATH}:${GOPATH} \
+      -v ${project_root}:${project_root} \
+      -v "${HOME}/.bashrc":"${HOME}/.bashrc" \
+      -w ${project_root} \
+      ${image} \
+      bash
+  test -f "$temp_passwd_file" && rm -f "$temp_passwd_file"
 }

@@ -63,10 +63,10 @@
 (after! (go-mode flycheck)
   ;; some of these are redundant, and errcheck is awesome but super slow --
   ;; so there is a keybinding to manually kick off errcheck in +keybindings.el
-  (setq-default flycheck-disabled-checkers '(go-golint go-build go-errcheck))
+  ;; (setq-default flycheck-disabled-checkers '(go-golint go-build go-errcheck))
   (require 'dap-go)
   (dap-go-setup)
-  (setq flycheck-golangci-lint-fast t)
+  ;; (setq flycheck-golangci-lint-fast t)
   )
 
 (add-hook! emacs-lisp-mode #'+word-wrap-mode)
