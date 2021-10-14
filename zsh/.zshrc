@@ -16,6 +16,7 @@ fi
 alias ts='tmux new-session -n main -s'
 alias ta='tmux attach -t'
 alias k=kubectl
+alias kv='kubectl -n ves-system'
 # edit a file with emacsclient -- if no session exists, create one automatically
 # export EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
 alias em='emacsclient -t -c --alternate-editor=""'

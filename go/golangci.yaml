@@ -135,6 +135,7 @@ issues:
     - error-strings
     - S1008
     - SA2002
+    - typecheck
   exclude-rules:
     # Exclude some linters from running on tests files.
     - path: _test\.go

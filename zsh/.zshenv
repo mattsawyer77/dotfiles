@@ -12,7 +12,6 @@ export GO111MODULE=on
 export EDITOR="emacsclient -t -a 'emacs -nw'"
 export VISUAL=$EDITOR
 export FZF_DEFAULT_COMMAND='ag -g ""'
-export BAT_THEME=1337
 export NVM_DIR="$HOME/.nvm"
 # For compilers to find openssl@1.1 you may need to set:
 export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
@@ -20,8 +19,14 @@ export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 
 #For pkg-config to find openssl@1.1 you may need to set:
 export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+export LESS='-F -i -M -R -X --incsearch'
+export TERM=xterm-24bit
+export XDG_DATA_HOME=~/.local/share
+export XDG_CONFIG_HOME=~/.config
+export BAT_THEME=1337
+export BAT_PAGER="less $LESS"
 # If you need to have openssl@1.1 first in your PATH run:
-PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+# PATH="/usr/local/opt/openssl@1.1/bin:$PATH":$PATH
 # PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.local/share/ponyup/bin
@@ -40,11 +45,6 @@ PATH=$PATH:/usr/sbin
 PATH=$PATH:/sbin
 export PATH
 
-export LESS='-F -g -i -M -r -w -X -z-4'
-export TERM=xterm-24bit
-export XDG_DATA_HOME=~/.local/share
-export XDG_CONFIG_HOME=~/.config
-export BAT_THEME=1337
 if [ -e /Users/sawyer/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sawyer/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 get-sa-token() {
@@ -215,3 +215,105 @@ ssm() {
     echo "no instances found."
   fi
 }
+
+find-proto-import-path() {
+  local dirs=""
+  local target_dir="$1"
+  (test -d "$target_dir" || echo >&2 "$target_dir is not a valid dir") \
+    && dirs=$(cd "$target_dir" \
+      && typeset -A import_paths \
+      && for import in $(grep -h import *.proto | cut -d'"' -f2); do \
+        if [[ -z "${import_paths[$import]}" ]]; then
+           paths=$(find $(realpath --relative-to . $(git rev-parse --show-toplevel)) -wholename "*$import" \
+            | sd "/$import" "" \
+            | sd '^(.+)$' '    \"$1\"') \
+           import_paths+=( ["$import"]="$paths" )
+        fi
+        echo "${import_paths[$import]}"
+      done \
+    | sort -u)
+  echo "$dirs"
+}
+
+generate-protoc-import-dir-locals() {
+  if [[ ! -v 1 ]]; then root_dir=.; else root_dir="$1"; fi
+  echo "generating .dir-locals.el for each directory recursively from ${root_dir}..."
+  repo_proto_dirs=($(fd '\.proto$' "$root_dir" -x dirname | sort -u))
+  for repo_proto_dir in $repo_proto_dirs; do
+    import_dirs=$(find-proto-import-path "$repo_proto_dir")
+    if [[ -n "$import_dirs" ]]; then
+      echo " - generating ${repo_proto_dir}/.dir-locals.el"
+      cat >"${repo_proto_dir}/.dir-locals.el" <<EOF
+((protobuf-mode .
+  ((flycheck-protoc-import-path .
+    (
+$import_dirs
+     )))))
+EOF
+    else
+      echo " - no import dirs found for $repo_proto_dir"
+    fi
+  done
+}
+
+skopeo-inspect() {
+  local url
+  if echo "$url" | grep '^docker://' >/dev/null; then
+    url="$1"
+  else
+    url="docker://$1"
+  fi
+  skopeo inspect "$url" \
+    | jq -r '.Labels."commit-sha"'
+}
+
+skopeo-inspect-digest() {
+  local url
+  if echo "$url" | grep '^docker://' >/dev/null; then
+    url="$1"
+  else
+    url="docker://$1"
+  fi
+  skopeo inspect "$url" \
+    | jq -r '.Digest'
+}
+
+skopeo-inspect-commit() {
+  commit=$(skopeo-inspect "$1")
+  if [[ "$?" -eq 0 ]] && [[ -n "$commit" ]]; then
+    git fetch
+    git log --all -n 1 "$commit"
+  fi
+}
+
+docker-shell() {
+  local image="volterra.azurecr.io/ves.io/go-builder:0.31"
+  local temp_passwd_file="$(mktemp)"
+  local project_root="$(git rev-parse --show-toplevel)"
+  local go_src_dir=$(echo $project_root | sed "s^.*src/\(.*\)^src/\1^")
+  local go_cache_dir="${project_root}/.cache-docker/go"
+  echo "running container shell with $image"
+  echo "${USER}:x:${UID}:${GID}:Volterra User:${HOME}:/bin/bash" > "$temp_passwd_file" && \
+    mkdir -p "${project_root}/.cache.go" && \
+    docker run --rm -it \
+      --user ${UID}:${GID} --userns=host \
+      --env GOCACHE=${go_cache_dir} \
+      --env GOPATH=${GOPATH} \
+      --env HOME=${HOME} \
+      --env TERM=xterm-256color \
+      --env PS1="${image}:\w> " \
+      --env DOCKER_IMAGE="$image" \
+      --net host \
+      -v "$temp_passwd_file":/etc/passwd:ro,Z \
+      -v ${PWD}:/go/${GOPATH}/src:Z \
+      -v ${HOME}/.gitconfig:${HOME}/.gitconfig:ro \
+      -v ${HOME}/.ssh:${HOME}/.ssh:ro \
+      -v ${GOPATH}:${GOPATH} \
+      -v ${project_root}:${project_root} \
+      -v "${HOME}/.bashrc":"${HOME}/.bashrc" \
+      -w ${project_root} \
+      ${image} \
+      bash
+  test -f "$temp_passwd_file" && rm -f "$temp_passwd_file"
+}
+
