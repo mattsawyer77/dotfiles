@@ -79,6 +79,7 @@ alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy
 
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
 get-sa-token() {
   context=$1
@@ -122,7 +123,18 @@ tf-apply() {
   terraform apply .plan $@ 2>&1 | tee apply.out
 }
 
-# pgrep -flai ssh-agent >/dev/null || eval $(ssh-agent) >/dev/null
+ssh_agent_pid=$(pgrep '^ssh-agent$')
+if ! pgrep -flai ssh-agent >/dev/null; then
+  eval $(ssh-agent | tee ~/.ssh/agentrc) >/dev/null \
+    && chmod 600 ~/.ssh/agentrc
+elif [[ -f ~/.ssh/agentrc ]]; then
+  source ~/.ssh/agentrc >/dev/null
+  if [[ "$SSH_AGENT_PID" -ne "$ssh_agent_pid" ]]; then
+    echo "WARNING: ssh agentrc out of sync. you may want to kill ssh-agent and restart it."
+  fi
+else
+  echo "WARNING: could not setup ssh-agent. you may want to kill and restart it."
+fi
 
 aurain() {
   aura -As "$1" | cut -d'/' -f2 | cut -d' ' -f1 | pcregrep '^\w' | fzf --preview 'aura -Ai {1}' | xargs -ro sudo aura -Akax
@@ -134,16 +146,6 @@ pacin() {
   else
     pacman -Ssq "$1" | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -Syu
   fi
-}
-
-# install the latest non-nightly rust-analyzer
-install-rust-analyzer() {
-  curl \
-    -Ssf \
-    -H "Accept: application/vnd.github.v3+json" \
-    "https://api.github.com/repos/rust-analyzer/rust-analyzer/releases" \
-    | jq -r '[.[]|select(.name != "nightly")|.assets[]|select(.name == "rust-analyzer-linux")][0]|.browser_download_url' \
-    | xargs -I% curl -Ssf -Lo ~/.local/bin/rust-analyzer "%"
 }
 
 upgrade() {
