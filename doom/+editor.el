@@ -78,6 +78,7 @@
   (add-hook! go-mode
     (setq dap-print-io t)
     (dap-ui-mode t)
+    (lsp-diagnostics-flycheck-enable t)
     )
 )
 (defvar-local flycheck-local-checkers nil)
@@ -121,11 +122,10 @@
 (after! projectile
   (setq projectile-auto-discover 't)
   (setq projectile-project-search-path '("~/workspaces"
+                                         "~/workspaces/volterra/ves.io"
                                          "~/workspaces/f5cs-orchestration/management-plane"
                                          "~/workspaces/f5cs-orchestration"
-                                         "~/workspaces/volterra/ves.io"
-                                         "~/haskell"
-                                         "~/rust"))
+                                         ))
   )
 
 (after! persp

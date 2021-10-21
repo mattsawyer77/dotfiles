@@ -51,3 +51,4 @@
 (package! ponylang-mode)
 (package! flycheck-pony)
 (package! pony-snippets)
+(package! string-inflection)

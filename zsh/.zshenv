@@ -45,7 +45,6 @@ PATH=$PATH:/usr/sbin
 PATH=$PATH:/sbin
 export PATH
 
-=======
 if [ -e /Users/sawyer/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sawyer/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 get-sa-token() {
@@ -245,7 +244,8 @@ volterra-ds-commit() {
 }
 
 docker-shell() {
-  local image="volterra.azurecr.io/ves.io/go-builder:0.31"
+  local image="${1:-volterra.azurecr.io/ves.io/go-builder:0.31}"
+  local cmd="${2:-bash}"
   local temp_passwd_file="$(mktemp)"
   local project_root="$(git rev-parse --show-toplevel)"
   local go_src_dir=$(echo $project_root | sed "s^.*src/\(.*\)^src/\1^")
@@ -271,6 +271,6 @@ docker-shell() {
       -v "${HOME}/.bashrc":"${HOME}/.bashrc" \
       -w ${project_root} \
       ${image} \
-      bash
+      ${cmd}
   test -f "$temp_passwd_file" && rm -f "$temp_passwd_file"
 }

@@ -23,6 +23,8 @@ linters-settings:
       - unnamedResult
       - paramTypeCombine
       - appendAssign
+  gocyclo:
+    min-complexity: 25
   gomnd:
     settings:
       mnd:
@@ -179,3 +181,4 @@ severity:
       linters:
         - gocritic
         - gomnd
+        - dupl
