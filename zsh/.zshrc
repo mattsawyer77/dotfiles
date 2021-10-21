@@ -42,9 +42,10 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 # removes blank lines from history
 setopt HIST_REDUCE_BLANKS
-# record history immediately
 setopt INC_APPEND_HISTORY
 export SAVEHIST=100000
+# to keep a command from being stored in history, lead it with a space
+setopt HIST_IGNORE_SPACE
 export HISTSIZE=100000
 export HISTFILE=~/.zsh_history
 export LC_ALL=en_US.UTF-8
