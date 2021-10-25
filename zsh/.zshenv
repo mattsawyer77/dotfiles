@@ -286,34 +286,108 @@ skopeo-inspect-commit() {
   fi
 }
 
-docker-shell() {
-  local image="volterra.azurecr.io/ves.io/go-builder:0.31"
-  local temp_passwd_file="$(mktemp)"
-  local project_root="$(git rev-parse --show-toplevel)"
-  local go_src_dir=$(echo $project_root | sed "s^.*src/\(.*\)^src/\1^")
-  local go_cache_dir="${project_root}/.cache-docker/go"
-  echo "running container shell with $image"
-  echo "${USER}:x:${UID}:${GID}:Volterra User:${HOME}:/bin/bash" > "$temp_passwd_file" && \
-    mkdir -p "${project_root}/.cache.go" && \
-    docker run --rm -it \
-      --user ${UID}:${GID} --userns=host \
-      --env GOCACHE=${go_cache_dir} \
-      --env GOPATH=${GOPATH} \
-      --env HOME=${HOME} \
-      --env TERM=xterm-256color \
-      --env PS1="${image}:\w> " \
-      --env DOCKER_IMAGE="$image" \
-      --net host \
-      -v "$temp_passwd_file":/etc/passwd:ro,Z \
-      -v ${PWD}:/go/${GOPATH}/src:Z \
-      -v ${HOME}/.gitconfig:${HOME}/.gitconfig:ro \
-      -v ${HOME}/.ssh:${HOME}/.ssh:ro \
-      -v ${GOPATH}:${GOPATH} \
-      -v ${project_root}:${project_root} \
-      -v "${HOME}/.bashrc":"${HOME}/.bashrc" \
-      -w ${project_root} \
-      ${image} \
-      bash
-  test -f "$temp_passwd_file" && rm -f "$temp_passwd_file"
+volterra-commit() {
+  local resource_type="$1"
+  local name="$2"
+  if [[ ! -v 1 ]] || [[ ! -v 2 ]]; then
+    echo >&2 "ERROR: resource type and name are required!\nusage: volterra-commit <k8s-resource-type> <k8s-resource-name> [container name (defaults to resource name)]"
+  else
+    local container="${3:-$name}"
+    image=$(kubectl -n ves-system get "$resource_type" "$name" -o json \
+      | jq -r '.spec.template.spec.containers[]|{image,name}|select(.name=="'"$container"'")|.image')
+    if [[ -z "$image" ]]; then
+      echo >&2 "no image found for $resource_type $name"
+    else
+      echo "image: $image"
+      if ! command -v skopeo >/dev/null || echo "$image" | grep azurecr.io >/dev/null; then
+        # skopeo doesn't work with docker for mac apparently
+      docker pull "$image" --quiet \
+        && commit_sha=$(docker inspect "$image" \
+        | jq -r '.[].Config.Labels."commit-sha"') \
+        && repo=$(echo "$image" | perl -pe 's@.*/ves\.io/(\w+).*@\1@')
+      else
+        commit_sha=$(skopeo inspect docker://"$image" \
+          | jq -r '.Labels."commit-sha"') \
+        && repo=$(echo "$image" | perl -pe 's@.*volterraio/(\w+).*@\1@')
+      fi
+      if [[ -n "$commit_sha" ]] && [[ -n "$repo" ]]; then
+        repo_dir=$(realpath ~/workspaces/volterra/ves.io/"$repo")
+        if [[ -d "$repo_dir" ]]; then
+          git -C "$repo_dir" log -n 1 origin "$commit_sha" \
+            || (git -C "$repo_dir" fetch --quiet origin && git -C "$repo_dir" log -n 1 origin "$commit_sha")
+        else
+          echo >&2 -n "repo dir $repo_dir does not exist"
+        fi
+      else
+        echo >&2 "ERROR: unable to determine commit sha or repo for $image"
+      fi
+    fi
+  fi
 }
 
+}
+
+docker-shell () {
+  local image="${1:-$(pcregrep -o 'volterra.*go-builder:v?[\d\.]+' .gitlab-ci.yml)}"
+  if [[ -z "$image" ]]; then
+    echo >&2 "ERROR: no image specified, and go-builder image could not be derived from .gitlab-ci.yml"
+  else
+    local cmd="${2:-bash}"
+    local temp_passwd_file="$(mktemp)"
+    local project_root="$(git rev-parse --show-toplevel)"
+    local go_src_dir=$(echo $project_root | sed "s^.*src/\(.*\)^src/\1^")
+    local go_cache_dir="${project_root}/.cache-docker/go"
+    echo "running container shell with $image"
+    echo "${USER}:x:${UID}:${GID}:Volterra User:${HOME}:/bin/bash" > "$temp_passwd_file" \
+      && mkdir -p "${project_root}/.cache.go" \
+      && docker run --rm -it --user ${UID}:${GID} --userns=host \
+        --env GOCACHE=${go_cache_dir} \
+        --env GOPATH=${GOPATH} \
+        --env HOME=${HOME} \
+        --env TERM=xterm-256color \
+        --env PS1="${image}:\w> " \
+        --env DOCKER_IMAGE="$image" \
+        --net host \
+        -v "$temp_passwd_file":/etc/passwd:ro,Z \
+        -v ${PWD}:/go/${GOPATH}/src:Z \
+        -v ${HOME}/.gitconfig:${HOME}/.gitconfig:ro \
+        -v ${HOME}/.ssh:${HOME}/.ssh:ro \
+        -v ${GOPATH}:${GOPATH} \
+        -v ${project_root}:${project_root} \
+        -v "${HOME}/.bashrc":"${HOME}/.bashrc" \
+        -w ${project_root} \
+        ${image} ${cmd}
+    test -f "$temp_passwd_file" && rm -f "$temp_passwd_file"
+  fi
+}
+
+# use after some long-running process to notify you while your
+# brain's executive function is hyperfocusing on something else
+notify() {
+  exit_code=$?
+  current_cl=${history[$HISTCMD]}
+  last_cmd=$(echo "$current_cl" | sed 's/;[^;]*$//' | sed 's/"//g')
+  title="with title \"$last_cmd\""
+  if [[ -v 1 ]]; then
+    title="with title \"$1\""
+  fi
+  if [[ $exit_code -eq 0 ]]; then
+    osascript -e "display notification \"command succeeded\" $title sound name \"Funk\""
+  else
+    osascript -e "display notification \"command failed\" $title sound name \"Sosumi\""
+  fi
+}
+
+streakctl() {
+  GRPC_TLS_PORT=${STREAK_GRPC_TLS_PORT:-$(kubectl -n ves-system get configmap streak-config -o json | jq -r '.data."config.yml"' | yq e '.GrpcTLSPort' -)}
+  echo "streak GRPC TLS port: $GRPC_TLS_PORT" >&2
+  SERVER_CN=${STREAK_SERVER_CN:-$(kubectl -n ves-system get statefulset streak -o json | jq -r '.spec.template.spec.containers[]|select(.name=="wingman")|.env|from_entries|.serviceNames' | cut -d',' -f1)}
+  echo "streak CN: $SERVER_CN" >&2
+  if [[ -n "$GRPC_TLS_PORT" ]]; then
+    kubectl -n ves-system -c streak exec -it streak-0 -c streak -- \
+      streakctl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
+      $@
+  else
+    echo "could not determine streak's GRPC TLS port"
+  fi
+}

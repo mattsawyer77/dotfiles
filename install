@@ -8,6 +8,8 @@ command -v greadlink >/dev/null \
 
 DOTFILES_DIR=$(dirname "$SELF")
 
+mkdir -p ~/.local/bin
+
 # zsh
 echo 'installing zsh configuration...'
 if [[ -f "$HOME/.zshrc" ]]; then
@@ -20,6 +22,7 @@ if [[ -f "$HOME/.zshenv" ]]; then
 fi
 ln -sf "${DOTFILES_DIR}/zsh/.zshrc" ~/.zshrc
 ln -sf "${DOTFILES_DIR}/zsh/.zshenv" ~/.zshenv
+ln -sf "${DOTFILES_DIR}/zsh/.em.zsh" ~/.local/bin
 ln -sf "${DOTFILES_DIR}/zsh/.zsh_favlist" ~/.zsh_favlist
 
 # vim

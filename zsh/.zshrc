@@ -19,7 +19,12 @@ alias k=kubectl
 alias kv='kubectl -n ves-system'
 # edit a file with emacsclient -- if no session exists, create one automatically
 # export EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
-alias em='emacsclient -t -c --alternate-editor=""'
+
+if command -v em.zsh >/dev/null; then
+  export EDITOR=em.zsh
+else
+  export EDITOR=nvim
+fi
 
 alias zenith="sudo -E zenith --disk-height 0"
 alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy --color=always 2>&1 | less'
@@ -117,9 +122,16 @@ fi
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
-# export PATH="/usr/local/opt/llvm/bin:$PATH"
-
 # nix
 test -f ~/.nix-profile/etc/profile.d/nix.sh \
-  && source ~/.nix-profile/etc/profile.d/nix.sh
+  && source ~/.nix-profile/etc/profile.d/nix.sh \
+  && source $(nix eval --raw nixpkgs.google-cloud-sdk)/google-cloud-sdk/completion.zsh.inc
 export NIXPKGS_ALLOW_UNFREE=1
+
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+
+if [[ $(launchctl limit maxfiles | awk '{print $2}') -lt 65536 ]]; then
+  echo "maxfile is too low, setting to 65536..."
+  sudo launchctl limit maxfiles 65536 1048576
+fi
+
