@@ -1,42 +1,23 @@
-export ZSH=$HOME/.oh-my-zsh
-# export UPDATE_ZSH_DAYS=13
 export LANG=en_US.UTF-8
-export P4CONFIG=.p4config
-export P4USER=sawyer
-export P4IGNORE=.p4ignore
-export P4DIFF=/usr/local/bin/ksdiff
-export P4MERGE=/usr/local/bin/ksdiff
-export P4TICKETS=$HOME/.p4tickets
 export GOPATH=~/gocode
 export GO111MODULE=on
-export EDITOR="emacsclient -t -a 'emacs -nw'"
-export VISUAL=$EDITOR
-export FZF_DEFAULT_COMMAND='ag -g ""'
-export NVM_DIR="$HOME/.nvm"
-# For compilers to find openssl@1.1 you may need to set:
-export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-
-#For pkg-config to find openssl@1.1 you may need to set:
-export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+export FZF_DEFAULT_COMMAND='rg -g ""'
+export FZF_DEFAULT_OPTS="--layout=default --info=inline --tac"
+# export NVM_DIR="$HOME/.nvm"
 export LESS='-F -i -M -R -X --incsearch'
-export TERM=xterm-24bit
+# export TERM=xterm-24bit
 export XDG_DATA_HOME=~/.local/share
 export XDG_CONFIG_HOME=~/.config
 export BAT_THEME=1337
 export BAT_PAGER="less $LESS"
-# If you need to have openssl@1.1 first in your PATH run:
-# PATH="/usr/local/opt/openssl@1.1/bin:$PATH":$PATH
-# PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+
+if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then
+  . ~/.nix-profile/etc/profile.d/nix.sh;
+fi # added by Nix installer
+
 PATH=$PATH:$HOME/.local/bin
-PATH=$PATH:$HOME/.local/share/ponyup/bin
-PATH=$PATH:$HOME/.nvm/versions/node/v12.11.1/bin
 PATH=$PATH:$HOME/.cargo/bin
-PATH=$PATH:$HOME/.cabal/bin
-PATH=$PATH:$HOME/.fzf/bin
 PATH=$PATH:$GOPATH/bin
-PATH=$PATH:$HOME/.pyenv/shims
-PATH=$PATH:/usr/local/opt/curl/bin
 PATH=$PATH:/usr/local/bin
 PATH=$PATH:/usr/local/sbin
 PATH=$PATH:/usr/bin
@@ -44,8 +25,6 @@ PATH=$PATH:/bin
 PATH=$PATH:/usr/sbin
 PATH=$PATH:/sbin
 export PATH
-
-if [ -e /Users/sawyer/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sawyer/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 get-sa-token() {
   context=$1
@@ -256,6 +235,60 @@ EOF
   done
 }
 
+git-cleanup-branches() {
+  # prune local tracking branchces that no longer exist on the origin
+  git remote prune origin
+  # delete local branches that have been merged to main/master
+  git branch --merged | pcregrep -v '\*|master|main' | cut -c3- | xargs git branch -d
+  # prompt the user for any remaining branches to be deleted
+  local branches=($(git branch | pcregrep -v '\*|master|main' | cut -c3-))
+  local answer=""
+  for branch in $branches; do
+    while [[ "$answer" != "n" ]] && [[ "$answer" != "y" ]]; do
+      echo -n "delete branch ${branch} [y/n/d(iff)/q(uit)]? "
+      read -r answer
+      if echo "$answer" | pcregrep '^d' >/dev/null; then
+        git log -p .."$branch"
+      elif echo "$answer" | pcregrep '^q' >/dev/null; then
+        return
+      elif [[ "$answer" == "y" ]]; then
+        git branch -D "$branch"
+      fi
+    done
+  done
+}
+
+git-cache() {
+  pushd . >/dev/null
+  cd $(git rev-parse --show-toplevel)
+  local project_name=$(git remote -v | grep '(push)' | awk '{print $2}' | cut -d':' -f2)
+  local branch_name=$(git branch | grep '^*' | cut -c3-)
+  local ignored_paths=($(git status --ignored --porcelain | cut -c4-))
+  local cache_dir="$HOME/.local/cache/${project_name}/${branch_name}"
+  test -d "$cache_dir" || (echo "creating cache dir ${cache_dir}...")
+  mkdir -p "$cache_dir" || (echo >&2 "could not create cache dir $cache_dir"; exit 1)
+  for ignored_path in $ignored_paths; do
+    echo "syncing $ignored_path"' -> '"${cache_dir}/${ignored_path}"
+    rsync -a --delete "$ignored_path" "${cache_dir}"
+  done
+  popd >/dev/null
+}
+
+git-restore() {
+  pushd . >/dev/null
+  cd $(git rev-parse --show-toplevel)
+  local project_name=$(git remote -v | grep '(push)' | awk '{print $2}' | cut -d':' -f2)
+  local branch_name=$(git branch | grep '^*' | cut -c3-)
+  local cache_dir="$HOME/.local/cache/${project_name}/${branch_name}"
+  test -d "$cache_dir" || (echo >&2 "no cache found for ${project_name}/${branch_name}"; exit 1)
+  local cached_paths=($(find "${cache_dir}/"* -maxdepth 0))
+  for cached_path in $cached_paths; do
+    echo "restoring $cached_path"
+    rsync -a "$cached_path" .
+  done
+  popd >/dev/null
+}
+
 skopeo-inspect() {
   local url
   if echo "$url" | grep '^docker://' >/dev/null; then
@@ -283,6 +316,63 @@ skopeo-inspect-commit() {
   if [[ "$?" -eq 0 ]] && [[ -n "$commit" ]]; then
     git fetch
     git log --all -n 1 "$commit"
+  fi
+}
+
+volterra-ss-commit() {
+  local ss="$1"
+  image=$(kubectl -n ves-system get statefulset "$ss" -o json \
+    | jq -r '.spec.template.spec.containers[]|{image,name}|select(.name=="'"$ss"'")|.image')
+  if [[ -z "$image" ]]; then
+    echo >&2 "no image found for statefulset $ss"
+  else
+    skopeo inspect docker://"$image" \
+      | jq -r '.Labels."commit-sha"'
+  fi
+}
+
+volterra-ds-commit() {
+  local ss="$1"
+  image=$(kubectl -n ves-system get daemonset "$ds" -o json \
+    | jq -r '.spec.template.spec.containers[]|{image,name}|select(.name=="'"$ds"'")|.image')
+  if [[ -z "$image" ]]; then
+    echo >&2 "no image found for daemonset $ds"
+  else
+    skopeo inspect docker://"$image" \
+      | jq -r '.Labels."commit-sha"'
+  fi
+}
+
+volterra-envs() {
+  local name="$1"
+  if [[ ! -v 1 ]]; then
+    echo >&2 "ERROR: name required!\nusage: volterra-envs [name]"
+    echo >&2 "example: volterra-envs akar"
+  else
+    envs=$(kubectl -n ves-system get pod -l "app=$name" -o json \
+      | jq -rc '.items|first|.spec.containers[]|select(.name=="'"$name"'")|.env[]|.name+": "+((.valueFrom|tostring)//.value)')
+    if [[ -z "$envs" ]]; then
+      echo >&2 "no environment variables found for a pod with labels app.kubernetes.io/instance=$name"
+    else
+      echo "$envs"
+    fi
+  fi
+}
+
+volterra-configmap() {
+  local name="$1"
+  if [[ ! -v 1 ]]; then
+    echo >&2 "ERROR: name required!\nusage: volterra-configmap [name]"
+    echo >&2 "example: volterra-configmap akar"
+  else
+    envs=$(kubectl -n ves-system get configmap -l "app.kubernetes.io/instance=$name" -o json \
+      | kv get configmap -l "app.kubernetes.io/instance=$name" -o json \
+      | jq -r '.items|first|.data|."config.yml"//."'"$name"'.yml"')
+    if [[ -z "$envs" ]]; then
+      echo >&2 "no configmap found for a pod with labels $app.kubernetes.io/instance=$name"
+    else
+      echo "$envs"
+    fi
   fi
 }
 
@@ -325,6 +415,63 @@ volterra-commit() {
   fi
 }
 
+gcr-info() {
+  if [[ -v 1 ]]; then
+    local repo="$1"
+    local branch=${2:-master}
+    gcloud container images list-tags "gcr.io/volterraio/$repo" \
+      --format=json \
+      --sort-by=timestamp \
+      | jq -r '.[]|last(select(.tags|index("branch-'"$branch"'")))'
+  else
+    echo >&2 "ERROR: must specify a repo"
+    false
+  fi
+}
+
+gcr-digest() {
+  if [[ -v 1 ]]; then
+    local repo="$1"
+    local branch=${2:-master}
+    gcloud container images list-tags "gcr.io/volterraio/$repo" \
+      --format=json \
+      --sort-by=timestamp \
+      | jq -r '.[]|last(select(.tags|index("branch-'"$branch"'")))|.digest'
+  else
+    echo >&2 "ERROR: must specify a repo"
+    false
+  fi
+}
+
+volterra-vpn() {
+  if ! command -v openfortivpn >/dev/null; then
+    echo >&2 "openfortivpn not found."
+    return 1
+  fi
+  local config_file=~/.config/openfortivpn/config
+  if [[ -f "$config_file" ]]; then
+    local servers=$(pcregrep -o 'vpnssl-.*acorus.net' "$config_file" 2>/dev/null)
+    if [[ $? -eq 0 ]] && [[ -n "$servers" ]]; then
+      server=$(echo "$servers" \
+        | sort -u \
+        | fzf)
+      if [[ -n "$server" ]]; then
+        sudo -E openfortivpn "$server" -c "$config_file"; notify
+      else
+        echo >&2 "no server selected."
+        return 1
+      fi
+    else
+      echo >&2 "no servers found."
+      return 1
+    fi
+  else
+    echo >&2 "config file $config_file does not exist"
+    return 1
+  fi
+
+  echo "clearing DNS cache, which requires sudo:"
+  dscacheutil -flushcache && sudo killall -HUP mDNSResponder
 }
 
 docker-shell () {
@@ -382,12 +529,168 @@ streakctl() {
   GRPC_TLS_PORT=${STREAK_GRPC_TLS_PORT:-$(kubectl -n ves-system get configmap streak-config -o json | jq -r '.data."config.yml"' | yq e '.GrpcTLSPort' -)}
   echo "streak GRPC TLS port: $GRPC_TLS_PORT" >&2
   SERVER_CN=${STREAK_SERVER_CN:-$(kubectl -n ves-system get statefulset streak -o json | jq -r '.spec.template.spec.containers[]|select(.name=="wingman")|.env|from_entries|.serviceNames' | cut -d',' -f1)}
+  POD_NAME=${STREAK_POD:-"streak-0"}
   echo "streak CN: $SERVER_CN" >&2
   if [[ -n "$GRPC_TLS_PORT" ]]; then
-    kubectl -n ves-system -c streak exec -it streak-0 -c streak -- \
+    kubectl -n ves-system -c streak exec -it "$POD_NAME" -c streak -- \
       streakctl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
       $@
   else
     echo "could not determine streak's GRPC TLS port"
   fi
+}
+
+mauricectl() {
+  GRPC_TLS_PORT=${MAURICE_GRPC_TLS_PORT:-6002}
+  echo "maurice GRPC TLS port: $GRPC_TLS_PORT" >&2
+  SERVER_CN=${MAURICE_SERVER_CN:-maurice.ves-system.svc.cluster.local}
+  echo "maurice CN: $SERVER_CN" >&2
+  if [[ -n "$GRPC_TLS_PORT" ]]; then
+    maurice_pod=$(kubectl -n ves-system get pods | grep maurice | awk '{print $1}')
+    if [[ -n "$maurice_pod" ]]; then
+      kubectl -n ves-system -c maurice exec -it "$maurice_pod" -c maurice -- \
+        mauricectl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
+        $@
+    else
+      echo "could not find a running maurice pod" >&2
+    fi
+  else
+    echo "could not determine maurice's GRPC TLS port"
+  fi
+}
+
+vulpixctl() {
+  GRPC_TLS_PORT=${VULPIX_GRPC_TLS_PORT:-$(kubectl -n ves-system get configmap vulpix-config -o json | jq -r '.data."config.yml"' | yq e '.GrpcTLSPort' -)}
+  echo "vulpix GRPC TLS port: $GRPC_TLS_PORT" >&2
+  SERVER_CN=${VULPIX_SERVER_CN:-$(kubectl -n ves-system get deployment vulpix -o json | jq -r '.spec.template.spec.containers[]|select(.name=="wingman")|.env|from_entries|.serviceNames' | cut -d',' -f1)}
+  echo "vulpix CN: $SERVER_CN" >&2
+  if [[ -n "$GRPC_TLS_PORT" ]]; then
+    vulpix_pod=$(kubectl -n ves-system get pods | grep vulpix | awk '{print $1}')
+    if [[ -n "$vulpix_pod" ]]; then
+      kubectl -n ves-system -c vulpix exec -it "$vulpix_pod" -c vulpix -- \
+        vulpixctl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
+        $@
+    else
+      echo "could not find a running vulpix pod" >&2
+    fi
+  else
+    echo "could not determine vulpix's GRPC TLS port"
+  fi
+}
+
+griffinctl() {
+  GRPC_TLS_PORT=${GRIFFIN_GRPC_TLS_PORT:-$(kubectl -n ves-system get configmap griffin-config -o json | jq -r '.data."config.yml"' | yq e '.GrpcTLSPort' -)}
+  echo "griffin GRPC TLS port: $GRPC_TLS_PORT" >&2
+  SERVER_CN=${GRIFFIN_SERVER_CN:-$(kubectl -n ves-system get deployment griffin -o json | jq -r '.spec.template.spec.containers[]|select(.name=="wingman")|.env|from_entries|.serviceNames' | cut -d',' -f1)}
+  echo "griffin CN: $SERVER_CN" >&2
+  if [[ -n "$GRPC_TLS_PORT" ]]; then
+    griffin_pod=$(kubectl -n ves-system get pods | grep griffin | awk '{print $1}')
+    if [[ -n "$griffin_pod" ]]; then
+      kubectl -n ves-system -c griffin exec -it "$griffin_pod" -c griffin -- \
+        griffinctl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
+        $@
+    else
+      echo "could not find a running griffin pod" >&2
+    fi
+  else
+    echo "could not determine griffin's GRPC TLS port"
+  fi
+}
+
+akarctl() {
+  GRPC_TLS_PORT=${AKAR_GRPC_TLS_PORT:-$(kubectl -n ves-system get configmap akar-config -o json | jq -r '.data."config.yml"' | yq e '.GrpcTLSPort' -)}
+  echo "akar GRPC TLS port: $GRPC_TLS_PORT" >&2
+  SERVER_CN=${AKAR_SERVER_CN:-$(kubectl -n ves-system get deployment akar -o json | jq -r '.spec.template.spec.containers[]|select(.name=="wingman")|.env|from_entries|.serviceNames' | cut -d',' -f1)}
+  echo "akar CN: $SERVER_CN" >&2
+  if [[ -n "$GRPC_TLS_PORT" ]]; then
+    akar_pod=$(kubectl -n ves-system get pods | grep akar | grep -v readonly | awk '{print $1}')
+    if [[ -n "$akar_pod" ]]; then
+      kubectl -n ves-system -c akar exec -it "$akar_pod" -c akar -- \
+        akarctl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
+        $@
+    else
+      echo "could not find a running akar pod" >&2
+    fi
+  else
+    echo "could not determine akar's GRPC TLS port"
+  fi
+}
+
+profile_service() {
+  usage="usage:\nprofile_service service_name [environment] [pprof_type] [sample_time]"
+  if [ ! -v 1 ]; then
+    echo >&2 "must specify service to profile"
+    echo >&2 "$usage"
+    set +x
+    return 1
+  fi
+  local service="$1"
+  local environment="${2:-demo1}"
+  local pprof_type="${3:-profile}"
+  local sample_time="${4:-5}"
+  local api_gw_hostname
+  local compass_hostname
+  case $environment in
+    demo1)
+      compass_hostname="compass-lma.demo1.volterra.us"
+      api_gw_hostname="${5:-gc01.int.ves.io}"
+      ;;
+    crt)
+      compass_hostname="compass-lma.crt.volterra.us"
+      api_gw_hostname="${5:-gc01.int.ves.io}"
+      ;;
+    staging)
+      compass_hostname="compass-lma.staging.volterra.us"
+      api_gw_hostname="${5:-gc1-iad-01.int.volterra.us}"
+      ;;
+    *)
+      echo >&2 "unknown environment $environment"
+      return 1
+      ;;
+  esac
+  output_filename="${service}.${environment}.${pprof_type}.$(date --iso-8601=seconds).pprof"
+  url="https://${compass_hostname}/introspection/${api_gw_hostname}/${service}/debug/pprof/${pprof_type}?seconds=${sample_time}"
+  echo "starting profile of $service on $environment (url: $url)..."
+  curl \
+    --insecure \
+    --fail-with-body \
+    --no-progress-meter \
+    --cert-type P12 \
+    --cert "$HOME/.ves-internal/${environment}/usercerts.p12:volterra" \
+    -o "$output_filename" \
+    "$url" \
+    && echo "profile saved at $output_filename"
+}
+
+# kv set image statefulset/streak streak=gcr.io/volterraio/streak@sha256:37be0ca9476b754ed144da6678a414748825e733dfd0345fa3fc1924a559d42a
+
+set-image() {
+  local usage='usage: set-image resource-type resource-name image-sha'
+  local resource_type="$1"
+  if [[ ! -v 1 ]]; then
+    echo >&2 "ERROR: resource-type is required"
+    echo >&2 "$usage"
+    return 1
+  fi
+  local resource_name="$2"
+  if [[ ! -v 1 ]]; then
+    echo >&2 "ERROR: resource-name is required"
+    echo >&2 "$usage"
+    return 1
+  fi
+  local container_name="$resource_name"
+  local image_sha="$3"
+  if [[ ! -v 1 ]]; then
+    echo >&2 "ERROR: image-sha is required"
+    echo >&2 "$usage"
+    return 1
+  fi
+  if echo "$image_sha" | grep -E '^sha256:[0-9a-f]+$'; then
+    image_sha="$(echo $image_sha | cut -d':' -f2)"
+  fi
+  if echo "$image_sha" | grep -E '^[0-9a-f]+$'; then
+    echo >&2 "ERROR: invalid SHA for image: $image_sha"
+    return 1
+  fi
+  echo "updating image for ${resource_type}/${resource_name} to sha256:${image_sha}..."
 }

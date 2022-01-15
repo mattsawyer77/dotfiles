@@ -3,22 +3,33 @@
 (map! "<mouse-4>" 'up-slightly)
 (map! "<mouse-5>" 'down-slightly)
 
-;; (map! :after lsp-ui
-;;       :mode lsp-ui-mode
-;;       :nv "SPC m d" #'lsp-ui-doc-glance)
+;; (select-window
+;;    (car (seq-filter
+;;      (lambda (window)
+;;        (equal name (buffer-name (window-buffer window))))
+;;      (window-list-1 nil 0 t)))))
+
+;; (unbind-key "S-," global-map)
+
+(map! :map general-override-mode-map
+      :n "C-," (lambda ()
+                 (interactive)
+                     (dired-other-window "~/dotfiles/doom"))
+      )
+
+(map! :after lsp-ui
+      :mode lsp-ui-mode
+      :nv "<f1>" #'lsp-ui-doc-glance)
 
 (map! :after transpose-frame
       :nv "<f4>" #'transpose-frame)
 
-(map! :after counsel
-      :nv "C-s" #'swiper
-      :n "C-<tab>" #'counsel-fzf)
+;; (map! :after counsel
+;;       :nv "C-s" #'swiper
+;;       :n "C-<tab>" #'counsel-fzf)
 
-(map! :after ivy
-      :nv "SPC b i" #'ivy-switch-buffer)
-
-(map! :after iedit
-      :nv "C-;" #'iedit-mode)
+;; (map! :after iedit
+;;       :nv "C-;" #'iedit-mode)
 
 (map! :after treemacs
       :map treemacs-mode-map

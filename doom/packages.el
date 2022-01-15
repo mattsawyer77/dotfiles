@@ -1,5 +1,6 @@
 ;;;  -*- no-byte-compile: t; -*-
 
+(package! base16-theme)
 (package! yasnippet)
 (package! doom-modeline)
 (package! prettier-js)
@@ -8,16 +9,12 @@
 (package! nginx-mode)
 (package! company-nginx)
 (package! mustache-mode)
-;; (package! lsp-mode)
-;; (package! lsp-ui)
-;; (package! company-lsp)
-;; (package! company-go)
 (package! vmd-mode)
 (package! evil-terminal-cursor-changer)
 (package! highlight-indent-guides)
 (package! ormolu :recipe (:host github :repo "vyorkin/ormolu.el"))
 (package! toml-mode)
-(package! lsp-haskell)
+;; (package! lsp-haskell)
 (package! treemacs-persp)
 (package! flycheck-posframe)
 (package! tree-sitter)
@@ -46,7 +43,7 @@
            :repo "mattsawyer77/flycheck-golangci-lint"
            :branch "main"
            ))
-(disable-packages! hl-line)
+(disable-packages! hl-line consult-flycheck)
 
 (package! ponylang-mode)
 (package! flycheck-pony)

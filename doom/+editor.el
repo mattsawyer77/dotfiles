@@ -1,7 +1,5 @@
 ;;;  -*- lexical-binding: t; -*-
 
-; workaround for https://github.com/emacs-evil/evil/issues/1168
-;; (setq-default evil-respect-visual-line-mode nil)
 (setq native-comp-async-report-warnings-errors nil)
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
@@ -10,7 +8,7 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq-default truncate-lines t)
 (setq-default tab-width 2)
-;; (setq-default scroll-margin 100)
+(setq-default scroll-margin 3)
 (setq-default maximum-scroll-margin 0.15)
 (when (and (display-graphic-p) IS-MAC)
   (setq doom-modeline-icon t)
@@ -32,13 +30,12 @@
 (add-to-list 'auto-mode-alist '("\\\.hpp$" . cpp-mode))
 (add-to-list 'auto-mode-alist '("\\\.h$" . cpp-mode))
 ;; make SSH authorized keys files more readable
-;; (add-to-list 'auto-mode-alist '("\\\.ssh\/authorized_keys" . prog-mode))
 (add-to-list 'auto-mode-alist '("\\SConscript". python-mode))
 (add-to-list 'auto-mode-alist '("\\SConstruct". python-mode))
 (add-to-list 'auto-mode-alist '("\\go\.mod". go-mode))
 
 ;; make underscore considered as a "word" character
-(modify-syntax-entry ?_ "w")
+;; (modify-syntax-entry ?_ "w")
 
 ;; use tree-sitter for syntax highlighting
 (use-package! tree-sitter
@@ -61,23 +58,23 @@
   )
 
 (after! (go-mode flycheck)
-  ;; some of these are redundant, and errcheck is awesome but super slow --
-  ;; so there is a keybinding to manually kick off errcheck in +keybindings.el
-  ;; (setq-default flycheck-disabled-checkers '(go-golint go-build go-errcheck))
   (require 'dap-go)
   (dap-go-setup)
   ;; (setq flycheck-golangci-lint-fast t)
   )
 
 (add-hook! emacs-lisp-mode #'+word-wrap-mode)
+(add-hook! emacs-lisp-mode #'rainbow-delimiters-mode-enable)
 
 (add-hook! go-mode #'+format-enable-on-save-maybe-h)
 (add-hook! go-mode #'turn-on-visual-line-mode)
 (add-hook! go-mode #'+word-wrap-mode)
+(add-hook! go-mode #'rainbow-delimiters-mode-enable)
 (after! (go-mode dap-mode lsp-lens)
   (add-hook! go-mode
     (setq dap-print-io t)
     (dap-ui-mode t)
+    (lsp-diagnostics-flycheck-enable t)
     )
 )
 (defvar-local flycheck-local-checkers nil)
@@ -103,10 +100,6 @@
     (display-line-numbers-mode)
     )
   )
-
-;; (after! rainbow-delimiters
-;;   (add-hook! (prog-mode rustic-mode) #'rainbow-delimiters-mode-enable)
-;;   )
 
 (after! undo-tree
   (setq undo-tree-auto-save-history t)
@@ -165,18 +158,11 @@
     (setq git-gutter:added-sign "▕")
     (setq git-gutter:deleted-sign "▕")
     )
-)
-
-(unless (display-graphic-p)
   (require 'evil-terminal-cursor-changer)
   (after! evil-terminal-cursor-changer
     (evil-terminal-cursor-changer-activate) ; or (etcc-on)
     )
 )
-
-; (when (and (display-graphic-p) IS-MAC)
-;   (mac-auto-operator-composition-mode)
-;   )
 
 (after! (haskell lsp-haskell ormolu lsp-ui)
   (setq lsp-haskell-process-path-hie "hie-wrapper")
@@ -185,22 +171,25 @@
 (add-hook! haskell-mode #'lsp)
 (add-hook! haskell-mode 'ormolu-format-on-save-mode)
 
-
 (add-hook! rustic-mode #'tree-sitter-mode)
 (add-hook! rustic-mode #'lsp)
 (add-hook! rustic-mode #'+word-wrap-mode)
+(after! (lsp-mode lsp-ui rustic-mode)
+    (setq lsp-lens-enable nil)
+    )
 
-(add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) 'highlight-indent-guides-mode)
+(after! highlight-indent-guides
+  (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) 'highlight-indent-guides-mode)
+  )
 
-(after! (terraform-mode lsp-mode)
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-ls" "serve"))
-                    :major-modes '(terraform-mode)
-                    :server-id 'terraform-ls)))
+;; (after! (terraform-mode lsp-mode)
+;;   (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-ls" "serve"))
+;;                     :major-modes '(terraform-mode)
+;;                     :server-id 'terraform-ls)))
 
 ;; (after! (terraform lsp)
 ;;   (add-to-list 'lsp-language-id-configuration '(terraform-mode . "terraform"))
-
 ;;   (lsp-register-client
 ;;   (make-lsp-client :new-connection (lsp-stdio-connection '("~/.local/bin/terraform-lsp" "-enable-log-file"))
 ;;                     :major-modes '(terraform-mode)
@@ -229,6 +218,7 @@
                     "[/\\\\]\\pbgo\\'"
                     "[/\\\\]\\pbswagger\\'"
                     "[/\\\\]\\extschema\\'"
+                    "[/\\\\]\\.cache\\'"
                     )))
   (setq lsp-file-watch-threshold 8000)
   (setq lsp-headerline-breadcrumb-enable 't)
@@ -237,16 +227,17 @@
   (setq lsp-enable-symbol-highlighting t)
 
   ;; 2. lsp-ui-doc - on hover dialogs. * disable via
-  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-doc-enable 't)
+  (setq lsp-ui-doc-position 'at-point)
 
   ;; * disable cursor hover (keep mouse hover)
   (setq lsp-ui-doc-show-with-cursor nil)
 
   ;; * disable mouse hover (keep cursor hover)
-  (setq lsp-ui-doc-show-with-mouse nil)
+  (setq lsp-ui-doc-show-with-mouse t)
 
   ;; 3. Lenses
-  (setq lsp-lens-enable t)
+  (setq lsp-lens-enable nil)
   ;; 'above-line causes C-e to snag
   (setq lsp-lens-place-position 'end-of-line)
 
@@ -258,9 +249,6 @@
 
   ;; * hide code actions
   (setq lsp-ui-sideline-show-code-actions nil)
-
-  ;; 6. Sideline hover symbols * disable whole sideline via
-  (setq lsp-ui-sideline-enable nil)
 
   ;; * hide only hover symbols
   (setq lsp-ui-sideline-show-hover nil)
@@ -313,7 +301,6 @@
         )
   )
 
-;; currently broken:
 (when-let (dims (doom-store-get 'last-frame-size))
   (cl-destructuring-bind ((left . top) width height fullscreen) dims
     (setq initial-frame-alist
@@ -383,6 +370,7 @@
     ;; (setq lsp-yaml-hover nil)
     ;; (setq lsp-yaml-custom-tags nil)
     )
+(add-hook! yaml-mode-hook +format-with-lsp nil)
 
 (after! org-pandoc-import
   ;; automatically convert markdown to org (and back) on-the-fly
@@ -392,8 +380,6 @@
 (after! magit
   (setq auto-revert-interval 30)
   (setq auto-revert-check-vc-info t))
-;; update modeline git branch when the window switches
-;; (add-hook! doom-switch-buffer-hook #'vc-refresh-state)
 
 ;; (use-package! makefile-executor
 ;;   :defer
