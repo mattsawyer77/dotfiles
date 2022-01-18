@@ -23,9 +23,9 @@
        ;; company           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       (ivy +prescient +icons +childframe)               ; a search engine for love and life
+       ;; (ivy +prescient +icons +childframe)               ; a search engine for love and life
        ;; (ivy +prescient +icons)               ; a search engine for love and life
-       ;; selectrum
+       (vertico +icons)
 
        :ui
        ;; deft              ; notational velocity for Emacs
@@ -37,7 +37,7 @@
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
-       ;;(ligatures +pragmata-pro)         ; ligatures and symbols to make your code pretty again
+       ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
@@ -78,7 +78,7 @@
        ;; eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        term              ; basic terminal emulator for Emacs
-       ;; vterm             ; the best terminal emulation in Emacs
+       ;;vterm             ; the best terminal emulation in Emacs
 
        :checkers
        ;; syntax              ; tasing you for every semicolon you forget
@@ -97,7 +97,7 @@
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
        (lookup +dictionary +offline)             ; navigate your code and its documentation
-       (lsp +peek)
+       lsp
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds

@@ -1,35 +1,8 @@
 #!/usr/bin/env zsh
 bindkey -v
 
-if [[ $(uname) == "Darwin" ]]; then
-  OS=mac
-  export ZPLUG_HOME=/usr/local/opt/zplug
-else
-  OS=linux
-  export ZPLUG_HOME=/usr/share/zsh/scripts/zplug
-fi
-source $ZPLUG_HOME/init.zsh
-
-# zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
-# zplug "sindresorhus/pure", use:"pure.zsh", as:theme, on:"mafredri/zsh-async"
-zplug "zsh-users/zsh-autosuggestions", defer:1
-zplug "lotabout/skim", use:"shell/*.zsh", defer:1
-zplug "vim/vim", defer:1
-zplug "trapd00r/LS_COLORS", defer:1
-# zplug "plugins/aws", from:oh-my-zsh, defer:1
-zplug "plugins/docker", from:oh-my-zsh, defer:1
-zplug "plugins/kubectl", from:oh-my-zsh, defer:1
-zplug "plugins/tmux", from:oh-my-zsh, defer:1
-zplug "plugins/terraform", from:oh-my-zsh, defer:1
-zplug "plugins/stack", from:oh-my-zsh, defer:1
-zplug "plugins/rustup", from:oh-my-zsh, defer:1
-zplug "zdharma/zsh-diff-so-fancy", as:command, use:"bin/", defer:1
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
 # #compdef cargo
 # source $(rustc --print sysroot)/share/zsh/site-functions/_cargo
-
-# Then, source plugins and add commands to $PATH
-zplug load
 
 command -v aws_completer >/dev/null && complete -C "$(which aws_completer)" aws
 
@@ -58,17 +31,11 @@ export LANGUAGE=en_US.UTF-8
 export AWS_SDK_LOAD_CONFIG=1
 export AWS_DEFAULT_PROFILE=f5cs
 export SAML2AWS_USER_AGENT="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.00) Gecko/20100101 Firefox/82.0"
-if command -v gvm >/dev/null; then
-  gvm use go1.14 >/dev/null
-elif command -v go >/dev/null; then
-  export GOROOT="/usr/local/Cellar/go/$(brew ls --versions go | cut -d' ' -f2)/libexec"
-fi
 if command -v pyenv >/dev/null; then
   eval "$(pyenv init -)"
 fi
 
 alias ssh='TERM=xterm-256color ssh'
-alias vim=nvim
 alias socks4proxy='ssh -D 8888 -f -C -q -N'
 if [[ $OS == "mac" ]]; then
   alias randomizeMacAddress="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
@@ -81,13 +48,13 @@ else
 fi
 alias ts='tmux new-session -n main -s'
 alias ta='tmux attach -t'
-alias k=kubectl
+alias tl='tmux list-sessions'
 # edit a file with emacsclient -- if no session exists, create one automatically
 # export EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
 alias em='emacsclient -t -c --alternate-editor=""'
 
 alias zenith="sudo -E zenith --disk-height 0"
-alias clippy='touch $(git rev-parse --show-toplevel)/src/main.rs && cargo clippy --color=always 2>&1 | less'
+alias clippy='clear; cargo clippy --color=always 2>&1 | less'
 
 if [ -n "${commands[fzf-share]}" ]; then
   source "$(fzf-share)/key-bindings.zsh"
@@ -141,19 +108,6 @@ tf-apply() {
 
 tf-destroy() {
   terraform destroy $@ 2>&1 | tee destroy.out
-}
-
-zplug-upgrade() {
-  # Install plugins if there are plugins that have not been installed
-  if ! zplug check --verbose; then
-    printf "Install zsh plugins? [y/N]: "
-    if read -q; then
-      echo; zplug install && zplug load --verbose
-    fi
-  else
-    echo "plugins are installed."
-  fi
-  zplug update
 }
 
 unbound-update() {
@@ -233,9 +187,8 @@ launchctl-restart() {
   fi
 }
 
-export PATH="/usr/local/opt/llvm/bin:$PATH"
-
 # nix
 test -f ~/.nix-profile/etc/profile.d/nix.sh \
   && source ~/.nix-profile/etc/profile.d/nix.sh
 export NIXPKGS_ALLOW_UNFREE=1
+. $(nix eval --raw nixpkgs.zsh-autosuggestions)/share/zsh-autosuggestions/zsh-autosuggestions.zsh

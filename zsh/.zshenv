@@ -1,12 +1,4 @@
-export ZSH=$HOME/.oh-my-zsh
-# export UPDATE_ZSH_DAYS=13
 export LANG=en_US.UTF-8
-export P4CONFIG=.p4config
-export P4USER=sawyer
-export P4IGNORE=.p4ignore
-export P4DIFF=/usr/local/bin/ksdiff
-export P4MERGE=/usr/local/bin/ksdiff
-export P4TICKETS=$HOME/.p4tickets
 export GOPATH=~/gocode
 export GO111MODULE=on
 export EDITOR="emacsclient -t -a 'emacs -nw'"
@@ -14,6 +6,7 @@ export VISUAL=$EDITOR
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export BAT_THEME=1337
 export NVM_DIR="$HOME/.nvm"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#556677"
 # For compilers to find openssl@1.1 you may need to set:
 export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
@@ -40,9 +33,10 @@ PATH=$PATH:/usr/sbin
 PATH=$PATH:/sbin
 export PATH
 
-export LESS='-F -g -i -M -r -w -X -z-4'
-export TERM=xterm-24bit
+export LESS='-F -i -M -R -X --incsearch'
 export XDG_DATA_HOME=~/.local/share
 export XDG_CONFIG_HOME=~/.config
-export BAT_THEME=1337
+command -v bat >/dev/null && export MANPAGER="sh -c 'col -bx | bat -p -lman --color=always'"
 if [ -e /Users/sawyer/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sawyer/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if [ -e /Users/matt/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/matt/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+source "$HOME/.cargo/env"
