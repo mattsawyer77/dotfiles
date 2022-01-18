@@ -11,19 +11,26 @@
     automake
     aws-iam-authenticator
     awscli2
+    azure-cli
     bash_5
     bat
+    boost
     cachix
     cairo
+    ccls
     cloc
     cmake
     coreutils
     curlFull
+    delve
     diff-so-fancy
+    direnv
+    docker
     dos2unix
     # emacs
-    # emacsMacport
-    emacsGit
+    # emacsGit
+    emacsGcc
+    etcd
     eternal-terminal
     exa
     fd
@@ -38,6 +45,9 @@
     gnumake
     go
     golangci-lint
+    go
+    google-cloud-sdk
+    gopls
     graphviz
     grpcurl
     harfbuzzFull
@@ -45,40 +55,55 @@
     httrack
     jansson
     jq
+    # kitty
     kubectl
     less
-    libgccjit # currently broken, but emacs 28+gccjit is also broken anyway
-    libressl
+    libcxx
+    libgccjit
+    libiconv
+    # libressl
     libsndfile
     libssh2
     libxml2
-    # llvm_11
+    llvm
     msgpack
+    multitail
+    mutagen
     ncurses
     neovim # customized in ./neovim.nix overlay
     netcat
+    nix-linter
+    nix-prefetch-git
+    nixfmt
     nmap
     nodejs
     oniguruma
     openapi-generator-cli
     openldap
+    openssl_1_1
     pandoc
+    podman
     pcre
     pcre2
     pinentry
     pkgconfig
     # procs
     protobuf3_11
+    prototool
     python39Packages.cfn-lint
+    qmk
     readline
     reattach-to-user-namespace
     ripgrep
-    # rust-analyzer
+    rnix-lsp
+    rust-analyzer
     # rustup
+    scons
     sd
     shared-mime-info
     shellcheck
     skhd
+    skopeo
     sqlite
     ssm-session-manager-plugin
     starship
@@ -86,12 +111,15 @@
     terraform-ls
     tflint
     tmux
+    tokei
     unixtools.watch
     upx
+    vgo2nix
     wget
     wireshark
     xsv
     yabai
+    yaml-language-server
     yq-go
     zenith
     zlib
@@ -100,11 +128,13 @@
     zsh-autosuggestions
     zsh-syntax-highlighting
     zstd
-  ];
+  ]);
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+      # url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/7f1c061166e80c19430eb5943f391b56c4362f71.tar.gz;
+      # url = https://github.com/nix-community/emacs-overlay/archive/41da7c2b2e268992b199566daa594ed770929d8c.tar.gz;
     }))
     (import ./neovim.nix)
   ];

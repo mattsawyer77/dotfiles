@@ -1,13 +1,10 @@
+;;;  -*- lexical-binding: t; -*-
+(setq server-socket-dir "/tmp/emacs-server")
 (setq comp-speed 2
       comp-deferred-compilation t)
-; (setq comp-deferred-compilation nil)
-;;;  -*- lexical-binding: t; -*-
-(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-(load! "+cloudformation-mode")
+;; (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+;; (load! "+cloudformation-mode")
 ;; (load! "+ghcid")
-;; exec-path-from-shell
-;; (when (memq window-system '(mac ns x))
-;;   (exec-path-from-shell-initialize))
 
 (load! "+editor")
 (load! "+keybindings")

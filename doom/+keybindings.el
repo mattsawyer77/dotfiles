@@ -3,22 +3,33 @@
 (map! "<mouse-4>" 'up-slightly)
 (map! "<mouse-5>" 'down-slightly)
 
+;; (select-window
+;;    (car (seq-filter
+;;      (lambda (window)
+;;        (equal name (buffer-name (window-buffer window))))
+;;      (window-list-1 nil 0 t)))))
+
+;; (unbind-key "S-," global-map)
+
+(map! :map general-override-mode-map
+      :n "C-," (lambda ()
+                 (interactive)
+                     (dired-other-window "~/dotfiles/doom"))
+      )
+
 (map! :after lsp-ui
       :mode lsp-ui-mode
-      :nv "SPC m d" #'lsp-ui-doc-glance)
+      :nv "<f1>" #'lsp-ui-doc-glance)
 
 (map! :after transpose-frame
       :nv "<f4>" #'transpose-frame)
 
-(map! :after counsel
-      :nv "C-s" #'swiper
-      :n "C-<tab>" #'counsel-fzf)
+;; (map! :after counsel
+;;       :nv "C-s" #'swiper
+;;       :n "C-<tab>" #'counsel-fzf)
 
-(map! :after ivy
-      :nv "SPC b i" #'ivy-switch-buffer)
-
-(map! :after iedit
-      :nv "C-;" #'iedit-mode)
+;; (map! :after iedit
+;;       :nv "C-;" #'iedit-mode)
 
 (map! :after treemacs
       :map treemacs-mode-map
@@ -41,13 +52,19 @@
       :mode markdown-mode
       :n "SPC m p" #'vmd-mode)
 
-(map! :after go-mode
-      :map go-mode-map
-      :localleader
-      (:prefix ("b" . "build")
-        :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
-        :desc "lint" "l" (cmd! (compile "make lint"))
-        ))
+;; TODO: not working...
+;; (map! :after go-mode
+;;       :map go-mode-map
+;;       :localleader
+;;       (:prefix ("b" . "build")
+;;         :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
+;;         :desc "lint" "l" (cmd! (compile "make lint"))
+;;         )
+;;       :localleader
+;;       (:prefix ("d" . "debug")
+;;         :desc "DAP Hydra" "h" #'dap-hydra
+;;         :desc "DAP Debug" "d" #'dap-debug
+;;         ))
 
 (map! :after rustic
       :map rustic-mode-map
@@ -61,6 +78,8 @@
       :nv "SPC m -" #'org-cycle-list-bullet
       :i "TAB" #'evil-org->
       :i "S-TAB" #'evil-org-<
+      :nv "C-j" #'org-move-subtree-down
+      :nv "C-k" #'org-move-subtree-up
       :i "RET" #'evil-org-return)
 
 (map! :after evil-embrace
@@ -70,3 +89,12 @@
 (map! :after ponylang-mode
       :map ponylang-mode-map
       :nv "SPC m" #'ponylang-menu)
+
+(map! :after smerge-mode
+      :map smerge-mode-map
+      :nv "SPC g n" #'smerge-next
+      :nv "SPC g p" #'smerge-prev
+      :nv "SPC g M" #'smerge-keep-mine
+      :nv "SPC g m" #'smerge-keep-mine
+      :nv "SPC g T" #'smerge-keep-lower
+      )
