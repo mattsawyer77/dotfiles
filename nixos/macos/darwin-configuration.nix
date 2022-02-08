@@ -1,141 +1,157 @@
 { config, pkgs, ... }:
 
-{
+let customPackages = [ (pkgs.callPackage ./openfortivpn/default.nix { }) ];
+in {
   # workaround for https://github.com/NixOS/nixpkgs/issues/77503
-  nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.0.2u"
-  ];
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "openssl-1.0.2u"
+  # ];
   users.nix.configureBuildUsers = true;
-  environment.systemPackages = with pkgs; [
-    alacritty
-    automake
-    aws-iam-authenticator
-    awscli2
-    azure-cli
-    bash_5
-    bat
-    boost
-    cachix
-    cairo
-    ccls
-    cloc
-    cmake
-    coreutils
-    curlFull
-    delve
-    diff-so-fancy
-    direnv
-    docker
-    dos2unix
-    # emacs
-    # emacsGit
-    emacsGcc
-    etcd
-    eternal-terminal
-    exa
-    fd
-    fontconfig
-    freetype
-    fzf
-    gdbm
-    ghostscript
-    # git # nix git doesn't support macos keychain
-    glib
-    gmp6
-    gnumake
-    golangci-lint
-    go
-    google-cloud-sdk
-    gopls
-    graphviz
-    grpcurl
-    harfbuzzFull
-    htop
-    httrack
-    jansson
-    jq
-    # kitty
-    kubectl
-    less
-    libcxx
-    libgccjit
-    libiconv
-    # libressl
-    libsndfile
-    libssh2
-    libxml2
-    llvm
-    msgpack
-    multitail
-    mutagen
-    ncurses
-    neovim
-    netcat
-    nix-linter
-    nix-prefetch-git
-    nixfmt
-    nmap
-    nodejs
-    oniguruma
-    openapi-generator-cli
-    openldap
-    openssl_1_1
-    pandoc
-    podman
-    pcre
-    pcre2
-    pinentry
-    pkgconfig
-    # procs
-    protobuf3_11
-    prototool
-    python39Packages.cfn-lint
-    qmk
-    readline
-    reattach-to-user-namespace
-    ripgrep
-    rnix-lsp
-    rust-analyzer
-    # rustup
-    scons
-    sd
-    shared-mime-info
-    shellcheck
-    skhd
-    skopeo
-    sqlite
-    ssm-session-manager-plugin
-    starship
-    taglib
-    terraform-ls
-    tflint
-    tmux
-    tokei
-    unixtools.watch
-    upx
-    vgo2nix
-    wget
-    wireshark
-    xsv
-    yabai
-    yaml-language-server
-    yq-go
-    zenith
-    zlib
-    zoxide
-    zsh
-    zstd
-  ]);
+  environment.systemPackages = with pkgs;
+    [
+      # ccls
+      # git # nix git doesn't support macos keychain
+      # go
+      # handbrake
+      # libressl
+      # pinentry # broken as of 2022-01-04
+      # procs
+      # python39Packages.cfn-lint
+      # rnix-lsp
+      # vgo2nix
+      alacritty
+      automake
+      aws-iam-authenticator
+      awscli2
+      azure-cli
+      bash_5
+      bat
+      boost
+      cachix
+      cairo
+      cloc
+      cmake
+      coreutils
+      curlFull
+      delve
+      diff-so-fancy
+      direnv
+      docker
+      dos2unix
+      emacsGcc
+      etcd
+      # eternal-terminal # broken as of 2022-02-07
+      exa
+      fd
+      fontconfig
+      freetype
+      fzf
+      gdbm
+      ghostscript
+      glib
+      gmp6
+      gnumake
+      go_1_17 # currently requires NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1
+      golangci-lint
+      google-cloud-sdk
+      gopls
+      graphviz
+      grpcurl
+      harfbuzzFull
+      htop
+      httrack
+      jansson
+      jq
+      kitty
+      kubectl
+      less
+      libcxx
+      libgccjit
+      libiconv
+      libsndfile
+      libssh2
+      libxml2
+      lima
+      llvm
+      msgpack
+      multitail
+      mutagen
+      ncurses
+      neovim
+      netcat
+      nim
+      nimlsp
+      nix-linter
+      nix-prefetch-git
+      nixfmt
+      nmap
+      nodejs
+      oniguruma
+      openapi-generator-cli
+      openldap
+      pandoc
+      pcre
+      pcre2
+      pkgconfig
+      podman
+      protobuf3_11
+      prototool
+      qmk
+      readline
+      reattach-to-user-namespace
+      ripgrep
+      rust-analyzer
+      rustup
+      scons
+      sd
+      shared-mime-info
+      shellcheck
+      skhd
+      skopeo
+      sqlite
+      ssm-session-manager-plugin
+      starship
+      taglib
+      terraform-ls
+      terraform
+      tflint
+      tmux
+      tokei
+      trivy
+      unixtools.watch
+      upx
+      wget
+      wireshark
+      xsv
+      yabai
+      yaml-language-server
+      yarn
+      youtube-dl
+      yq-go
+      zenith
+      # zig # broken as of 2022-02-07
+      # zls # broken as of 2022-02-07
+      zlib
+      zoxide
+      zsh
+      # zsh-fzf-tab
+      zstd
+    ] ++ customPackages;
 
+  nixpkgs.config.allowUnsupportedSystem = true;
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      # url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-      url = https://github.com/nix-community/emacs-overlay/archive/7f1c061166e80c19430eb5943f391b56c4362f71.tar.gz;
-      # url = https://github.com/nix-community/emacs-overlay/archive/41da7c2b2e268992b199566daa594ed770929d8c.tar.gz;
+      # url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz
+      # url = "https://github.com/mjlbach/emacs-overlay/archive/feature/flakes.tar.gz";
+      # url = "https://github.com/nix-community/emacs-overlay/archive/2a3c3959436d97ff2db0cb765336f2747d875fb8.tar.gz";
+      url =
+        "https://github.com/nix-community/emacs-overlay/archive/17f60fe33f34c95d9d7341bc2bd65929dfdb44cb.tar.gz";
+      # sha256 = "0qfvplmfpln5hh6k3jg0w08xnlmyd874awp5rpmkj3x3v6qnw6x9";
     }))
     (import ./neovim.nix)
   ];
 
+  nix.useDaemon = true;
   # workaround for annoying warning bug: https://github.com/LnL7/nix-darwin/issues/145
   nix.nixPath = pkgs.lib.mkForce [{
     darwin-config = builtins.concatStringsSep ":" [
@@ -149,11 +165,15 @@
   # environment.darwinConfig = "$HOME/.config/nixpkgs/darwin/configuration.nix";
 
   # Auto upgrade nix package and the daemon service.
-  # services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
+  nix.package = pkgs.nixFlakes;
+  # nix.package = pkgs.nixUnstable;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
   services.yabai.enable = true;
   services.yabai.package = pkgs.yabai;
-  services.skhd.enable = true;
+  services.skhd.enable = false;
 
   programs.tmux.extraConfig = ''
     # remap prefix to Control + space
@@ -222,12 +242,95 @@
     if-shell 'test "$(uname)" = "Darwin"' "source-file ~/.tmux-osx.conf"
   '';
 
-  programs.zsh.enable = true;  # default shell on catalina
+  environment.variables = rec {
+    AWS_SDK_LOAD_CONFIG = "1";
+    LANG = "en_US.UTF-8";
+    LANGUAGE = "en_US.UTF-8";
+    LC_ALL = "en_US.UTF-8";
+    LESS = "-F -i -M -R -X --incsearch";
+    LESSCHARSET = "utf-8";
+    FZF_DEFAULT_OPTS = "--info=inline --layout=default --tac --no-sort";
+    FZF_DEFAULT_COMMAND = ''rg -g ""'';
+    FZF_CTRL_R_OPTS = "--sort";
+    HISTSIZE = "100000";
+    SAVEHIST = "5000";
+    BAT_PAGER = "less -F -i -M -R -X --incsearch";
+    BAT_THEME = "1337";
+  };
+
+  programs.zsh.enable = true; # default shell on catalina
   programs.zsh.enableBashCompletion = true;
   programs.zsh.enableFzfCompletion = true;
   programs.zsh.enableFzfGit = true;
   programs.zsh.enableFzfHistory = true;
-  # programs.fish.enable = true;
+  programs.zsh.enableCompletion = true;
+  programs.zsh.enableSyntaxHighlighting = true;
+  programs.zsh.promptInit = ''
+    eval "$(zoxide init zsh)"
+    eval "$(starship init zsh)"
+  '';
+  programs.zsh.shellInit = ''
+    ${(builtins.readFile ../../zsh/.zshenv)}
+  '';
+  programs.zsh.interactiveShellInit = ''
+    autoload -Uz compinit
+    compinit
+    bindkey -v
+    # vi style incremental search
+    bindkey '^R' history-incremental-search-backward
+    bindkey '^P' history-search-backward
+    bindkey '^N' history-search-forward
+    source "$(fzf-share)/key-bindings.zsh"
+    source "$(fzf-share)/completion.zsh"
+
+    _tmux-select-window() {
+      tmux list-windows -F '#W' | fzf | xargs -I% tmux select-window -t %
+    }
+    zle -N _tmux-select-window
+    bindkey '^W' _tmux-select-window
+    zstyle ':completion:*:*:*:*:*' menu select
+
+    # kubernetes autocompletion
+    source <(kubectl completion zsh)
+
+    setopt APPEND_HISTORY
+    setopt EXTENDED_HISTORY
+    # expire duplicates first
+    setopt HIST_EXPIRE_DUPS_FIRST
+    # do not store duplications
+    setopt HIST_IGNORE_DUPS
+    #ignore duplicates when searching
+    setopt HIST_FIND_NO_DUPS
+    # removes blank lines from history
+    setopt HIST_REDUCE_BLANKS
+    # to keep a command from being stored in history, lead it with a space
+    setopt HIST_IGNORE_SPACE
+    if command -v em.zsh >/dev/null; then
+      export EDITOR=em.zsh
+    elif command -v nvim; then
+      export EDITOR=nvim
+    else
+      export EDITOR=vim
+    fi
+    export VISUAL=$EDITOR
+    alias ssh='TERM=xterm-256color ssh'
+    alias l='exa -alF'
+    alias k='kubectl'
+    alias ts='tmux new-session -n main -s'
+    alias ta='tmux attach -t'
+    alias tl='tmux list-sessions'
+    alias kv='kubectl -n ves-system'
+    alias doom='~/.emacs.d/bin/doom'
+    alias nancy-report="go list -json -m all | nancy sleuth --output=json | jq -r '[.audited[]|select(.Vulnerabilities!=null)]' | yq eval -P -"
+    source <(kubectl completion zsh)
+    eval "$(direnv hook zsh)"
+    export PATH=~/.local/bin:~/.cargo/bin:$PATH
+    if [[ $(launchctl limit maxfiles | awk '{print $2}') -lt 1048576 ]]; then
+        echo "maxfiles limit is too low, setting to 1048576..."
+        sudo launchctl limit maxfiles 1048576 1048576
+    fi
+    printf '\e]2;local\a'
+  '';
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

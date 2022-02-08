@@ -1,5 +1,4 @@
-self: super:
-{
+self: super: {
   neovim = super.neovim.override {
     vimAlias = true;
     configure = {
@@ -41,26 +40,26 @@ self: super:
           telescope-nvim
           tender-vim
           vim-go
-		  vim-nix
+          vim-nix
           vim-one
           vim-protobuf
           vim-surround
           vim-toml
           vim-yaml
         ];
-        opt = [];
+        opt = [ ];
       };
       customRC = ''
-        ${(builtins.readFile ./neovim/init.vim)}
-        lua << EOF
-        ${(builtins.readFile ./neovim/compe.lua)}
-        ${(builtins.readFile ./neovim/lsp.lua)}
-        ${(builtins.readFile ./neovim/lualine.lua)}
-        ${(builtins.readFile ./neovim/rust-tools.lua)}
-        ${(builtins.readFile ./neovim/telescope.lua)}
-        ${(builtins.readFile ./neovim/tree-sitter.lua)}
-EOF
-      '';
+                ${(builtins.readFile ./neovim/init.vim)}
+                lua << EOF
+                ${(builtins.readFile ./neovim/compe.lua)}
+                ${(builtins.readFile ./neovim/lsp.lua)}
+                ${(builtins.readFile ./neovim/lualine.lua)}
+                ${(builtins.readFile ./neovim/rust-tools.lua)}
+                ${(builtins.readFile ./neovim/telescope.lua)}
+                ${(builtins.readFile ./neovim/tree-sitter.lua)}
+        EOF
+              '';
     };
   };
 }
