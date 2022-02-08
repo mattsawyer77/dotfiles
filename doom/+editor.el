@@ -37,6 +37,18 @@
 ;; make underscore considered as a "word" character
 ;; (modify-syntax-entry ?_ "w")
 
+;; disable format-on-save for yaml-mode
+;; NOTE: +format-on-save-enabled-modes is a strange variable:
+;; if the list starts with 'not, then it's an exclusion list;
+;; if the list does not start with 'not, then it's an inclusion list
+(when (boundp '+format-on-save-enabled-modes)
+  (if (eq (car +format-on-save-enabled-modes) 'not)
+    ;; list is exclusion -- add yaml-mode to the list
+    (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'yaml-mode t))
+    ;; list is inclusion -- remove yaml-mode from the list
+    (setq +format-on-save-enabled-modes (delete 'yaml-mode +format-on-save-enabled-modes))
+    ))
+
 ;; use tree-sitter for syntax highlighting
 (use-package! tree-sitter
   :config
@@ -69,7 +81,6 @@
 (add-hook! go-mode #'+format-enable-on-save-maybe-h)
 (add-hook! go-mode #'turn-on-visual-line-mode)
 (add-hook! go-mode #'+word-wrap-mode)
-(add-hook! go-mode #'rainbow-delimiters-mode-enable)
 (after! (go-mode dap-mode lsp-lens)
   (add-hook! go-mode
     (setq dap-print-io t)
@@ -300,6 +311,7 @@
         org-hide-macro-markers t
         )
   )
+(add-hook! org-mode #'writeroom-mode)
 
 (when-let (dims (doom-store-get 'last-frame-size))
   (cl-destructuring-bind ((left . top) width height fullscreen) dims
@@ -348,29 +360,29 @@
 
 (add-hook! ccls #'tree-sitter-mode)
 
-(add-hook! protobuf-mode #'display-line-numbers--turn-on)
+(add-hook! protobuf-mode #'display-line-numbers-mode)
 (put 'flycheck-protoc-import-path 'safe-local-variable #'listp)
 
-(after! (yaml-mode lsp-mode)
-    (setq lsp-yaml-format-enable nil)
-    ;; (setq lsp-yaml-prose-wrap nil)
-    ;; (setq lsp-yaml-print-width nil)
-    ;; (setq lsp-yaml-bracket-spacing nil)
-    ;; (setq lsp-yamlls-after-open-hook nil)
-    (setq lsp-yaml-completion nil)
-    (setq lsp-yaml-validate nil)
-    ;; (setq lsp-yaml--schema-store-schemas-alist nil)
-    ;; (setq lsp-yaml-single-quote nil)
-    ;; (setq lsp-yaml-schema-store-enable nil)
-    ;; (setq lsp-yaml-schemas nil)
-    ;; (setq lsp-yaml-schema-store-local-db nil)
-    (setq lsp-yaml--built-in-kubernetes-schema nil)
-    ;; (setq lsp-yaml-server-command nil)
-    ;; (setq lsp-yaml-schema-store-uri nil)
-    ;; (setq lsp-yaml-hover nil)
-    ;; (setq lsp-yaml-custom-tags nil)
-    )
-(add-hook! yaml-mode-hook +format-with-lsp nil)
+;; (after! (yaml-mode lsp-mode)
+;;     (setq lsp-yaml-format-enable nil)
+;;     ;; (setq lsp-yaml-prose-wrap nil)
+;;     ;; (setq lsp-yaml-print-width nil)
+;;     ;; (setq lsp-yaml-bracket-spacing nil)
+;;     ;; (setq lsp-yamlls-after-open-hook nil)
+;;     (setq lsp-yaml-completion nil)
+;;     (setq lsp-yaml-validate nil)
+;;     ;; (setq lsp-yaml--schema-store-schemas-alist nil)
+;;     ;; (setq lsp-yaml-single-quote nil)
+;;     ;; (setq lsp-yaml-schema-store-enable nil)
+;;     ;; (setq lsp-yaml-schemas nil)
+;;     ;; (setq lsp-yaml-schema-store-local-db nil)
+;;     (setq lsp-yaml--built-in-kubernetes-schema nil)
+;;     ;; (setq lsp-yaml-server-command nil)
+;;     ;; (setq lsp-yaml-schema-store-uri nil)
+;;     ;; (setq lsp-yaml-hover nil)
+;;     ;; (setq lsp-yaml-custom-tags nil)
+;;     )
+(add-hook! yaml-mode-hook (lambda () (+lsp-optimization-mode -1)))
 
 (after! org-pandoc-import
   ;; automatically convert markdown to org (and back) on-the-fly
@@ -389,3 +401,10 @@
 ;;   ;; @$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ \"^[#.]\") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'\n"
 ;;   (setq-default makefile-executor-list-target-code)
 ;;   )
+
+;; (use-package! vertico-posframe
+;;   :config
+;;   (setq vertico-posframe-min-height 20)
+;;   (vertico-posframe-mode 1))
+
+(after! nim-mode #'lsp)

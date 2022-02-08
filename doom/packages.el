@@ -7,7 +7,7 @@
 (package! evil-nerd-commenter)
 (package! transpose-frame)
 (package! nginx-mode)
-(package! company-nginx)
+;; (package! company-nginx)
 (package! mustache-mode)
 (package! vmd-mode)
 (package! evil-terminal-cursor-changer)
