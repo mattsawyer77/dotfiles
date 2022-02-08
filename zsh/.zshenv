@@ -616,6 +616,66 @@ akarctl() {
   fi
 }
 
+nioctl() {
+  local usage="usage:\nnioctl deployment-name|statefulset-name kubectl-args"
+  local service_name="$1"
+  if [[ ! -v service_name ]]; then
+    echo >&2 "k8s name (pod prefix) is required"
+    echo >&2 "$usage"
+    return 1
+  fi
+  shift
+  local service_json=$(kubectl -n ves-system get statefulset,daemonset,deployment "$service_name" -o json 2>/dev/null)
+  local service=$(printf '%s\n' "$service_json" | jq -r '.items|first' 2>/dev/null)
+  if [[ -z "$service" ]]; then
+    echo >&2 "could not find a statefulset, daemonset, or deployment named $service_name"
+    return 1
+  fi
+  local kind=$(printf '%s\n' "$service" | jq -r '.kind')
+  if [[ -z "$kind" ]]; then
+    echo >&2 "could not determine kind of service $service_name"
+    return 1
+  fi
+  GRPC_TLS_PORT=${NIO_GRPC_TLS_PORT:-$(kubectl -n ves-system get configmap "${service_name}-config" -o json \
+    | jq -r '.data."nio.yml"' \
+    | yq e '.GrpcTLSPort' -)}
+  # echo "nio GRPC TLS port: $GRPC_TLS_PORT" >&2
+  SERVER_CN=${NIO_SERVER_CN:-$(printf '%s\n' "$service" \
+    | jq -r '.spec.template.spec.containers[]|select(.name=="wingman")|.env|from_entries|.serviceNames|split(",")|last')}
+  # echo "nio CN: $SERVER_CN" >&2
+  if [[ -n "$GRPC_TLS_PORT" ]]; then
+    nio_pod=$(kubectl -n ves-system get pods --no-headers -l name="${service_name}" | awk '{print $1}' | head -1)
+    if [[ -n "$nio_pod" ]]; then
+      kubectl -n ves-system exec -it "$nio_pod" -c nio -- \
+        nioctl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
+        $@
+    else
+      echo "could not find a running nio pod for $kind $service_name" >&2
+    fi
+  else
+    echo "could not determine nio's GRPC TLS port"
+  fi
+}
+
+vegactl() {
+  local usage="usage:\nvegactl kubectl-args"
+  GRPC_TLS_PORT=${VEGA_GRPC_TLS_PORT:-$(kubectl -n ves-system describe cm ver-config | grep -E '^GrpcTLSPort' | cut -d' ' -f2)}
+  SERVER_CN=${VEGA_SERVER_CN:-$(kubectl -n ves-system describe cm ver-config | grep VegaCommonName | cut -d' ' -f2)}
+  # echo "vega CN: $SERVER_CN" >&2
+  if [[ -n "$GRPC_TLS_PORT" ]]; then
+    vega_pod=$(kubectl -n ves-system get pods --no-headers -l "app=ver,cfg!=ver" | awk '{print $1}' | head -1)
+    if [[ -n "$vega_pod" ]]; then
+      kubectl -n ves-system exec -it "$vega_pod" -c vega -- \
+        vegactl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
+        $@
+    else
+      echo "could not find a running vega pod" >&2
+    fi
+  else
+    echo "could not determine vega's GRPC TLS port"
+  fi
+}
+
 profile_service() {
   usage="usage:\nprofile_service service_name [environment] [pprof_type] [sample_time]"
   if [ ! -v 1 ]; then
@@ -693,4 +753,40 @@ set-image() {
     return 1
   fi
   echo "updating image for ${resource_type}/${resource_name} to sha256:${image_sha}..."
+}
+
+# get kubernetes load balancers
+klb() {
+  declare -a jq_args
+  jq_args=(
+    '["name", "clusterIP", "loadBalancerIPs", "ports", "selector"]'
+    ', (.items[]|select(.spec.type=="LoadBalancer")|['
+    '.metadata.name'
+    ', .spec.clusterIP'
+    ', (.status.loadBalancer.ingress|map(.ip)|join(", "))'
+    ', (.spec.ports|map(.protocol+" "+(.port|tostring)+":"+(.targetPort|tostring)+" ("+.name+")")|join(", "))'
+    ', (.spec.selector|to_entries|map(.key+"="+.value)|join("∩"))'
+    '])|@tsv'
+  )
+  kubectl get svc $@ -o json | jq -r "$jq_args" | column -s $'\t' -t
+}
+
+# get kubernetes services
+ksvc() {
+  declare -a jq_args
+  jq_args=(
+    '["name", "clusterIP", "loadBalancerIPs", "ports", "selector"]'
+    ', (.items[]|['
+    '.metadata.name'
+    ', .spec.clusterIP'
+    ', (.status.loadBalancer.ingress//[]|map(.ip)|join(", "))'
+    ', (.spec.ports|map(.protocol+" "+(.port|tostring)+":"+(.targetPort|tostring)+" ("+.name+")")|join(", "))'
+    ', (.spec.selector|to_entries|map(.key+"="+.value)|join("∩"))'
+    '])|@tsv'
+  )
+  kubectl get svc $@ -o json | jq -r "$jq_args" | column -s $'\t' -t
+}
+
+kcontainers() {
+  kubectl get statefulset,deployment,daemonset -o json $@ | jq -r '.items[]|.kind+": "+.metadata.name+": "+([.spec.template.spec.containers[]|.name]|sort|join(", "))'| column -s':' -t
 }
