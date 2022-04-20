@@ -4,7 +4,7 @@ export GO111MODULE=on
 export FZF_DEFAULT_COMMAND='rg -g ""'
 export FZF_DEFAULT_OPTS="--layout=default --info=inline --tac"
 # export NVM_DIR="$HOME/.nvm"
-export LESS='-F -i -M -R -X --incsearch'
+export LESS='--LONG-PROMPT --RAW-CONTROL-CHARS --ignore-case --incsearch --no-init --quit-if-one-screen'
 # export TERM=xterm-24bit
 export XDG_DATA_HOME=~/.local/share
 export XDG_CONFIG_HOME=~/.config
@@ -289,6 +289,15 @@ git-restore() {
   popd >/dev/null
 }
 
+# workaround for https://github.com/containers/skopeo/issues/1534
+skopeo-acr-login() {
+  az acr login -n volterra --expose-token \
+    | jq -r '.accessToken' \
+    | skopeo login volterra.azurecr.io \
+      --username 00000000-0000-0000-0000-000000000000 \
+      --password-stdin
+}
+
 skopeo-inspect() {
   local url
   if echo "$url" | grep '^docker://' >/dev/null; then
@@ -561,18 +570,12 @@ mauricectl() {
 
 vulpixctl() {
   GRPC_TLS_PORT=${VULPIX_GRPC_TLS_PORT:-$(kubectl -n ves-system get configmap vulpix-config -o json | jq -r '.data."config.yml"' | yq e '.GrpcTLSPort' -)}
-  echo "vulpix GRPC TLS port: $GRPC_TLS_PORT" >&2
   SERVER_CN=${VULPIX_SERVER_CN:-$(kubectl -n ves-system get deployment vulpix -o json | jq -r '.spec.template.spec.containers[]|select(.name=="wingman")|.env|from_entries|.serviceNames' | cut -d',' -f1)}
-  echo "vulpix CN: $SERVER_CN" >&2
   if [[ -n "$GRPC_TLS_PORT" ]]; then
-    vulpix_pod=$(kubectl -n ves-system get pods | grep vulpix | awk '{print $1}')
-    if [[ -n "$vulpix_pod" ]]; then
-      kubectl -n ves-system -c vulpix exec -it "$vulpix_pod" -c vulpix -- \
-        vulpixctl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
-        $@
-    else
-      echo "could not find a running vulpix pod" >&2
-    fi
+    kubectl -n ves-system -c vulpix exec -it deploy/vulpix -c vulpix -- \
+      vulpixctl -u "localhost:${GRPC_TLS_PORT}" --server-cn "$SERVER_CN" \
+      $@ \
+      | pcregrep -v 'WARNING|golang/protobuf|which has long been excluded'
   else
     echo "could not determine vulpix's GRPC TLS port"
   fi
@@ -789,4 +792,90 @@ ksvc() {
 
 kcontainers() {
   kubectl get statefulset,deployment,daemonset -o json $@ | jq -r '.items[]|.kind+": "+.metadata.name+": "+([.spec.template.spec.containers[]|.name]|sort|join(", "))'| column -s':' -t
+}
+
+introspect() {
+  environment=$(echo "$@" | pcregrep -o 'compass-lma\.(\w+)\.volterra\.(us|io)' | cut -d'.' -f2)
+  if [[ "$environment" == "ves" ]]; then
+    environment="prod"
+  fi
+  user_cert="${HOME}/.ves-internal/${environment}/usercerts.p12"
+  if [[ -f "$user_cert" ]]; then
+    curl --insecure --fail --no-progress-meter --cert-type P12 --cert "${user_cert}:volterra" $@
+  else
+    echo >&2 "unknown environment $environment"
+    return 1
+  fi
+}
+
+# change docker's kernel's disk driver to write-through mode
+# (fast but less resilient to power loss)
+enable-docker-write-through() {
+  docker run -it --rm --privileged --pid=host alpine:edge nsenter -t 1 -m -u -n -i bash -c 'echo "write through" > /sys/class/block/vda/queue/write_cache'
+}
+
+show-docker-cache-mode() {
+  docker run -it --rm --privileged --pid=host alpine:edge nsenter -t 1 -m -u -n -i bash -c 'cat /sys/class/block/vda/queue/write_cache'
+}
+
+# change docker's kernel's disk driver to write-through mode
+# (slow but more resilient to power loss)
+disable-docker-write-through() {
+  docker run -it --rm --privileged --pid=host alpine:edge nsenter -t 1 -m -u -n -i bash -c 'echo "write back" > /sys/class/block/vda/queue/write_cache'
+}
+
+matrix-renew-certs() {
+  matrix certInfo 2>&1 \
+    | pcregrep -B4 'status:.*expired' \
+    | pcregrep -B2 '^\s*User Certificate' \
+    | pcregrep -o '^\w+' \
+    | xargs -I% sh -c "echo renewing cert for %...; matrix get-user-cert -e %"
+}
+
+gc-login() {
+  k cluster-info 2>/dev/null \
+    || (gcloud auth login --project=devtest-293809 \
+    && gcloud container clusters get-credentials gc01-int-ves-io --region us-east4)
+}
+
+site-terraform-output() {
+  if [[ ! -v 1 ]]; then
+    echo >&2 "ERROR: site name required"
+    echo >&2 "usage example: site-terraform-output ves-io-aws-vpc-site-my-site"
+    return 1
+  fi
+  site_name="$1"
+  response=$(vulpixctl introspection list ves.io.vulpix.terraform_parameters.Object \
+    --name-filter "$site_name" \
+    --store-only)
+  if [[ -n "$response" ]]; then
+    tf_params_id=$(printf '%s\n' "$response" | yq e '.getResponses|keys|.[0]' - 2>/dev/null)
+  else
+    echo >&2 "ERROR: could not find terraform params ID for site named '$site_name'"
+    return 1
+  fi
+  if [[ -n "$tf_params_id" ]]; then
+    vulpixctl introspection get ves.io.schema.views.terraform_parameters.StatusObject "$tf_params_id" \
+      | yq e '.object.applyStatus.tfOutput' -
+  else
+    echo >&2 "ERROR: could not get terraform output for site named '$site_name'"
+    return 1
+  fi
+}
+
+alacritty-toggle-theme() {
+  local dark_theme="Ocean.dark"
+  local light_theme="Ocean.light"
+  if ! command -v alacritty-themes >/dev/null; then
+    echo -n 'alacritty-themes is not installed. install it now? [y/n]? '
+    read -r answer
+    if [[ "$answer" == "y" ]]; then
+      sudo npm install -g alacritty-themes && alacritty-toggle-theme $@
+    fi
+  fi
+  if [[ $(alacritty-themes --current) == "$dark_theme" ]]; then
+    alacritty-themes "$light_theme"
+  else
+    alacritty-themes "$dark_theme"
+  fi
 }
