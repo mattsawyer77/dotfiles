@@ -144,4 +144,5 @@ else
 fi
 
 # go
+go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest
 ln -sf "${DOTFILES_DIR}/go/golangci.yaml" ~/.golangci.yaml

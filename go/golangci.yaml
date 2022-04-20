@@ -27,8 +27,14 @@ linters-settings:
     settings:
       mnd:
         # the list of enabled checks, see https://github.com/tommy-muehle/go-mnd/#checks for description.
-        checks: argument,case,condition,operation,return,assign
-        ignored-numbers: 0,1,2,3,4,8,16,32,64,128,256,512,10,100,1000,1024
+        checks:
+          - argument
+          - case
+          - condition
+          - operation
+          - return
+          - assign
+        ignored-numbers: ["0","1","2","3","4","8","16","32","64","128","256","512","10","100","1000","1024"]
         # ignored-files: magic_.*.go
         # ignored-functions: math.*
   govet:
@@ -61,13 +67,15 @@ linters-settings:
       - unreachable  # check for unreachable code
       - unsafeptr    # check for invalid conversions of uintptr to unsafe.Pointer
       - unusedresult # check for unused results of calls to some functions  nolintlint:
-  revive:
-    # see https://github.com/mgechev/revive#available-rules for details.
-    ignore-generated-header: true
-    # severity: warning
-    rule:
-      var-naming:
-        disabled: true
+  # revive:
+  #   # see https://github.com/mgechev/revive#available-rules for details.
+  #   ignore-generated-header: true
+  #   # severity: warning
+  #   rule:
+  #     var-naming:
+  #       disabled: true
+  #     errorf:
+  #       disabled: true
   # wsl:
   #   # See https://github.com/bombsimon/wsl/blob/master/doc/configuration.md for
   #   # documentation of available settings. These are the defaults for
@@ -98,7 +106,7 @@ linters:
     - goconst
     - gocritic
     - gocyclo
-    - gofmt
+    # - gofmt
     - goimports
     - gomnd
     - gosec
@@ -109,8 +117,8 @@ linters:
     - nakedret
     - nolintlint
     - predeclared
-    - revive
-    - staticcheck
+    # - revive
+    # - staticcheck
     - structcheck
     - tparallel
     - unconvert
@@ -123,10 +131,20 @@ run:
   allow-parallel-runners: true
   concurrency: 8
   issues-exit-code: 1
-  skip-files:
+  skip-dirs:
     - pbgo
-    - extschema
+    - _extschema
     - vendor
+    - .cache
+    - .cache-docker
+    - .cache.go
+    - build_out
+    - coverage_out
+    - deploy
+    - pbswagger
+    - pbts
+    - schema
+    - proto
 
 issues:
   fix: false
@@ -175,7 +193,9 @@ severity:
         - unparam
         - structcheck
         - unconvert
+        - gocritic
+        - gosimple
     - severity: info
       linters:
-        - gocritic
         - gomnd
+        - whitespace
