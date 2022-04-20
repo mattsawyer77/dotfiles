@@ -52,20 +52,20 @@
       :mode markdown-mode
       :n "SPC m p" #'vmd-mode)
 
-;; TODO: not working...
-;; (map! :after go-mode
-;;       :map go-mode-map
-;;       :localleader
-;;       (:prefix ("b" . "build")
-;;         :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
-;;         :desc "lint" "l" (cmd! (compile "make lint"))
-;;         )
-;;       :localleader
-;;       (:prefix ("d" . "debug")
-;;         :desc "DAP Hydra" "h" #'dap-hydra
-;;         :desc "DAP Debug" "d" #'dap-debug
-;;         ))
-
+(map! :after dap-mode
+      :map general-override-mode-map
+      :localleader
+      (:prefix ("d" . "debug")
+       :desc "DAP Debug" "d" #'dap-debug
+       :desc "DAP Hydra" "h" #'dap-hydra
+       :desc "DAP Disconnect" "Q" #'dap-disconnect
+       (:prefix ("b" . "breakpoint")
+        :desc "DAP Breakpoint Add" "a" #'dap-breakpoint-add
+        :desc "DAP Breakpoint Delete" "d" #'dap-breakpoint-delete
+        :desc "DAP Breakpoint Delete All" "D" #'dap-breakpoint-delete
+        )
+       )
+      )
 (map! :after rustic
       :map rustic-mode-map
       :localleader
@@ -97,4 +97,20 @@
       :nv "SPC g M" #'smerge-keep-mine
       :nv "SPC g m" #'smerge-keep-mine
       :nv "SPC g T" #'smerge-keep-lower
+      )
+
+(map! :map general-override-mode-map
+      :nv "SPC f c" #'ediff-buffers
+      )
+
+(map! :mode rfc-mode
+      :map rfc-mode-map
+      :g "C-f" #'rfc-mode-forward-page
+      :g "C-b" #'rfc-mode-backward-page
+      :g "<next>" #'rfc-mode-forward-page
+      :g "<prior>" #'rfc-mode-backward-page
+      )
+
+(map! :map general-override-mode-map
+      :nv "<f9>" #'sawyer--light-switch
       )

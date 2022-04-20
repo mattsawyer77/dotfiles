@@ -2,19 +2,23 @@
 
 (defface sawyer--mono-face
   `((t :inherit default-face
-       :family "PragmataPro Liga 1.1"))
+       :family "PragmataPro Liga 1.1"
+       ;; :family "BlexMono Nerd Font"
+       ))
   "font spec for all monospace text")
 
 (defface sawyer--variable-face
   `((t :inherit default-face
-       :family "Proxima Nova"))
+       ;; :family "Proxima Nova"
+       :family "IBM Plex Sans"
+       :weight medium))
   "font spec for all variable-width text")
 
 ;; TODO can height be defined with a var?
 (defface code-face
   `((t :inherit sawyer--mono-face
-       :height 1.25
-       :weight light
+       :height 1.2
+       :weight normal
     ))
   "code-face")
 ;; TODO: figure out how to make the family dynamic
@@ -30,20 +34,33 @@
        ))
   "org-code-face")
 
+(defcustom sawyer--baseline-font-size 18 "baseline font point size for doom-font and textsize")
+(defcustom sawyer--dark-theme 'doom-tokyo-night "dark theme used for toggling")
+(defcustom sawyer--light-theme 'doom-nord-light "light theme used for toggling")
+
+(defun sawyer--light-switch ()
+  "toggle between light and dark themes"
+  (interactive)
+  (if (eq doom-theme sawyer--light-theme)
+      (load-theme sawyer--dark-theme t)
+      (load-theme sawyer--light-theme t))
+  )
 ;; (load-theme 'doom-ayu-mirage t)
 ;; (load-theme 'doom-monokai-octagon t)
 ;; (load-theme 'doom-monokai-spectrum t)
 ;; (setq-default doom-monokai-spectrum-comment-bg t)
-(load-theme 'doom-tokyo-night t)
+; (load-theme 'doom-tokyo-night t)
+(load-theme sawyer--light-theme t)
 (setq-default line-spacing 0)
 (setq doom-font
   (font-spec
    :family (face-attribute 'sawyer--mono-face :family)
-   :size 19))
+   :size sawyer--baseline-font-size))
 (setq doom-variable-pitch-font
   (font-spec
    :family (face-attribute 'sawyer--variable-face :family)
-   :size 15))
+   :size 15
+   :weight 'medium))
 
 ;; disable solaire mode on GUI
 (after! solaire-mode
@@ -92,7 +109,17 @@
   `(line-number-current-line
     :foreground ,(doom-lighten (doom-color 'bg) 0.3)
     :height 1.0)
+  ;; `(minibuffer-prompt :weight bold :height 1.3)
   )
+; NB: the leading space character is correct
+;; (dolist (buf (list " *Echo Area 0*" " *Echo Area 1*"))
+;;   (when (get-buffer buf)
+;;     (setq-local face-remapping-alist
+;;                 '((default (:height 1.3 :weight bold))))))
+;; (add-hook 'minibuffer-setup-hook
+;;           (lambda ()
+;;             (make-local-variable 'face-remapping-alist)
+;;             (add-to-list 'face-remapping-alist '(default (:weight bold :height 1.3)))))
 
 (after! tree-sitter
   (custom-set-faces!
@@ -213,7 +240,8 @@
     :weight normal
     :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
-  `(org-superstar-header-bullet :foreground ,(doom-color 'red))
+  ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
+  `(org-modern-symbol :foreground ,(doom-color 'red))
   `(org-list-dt :foreground ,(doom-color 'red))
   `(lsp-face-highlight-textual :background ,(doom-lighten (doom-color 'bg) 0.2))
   )
@@ -228,7 +256,8 @@
     :weight normal
     :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
-  `(org-superstar-header-bullet :foreground ,(doom-color 'red))
+  ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
+  `(org-modern-symbol :foreground ,(doom-color 'red))
   `(org-list-dt :foreground ,(doom-color 'red))
   ))
 
@@ -256,24 +285,60 @@
   ;;   :weight normal
   ;;   :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
-  `(org-superstar-header-bullet :foreground ,(doom-color 'red))
+  ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
+  `(org-modern-symbol :foreground ,(doom-color 'red))
   `(org-list-dt :foreground ,(doom-color 'red))
   `(treemacs-root-face :foreground ,(doom-color 'red))
   `(doom-themes-treemacs-root-face :foreground ,(doom-color 'red))
   `(treemacs-header-button-face :foreground ,(doom-color 'red))
   `(lsp-face-highlight-textual :underline (:color ,(doom-color 'blue) :style wave))
+  `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'yellow))
+  `(font-lock-type-face :weight bold :foreground ,(doom-color 'red))
+  `(dockerfile-image-name :foreground ,(doom-color 'cyan))
+  `(highlight-numbers-number :foreground ,(doom-color 'red))
   )
 
-(after! tree-sitter
-  (custom-theme-set-faces! 'doom-horizon
-    `(tree-sitter-hl-face:property :foreground ,(doom-darken (doom-color 'fg) 0.1))
-    `(tree-sitter-hl-face:keyword :foreground ,(doom-color 'orange))
-    `(tree-sitter-hl-face:keyword :foreground ,(doom-color 'orange))
-    `(tree-sitter-hl-face:constant.builtin :weight bold)
-    `(tree-sitter-hl-face:comment :slant normal
-                                  :foreground "#505872")
-    )
+(custom-theme-set-faces! 'doom-nord-light
+  ;; `(header-line
+  ;;   :background ,(doom-color 'bg)
+  ;;   :family ,(face-attribute 'sawyer--variable-face :family)
+  ;;   :height 1.0
+  ;;   :weight semi-bold)
+  ;; `(region :background ,(doom-blend (doom-color 'blue) "#111111" 0.2))
+  `(line-number
+    :foreground ,(doom-darken (doom-color 'bg) 0.1)
+    :height 1.0)
+  `(line-number-current-line
+    :foreground ,(doom-darken (doom-color 'bg) 0.3)
+    :height 1.0)
+  `(font-lock-keyword-face :weight bold)
+  `(font-lock-builtin-face :weight bold)
+  ;; `(org-face
+  ;;   :family ,(face-attribute 'sawyer--variable-face :family)
+  ;;   :weight normal
+  ;;   :foreground ,(doom-blend (doom-color 'fg) (doom-color 'cyan) 0.7))
+  ;; `(org-code-face
+  ;;   :family ,(face-attribute 'sawyer--mono-face :family)
+  ;;   :weight normal
+  ;;   :foreground ,(doom-color 'cyan))
+  ;; `(org-document-title :foreground ,(doom-color 'fg))
+  ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
+  `(org-modern-symbol :foreground ,(doom-color 'red))
+  `(org-list-dt :foreground ,(doom-color 'red))
+  `(treemacs-root-face :foreground ,(doom-color 'red))
+  `(doom-themes-treemacs-root-face :foreground ,(doom-color 'red))
+  `(treemacs-header-button-face :foreground ,(doom-color 'red))
+  `(lsp-face-highlight-textual
+    :foreground ,(doom-color 'fg)
+    :background ,(doom-color 'bg))
+  `(font-lock-keyword-face :weight bold :foreground)
+  `(font-lock-type-face :weight bold :foreground)
+  `(dockerfile-image-name :foreground ,(doom-color 'cyan))
+  `(highlight-numbers-number :foreground ,(doom-color 'red))
   )
+(after! treemacs
+  (when (eq doom-theme 'doom-nord-light)
+    (setq treemacs-window-background-color `("#d4d6e4" . "#e7ebf1"))))
 
 (custom-theme-set-faces! 'doom-old-hope
   `(default :foreground "#87939c" :background "#0A0E14")
@@ -359,36 +424,41 @@
   (setq treemacs-width 40)
   ;; (setq treemacs-position 'right)
   (custom-set-faces!
-    `(treemacs-root-face :height 1.2 :weight semi-bold :slant normal :family ,(face-attribute 'sawyer--variable-face :family) :background ,(doom-darken (doom-color 'bg) 0.4))
-    `(treemacs-directory-collapsed-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-directory-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-file-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-fringe-indicator-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-git-added-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-git-conflict-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-git-ignored-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-git-modified-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-git-renamed-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-git-unmodified-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-git-untracked-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-help-column-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-help-title-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-on-failure-pulse-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-on-success-pulse-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-tags-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
-    `(treemacs-term-node-face :weight light :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-root-face
+      :height 1.2
+      :weight semi-bold
+      :slant normal
+      :family ,(face-attribute 'sawyer--variable-face :family)
+      ;; :background ,(doom-darken (doom-color 'bg) 0.4)
+      )
+    `(treemacs-directory-collapsed-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-directory-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-file-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-fringe-indicator-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-git-added-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-git-conflict-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-git-ignored-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-git-modified-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-git-renamed-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-git-unmodified-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-git-untracked-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-help-column-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-help-title-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-on-failure-pulse-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-on-success-pulse-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-tags-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-term-node-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     )
   )
 
 (add-hook! (prog-mode
-            ;; text-mode
+            text-mode
             conf-toml-mode
             conf-space-mode
-            protobuf-mode
             toml-mode
             gitignore-mode)
   (face-remap-add-relative 'default 'code-face)
-  (face-remap-add-relative 'solaire-default-face 'code-face)
+  ;; (face-remap-add-relative 'solaire-default-face 'code-face)
   ;; (setq-local default-text-properties '(line-spacing 0.25 line-height 1.1))
   (hl-line-mode 1)
   )
@@ -401,13 +471,14 @@
 
 (after! org
   (custom-set-faces!
-    `(org-table :family ,(face-attribute 'sawyer--mono-face :family))
+    `(org-table :family ,(face-attribute 'sawyer--mono-face :family) :height 0.8)
     `(org-block :inherit 'org-code-face :background ,(doom-color 'bg))
     `(org-formula :inherit 'org-code-face :background ,(doom-color 'bg))
     ;; `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
-    `(org-superstar-header-bullet :inherit 'org-face)
+    ;; `(org-superstar-header-bullet :inherit 'org-face)
+    `(org-modern-symbol :foreground ,(doom-color 'red))
     `(org-level-8 :inherit 'org-face :height 0.9)
     `(org-level-7 :inherit 'org-face :height 0.9)
     `(org-level-6 :inherit 'org-face :height 0.9)
@@ -425,7 +496,7 @@
   (face-remap-add-relative 'solaire-default-face 'org-face)
   (face-remap-add-relative 'default 'org-face)
   (face-remap-add-relative 'org-code 'org-code-face)
-  (setq-local default-text-properties '(line-spacing 0.5 line-height 1.3))
+  ;; (setq-local default-text-properties '(line-spacing 0.5 line-height 1.3))
   (setq-local left-margin-width 5)
   (setq-local right-margin-width 5)
   (setq-local display-line-numbers-type nil)
@@ -436,6 +507,13 @@
   )
 
 (after! tree-sitter
+  (custom-theme-set-faces! 'doom-horizon
+    `(tree-sitter-hl-face:property :foreground ,(doom-darken (doom-color 'fg) 0.1))
+    `(tree-sitter-hl-face:keyword :foreground ,(doom-color 'orange))
+    `(tree-sitter-hl-face:constant.builtin :weight bold)
+    `(tree-sitter-hl-face:comment :slant normal
+                                  :foreground "#505872")
+    )
   (custom-theme-set-faces! 'doom-spacegrey
     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
@@ -501,11 +579,34 @@
     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
-    `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
     `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'orange))
     `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow))
     `(tree-sitter-hl-face:function :foreground ,(doom-color 'orange))
-    `(tree-sitter-hl-face:property :foreground ,(doom-color 'fg))
+    `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
+    `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
+    `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
+    `(tree-sitter-hl-face:property.definition :foreground ,(doom-blend 'red 'white 0.6))
+    `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
+    `(tree-sitter-hl-face:type :inherit highlight-numbers-number)
+    )
+  (custom-theme-set-faces! 'doom-nord-light
+    `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
+    `(tree-sitter-hl-face:keyword :weight bold :foreground ,(doom-color 'orange))
+    `(tree-sitter-hl-face:property :inherit font-lock-variable-name-face)
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
+    ;; `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'orange))
+    ;; `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow))
+    ;; `(tree-sitter-hl-face:function :foreground ,(doom-color 'orange))
+    ;; `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:property.definition :foreground ,(doom-blend 'red 'white 0.6))
+    `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
+    `(tree-sitter-hl-face:type :inherit font-lock-type-face)
     )
   )
 
@@ -528,3 +629,28 @@
 (after! writeroom-mode
   (setq-default +zen-text-scale 1)
   (setq-default writeroom-width 100))
+
+(when (display-graphic-p)
+  (use-package textsize
+    :commands textsize-mode
+    :init (textsize-mode)
+    :config
+    (setq textsize-default-points sawyer--baseline-font-size)
+    (setq textsize-pixel-pitch-thresholds
+          ;; 24" 4K:        0.175
+          ;; 34" superwide: 0.233
+          '((0 . 4)
+            (0.12 . 1.9)
+            (0.18 . -3)))
+        ; (setq textsize-monitor-size-thresholds
+        ;       '((0 . -3)
+        ;        (350 . 0)
+        ;        (500 . 3)))
+    ))
+(after! org-modern
+  ;; table styles are still kinda messed up: https://github.com/minad/org-modern/issues/5
+  (setq org-modern-table nil)
+  )
+(add-hook! org-mode #'org-modern-mode)
+(add-hook! org-mode #'writeroom-mode)
+(add-hook! org-agenda-finalize #'org-modern-agenda)

@@ -1,4 +1,44 @@
 ;;;  -*- lexical-binding: t; -*-
+;; (use-package! carbon-modeline
+;;   :hook (prog-mode . carbon-modeline-mode)
+;;   :init
+;;   (setq carbon-modeline-postition 'top
+;;         carbon-modeline-git-diff-mode-line t
+;;         carbon-modeline-visual-bell t
+;;         carbon-modeline-gui-mod-symbol " ✎ ")
+;;   )
+
+;; (use-package! dimmer
+;;   :hook (after-init . dimmer-mode)
+;;   :config
+;;   (setq dimmer-fraction 0.3
+;;         dimmer-adjustment-mode :foreground
+;;         dimmer-use-colorspace :rgb
+;;         dimmer-watch-frame-focus-events nil)
+;;   (dimmer-configure-which-key)
+;;   (dimmer-configure-magit)
+;;   (dimmer-configure-hydra)
+;;   (dimmer-configure-org)
+;;   (dimmer-configure-posframe)
+;;   (add-to-list 'dimmer-buffer-exclusion-regexps "^magit.*")
+;;   (add-to-list 'dimmer-buffer-exclusion-regexps ".*ediff.*")
+;;   )
+
+(defun add-list-to-list (dst src)
+  "Similar to `add-to-list', but accept a list as the 2nd arg"
+  (set dst
+       (append (eval dst) src)))
+
+(use-package! focus
+  :commands focus-mode
+  :config
+  (add-list-to-list 'focus-mode-to-thing
+                    '((go-mode . lsp-folding-range)
+                      (org-mode . lsp-folding-range)
+                      (rust-mode . lsp-folding-range)
+                      (yaml-mode . lsp-folding-range)
+                      ))
+  )
 
 (setq native-comp-async-report-warnings-errors nil)
 (setq doom-modeline-vcs-max-length 30)
@@ -10,6 +50,8 @@
 (setq-default tab-width 2)
 (setq-default scroll-margin 3)
 (setq-default maximum-scroll-margin 0.15)
+
+(setq-default sh-basic-offset 2)
 (when (and (display-graphic-p) IS-MAC)
   (setq doom-modeline-icon t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -45,8 +87,12 @@
   (if (eq (car +format-on-save-enabled-modes) 'not)
     ;; list is exclusion -- add yaml-mode to the list
     (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'yaml-mode t))
+    (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'cpp-mode t))
+    (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'c++-mode t))
     ;; list is inclusion -- remove yaml-mode from the list
     (setq +format-on-save-enabled-modes (delete 'yaml-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'cpp-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'c++-mode +format-on-save-enabled-modes))
     ))
 
 ;; use tree-sitter for syntax highlighting
@@ -77,15 +123,16 @@
 
 (add-hook! emacs-lisp-mode #'+word-wrap-mode)
 (add-hook! emacs-lisp-mode #'rainbow-delimiters-mode-enable)
+(add-hook! emacs-lisp-mode #'rainbow-mode)
 
 (add-hook! go-mode #'+format-enable-on-save-maybe-h)
 (add-hook! go-mode #'turn-on-visual-line-mode)
 (add-hook! go-mode #'+word-wrap-mode)
-(after! (go-mode dap-mode lsp-lens)
+(after! (go-mode lsp-mode dap-mode)
   (add-hook! go-mode
     (setq dap-print-io t)
     (dap-ui-mode t)
-    (lsp-diagnostics-flycheck-enable t)
+    ;; (lsp-diagnostics-flycheck-enable t)
     )
 )
 (defvar-local flycheck-local-checkers nil)
@@ -95,9 +142,11 @@
 
 (advice-add 'flycheck-checker-get :around '+flycheck-checker-get)
 
-(add-hook 'go-mode-hook
-          (lambda()
+(add-hook 'go-mode-hook (lambda()
             (flycheck-golangci-lint-setup)
+            ;; (lsp-register-custom-settings
+            ;;  '(("gopls.completeUnimported" nil nil)
+            ;;    ("gopls.staticcheck" nil nil)))
             (setq flycheck-local-checkers '((lsp . ((next-checkers . (golangci-lint))))))))
 
 (use-package! hl-line+
@@ -110,6 +159,10 @@
     (turn-on-visual-line-mode)
     (display-line-numbers-mode)
     )
+  )
+
+(add-hook! prog-mode
+  (pixel-scroll-precision-mode 1)
   )
 
 (after! undo-tree
@@ -233,69 +286,30 @@
                     )))
   (setq lsp-file-watch-threshold 8000)
   (setq lsp-headerline-breadcrumb-enable 't)
-  (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
-  ;; 1. Symbol highlighting
+  (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project symbols))
   (setq lsp-enable-symbol-highlighting t)
-
-  ;; 2. lsp-ui-doc - on hover dialogs. * disable via
   (setq lsp-ui-doc-enable 't)
   (setq lsp-ui-doc-position 'at-point)
-
-  ;; * disable cursor hover (keep mouse hover)
   (setq lsp-ui-doc-show-with-cursor nil)
-
-  ;; * disable mouse hover (keep cursor hover)
   (setq lsp-ui-doc-show-with-mouse t)
-
-  ;; 3. Lenses
   (setq lsp-lens-enable nil)
   ;; 'above-line causes C-e to snag
   (setq lsp-lens-place-position 'end-of-line)
-
-  ;; 4. Headerline
   (setq lsp-headerline-breadcrumb-enable t)
-
-  ;; 5. Sideline code actions * disable whole sideline via
   (setq lsp-ui-sideline-enable nil)
-
-  ;; * hide code actions
   (setq lsp-ui-sideline-show-code-actions nil)
-
-  ;; * hide only hover symbols
   (setq lsp-ui-sideline-show-hover nil)
-
-  ;; 7. Modeline code actions
   (setq lsp-modeline-code-actions-enable t)
-
-  ;; Turn Off 2 8. Flycheck (or flymake if no flycheck is present)
-  ;; (setq lsp-diagnostics-provider :none)
-
   ;; 9. Sideline diagnostics * disable whole sideline via
   (setq lsp-ui-sideline-enable nil)
-
-  ;; * hide only errors
   (setq lsp-ui-sideline-show-diagnostics nil)
-
-  ;; 10. Eldoc
-  ;; (setq lsp-eldoc-enable-hover nil)
-
-  ;; 11. Modeline diagnostics statistics
   (setq lsp-modeline-diagnostics-enable t)
-
-  ;; Turn Off 3 12. Signature help
   (setq lsp-signature-auto-activate t) ;; you could manually request them via `lsp-signature-activate`
-
-  ;; 13. Signature help documentation (keep the signatures)
   (setq lsp-signature-render-documentation t)
-
-  ;; Turn Off 4 14. Completion (company-mode)
-  ;; (setq lsp-completion-provider :none)
-
-  ;; 15. Completion item detail
   (setq lsp-completion-show-detail t)
-
-  ;; 16. Completion item kind
   (setq lsp-completion-show-kind t)
+  ;; fix for https://github.com/emacs-lsp/lsp-mode/issues/2701
+  (setq lsp-enable-links nil)
 )
 
 (use-package! zoom
@@ -309,9 +323,25 @@
         org-hide-block-startup t
         org-hide-leading-stars t
         org-hide-macro-markers t
-        )
+        org-auto-align-tags nil
+        org-tags-column 0
+        org-catch-invisible-edits 'show-and-error
+        org-special-ctrl-a/e t
+        org-insert-heading-respect-content t
+
+        ;; Org styling, hide markup etc.
+        org-pretty-entities t
+        org-ellipsis "…"
+
+        ;; Agenda styling
+        org-agenda-block-separator ?─
+        org-agenda-time-grid
+        '((daily today require-timed)
+          (800 1000 1200 1400 1600 1800 2000)
+          " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+        org-agenda-current-time-string
+        "⭠ now ─────────────────────────────────────────────────")
   )
-(add-hook! org-mode #'writeroom-mode)
 
 (when-let (dims (doom-store-get 'last-frame-size))
   (cl-destructuring-bind ((left . top) width height fullscreen) dims
@@ -408,3 +438,7 @@
 ;;   (vertico-posframe-mode 1))
 
 (after! nim-mode #'lsp)
+
+(add-hook! rfc-mode-hook #'page-break-lines-mode)
+(add-hook! rfc-mode-hook #'writeroom-mode)
+(add-hook! magit-mode-hook (lambda () (magit-delta-mode +1)))

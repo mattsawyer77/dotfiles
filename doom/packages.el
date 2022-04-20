@@ -30,6 +30,7 @@
   :recipe (:host github
            :repo "tecosaur/org-pandoc-import"
            :files ("*.el" "filters" "preprocessors")))
+(package! vertico-posframe)
 ; https://github.com/hlissner/doom-emacs/issues/5095
 (package! magit-section)
 ;; (package! hlint-refactor)
@@ -43,8 +44,27 @@
            :repo "mattsawyer77/flycheck-golangci-lint"
            :branch "main"
            ))
-(disable-packages! hl-line consult-flycheck)
+(disable-packages! hl-line consult-flycheck org-superstar)
 
 (package! ponylang-mode)
 (package! flycheck-pony)
 (package! pony-snippets)
+(package! rfc-mode)
+(package! page-break-lines)
+(package! magit-delta)
+(package! focus)
+(package! dimmer)
+(package! info-colors)
+(package! svg-tag-mode)
+(package! carbon-themes
+  :recipe (:host github
+           :repo "shaunsingh/nyoom.emacs"
+           :branch "main"
+           :files ("lisp/carbon-themes/*.el")))
+(package! carbon-modeline
+  :recipe (:host github
+           :repo "shaunsingh/nyoom.emacs"
+           :branch "main"
+           :files ("lisp/carbon-modeline/*.el")))
+(package! textsize)
+(package! org-modern)
