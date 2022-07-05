@@ -32,11 +32,11 @@
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
        ;doom-quit         ; DOOM quit-message prompts when you quit Emacs
-       (emoji +unicode)  ; 🙂
+       ; (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        hydra
        ;;indent-guides     ; highlighted indent columns
-       (:if (display-graphic-p) (ligatures))         ; ligatures and symbols to make your code pretty again
+       ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
@@ -79,9 +79,9 @@
        ;;term              ; basic terminal emulator for Emacs
        vterm             ; the best terminal emulation in Emacs
 
-       :checkers
+       ;; :checkers
        ; syntax              ; tasing you for every semicolon you forget
-       (syntax +childframe)              ; tasing you for every semicolon you forget
+       ;(syntax +childframe)              ; tasing you for every semicolon you forget
        ;;spell             ; tasing you for misspelling mispelling
        ;;grammar           ; tasing grammar mistake every you make
 
@@ -97,7 +97,8 @@
        lookup              ; navigate your code and its documentation
        lsp
        ;; (lsp +eglot)
-       (magit +forge)             ; a git porcelain for Emacs
+       ; (magit +forge)             ; a git porcelain for Emacs
+       magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;; pdf               ; pdf enhancements

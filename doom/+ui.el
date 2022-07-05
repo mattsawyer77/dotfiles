@@ -2,7 +2,9 @@
 
 (defface sawyer--mono-face
   `((t :inherit default-face
-       :family "PragmataPro Liga 1.1"
+       ;; :family "PragmataPro Liga 1.1"
+       ;; :family "Iosevka"
+       :family "Iosevka Custom"
        ;; :family "BlexMono Nerd Font"
        ))
   "font spec for all monospace text")
@@ -18,7 +20,7 @@
 (defface code-face
   `((t :inherit sawyer--mono-face
        :height 1.2
-       :weight normal
+       ;; :weight light
     ))
   "code-face")
 ;; TODO: figure out how to make the family dynamic
@@ -31,31 +33,32 @@
 (defface org-code-face
   `((t :inherit code-face
        :height 0.8
+       :weight light
        ))
   "org-code-face")
 
-(defcustom sawyer--baseline-font-size 18 "baseline font point size for doom-font and textsize")
-(defcustom sawyer--dark-theme 'doom-tokyo-night "dark theme used for toggling")
+(defcustom sawyer--baseline-font-size 19.0 "baseline font point size for doom-font and textsize")
+(defcustom sawyer--dark-theme 'doom-spacegrey "dark theme used for toggling")
 (defcustom sawyer--light-theme 'doom-nord-light "light theme used for toggling")
 
 (defun sawyer--light-switch ()
   "toggle between light and dark themes"
   (interactive)
   (if (eq doom-theme sawyer--light-theme)
-      (load-theme sawyer--dark-theme t)
-      (load-theme sawyer--light-theme t))
+      (load-theme sawyer--dark-theme 't)
+      (load-theme sawyer--light-theme 't))
   )
-;; (load-theme 'doom-ayu-mirage t)
-;; (load-theme 'doom-monokai-octagon t)
-;; (load-theme 'doom-monokai-spectrum t)
-;; (setq-default doom-monokai-spectrum-comment-bg t)
-; (load-theme 'doom-tokyo-night t)
-(load-theme sawyer--light-theme t)
-(setq-default line-spacing 0)
+;; (load-theme 'doom-ayu-mirage 't)
+;; (load-theme 'doom-monokai-octagon 't)
+;; (load-theme 'doom-monokai-spectrum 't)
+; (load-theme 'doom-tokyo-night 't)
+(load-theme sawyer--dark-theme 't)
+;; (setq-default line-spacing 8)
 (setq doom-font
   (font-spec
    :family (face-attribute 'sawyer--mono-face :family)
-   :size sawyer--baseline-font-size))
+   :size sawyer--baseline-font-size
+   :weight 'light))
 (setq doom-variable-pitch-font
   (font-spec
    :family (face-attribute 'sawyer--variable-face :family)
@@ -130,12 +133,13 @@
   )
 
 (custom-theme-set-faces! 'doom-spacegrey
-  `(default :foreground "#b1bbcb" :background "#1f242f")
-  `(solaire-default-face :foreground "#87939c" :background "#1f242f")
-  `(solaire-header-line-face :background "#1f242f" :family ,(face-attribute 'sawyer--variable-face :family) :height 1.3 :weight semi-bold)
-  `(header-line :background "#1f242f" :family ,(face-attribute 'sawyer--variable-face :family) :height 1.2 :weight semi-bold)
+  `(default :foreground "#b1bbcb" :background "#1c212c")
+  `(header-line :background "#1c212c" :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0 :weight semi-bold)
   `(line-number :foreground "#393e45"
-                :background ,(doom-darken 'bg 0.2))
+                :background "#1c212c"
+                :height 1.2)
+  `(line-number-current-line :foreground ,(doom-lighten (doom-color 'bg) 0.4)
+                             :height 1.2)
   `(font-lock-keyword-face :weight semi-bold
                            :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
   `(font-lock-constant-face :weight semi-bold
@@ -147,6 +151,7 @@
   `(font-lock-type-face :foreground ,(doom-darken (doom-color 'red) 0.1))
   `(font-lock-function-name-face :foreground ,(doom-blend (doom-color 'cyan) "#88aa88" 0.4))
   `(font-lock-doc-face :foreground ,(doom-color 'orange))
+  `(font-lock-comment-face :foreground ,(doom-blend (doom-color 'cyan) "#555555" 0.2))
   `(lsp-headerline-breadcrumb-project-prefix-face :background "#1f242f")
   `(lsp-headerline-breadcrumb-path-face :background "#1f242f")
   `(lsp-headerline-breadcrumb-symbols-face :background "#1f242f")
@@ -237,7 +242,8 @@
     :foreground ,(doom-blend (doom-color 'fg) (doom-color 'cyan) 0.7))
   `(org-code-face
     :family ,(face-attribute 'sawyer--mono-face :family)
-    :weight normal
+    ;; :weight normal
+    :weight light
     :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
   ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
@@ -253,7 +259,8 @@
     :foreground ,(doom-blend (doom-color 'fg) (doom-color 'cyan) 0.7))
   `(org-code-face
     :family ,(face-attribute 'sawyer--mono-face :family)
-    :weight normal
+    ;; :weight normal
+    :weight light
     :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
   ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
@@ -262,6 +269,7 @@
   ))
 
 (custom-theme-set-faces! 'doom-tokyo-night
+  `(default :weight light)
   ;; `(header-line
   ;;   :background ,(doom-color 'bg)
   ;;   :family ,(face-attribute 'sawyer--variable-face :family)
@@ -269,10 +277,10 @@
   ;;   :weight semi-bold)
   ;; `(region :background ,(doom-blend (doom-color 'blue) "#111111" 0.2))
   `(line-number
-    :foreground ,(doom-lighten (doom-color 'bg) 0.1)
+    :foreground ,(doom-lighten (doom-color 'bg) 0.2)
     :height 1.0)
   `(line-number-current-line
-    :foreground ,(doom-lighten (doom-color 'bg) 0.3)
+    :foreground ,(doom-lighten (doom-color 'bg) 0.4)
     :height 1.0)
   `(font-lock-keyword-face :weight bold)
   `(font-lock-builtin-face :weight bold)
@@ -285,7 +293,7 @@
   ;;   :weight normal
   ;;   :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
-  ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
+  `(org-superstar-header-bullet :foreground ,(doom-color 'red))
   `(org-modern-symbol :foreground ,(doom-color 'red))
   `(org-list-dt :foreground ,(doom-color 'red))
   `(treemacs-root-face :foreground ,(doom-color 'red))
@@ -294,6 +302,7 @@
   `(lsp-face-highlight-textual :underline (:color ,(doom-color 'blue) :style wave))
   `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'yellow))
   `(font-lock-type-face :weight bold :foreground ,(doom-color 'red))
+  `(font-lock-comment-face :foreground "#446597")
   `(dockerfile-image-name :foreground ,(doom-color 'cyan))
   `(highlight-numbers-number :foreground ,(doom-color 'red))
   )
@@ -458,8 +467,8 @@
             toml-mode
             gitignore-mode)
   (face-remap-add-relative 'default 'code-face)
-  ;; (face-remap-add-relative 'solaire-default-face 'code-face)
-  ;; (setq-local default-text-properties '(line-spacing 0.25 line-height 1.1))
+  (setq-default default-text-properties '(line-spacing 0.2 line-height 1.2))
+  (setq-local default-text-properties '(line-spacing 0.2 line-height 1.2))
   (hl-line-mode 1)
   )
 
@@ -467,6 +476,11 @@
   (custom-set-faces!
     `(flycheck-posframe-background-face :background ,(doom-lighten 'bg 0.1))
     )
+  )
+
+(after! flycheck
+  (custom-set-faces!
+    `(flycheck-error :background ,(doom-darken (doom-color 'red) 0.3) :foreground "white"))
   )
 
 (after! org
@@ -520,6 +534,7 @@
     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
+    `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
     )
   (custom-theme-set-faces! 'doom-tomorrow-night
     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
@@ -527,6 +542,7 @@
     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
+    `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
     )
   (custom-theme-set-faces! 'doom-ayu-mirage
     `(tree-sitter-hl-face:type :foreground ,(doom-color 'red) :weight semi-bold)
@@ -572,22 +588,21 @@
     )
   (custom-theme-set-faces! 'doom-tokyo-night
     `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
-    `(tree-sitter-hl-face:keyword :inherit font-lock-keyword-face)
-    `(tree-sitter-hl-face:property :inherit font-lock-variable-name-face)
+    `(tree-sitter-hl-face:keyword :inherit font-lock-keyword-face :weight bold)
     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
-    `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'orange))
-    `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow))
-    `(tree-sitter-hl-face:function :foreground ,(doom-color 'orange))
+    `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'orange) :weight bold)
+    `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow) :weight bold)
+    `(tree-sitter-hl-face:function :foreground ,(doom-color 'orange) :weight bold)
     `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
     `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
     `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
-    `(tree-sitter-hl-face:property.definition :foreground ,(doom-blend 'red 'white 0.6))
+    `(tree-sitter-hl-face:property.definition :foreground ,(doom-blend 'red 'white 0.6) :weight bold)
     `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
-    `(tree-sitter-hl-face:type :inherit highlight-numbers-number)
+    `(tree-sitter-hl-face:type :inherit font-lock-type-face :weight bold)
     )
   (custom-theme-set-faces! 'doom-nord-light
     `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
@@ -637,11 +652,14 @@
     :config
     (setq textsize-default-points sawyer--baseline-font-size)
     (setq textsize-pixel-pitch-thresholds
-          ;; 24" 4K:        0.175
+          ;; 15" MBP:       0.171875
+          ;; 24" 4K:        0.174
           ;; 34" superwide: 0.233
           '((0 . 4)
             (0.12 . 1.9)
-            (0.18 . -3)))
+            (0.17 . 2.5)
+            (0.174 . 0.6)
+            (0.18 . -3.5)))
         ; (setq textsize-monitor-size-thresholds
         ;       '((0 . -3)
         ;        (350 . 0)

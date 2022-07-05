@@ -1,45 +1,4 @@
 ;;;  -*- lexical-binding: t; -*-
-;; (use-package! carbon-modeline
-;;   :hook (prog-mode . carbon-modeline-mode)
-;;   :init
-;;   (setq carbon-modeline-postition 'top
-;;         carbon-modeline-git-diff-mode-line t
-;;         carbon-modeline-visual-bell t
-;;         carbon-modeline-gui-mod-symbol " ✎ ")
-;;   )
-
-;; (use-package! dimmer
-;;   :hook (after-init . dimmer-mode)
-;;   :config
-;;   (setq dimmer-fraction 0.3
-;;         dimmer-adjustment-mode :foreground
-;;         dimmer-use-colorspace :rgb
-;;         dimmer-watch-frame-focus-events nil)
-;;   (dimmer-configure-which-key)
-;;   (dimmer-configure-magit)
-;;   (dimmer-configure-hydra)
-;;   (dimmer-configure-org)
-;;   (dimmer-configure-posframe)
-;;   (add-to-list 'dimmer-buffer-exclusion-regexps "^magit.*")
-;;   (add-to-list 'dimmer-buffer-exclusion-regexps ".*ediff.*")
-;;   )
-
-(defun add-list-to-list (dst src)
-  "Similar to `add-to-list', but accept a list as the 2nd arg"
-  (set dst
-       (append (eval dst) src)))
-
-(use-package! focus
-  :commands focus-mode
-  :config
-  (add-list-to-list 'focus-mode-to-thing
-                    '((go-mode . lsp-folding-range)
-                      (org-mode . lsp-folding-range)
-                      (rust-mode . lsp-folding-range)
-                      (yaml-mode . lsp-folding-range)
-                      ))
-  )
-
 (setq native-comp-async-report-warnings-errors nil)
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
@@ -50,8 +9,8 @@
 (setq-default tab-width 2)
 (setq-default scroll-margin 3)
 (setq-default maximum-scroll-margin 0.15)
-
 (setq-default sh-basic-offset 2)
+
 (when (and (display-graphic-p) IS-MAC)
   (setq doom-modeline-icon t)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -76,24 +35,28 @@
 (add-to-list 'auto-mode-alist '("\\SConstruct". python-mode))
 (add-to-list 'auto-mode-alist '("\\go\.mod". go-mode))
 
-;; make underscore considered as a "word" character
-;; (modify-syntax-entry ?_ "w")
-
 ;; disable format-on-save for yaml-mode
 ;; NOTE: +format-on-save-enabled-modes is a strange variable:
 ;; if the list starts with 'not, then it's an exclusion list;
 ;; if the list does not start with 'not, then it's an inclusion list
-(when (boundp '+format-on-save-enabled-modes)
-  (if (eq (car +format-on-save-enabled-modes) 'not)
-    ;; list is exclusion -- add yaml-mode to the list
-    (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'yaml-mode t))
-    (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'cpp-mode t))
-    (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'c++-mode t))
-    ;; list is inclusion -- remove yaml-mode from the list
+; (when (boundp '+format-on-save-enabled-modes)
+(if (eq (car +format-on-save-enabled-modes) 'not)
+    (progn
+      ;; list is exclusion -- add yaml-mode, et. al. to the list
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'yaml-mode t))
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'cpp-mode t))
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'c++-mode t))
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'protobuf-mode t))
+      )
+  (progn
+    ;; list is inclusion -- remove yaml-mode, et. al. from the list
     (setq +format-on-save-enabled-modes (delete 'yaml-mode +format-on-save-enabled-modes))
     (setq +format-on-save-enabled-modes (delete 'cpp-mode +format-on-save-enabled-modes))
     (setq +format-on-save-enabled-modes (delete 'c++-mode +format-on-save-enabled-modes))
-    ))
+    (setq +format-on-save-enabled-modes (delete 'protobuf-mode +format-on-save-enabled-modes))
+    )
+  )
+; )
 
 ;; use tree-sitter for syntax highlighting
 (use-package! tree-sitter
@@ -111,11 +74,11 @@
   )
 
 (after! dap-mode
-  (add-hook! 'dap-stopped-hook
-            (lambda (arg) (call-interactively #'dap-hydra)))
+  (add-hook! dap-stopped-hook
+            (call-interactively #'dap-hydra))
   )
 
-(after! (go-mode flycheck)
+(after! go-mode
   (require 'dap-go)
   (dap-go-setup)
   ;; (setq flycheck-golangci-lint-fast t)
@@ -125,29 +88,32 @@
 (add-hook! emacs-lisp-mode #'rainbow-delimiters-mode-enable)
 (add-hook! emacs-lisp-mode #'rainbow-mode)
 
-(add-hook! go-mode #'+format-enable-on-save-maybe-h)
 (add-hook! go-mode #'turn-on-visual-line-mode)
 (add-hook! go-mode #'+word-wrap-mode)
-(after! (go-mode lsp-mode dap-mode)
-  (add-hook! go-mode
-    (setq dap-print-io t)
-    (dap-ui-mode t)
-    ;; (lsp-diagnostics-flycheck-enable t)
+(add-hook! go-mode
+           (setq go-guru-scope "...")
+           )
+
+;; override LSP's default diagnostic checker and use golangci-lint instead
+(add-hook! lsp-diagnostics-mode
+  (when (eq major-mode 'go-mode)
+    (lsp-diagnostics-flycheck-disable)
+    (flycheck-golangci-lint-setup)
+    (map! :mode go-mode
+          :map general-override-mode-map
+          :rnv "SPC c x" #'flycheck-list-errors
+          )
     )
-)
-(defvar-local flycheck-local-checkers nil)
-(defun +flycheck-checker-get(fn checker property)
-  (or (alist-get property (alist-get checker flycheck-local-checkers))
-      (funcall fn checker property)))
-
-(advice-add 'flycheck-checker-get :around '+flycheck-checker-get)
-
-(add-hook 'go-mode-hook (lambda()
-            (flycheck-golangci-lint-setup)
-            ;; (lsp-register-custom-settings
-            ;;  '(("gopls.completeUnimported" nil nil)
-            ;;    ("gopls.staticcheck" nil nil)))
-            (setq flycheck-local-checkers '((lsp . ((next-checkers . (golangci-lint))))))))
+  )
+(add-hook! lsp-ui-mode
+  (when (eq major-mode 'go-mode)
+    ;; (setq-local text-scale-mode-remapping 1.2)
+    (setq-local lsp-ui-sideline-enable t)
+    (setq-local lsp-ui-sideline-show-hover t)
+    (setq-local lsp-ui-sideline-show-code-actions nil)
+    (setq-local lsp-ui-sideline-show-diagnostics nil)
+    (lsp-ui-sideline-mode 1)
+    ))
 
 (use-package! hl-line+
   :config
@@ -161,14 +127,16 @@
     )
   )
 
-(add-hook! prog-mode
-  (pixel-scroll-precision-mode 1)
-  )
+(when (fboundp 'pixel-scroll-precision-mode)
+  (add-hook! prog-mode
+    (pixel-scroll-precision-mode 1)
+    )
+)
 
 (after! undo-tree
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/.local/undo")))
-  (global-undo-tree-mode)
+  (global-undo-tree-mode 1)
   )
 
 (after! evil-surround
@@ -188,7 +156,7 @@
   )
 
 (after! treemacs
-  (treemacs-follow-mode)
+  (treemacs-follow-mode 1)
   (setq-default treemacs--width-is-locked nil)
   )
 
@@ -203,7 +171,9 @@
   (push 'company-lsp company-backends)
   )
 
-(after! flycheck
+(use-package! flycheck
+  :config
+  (setq-default flycheck-relevant-error-other-file-show nil)
   ;; make flycheck window auto-resize (with a max height of 15 lines)
   (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
     ad-do-it
@@ -211,9 +181,23 @@
       (with-selected-window window
         (fit-window-to-buffer window 15))))
   ;; disable flycheck while in insert mode
-  (add-hook! evil-insert-state-entry (lambda nil (flycheck-mode -1)))
+  ;; (add-hook! evil-insert-state-entry (flycheck-mode -1))
   ;; re-enable flycheck when exiting insert mode
-  (add-hook! evil-insert-state-exit (lambda nil (flycheck-mode 1)))
+  ;; (add-hook! evil-insert-state-exit (flycheck-mode 1))
+
+  ;; make flycheck columns wider than their absurd defaults
+  (add-hook! flycheck-error-list-mode
+    (setq-local tabulated-list-format '[("File" 24)
+                                        ("Line" 5 flycheck-error-list-entry-< :right-align t)
+                                        ("Col" 3 nil :right-align t)
+                                        ("Level" 8 flycheck-error-list-entry-level-<)
+                                        ("ID" 12 t)
+                                        (#("Message (Checker)" 0 7
+                                           (face flycheck-error-list-error-message)
+                                           9 16
+                                           (face flycheck-error-list-checker-name))
+                                         0 t)])
+    )
   )
 
 (unless (display-graphic-p)
@@ -238,12 +222,9 @@
 (add-hook! rustic-mode #'tree-sitter-mode)
 (add-hook! rustic-mode #'lsp)
 (add-hook! rustic-mode #'+word-wrap-mode)
-(after! (lsp-mode lsp-ui rustic-mode)
-    (setq lsp-lens-enable nil)
-    )
 
 (after! highlight-indent-guides
-  (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) 'highlight-indent-guides-mode)
+  (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) #'highlight-indent-guides-mode)
   )
 
 ;; (after! (terraform-mode lsp-mode)
@@ -292,17 +273,16 @@
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-show-with-cursor nil)
   (setq lsp-ui-doc-show-with-mouse t)
-  (setq lsp-lens-enable nil)
+  (setq lsp-lens-enable t)
   ;; 'above-line causes C-e to snag
-  (setq lsp-lens-place-position 'end-of-line)
+  ;; (setq lsp-lens-place-position 'end-of-line)
   (setq lsp-headerline-breadcrumb-enable t)
-  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-show-hover t)
   (setq lsp-ui-sideline-show-code-actions nil)
-  (setq lsp-ui-sideline-show-hover nil)
+  (setq lsp-ui-sideline-show-diagnostics nil)
   (setq lsp-modeline-code-actions-enable t)
   ;; 9. Sideline diagnostics * disable whole sideline via
-  (setq lsp-ui-sideline-enable nil)
-  (setq lsp-ui-sideline-show-diagnostics nil)
   (setq lsp-modeline-diagnostics-enable t)
   (setq lsp-signature-auto-activate t) ;; you could manually request them via `lsp-signature-activate`
   (setq lsp-signature-render-documentation t)
@@ -310,12 +290,9 @@
   (setq lsp-completion-show-kind t)
   ;; fix for https://github.com/emacs-lsp/lsp-mode/issues/2701
   (setq lsp-enable-links nil)
+  ;; (setq lsp-diagnostics-provider :flymake)
+  (setq lsp-diagnostics-provider :flycheck)
 )
-
-(use-package! zoom
-  ;; :hook (doom-first-input . zoom-mode)
-  :config (setq zoom-size '(0.7 . 0.7)
-                zoom-ignored-major-modes '(treemacs-mode)))
 
 (after! org
   (setq org-agenda-files '("/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes")
@@ -343,24 +320,24 @@
         "⭠ now ─────────────────────────────────────────────────")
   )
 
-(when-let (dims (doom-store-get 'last-frame-size))
-  (cl-destructuring-bind ((left . top) width height fullscreen) dims
-    (setq initial-frame-alist
-          (append initial-frame-alist
-                  `((left . ,left)
-                    (top . ,top)
-                    (width . ,width)
-                    (height . ,height)
-                    (fullscreen . ,fullscreen))))))
+;; (when-let (dims (doom-store-get 'last-frame-size))
+;;   (cl-destructuring-bind ((left . top) width height fullscreen) dims
+;;     (setq initial-frame-alist
+;;           (append initial-frame-alist
+;;                   `((left . ,left)
+;;                     (top . ,top)
+;;                     (width . ,width)
+;;                     (height . ,height)
+;;                     (fullscreen . ,fullscreen))))))
 
-(defun save-frame-dimensions ()
-  (doom-store-put 'last-frame-size
-                  (list (frame-position)
-                        (frame-width)
-                        (frame-height)
-                        (frame-parameter nil 'fullscreen))))
+;; (defun save-frame-dimensions ()
+;;   (doom-store-put 'last-frame-size
+;;                   (list (frame-position)
+;;                         (frame-width)
+;;                         (frame-height)
+;;                         (frame-parameter nil 'fullscreen))))
 
-(add-hook 'kill-emacs-hook #'save-frame-dimensions)
+;; (add-hook 'kill-emacs-hook #'save-frame-dimensions)
 
 (add-hook! ponylang-mode
   (setq create-lockfiles nil)
@@ -412,7 +389,7 @@
 ;;     ;; (setq lsp-yaml-hover nil)
 ;;     ;; (setq lsp-yaml-custom-tags nil)
 ;;     )
-(add-hook! yaml-mode-hook (lambda () (+lsp-optimization-mode -1)))
+(add-hook! yaml-mode-hook (+lsp-optimization-mode -1))
 
 (after! org-pandoc-import
   ;; automatically convert markdown to org (and back) on-the-fly
@@ -441,4 +418,21 @@
 
 (add-hook! rfc-mode-hook #'page-break-lines-mode)
 (add-hook! rfc-mode-hook #'writeroom-mode)
-(add-hook! magit-mode-hook (lambda () (magit-delta-mode +1)))
+;; (add-hook! magit-mode
+;;   (magit-delta-mode 1)
+;;   )
+
+;; (after! flymake-golangci
+;;   (setq flymake-golangci-executable "/run/current-system/sw/bin/golangci-lint")
+;;   ;; (add-hook! go-mode #'flymake-go-staticcheck-enable)
+;;   ;; (add-hook! go-mode #'flymake-mode)
+;;   )
+
+(set-popup-rule! "^\\*doom:vterm.*"
+  :side 'right
+  :slot 5
+  :vslot 5
+  :size 0.40
+  :select t
+  :quit t
+  :autosave t)

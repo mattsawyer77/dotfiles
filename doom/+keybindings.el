@@ -38,11 +38,26 @@
                  (interactive)
                  (treemacs-visit-node-no-split t)))
 
-(map! :after flycheck
-      :n "SPC e n" #'flycheck-next-error
-      :n "SPC e n" #'flycheck-next-error
-      :n "SPC e p" #'flycheck-previous-error
-      :n "SPC e v" #'flycheck-verify-setup)
+(map! :mode flycheck
+      :mode flycheck-mode-map
+      :localleader
+      (:prefix ("e" . "errors")
+       :desc "show buffer errors" "l" #'flycheck-list-errors
+       :desc "go to next error" "n" #'flycheck-next-error
+       :desc "go to previous error" "p" #'flycheck-previous-error
+       )
+      )
+
+(map! :mode flymake
+      :map flymake-mode-map
+      :localleader
+      (:prefix ("e" . "errors")
+       :desc "show buffer errors" "l" #'flymake-show-buffer-diagnostics
+       :desc "show project errors" "L" #'flymake-show-project-diagnostics
+       :desc "go to next error" "n" #'flymake-goto-next-error
+       :desc "go to previous error" "p" #'flymake-goto-prev-error
+       )
+      )
 
 (map! :after zoom
       :desc "toggle Zoom"
@@ -113,4 +128,6 @@
 
 (map! :map general-override-mode-map
       :nv "<f9>" #'sawyer--light-switch
+      :nv "SPC \"" #'vertico-repeat-select
+      :g "C-s" #'basic-save-buffer
       )
