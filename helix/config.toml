@@ -1,0 +1,30 @@
+theme = "mogster"
+# At most one section each of 'keys.normal', 'keys.insert' and 'keys.select'
+[keys.normal]
+C-s = ":w" # Maps the Control-s to the typable command :w which is an alias for :write (save file)
+"C-," = ":open ~/.config/helix/config.toml" # Maps the Control-, to opening of the helix config file
+"A-." = ":open ~/.config/helix/config.toml" # Maps the Alt-., to opening of the helix config file
+"0" = "goto_line_start" # Maps the 'w' key move_line_up
+"$" = "goto_line_end" # Maps the 'w' key move_line_up
+"C-e" = "scroll_down"
+"C-y" = "scroll_up"
+"space" = { ":" = "command_palette" }
+"#" = "toggle_comments"
+"D" = "kill_to_line_end"
+
+# g = { a = "code_action" } # Maps `ga` to show possible code actions
+# "ret" = ["open_below", "normal_mode"] # Maps the enter key to open_below then re-enter normal mode
+
+# [keys.insert]
+# "A-x" = "normal_mode" # Maps Alt-X to enter normal mode
+# j = { k = "normal_mode" } # Maps `jk` to exit insert mode
+
+[editor.file-picker]
+hidden = false
+
+[editor.lsp]
+display-messages = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
