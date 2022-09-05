@@ -34,30 +34,33 @@
 (add-to-list 'auto-mode-alist '("\\SConstruct". python-mode))
 (add-to-list 'auto-mode-alist '("\\go\.mod". go-mode))
 
-;; make underscore considered as a "word" character
-;; (modify-syntax-entry ?_ "w")
-
 ;; use tree-sitter for syntax highlighting
-;; (use-package! tree-sitter
-;;   :config
-;;   (require 'tree-sitter-langs)
-;;   (global-tree-sitter-mode)
-;;   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (use-package! rustic
   :defer
   :config
-  (setq rustic-lsp-server 'rust-analyzer)
-  (setq rustic-format-on-save t)
+  (setq rustic-lsp-server 'rust-analyzer
+        rustic-format-on-save t
+        lsp-rust-server 'rust-analyzer
+        lsp-rust-analyzer-display-chaining-hints t
+        lsp-rust-analyzer-display-parameter-hints t
+        lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-cargo-watch-command "clippy")
   (auto-save-mode -1)
   )
 
-(after! dap-mode
-  (add-hook! 'dap-stopped-hook
-            (lambda (arg) (call-interactively #'dap-hydra)))
-  )
+;; XXX: not working
+;; (after! dap-mode
+;;   (add-hook! 'dap-stopped-hook
+;;             (lambda (arg) (call-interactively #'dap-hydra)))
+;;   )
 
-(after! (go-mode flycheck)
+(after! (dap-mode go-mode flycheck)
   (require 'dap-go)
   (dap-go-setup)
   ;; (setq flycheck-golangci-lint-fast t)
@@ -84,18 +87,18 @@
 
 (advice-add 'flycheck-checker-get :around '+flycheck-checker-get)
 
-(add-hook 'go-mode-hook
-          (lambda()
-            (flycheck-golangci-lint-setup)
-            (setq flycheck-local-checkers '((lsp . ((next-checkers . (golangci-lint))))))))
+;; (add-hook 'go-mode-hook
+;;           (lambda()
+;;             (flycheck-golangci-lint-setup)
+;;             (setq flycheck-local-checkers '((lsp . ((next-checkers . (golangci-lint))))))))
 
-(use-package! hl-line+
-  :config
-  (hl-line-when-idle-interval 0.1)
-  (toggle-hl-line-when-idle t))
+;; (use-package! hl-line+
+;;   :config
+;;   (hl-line-when-idle-interval 0.1)
+;;   (toggle-hl-line-when-idle t))
 
 (after! display-line-numbers
-  (add-hook! prog-mode
+  (add-hook! (prog-mode haskell-cabal-mode)
     (turn-on-visual-line-mode)
     (display-line-numbers-mode)
     )
@@ -113,10 +116,10 @@
 
 (after! projectile
   (setq projectile-project-search-path '("~/workspaces"
-                                         "~/workspaces/f5cs-orchestration"
                                          "~/workspaces/volterra/ves.io"
                                          "~/haskell"
-                                         "~/rust"))
+                                         "~/rust"
+                                         "~/racket"))
   )
 
 (after! persp
@@ -140,6 +143,7 @@
   )
 
 (after! flycheck
+  (setq flycheck-relevant-error-other-file-show nil)
   ;; make flycheck window auto-resize (with a max height of 15 lines)
   (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
     ad-do-it
@@ -162,24 +166,36 @@
   (after! evil-terminal-cursor-changer
     (evil-terminal-cursor-changer-activate) ; or (etcc-on)
     )
-)
+  )
 
 (after! (haskell lsp-haskell ormolu lsp-ui)
   (setq lsp-haskell-process-path-hie "hie-wrapper")
   (setq ormolu-reformat-buffer-on-save t)
   )
 (add-hook! haskell-mode #'lsp)
-(add-hook! haskell-mode 'ormolu-format-on-save-mode)
+(add-hook! haskell-mode
+           (ormolu-format-on-save-mode)
+           (flycheck-posframe-mode -1)
+           )
+
 
 ;; (add-hook! rustic-mode #'tree-sitter-mode)
-(add-hook! rustic-mode #'lsp)
+(add-hook! rustic-mode
+           (lsp)
+           (+word-wrap-mode)
+           (flycheck-posframe-mode -1)
+           )
 (add-hook! rustic-mode #'+word-wrap-mode)
-(after! (lsp-mode lsp-ui rustic-mode)
-    (setq lsp-lens-enable nil)
-    )
+;; (after! (lsp-mode lsp-ui rustic-mode)
+;;   (setq lsp-lens-enable nil)
+;;   )
 
 (after! highlight-indent-guides
-  (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) 'highlight-indent-guides-mode)
+  (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) #'highlight-indent-guides-mode)
+  )
+
+(after! js-mode
+  (setq-default js-indent-level 2)
   )
 
 ;; (after! (terraform-mode lsp-mode)
@@ -195,7 +211,10 @@
 ;;                     :major-modes '(terraform-mode)
 ;;                     :server-id 'terraform-ls)))
 
-(add-hook! terraform-mode #'lsp)
+(add-hook! terraform-mode
+  (lsp)
+  (terraform-format-on-save-mode)
+  )
 
 (add-hook! js2-mode
   (prettier-js-mode)
@@ -205,9 +224,6 @@
   (setq-default js2-basic-offset 2)
   )
 
-(add-hook! terraform-mode
-  (terraform-format-on-save-mode)
-  )
 
 (after! (lsp-mode lsp-ui)
   (setq lsp-file-watch-ignored-directories
@@ -221,8 +237,6 @@
                     "[/\\\\]\\.cache\\'"
                     )))
   (setq lsp-file-watch-threshold 8000)
-  (setq lsp-headerline-breadcrumb-enable 't)
-  (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
   ;; 1. Symbol highlighting
   (setq lsp-enable-symbol-highlighting t)
 
@@ -237,12 +251,13 @@
   (setq lsp-ui-doc-show-with-mouse t)
 
   ;; 3. Lenses
-  (setq lsp-lens-enable nil)
+  (setq lsp-lens-enable 't)
   ;; 'above-line causes C-e to snag
   (setq lsp-lens-place-position 'end-of-line)
 
   ;; 4. Headerline
   (setq lsp-headerline-breadcrumb-enable t)
+  ;; (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
 
   ;; 5. Sideline code actions * disable whole sideline via
   (setq lsp-ui-sideline-enable nil)
@@ -285,22 +300,30 @@
 
   ;; 16. Completion item kind
   (setq lsp-completion-show-kind t)
+
+  (setq lsp-enable-links nil)
+
+  (setq lsp-enable-symbol-highlighting nil)
 )
 
-(use-package! zoom
-  ;; :hook (doom-first-input . zoom-mode)
-  :config (setq zoom-size '(0.7 . 0.7)
-                zoom-ignored-major-modes '(treemacs-mode)))
+;(use-package! zoom
+;  ;; :hook (doom-first-input . zoom-mode)
+;  :config (setq zoom-size '(0.7 . 0.7)
+;                zoom-ignored-major-modes '(treemacs-mode)))
 
 (after! org
   (setq org-agenda-files '("/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes")
         org-hide-emphasis-markers t
-        org-hide-block-startup t
+        org-hide-block-startup nil
         org-hide-leading-stars t
         org-hide-macro-markers t
+        org-pretty-entities t
         org-directory "/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes"
         )
   )
+
+(use-package! org-pandoc-import
+  :after org)
 
 (when-let (dims (doom-store-get 'last-frame-size))
   (cl-destructuring-bind ((left . top) width height fullscreen) dims
@@ -381,7 +404,7 @@
 (after! magit
   (setq auto-revert-interval 30)
   (setq auto-revert-check-vc-info t))
-
+(add-hook! magit (lambda () (magit-delta-mode +1)))
 ;; (use-package! makefile-executor
 ;;   :defer
 ;;   :config
@@ -389,4 +412,68 @@
 ;;   ;; emacs--makefile--list:
 ;;   ;; @$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ \"^[#.]\") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'\n"
 ;;   (setq-default makefile-executor-list-target-code)
+;;   )
+
+(add-hook! nim-mode #'+word-wrap-mode)
+
+(add-hook! (prog-mode text-mode org-mode haskell-cabal-mode)
+  (pixel-scroll-precision-mode 1))
+
+(add-hook! org #'org-pretty-table-mode)
+(add-hook! org #'org-ol-tree)
+(add-hook! org #'org)
+
+(after! vterm
+  (setq vterm-always-compile-module t)
+  (setq vterm-kill-buffer-on-exit t)
+  )
+
+(add-hook! ocaml-mode #'lsp)
+
+(use-package! orderless
+  :config
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(add-hook! conf-toml-mode #'lsp)
+
+;; Configure directory extension.
+;; (use-package! vertico-buffer
+;;   :after vertico
+;;   :ensure nil
+;;   ;; ;; More convenient directory navigation commands
+;;   ;; :bind (:map vertico-map
+;;   ;;        ("RET" . vertico-directory-enter)
+;;   ;;        ("DEL" . vertico-directory-delete-char)
+;;   ;;        ("M-DEL" . vertico-directory-delete-word))
+;;   ;; ;; Tidy shadowed file names
+;;   ;; :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+;;   :config
+;;   (setq vertico-buffer-display-action
+;;         '(display-buffer-in-side-window
+;;           (window-height . 12)
+;;           (side . top)))
+;;   (defun my-vertico-buffer-setup ()
+;;     (dolist (win (get-buffer-window-list))
+;;       (set-window-parameter win 'my-mini-window (window-minibuffer-p win)))
+;;     (face-remap-add-relative 'default '(:filtered (:window my-mini-window nil) (:background "gray98")))
+;;     (face-remap-add-relative 'fringe '(:filtered (:window my-mini-window nil) (:background "gray90")))
+;;     (face-remap-add-relative 'mode-line-active :height 1.0 :box nil :background "white" :overline "gray90")
+;;     (face-remap-add-relative 'mode-line-inactive :height 1.0 :box nil :background "white" :overline "gray90")
+;;     (face-remap-add-relative 'header-line :height 1 :box nil :background "white" :underline "gray90")
+;;     (setq-local
+;;      left-fringe-width 1
+;;      right-fringe-width 1
+;;      left-margin-width 1
+;;      right-margin-width 1
+;;      fringes-outside-margins t
+;;      mode-line-format ""
+;;      header-line-format "")
+;;     (dolist (win (get-buffer-window-list))
+;;       (set-window-buffer win (current-buffer))))
+;;   (advice-add #'vertico-buffer--setup :after #'my-vertico-buffer-setup)
 ;;   )

@@ -15,6 +15,7 @@
       :n "C-," (lambda ()
                  (interactive)
                      (dired-other-window "~/dotfiles/doom"))
+      :niv "C-s" #'save-buffer
       )
 
 (map! :after lsp-ui
