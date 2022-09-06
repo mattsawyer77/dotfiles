@@ -190,8 +190,17 @@
 ;;   (setq lsp-lens-enable nil)
 ;;   )
 
-(after! highlight-indent-guides
-  (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) #'highlight-indent-guides-mode)
+(use-package! highlight-indent-guides
+  :defer
+  :hook ((haskell-mode
+          yaml-mode
+          json-mode
+          makefile-mode
+          makefile-bsdmake-mode)
+         . highlight-indent-guides-mode)
+  :init
+  (setq highlight-indent-guides-method 'fill
+        highlight-indent-guides-suppress-auto-error nil)
   )
 
 (after! js-mode

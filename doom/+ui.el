@@ -1,15 +1,15 @@
 ;;;  -*- lexical-binding: t; -*-
 
-;; (setq default-frame-alist
-;;       (append (list
-;;                ;; '(min-height . 1)  '(height . 45)
-;;                ;; '(min-width  . 1)  '(width  . 81)
-;;                '(vertical-scroll-bars . nil)
-;;                ;; '(internal-border-width . 8)
-;;                '(left-fringe . 10)
-;;                '(right-fringe . 10)
-;;                '(tool-bar-lines . 0)
-;;                '(menu-bar-lines . 0))))
+(setq default-frame-alist
+      (append (list
+               '(min-height . 1)  '(height . 45)
+               '(min-width  . 1)  '(width  . 81)
+               '(vertical-scroll-bars . nil)
+               '(internal-border-width . 8)
+               '(left-fringe . 10)
+               '(right-fringe . 10)
+               '(tool-bar-lines . 0)
+               '(menu-bar-lines . 0))))
 
 (defface sawyer--mono-face
   `((t :inherit default-face
@@ -587,3 +587,12 @@
 ;;                                    :height 0.8)
 ;;     )
 ;;   )
+
+(add-hook! highlight-indent-guides-mode
+  (custom-set-faces!
+    `(highlight-indent-guides-odd-face :inherit default
+                                       :background ,(doom-lighten 'bg 0.1))
+    `(highlight-indent-guides-even-face :inherit default
+                                        :background ,(doom-lighten 'bg 0.15))
+    )
+  )

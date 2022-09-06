@@ -3,19 +3,12 @@
 (map! "<mouse-4>" 'up-slightly)
 (map! "<mouse-5>" 'down-slightly)
 
-;; (select-window
-;;    (car (seq-filter
-;;      (lambda (window)
-;;        (equal name (buffer-name (window-buffer window))))
-;;      (window-list-1 nil 0 t)))))
-
-;; (unbind-key "S-," global-map)
-
 (map! :map general-override-mode-map
       :n "C-," (lambda ()
                  (interactive)
                      (dired-other-window "~/dotfiles/doom"))
       :niv "C-s" #'save-buffer
+      :n "#" #'evilnc-comment-or-uncomment-lines
       )
 
 (map! :after lsp-ui
@@ -24,13 +17,6 @@
 
 (map! :after transpose-frame
       :nv "<f4>" #'transpose-frame)
-
-;; (map! :after counsel
-;;       :nv "C-s" #'swiper
-;;       :n "C-<tab>" #'counsel-fzf)
-
-;; (map! :after iedit
-;;       :nv "C-;" #'iedit-mode)
 
 (map! :after treemacs
       :map treemacs-mode-map
@@ -41,31 +27,13 @@
 
 (map! :after flycheck
       :n "SPC e n" #'flycheck-next-error
-      :n "SPC e n" #'flycheck-next-error
       :n "SPC e p" #'flycheck-previous-error
-      :n "SPC e v" #'flycheck-verify-setup)
-
-(map! :after zoom
-      :desc "toggle Zoom"
-      :n "SPC t z" #'zoom-mode)
+      :n "SPC e v" #'flycheck-verify-setup
+      :n "SPC e l" #'flycheck-list-errors)
 
 (map! :after vmd
       :mode markdown-mode
       :n "SPC m p" #'vmd-mode)
-
-;; TODO: not working...
-;; (map! :after go-mode
-;;       :map go-mode-map
-;;       :localleader
-;;       (:prefix ("b" . "build")
-;;         :desc "errcheck" "e" (cmd! (compile "errcheck -verbose"))
-;;         :desc "lint" "l" (cmd! (compile "make lint"))
-;;         )
-;;       :localleader
-;;       (:prefix ("d" . "debug")
-;;         :desc "DAP Hydra" "h" #'dap-hydra
-;;         :desc "DAP Debug" "d" #'dap-debug
-;;         ))
 
 (map! :after rustic
       :map rustic-mode-map
