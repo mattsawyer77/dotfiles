@@ -72,6 +72,9 @@
    :size 15
    :weight 'medium))
 
+(setq tab-bar-separator " | "
+      tab-bar-border 10)
+
 ;; disable solaire mode on GUI
 (after! solaire-mode
   (when (display-graphic-p)

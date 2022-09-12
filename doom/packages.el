@@ -27,5 +27,6 @@
 (package! info-colors)
 (package! textsize)
 (package! org-modern)
+(package! tabspaces)
 
 (disable-packages! hl-line)

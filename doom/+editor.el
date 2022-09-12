@@ -398,10 +398,74 @@
 ;;   (magit-delta-mode 1)
 ;;   )
 
-;; (after! flymake-golangci
-;;   (setq flymake-golangci-executable "/run/current-system/sw/bin/golangci-lint")
-;;   ;; (add-hook! go-mode #'flymake-go-staticcheck-enable)
-;;   ;; (add-hook! go-mode #'flymake-mode)
+(use-package! tabspaces
+  ;; use this next line only if you also use straight, otherwise ignore it.
+  :hook (after-init . tabspaces-mode) ;; use this only if you want the minor-mode loaded at startup.
+  :commands (tabspaces-switch-or-create-workspace
+             tabspaces-open-or-create-project-and-workspace)
+  :custom
+  (tabspaces-use-filtered-buffers-as-default t)
+  (tabspaces-default-tab "main")
+  (tabspaces-remove-to-default t)
+  (tabspaces-include-buffers '("*scratch*"))
+  :config
+  (setq tab-bar-new-tab-choice "*scratch*")
+  )
+
+(after! consult
+  ;; hide full buffer list (still available with "b" prefix)
+  (consult-customize consult--source-buffer :hidden t :default nil)
+  ;; set consult-workspace buffer list
+  (defvar consult--source-workspace
+    (list :name     "Workspace Buffers"
+          :narrow   ?w
+          :history  'buffer-name-history
+          :category 'buffer
+          :state    #'consult--buffer-state
+          :default  t
+          :items    (lambda () (consult--buffer-query
+                                :predicate #'tabspaces--local-buffer-p
+                                :sort 'visibility
+                                :as #'buffer-name)))
+
+    "Set workspace buffer list for consult-buffer.")
+  (add-to-list 'consult-buffer-sources 'consult--source-workspace))
+
+;; Configure directory extension.
+;; (use-package! vertico-buffer
+;;   :after vertico
+;;   :ensure nil
+;;   ;; ;; More convenient directory navigation commands
+;;   ;; :bind (:map vertico-map
+;;   ;;        ("RET" . vertico-directory-enter)
+;;   ;;        ("DEL" . vertico-directory-delete-char)
+;;   ;;        ("M-DEL" . vertico-directory-delete-word))
+;;   ;; ;; Tidy shadowed file names
+;;   ;; :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+;;   :config
+;;   (setq vertico-buffer-display-action
+;;         '(display-buffer-in-side-window
+;;           (window-height . 12)
+;;           (side . top)))
+;;   (defun my-vertico-buffer-setup ()
+;;     (dolist (win (get-buffer-window-list))
+;;       (set-window-parameter win 'my-mini-window (window-minibuffer-p win)))
+;;     (face-remap-add-relative 'default '(:filtered (:window my-mini-window nil) (:background "gray98")))
+;;     (face-remap-add-relative 'fringe '(:filtered (:window my-mini-window nil) (:background "gray90")))
+;;     (face-remap-add-relative 'mode-line-active :height 1.0 :box nil :background "white" :overline "gray90")
+;;     (face-remap-add-relative 'mode-line-inactive :height 1.0 :box nil :background "white" :overline "gray90")
+;;     (face-remap-add-relative 'header-line :height 1 :box nil :background "white" :underline "gray90")
+;;     (setq-local
+;;      left-fringe-width 1
+;;      right-fringe-width 1
+;;      left-margin-width 1
+;;      right-margin-width 1
+;;      fringes-outside-margins t
+;;      mode-line-format ""
+;;      header-line-format "")
+;;     (dolist (win (get-buffer-window-list))
+;;       (set-window-buffer win (current-buffer))))
+;;   (advice-add #'vertico-buffer--setup :after #'my-vertico-buffer-setup)
 ;;   )
 
 (set-popup-rule! "^\\*doom:vterm.*"
