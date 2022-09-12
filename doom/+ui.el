@@ -46,6 +46,9 @@
 ;; (load-theme 'doom-nord-light 't)
 (doom-modeline-mode 1)
 (setq-default line-spacing 3)
+(setq tab-bar-separator " | "
+      tab-bar-border 10
+      )
 (setq doom-font
   (font-spec
    :family (face-attribute 'sawyer--mono-face :family)
@@ -99,6 +102,9 @@
   `(lsp-headerline-breadcrumb-symbols-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
   `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
   `(lsp-lens-face :foreground ,(doom-color 'default) :height 0.8)
+  `(tab-bar :family ,(face-attribute 'sawyer--variable-face :family))
+  `(tab-bar-tab :foreground ,(doom-color 'red))
+  `(tab-bar-tab-inactive :foreground ,(doom-darken 'fg 0.4))
 ;;   `(lsp-face-highlight-textual :foreground ,(doom-lighten 'fg 0.1) :background ,(doom-darken 'bg 0.5))
 ;;   `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :semi-bold 'semi-bold)
 ;;   `(magit-blame-heading :background "#111111")
@@ -266,6 +272,7 @@
   )
 
 (after! doom-modeline
+  (setq doom-modeline-buffer-file-name-style 'relative-to-project)
   (setq doom-modeline-major-mode-icon t)
   (custom-set-faces!
     `(doom-modeline-project-dir :weight semi-bold :background ,(doom-color 'default))

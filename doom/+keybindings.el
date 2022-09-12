@@ -9,6 +9,11 @@
                      (dired-other-window "~/dotfiles/doom"))
       :niv "C-s" #'save-buffer
       :n "#" #'evilnc-comment-or-uncomment-lines
+      ;; tabspaces
+      :n "S-<left>" #'tab-bar-switch-to-prev-tab
+      :n "S-<right>" #'tab-bar-switch-to-next-tab
+      :n "SPC <tab> x" #'tabspaces-kill-buffers-close-workspace
+      :n "SPC <tab> <tab>" #'tabspaces-open-or-create-project-and-workspace
       )
 
 (map! :after lsp-ui

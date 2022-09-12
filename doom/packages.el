@@ -62,6 +62,7 @@
 (package! info-colors)
 ;; (package! svg-tag-mode)
 (package! org-modern)
+(package! tabspaces)
 (package! solaire-mode :disable t)
 ;; (package! carbon-themes
 ;;   :recipe (:host github
