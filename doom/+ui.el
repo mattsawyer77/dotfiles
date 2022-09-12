@@ -1,17 +1,30 @@
 ;;;  -*- lexical-binding: t; -*-
 
+(setq default-frame-alist
+      (append (list
+               '(inhibit-double-buffering . t)
+               '(min-height . 1)
+               '(height . 45)
+               '(min-width . 1)
+               '(width . 81)
+               '(vertical-scroll-bars . nil)
+               '(internal-border-width . 20)
+               '(left-fringe . 0)
+               '(right-fringe . 0)
+               '(tool-bar-lines . 0)
+               '(menu-bar-lines . 0)
+               )))
+(when (and IS-MAC (display-graphic-p))
+  (menu-bar-mode))
+
 (defface sawyer--mono-face
   `((t :inherit default-face
-       ;; :family "PragmataPro Liga 1.1"
-       ;; :family "Iosevka"
-       :family "Iosevka Custom"
-       ;; :family "BlexMono Nerd Font"
+       :family "PragmataPro Liga"
        ))
   "font spec for all monospace text")
 
 (defface sawyer--variable-face
   `((t :inherit default-face
-       ;; :family "Proxima Nova"
        :family "IBM Plex Sans"
        :weight medium))
   "font spec for all variable-width text")
@@ -20,7 +33,6 @@
 (defface code-face
   `((t :inherit sawyer--mono-face
        :height 1.2
-       ;; :weight light
     ))
   "code-face")
 ;; TODO: figure out how to make the family dynamic
@@ -37,8 +49,8 @@
        ))
   "org-code-face")
 
-(defcustom sawyer--baseline-font-size 19.0 "baseline font point size for doom-font and textsize")
-(defcustom sawyer--dark-theme 'doom-spacegrey "dark theme used for toggling")
+(defcustom sawyer--baseline-font-size 18.0 "baseline font point size for doom-font and textsize")
+(defcustom sawyer--dark-theme 'doom-tokyo-night "dark theme used for toggling")
 (defcustom sawyer--light-theme 'doom-nord-light "light theme used for toggling")
 
 (defun sawyer--light-switch ()
@@ -48,12 +60,7 @@
       (load-theme sawyer--dark-theme 't)
       (load-theme sawyer--light-theme 't))
   )
-;; (load-theme 'doom-ayu-mirage 't)
-;; (load-theme 'doom-monokai-octagon 't)
-;; (load-theme 'doom-monokai-spectrum 't)
-; (load-theme 'doom-tokyo-night 't)
 (load-theme sawyer--dark-theme 't)
-;; (setq-default line-spacing 8)
 (setq doom-font
   (font-spec
    :family (face-attribute 'sawyer--mono-face :family)
@@ -112,17 +119,7 @@
   `(line-number-current-line
     :foreground ,(doom-lighten (doom-color 'bg) 0.3)
     :height 1.0)
-  ;; `(minibuffer-prompt :weight bold :height 1.3)
   )
-; NB: the leading space character is correct
-;; (dolist (buf (list " *Echo Area 0*" " *Echo Area 1*"))
-;;   (when (get-buffer buf)
-;;     (setq-local face-remapping-alist
-;;                 '((default (:height 1.3 :weight bold))))))
-;; (add-hook 'minibuffer-setup-hook
-;;           (lambda ()
-;;             (make-local-variable 'face-remapping-alist)
-;;             (add-to-list 'face-remapping-alist '(default (:weight bold :height 1.3)))))
 
 (after! tree-sitter
   (custom-set-faces!
@@ -185,11 +182,10 @@
   `(font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.4))
   `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :semi-bold 'semi-bold)
   )
-(when (eq doom-theme 'doom-ayu-mirage)
-  (setq evil-normal-state-cursor '(box "cyan")
+  (setq
       evil-insert-state-cursor '(bar "green")
+      evil-replace-state-cursor '(box "red")
       evil-visual-state-cursor '(hollow "yellow"))
-  )
 
 (custom-theme-set-faces! 'doom-tomorrow-night
   `(font-lock-string-face :background ,(doom-lighten (doom-color 'bg) 0.05)
@@ -215,8 +211,10 @@
     :foreground "black")
   )
 (custom-theme-set-faces! '(doom-monokai-octagon doom-monokai-spectrum)
+  `(default :inherit default :background ,(doom-darken (doom-color 'bg) 0.2))
+  `(vertical-border :inherit vertical-border :background ,(doom-darken (doom-color 'bg) 0.3))
   `(header-line
-    :background ,(doom-color 'bg)
+    :background ,(doom-darken (doom-color 'bg) 0.2)
     :family ,(face-attribute 'sawyer--variable-face :family)
     :height 1.0
     :weight semi-bold)
@@ -225,7 +223,7 @@
     :foreground ,(doom-lighten (doom-color 'bg) 0.1)
     :height 1.0)
   `(line-number-current-line
-    :foreground ,(doom-lighten (doom-color 'bg) 0.3)
+    :foreground ,(doom-darken (doom-color 'cyan) 0.3)
     :height 1.0)
   `(evil-ex-lazy-highlight
     :background ,(doom-darken (doom-color 'yellow) 0.1)
@@ -233,6 +231,7 @@
   `(evil-ex-search
     :background ,(doom-lighten (doom-color 'yellow) 0.2)
     :foreground "black")
+  `(font-lock-comment-face :foreground ,(doom-darken (doom-color 'cyan) 0.4))
   `(font-lock-variable-name-face :foreground ,(doom-blend (doom-color 'cyan) "#ffffff" 0.5))
   `(font-lock-keyword-face :weight bold)
   `(font-lock-builtin-face :weight bold)
@@ -242,11 +241,9 @@
     :foreground ,(doom-blend (doom-color 'fg) (doom-color 'cyan) 0.7))
   `(org-code-face
     :family ,(face-attribute 'sawyer--mono-face :family)
-    ;; :weight normal
     :weight light
     :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
-  ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
   `(org-modern-symbol :foreground ,(doom-color 'red))
   `(org-list-dt :foreground ,(doom-color 'red))
   `(lsp-face-highlight-textual :background ,(doom-lighten (doom-color 'bg) 0.2))
@@ -259,23 +256,14 @@
     :foreground ,(doom-blend (doom-color 'fg) (doom-color 'cyan) 0.7))
   `(org-code-face
     :family ,(face-attribute 'sawyer--mono-face :family)
-    ;; :weight normal
     :weight light
     :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
-  ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
   `(org-modern-symbol :foreground ,(doom-color 'red))
   `(org-list-dt :foreground ,(doom-color 'red))
   ))
 
 (custom-theme-set-faces! 'doom-tokyo-night
-  `(default :weight light)
-  ;; `(header-line
-  ;;   :background ,(doom-color 'bg)
-  ;;   :family ,(face-attribute 'sawyer--variable-face :family)
-  ;;   :height 1.0
-  ;;   :weight semi-bold)
-  ;; `(region :background ,(doom-blend (doom-color 'blue) "#111111" 0.2))
   `(line-number
     :foreground ,(doom-lighten (doom-color 'bg) 0.2)
     :height 1.0)
@@ -284,14 +272,6 @@
     :height 1.0)
   `(font-lock-keyword-face :weight bold)
   `(font-lock-builtin-face :weight bold)
-  ;; `(org-face
-  ;;   :family ,(face-attribute 'sawyer--variable-face :family)
-  ;;   :weight normal
-  ;;   :foreground ,(doom-blend (doom-color 'fg) (doom-color 'cyan) 0.7))
-  ;; `(org-code-face
-  ;;   :family ,(face-attribute 'sawyer--mono-face :family)
-  ;;   :weight normal
-  ;;   :foreground ,(doom-color 'cyan))
   `(org-document-title :foreground ,(doom-color 'fg))
   `(org-superstar-header-bullet :foreground ,(doom-color 'red))
   `(org-modern-symbol :foreground ,(doom-color 'red))
@@ -299,7 +279,6 @@
   `(treemacs-root-face :foreground ,(doom-color 'red))
   `(doom-themes-treemacs-root-face :foreground ,(doom-color 'red))
   `(treemacs-header-button-face :foreground ,(doom-color 'red))
-  `(lsp-face-highlight-textual :underline (:color ,(doom-color 'blue) :style wave))
   `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'yellow))
   `(font-lock-type-face :weight bold :foreground ,(doom-color 'red))
   `(font-lock-comment-face :foreground "#446597")
@@ -308,12 +287,6 @@
   )
 
 (custom-theme-set-faces! 'doom-nord-light
-  ;; `(header-line
-  ;;   :background ,(doom-color 'bg)
-  ;;   :family ,(face-attribute 'sawyer--variable-face :family)
-  ;;   :height 1.0
-  ;;   :weight semi-bold)
-  ;; `(region :background ,(doom-blend (doom-color 'blue) "#111111" 0.2))
   `(line-number
     :foreground ,(doom-darken (doom-color 'bg) 0.1)
     :height 1.0)
@@ -322,16 +295,6 @@
     :height 1.0)
   `(font-lock-keyword-face :weight bold)
   `(font-lock-builtin-face :weight bold)
-  ;; `(org-face
-  ;;   :family ,(face-attribute 'sawyer--variable-face :family)
-  ;;   :weight normal
-  ;;   :foreground ,(doom-blend (doom-color 'fg) (doom-color 'cyan) 0.7))
-  ;; `(org-code-face
-  ;;   :family ,(face-attribute 'sawyer--mono-face :family)
-  ;;   :weight normal
-  ;;   :foreground ,(doom-color 'cyan))
-  ;; `(org-document-title :foreground ,(doom-color 'fg))
-  ;; `(org-superstar-header-bullet :foreground ,(doom-color 'red))
   `(org-modern-symbol :foreground ,(doom-color 'red))
   `(org-list-dt :foreground ,(doom-color 'red))
   `(treemacs-root-face :foreground ,(doom-color 'red))
@@ -431,14 +394,13 @@
           ;; highlight color
           (doom-lighten (doom-color 'bg) 0.1)))
   (setq treemacs-width 40)
-  ;; (setq treemacs-position 'right)
   (custom-set-faces!
     `(treemacs-root-face
       :height 1.2
       :weight semi-bold
       :slant normal
       :family ,(face-attribute 'sawyer--variable-face :family)
-      ;; :background ,(doom-darken (doom-color 'bg) 0.4)
+      :background ,(doom-color 'bg)
       )
     `(treemacs-directory-collapsed-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-directory-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
@@ -464,12 +426,12 @@
             text-mode
             conf-toml-mode
             conf-space-mode
-            toml-mode
-            gitignore-mode)
+            gitignore-mode
+            go-template-mode
+            )
   (face-remap-add-relative 'default 'code-face)
   (setq-default default-text-properties '(line-spacing 0.2 line-height 1.2))
   (setq-local default-text-properties '(line-spacing 0.2 line-height 1.2))
-  (hl-line-mode 1)
   )
 
 (after! flycheck-posframe
@@ -480,18 +442,18 @@
 
 (after! flycheck
   (custom-set-faces!
-    `(flycheck-error :background ,(doom-darken (doom-color 'red) 0.3) :foreground "white"))
-  )
+    `(flycheck-error :background ,(doom-darken (doom-color 'red) 0.3) :foreground "white")
+    `(flycheck-info :background ,(doom-darken (doom-color 'green) 0.3) :foreground "green")
+    `(flycheck-warning :background ,(doom-darken (doom-color 'yellow) 0.3) :foreground "black")
+    ))
 
 (after! org
   (custom-set-faces!
     `(org-table :family ,(face-attribute 'sawyer--mono-face :family) :height 0.8)
     `(org-block :inherit 'org-code-face :background ,(doom-color 'bg))
     `(org-formula :inherit 'org-code-face :background ,(doom-color 'bg))
-    ;; `(org-default :inherit 'org-face :foreground "#8FA1B3" :background ,(doom-color 'bg))
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
-    ;; `(org-superstar-header-bullet :inherit 'org-face)
     `(org-modern-symbol :foreground ,(doom-color 'red))
     `(org-level-8 :inherit 'org-face :height 0.9)
     `(org-level-7 :inherit 'org-face :height 0.9)
@@ -506,11 +468,9 @@
   )
 
 (add-hook! org-mode
-  (hl-line-mode t)
   (face-remap-add-relative 'solaire-default-face 'org-face)
   (face-remap-add-relative 'default 'org-face)
   (face-remap-add-relative 'org-code 'org-code-face)
-  ;; (setq-local default-text-properties '(line-spacing 0.5 line-height 1.3))
   (setq-local left-margin-width 5)
   (setq-local right-margin-width 5)
   (setq-local display-line-numbers-type nil)
@@ -579,11 +539,11 @@
     )
   (custom-theme-set-faces! '(doom-monokai-octagon doom-monokai-spectrum)
     `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
-    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'cyan) 0.2))
-    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'cyan) 0.2))
-    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'cyan) 0.2))
-    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'cyan) 0.2))
-    `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'cyan) 0.2))
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'cyan 'white 0.6))
     )
   (custom-theme-set-faces! 'doom-tokyo-night
@@ -613,13 +573,6 @@
     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
-    ;; `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'orange))
-    ;; `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow))
-    ;; `(tree-sitter-hl-face:function :foreground ,(doom-color 'orange))
-    ;; `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
-    ;; `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
-    ;; `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
-    ;; `(tree-sitter-hl-face:property.definition :foreground ,(doom-blend 'red 'white 0.6))
     `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
     `(tree-sitter-hl-face:type :inherit font-lock-type-face)
     )
@@ -634,9 +587,8 @@
 (add-hook! elisp #'rainbow-mode 1)
 
 (after! vertico-posframe
-  (setq vertico-posframe-border-width 20)
+  (setq vertico-posframe-border-width 10)
   (custom-set-faces!
-    `(vertico-posframe :background ,(doom-lighten (doom-color 'bg) 0.05))
     `(vertico-posframe-border :background ,(doom-lighten (doom-color 'bg) 0.05))
     )
   )
@@ -670,5 +622,4 @@
   (setq org-modern-table nil)
   )
 (add-hook! org-mode #'org-modern-mode)
-(add-hook! org-mode #'writeroom-mode)
 (add-hook! org-agenda-finalize #'org-modern-agenda)

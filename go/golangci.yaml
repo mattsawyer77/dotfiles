@@ -6,37 +6,36 @@ linters-settings:
     # 'default' case is present, even if all enum members aren't listed in the
     # switch
     default-signifies-exhaustive: true
-
-  errcheck:
-    check-type-assertions: true
+  # errcheck:
+  #   check-type-assertions: true
   goconst:
     min-len: 2
     min-occurrences: 3
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - experimental
-      - opinionated
-      - performance
-      - style
-    disabled-checks:
-      - unnamedResult
-      - paramTypeCombine
-      - appendAssign
-  gomnd:
-    settings:
-      mnd:
-        # the list of enabled checks, see https://github.com/tommy-muehle/go-mnd/#checks for description.
-        checks:
-          - argument
-          - case
-          - condition
-          - operation
-          - return
-          - assign
-        ignored-numbers: ["0","1","2","3","4","8","16","32","64","128","256","512","10","100","1000","1024"]
-        # ignored-files: magic_.*.go
-        # ignored-functions: math.*
+  # gocritic:
+  #   enabled-tags:
+  #     - diagnostic
+  #     - experimental
+  #     - opinionated
+  #     - performance
+  #     - style
+  #   disabled-checks:
+  #     - unnamedResult
+  #     - paramTypeCombine
+  #     - appendAssign
+  # gomnd:
+  #   settings:
+  #     mnd:
+  #       # the list of enabled checks, see https://github.com/tommy-muehle/go-mnd/#checks for description.
+  #       checks:
+  #         - argument
+  #         - case
+  #         - condition
+  #         - operation
+  #         - return
+  #         - assign
+  #       ignored-numbers: ["0","1","2","3","4","8","16","32","64","128","256","512","10","100","1000","1024"]
+  #       # ignored-files: magic_.*.go
+  #       # ignored-functions: math.*
   govet:
     check-shadowing: false
     enable-all: false
@@ -96,35 +95,33 @@ linters:
   disable-all: true
   enable:
     - bodyclose
-    - deadcode
-    - depguard
-    - dogsled
-    - dupl
+    # - depguard
+    # - dogsled
+    # - dupl
     # - errcheck
     - exhaustive
     - exportloopref
     - goconst
-    - gocritic
+    # - gocritic
     - gocyclo
     # - gofmt
     - goimports
-    - gomnd
+    # - gomnd
     - gosec
     - gosimple
-    - govet
+    # - govet
     - ineffassign
     - misspell
-    - nakedret
-    - nolintlint
+    # - nakedret
+    # - nolintlint
     - predeclared
     # - revive
     # - staticcheck
-    - structcheck
     - tparallel
     - unconvert
     - unparam
-    - varcheck
-    - whitespace
+    - unused
+    # - whitespace
     # - wsl
 
 run:
@@ -151,6 +148,7 @@ issues:
   exclude:
     - var-naming
     - error-strings
+    - S1005
     - S1008
     - SA2002
     - typecheck
@@ -191,11 +189,13 @@ severity:
     - severity: warning
       linters:
         - unparam
-        - structcheck
         - unconvert
         - gocritic
         - gosimple
-    - severity: info
-      linters:
         - gomnd
         - whitespace
+        - exhaustive
+        - goconst
+
+output:
+  sort-results: true

@@ -19,9 +19,10 @@
 ;; make kops edit automatically use yaml mode
 (add-to-list 'auto-mode-alist '("\\kops-edit.+yaml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\ya?ml\.tmpl$" . yaml-mode))
-;; make helm templates automatically use mustache mode
-(add-to-list 'auto-mode-alist '("\\k8s\/templates" . mustache-mode))
-(add-to-list 'auto-mode-alist '("\\kubernetes\/templates" . mustache-mode))
+;; make k8s templates automatically use go template mode
+(add-to-list 'auto-mode-alist '("\\k8s\/templates" . go-template-mode))
+(add-to-list 'auto-mode-alist '("\\kubernetes\/templates" . go-template-mode))
+(add-to-list 'auto-mode-alist '("\\deploy\/k8s.+.tmpl" . go-template-mode))
 ;; make stack files use yaml mode
 (add-to-list 'auto-mode-alist '("\\stack.yaml" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\package.yaml" . yaml-mode))
@@ -39,7 +40,6 @@
 ;; NOTE: +format-on-save-enabled-modes is a strange variable:
 ;; if the list starts with 'not, then it's an exclusion list;
 ;; if the list does not start with 'not, then it's an inclusion list
-; (when (boundp '+format-on-save-enabled-modes)
 (if (eq (car +format-on-save-enabled-modes) 'not)
     (progn
       ;; list is exclusion -- add yaml-mode, et. al. to the list
@@ -47,16 +47,14 @@
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'cpp-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'c++-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'protobuf-mode t))
-      )
-  (progn
-    ;; list is inclusion -- remove yaml-mode, et. al. from the list
-    (setq +format-on-save-enabled-modes (delete 'yaml-mode +format-on-save-enabled-modes))
-    (setq +format-on-save-enabled-modes (delete 'cpp-mode +format-on-save-enabled-modes))
-    (setq +format-on-save-enabled-modes (delete 'c++-mode +format-on-save-enabled-modes))
-    (setq +format-on-save-enabled-modes (delete 'protobuf-mode +format-on-save-enabled-modes))
-    )
-  )
-; )
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'shell-script-mode t)))
+    (progn
+      ;; list is inclusion -- remove yaml-mode, et. al. from the list
+      (setq +format-on-save-enabled-modes (delete 'yaml-mode +format-on-save-enabled-modes))
+      (setq +format-on-save-enabled-modes (delete 'cpp-mode +format-on-save-enabled-modes))
+      (setq +format-on-save-enabled-modes (delete 'c++-mode +format-on-save-enabled-modes))
+      (setq +format-on-save-enabled-modes (delete 'protobuf-mode +format-on-save-enabled-modes))
+      (setq +format-on-save-enabled-modes (delete 'shell-script-mode +format-on-save-enabled-modes))))
 
 ;; use tree-sitter for syntax highlighting
 (use-package! tree-sitter
@@ -70,29 +68,25 @@
   :config
   (setq rustic-lsp-server 'rust-analyzer)
   (setq rustic-format-on-save t)
-  (auto-save-mode -1)
-  )
+  (auto-save-mode -1))
 
 (after! dap-mode
   (add-hook! dap-stopped-hook
-            (call-interactively #'dap-hydra))
-  )
+            (call-interactively #'dap-hydra)))
 
-(after! go-mode
+(after! (go-mode lsp-mode)
   (require 'dap-go)
   (dap-go-setup)
-  ;; (setq flycheck-golangci-lint-fast t)
-  )
+  (setq flycheck-golangci-lint-fast t))
+
+(add-hook! conf-toml-mode #'lsp)
 
 (add-hook! emacs-lisp-mode #'+word-wrap-mode)
 (add-hook! emacs-lisp-mode #'rainbow-delimiters-mode-enable)
 (add-hook! emacs-lisp-mode #'rainbow-mode)
 
-(add-hook! go-mode #'turn-on-visual-line-mode)
-(add-hook! go-mode #'+word-wrap-mode)
 (add-hook! go-mode
-           (setq go-guru-scope "...")
-           )
+  (+word-wrap-mode 1))
 
 ;; override LSP's default diagnostic checker and use golangci-lint instead
 (add-hook! lsp-diagnostics-mode
@@ -102,74 +96,50 @@
     (map! :mode go-mode
           :map general-override-mode-map
           :rnv "SPC c x" #'flycheck-list-errors
-          )
-    )
-  )
-(add-hook! lsp-ui-mode
-  (when (eq major-mode 'go-mode)
-    ;; (setq-local text-scale-mode-remapping 1.2)
-    (setq-local lsp-ui-sideline-enable t)
-    (setq-local lsp-ui-sideline-show-hover t)
-    (setq-local lsp-ui-sideline-show-code-actions nil)
-    (setq-local lsp-ui-sideline-show-diagnostics nil)
-    (lsp-ui-sideline-mode 1)
-    ))
-
-(use-package! hl-line+
-  :config
-  (hl-line-when-idle-interval 0.1)
-  (toggle-hl-line-when-idle t))
+          )))
 
 (after! display-line-numbers
-  (add-hook! prog-mode
+  (add-hook! (prog-mode go-template-mode)
     (turn-on-visual-line-mode)
     (display-line-numbers-mode)
     )
   )
 
 (when (fboundp 'pixel-scroll-precision-mode)
-  (add-hook! prog-mode
+  (add-hook! (prog-mode go-template-mode)
     (pixel-scroll-precision-mode 1)
-    )
-)
+    ))
 
 (after! undo-tree
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/.local/undo")))
-  (global-undo-tree-mode 1)
-  )
+  (global-undo-tree-mode 1))
 
 (after! evil-surround
-  (global-evil-surround-mode 1)
-  )
+  (global-evil-surround-mode 1))
 
 (after! projectile
   (setq projectile-project-search-path '("~/workspaces"
                                          "~/workspaces/f5cs-orchestration"
                                          "~/workspaces/volterra/ves.io"
                                          "~/haskell"
-                                         "~/rust"))
-  )
+                                         "~/rust")))
 
 (after! persp
-  (setq uniquify-buffer-name-style 'forward)
-  )
+  (setq uniquify-buffer-name-style 'forward))
 
 (after! treemacs
   (treemacs-follow-mode 1)
-  (setq-default treemacs--width-is-locked nil)
-  )
+  (setq-default treemacs--width-is-locked nil))
 
 (after! company
   (global-company-mode)
   (setq company-idle-delay 0.2)
   (setq company-minimum-prefix-length 2)
-  (setq company-selection-wrap-around t)
-  )
+  (setq company-selection-wrap-around t))
 
 (after! company-lsp
-  (push 'company-lsp company-backends)
-  )
+  (push 'company-lsp company-backends))
 
 (use-package! flycheck
   :config
@@ -180,25 +150,27 @@
     (-when-let (window (flycheck-get-error-list-window t))
       (with-selected-window window
         (fit-window-to-buffer window 15))))
-  ;; disable flycheck while in insert mode
-  ;; (add-hook! evil-insert-state-entry (flycheck-mode -1))
-  ;; re-enable flycheck when exiting insert mode
-  ;; (add-hook! evil-insert-state-exit (flycheck-mode 1))
-
   ;; make flycheck columns wider than their absurd defaults
   (add-hook! flycheck-error-list-mode
-    (setq-local tabulated-list-format '[("File" 24)
-                                        ("Line" 5 flycheck-error-list-entry-< :right-align t)
-                                        ("Col" 3 nil :right-align t)
-                                        ("Level" 8 flycheck-error-list-entry-level-<)
-                                        ("ID" 12 t)
-                                        (#("Message (Checker)" 0 7
-                                           (face flycheck-error-list-error-message)
-                                           9 16
-                                           (face flycheck-error-list-checker-name))
-                                         0 t)])
-    )
-  )
+    (setq-local tabulated-list-format
+                '[("File" 30)
+                  ("Line" 5 flycheck-error-list-entry-< :right-align t)
+                  ("Col" 3 nil :right-align t)
+                  ("Level" 8 flycheck-error-list-entry-level-<)
+                  ("ID" 12 t)
+                  (#("Message (Checker)" 0 7
+                     (face flycheck-error-list-error-message)
+                     9 16
+                     (face flycheck-error-list-checker-name))
+                   0 t)])))
+
+(after! flycheck-posframe
+  (add-hook! flycheck-mode
+    (flycheck-posframe-configure-pretty-defaults)
+    (flycheck-posframe-mode 1))
+  ;; disable flycheck-posframe while in insert mode
+  (add-hook! evil-insert-state-entry-hook (flycheck-posframe-mode -1))
+  (add-hook! evil-insert-state-exit-hook (flycheck-posframe-mode 1)))
 
 (unless (display-graphic-p)
   (after! git-gutter
@@ -268,7 +240,7 @@
   (setq lsp-file-watch-threshold 8000)
   (setq lsp-headerline-breadcrumb-enable 't)
   (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project symbols))
-  (setq lsp-enable-symbol-highlighting t)
+  (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-ui-doc-enable 't)
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-show-with-cursor nil)
@@ -277,8 +249,8 @@
   ;; 'above-line causes C-e to snag
   ;; (setq lsp-lens-place-position 'end-of-line)
   (setq lsp-headerline-breadcrumb-enable t)
-  (setq lsp-ui-sideline-enable t)
-  (setq lsp-ui-sideline-show-hover t)
+  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-sideline-show-hover nil)
   (setq lsp-ui-sideline-show-code-actions nil)
   (setq lsp-ui-sideline-show-diagnostics nil)
   (setq lsp-modeline-code-actions-enable t)
@@ -365,6 +337,10 @@
    :library-folders-fn ccls-library-folders-fn))
   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t))))
 
+
+(after! ccls
+  (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
+  (set-lsp-priority! 'ccls 2)) ; optional as ccls is the default in Doom
 (add-hook! ccls #'tree-sitter-mode)
 
 (add-hook! protobuf-mode #'display-line-numbers-mode)
