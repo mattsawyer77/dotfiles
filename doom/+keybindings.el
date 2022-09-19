@@ -3,26 +3,26 @@
 (map! "<mouse-4>" 'up-slightly)
 (map! "<mouse-5>" 'down-slightly)
 
-;; (select-window
-;;    (car (seq-filter
-;;      (lambda (window)
-;;        (equal name (buffer-name (window-buffer window))))
-;;      (window-list-1 nil 0 t)))))
-
-;; (unbind-key "S-," global-map)
-
 (map! :map general-override-mode-map
+      :after general-override-mode
+      :g "C-s" #'basic-save-buffer
       :n "C-," (lambda ()
                  (interactive)
                      (dired-other-window "~/dotfiles/doom"))
-      :niv "C-s" #'save-buffer
-      :n "#" #'evilnc-comment-or-uncomment-lines
-      ;; tabspaces
-      :n "S-<left>" #'tab-bar-switch-to-prev-tab
-      :n "S-<right>" #'tab-bar-switch-to-next-tab
-      :n "SPC <tab> x" #'tabspaces-kill-buffers-close-workspace
-      :n "SPC <tab> <tab>" #'tabspaces-open-or-create-project-and-workspace
-      )
+      :nv "#" #'evilnc-comment-or-uncomment-lines
+      :nv "SPC f c" #'ediff-buffers
+      :nv "<f9>" #'sawyer--light-switch
+      :nv "SPC \"" #'vertico-repeat-select
+      :localleader
+      (:prefix ("d" . "debug")
+       :desc "DAP Debug" "d" #'dap-debug
+       :desc "DAP Hydra" "h" #'dap-hydra
+       :desc "DAP Disconnect" "Q" #'dap-disconnect
+       (:prefix ("b" . "breakpoint")
+        :desc "DAP Breakpoint Add" "a" #'dap-breakpoint-add
+        :desc "DAP Breakpoint Delete" "d" #'dap-breakpoint-delete
+        :desc "DAP Breakpoint Delete All" "D" #'dap-breakpoint-delete
+        )))
 
 (map! :after lsp-ui
       :mode lsp-ui-mode
@@ -30,13 +30,6 @@
 
 (map! :after transpose-frame
       :nv "<f4>" #'transpose-frame)
-
-;; (map! :after counsel
-;;       :nv "C-s" #'swiper
-;;       :n "C-<tab>" #'counsel-fzf)
-
-;; (map! :after iedit
-;;       :nv "C-;" #'iedit-mode)
 
 (map! :after treemacs
       :map treemacs-mode-map
@@ -52,8 +45,7 @@
        :desc "show buffer errors" "l" #'flycheck-list-errors
        :desc "go to next error" "n" #'flycheck-next-error
        :desc "go to previous error" "p" #'flycheck-previous-error
-       )
-      )
+       ))
 
 (map! :mode flymake
       :map flymake-mode-map
@@ -63,31 +55,12 @@
        :desc "show project errors" "L" #'flymake-show-project-diagnostics
        :desc "go to next error" "n" #'flymake-goto-next-error
        :desc "go to previous error" "p" #'flymake-goto-prev-error
-       )
-      )
-
-(map! :after zoom
-      :desc "toggle Zoom"
-      :n "SPC t z" #'zoom-mode)
+       ))
 
 (map! :after vmd
       :mode markdown-mode
       :n "SPC m p" #'vmd-mode)
 
-(map! :after dap-mode
-      :map general-override-mode-map
-      :localleader
-      (:prefix ("d" . "debug")
-       :desc "DAP Debug" "d" #'dap-debug
-       :desc "DAP Hydra" "h" #'dap-hydra
-       :desc "DAP Disconnect" "Q" #'dap-disconnect
-       (:prefix ("b" . "breakpoint")
-        :desc "DAP Breakpoint Add" "a" #'dap-breakpoint-add
-        :desc "DAP Breakpoint Delete" "d" #'dap-breakpoint-delete
-        :desc "DAP Breakpoint Delete All" "D" #'dap-breakpoint-delete
-        )
-       )
-      )
 (map! :after rustic
       :map rustic-mode-map
       :localleader
@@ -121,10 +94,6 @@
       :nv "SPC g T" #'smerge-keep-lower
       )
 
-(map! :map general-override-mode-map
-      :nv "SPC f c" #'ediff-buffers
-      )
-
 (map! :mode rfc-mode
       :map rfc-mode-map
       :g "C-f" #'rfc-mode-forward-page
@@ -133,8 +102,3 @@
       :g "<prior>" #'rfc-mode-backward-page
       )
 
-(map! :map general-override-mode-map
-      :nv "<f9>" #'sawyer--light-switch
-      :nv "SPC \"" #'vertico-repeat-select
-      :g "C-s" #'basic-save-buffer
-      )

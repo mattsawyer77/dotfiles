@@ -1,5 +1,9 @@
 ;;;  -*- no-byte-compile: t; -*-
 
+(unpin! lsp-mode)
+(unpin! lsp-ui)
+(unpin! rustic)
+(unpin! consult-lsp)
 (package! doom-modeline)
 (package! prettier-js)
 (package! evil-nerd-commenter)
@@ -27,6 +31,5 @@
 (package! info-colors)
 (package! textsize)
 (package! org-modern)
-(package! tabspaces)
 
 (disable-packages! hl-line)

@@ -72,13 +72,11 @@
    :size 15
    :weight 'medium))
 
-(setq tab-bar-separator " | "
-      tab-bar-border 10)
-
 ;; disable solaire mode on GUI
 (after! solaire-mode
   (when (display-graphic-p)
     (solaire-global-mode -1)))
+
 (custom-set-faces!
   `(font-lock-type-face :weight semi-bold)
   `(font-lock-function-name-face :weight semi-bold)
@@ -282,11 +280,11 @@
   `(treemacs-root-face :foreground ,(doom-color 'red))
   `(doom-themes-treemacs-root-face :foreground ,(doom-color 'red))
   `(treemacs-header-button-face :foreground ,(doom-color 'red))
-  `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'yellow))
-  `(font-lock-type-face :weight bold :foreground ,(doom-color 'red))
+  ;; `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'yellow))
+  ;; `(font-lock-type-face :weight bold :foreground ,(doom-color 'red))
   `(font-lock-comment-face :foreground "#446597")
   `(dockerfile-image-name :foreground ,(doom-color 'cyan))
-  `(highlight-numbers-number :foreground ,(doom-color 'red))
+  ;; `(highlight-numbers-number :foreground ,(doom-color 'red))
   )
 
 (custom-theme-set-faces! 'doom-nord-light
@@ -350,6 +348,7 @@
 
 (after! doom-modeline
   (setq doom-modeline-major-mode-icon t)
+  (setq doom-modeline-buffer-file-name-style 'relative-to-project)
   (custom-set-faces!
     `(doom-modeline-project-dir :weight semi-bold :background ,(doom-color 'default))
     `(doom-modeline-persp-name :slant normal)
@@ -551,20 +550,21 @@
     )
   (custom-theme-set-faces! 'doom-tokyo-night
     `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
+    `(tree-sitter-hl-face:doc :inherit font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.8))
     `(tree-sitter-hl-face:keyword :inherit font-lock-keyword-face :weight bold)
     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
-    `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'orange) :weight bold)
-    `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow) :weight bold)
-    `(tree-sitter-hl-face:function :foreground ,(doom-color 'orange) :weight bold)
-    `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
-    `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
-    `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
-    `(tree-sitter-hl-face:property.definition :foreground ,(doom-blend 'red 'white 0.6) :weight bold)
-    `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
+    ;; `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'orange) :weight bold)
+    ;; `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow) :weight bold)
+    ;; `(tree-sitter-hl-face:function :foreground ,(doom-color 'orange) :weight bold)
+    ;; `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:property.definition :foreground ,(doom-blend 'red 'white 0.6) :weight bold)
+    ;; `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
     `(tree-sitter-hl-face:type :inherit font-lock-type-face :weight bold)
     )
   (custom-theme-set-faces! 'doom-nord-light
@@ -626,3 +626,14 @@
   )
 (add-hook! org-mode #'org-modern-mode)
 (add-hook! org-agenda-finalize #'org-modern-agenda)
+
+(after! lsp-mode
+  (custom-set-faces!
+    `(lsp-rust-analyzer-inlay-face :inherit font-lock-comment-face :height 0.8)
+    `(lsp-javascript-inlay-face :inherit font-lock-comment-face :height 0.8)
+    `(lsp-javascript-inlay-type-face :inherit font-lock-comment-face :height 0.8)
+    `(lsp-rust-analyzer-inlay-type-face :inherit font-lock-comment-face :height 0.8)
+    `(lsp-rust-analyzer-inlay-param-face :inherit font-lock-comment-face :height 0.8)
+    `(lsp-javascript-inlay-parameter-face :inherit font-lock-comment-face :height 0.8)
+    )
+  )

@@ -194,6 +194,9 @@
 (add-hook! rustic-mode #'tree-sitter-mode)
 (add-hook! rustic-mode #'lsp)
 (add-hook! rustic-mode #'+word-wrap-mode)
+(add-hook! lsp-ui-mode
+  (when (eq major-mode 'rustic-mode)
+    (lsp-rust-analyzer-inlay-hints-mode 1)))
 
 (after! highlight-indent-guides
   (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) #'highlight-indent-guides-mode)
@@ -239,7 +242,7 @@
                     )))
   (setq lsp-file-watch-threshold 8000)
   (setq lsp-headerline-breadcrumb-enable 't)
-  (setq lsp-headerline-breadcrumb-segments '(project path-up-to-project symbols))
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project symbols))
   (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-ui-doc-enable 't)
   (setq lsp-ui-doc-position 'at-point)
@@ -264,6 +267,7 @@
   (setq lsp-enable-links nil)
   ;; (setq lsp-diagnostics-provider :flymake)
   (setq lsp-diagnostics-provider :flycheck)
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
 )
 
 (after! org
@@ -397,39 +401,6 @@
 ;; (add-hook! magit-mode
 ;;   (magit-delta-mode 1)
 ;;   )
-
-(use-package! tabspaces
-  ;; use this next line only if you also use straight, otherwise ignore it.
-  :hook (after-init . tabspaces-mode) ;; use this only if you want the minor-mode loaded at startup.
-  :commands (tabspaces-switch-or-create-workspace
-             tabspaces-open-or-create-project-and-workspace)
-  :custom
-  (tabspaces-use-filtered-buffers-as-default t)
-  (tabspaces-default-tab "main")
-  (tabspaces-remove-to-default t)
-  (tabspaces-include-buffers '("*scratch*"))
-  :config
-  (setq tab-bar-new-tab-choice "*scratch*")
-  )
-
-(after! consult
-  ;; hide full buffer list (still available with "b" prefix)
-  (consult-customize consult--source-buffer :hidden t :default nil)
-  ;; set consult-workspace buffer list
-  (defvar consult--source-workspace
-    (list :name     "Workspace Buffers"
-          :narrow   ?w
-          :history  'buffer-name-history
-          :category 'buffer
-          :state    #'consult--buffer-state
-          :default  t
-          :items    (lambda () (consult--buffer-query
-                                :predicate #'tabspaces--local-buffer-p
-                                :sort 'visibility
-                                :as #'buffer-name)))
-
-    "Set workspace buffer list for consult-buffer.")
-  (add-to-list 'consult-buffer-sources 'consult--source-workspace))
 
 ;; Configure directory extension.
 ;; (use-package! vertico-buffer
