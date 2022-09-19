@@ -8,6 +8,7 @@
               "/with-editor\\.el\\'")))
 (setq comp-speed 2
       comp-deferred-compilation t)
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 ;; (load! "+cloudformation-mode")
 ;; (load! "+ghcid")
 (load! "+go-template-mode")

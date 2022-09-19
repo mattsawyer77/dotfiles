@@ -13,6 +13,10 @@
       :nv "SPC f c" #'ediff-buffers
       :nv "<f9>" #'sawyer--light-switch
       :nv "SPC \"" #'vertico-repeat-select
+      ;; centaur tabs
+      :niv "S-<left>" #'centaur-tabs-backward
+      :niv "S-<right>" #'centaur-tabs-forward
+      :niv "C-SPC" #'centaur-tabs-switch-group
       :localleader
       (:prefix ("d" . "debug")
        :desc "DAP Debug" "d" #'dap-debug
@@ -23,20 +27,6 @@
         :desc "DAP Breakpoint Delete" "d" #'dap-breakpoint-delete
         :desc "DAP Breakpoint Delete All" "D" #'dap-breakpoint-delete
         )))
-
-(map! :after lsp-ui
-      :mode lsp-ui-mode
-      :nv "<f1>" #'lsp-ui-doc-glance)
-
-(map! :after transpose-frame
-      :nv "<f4>" #'transpose-frame)
-
-(map! :after treemacs
-      :map treemacs-mode-map
-      :mode treemacs-mode
-      :n "o p" (lambda ()
-                 (interactive)
-                 (treemacs-visit-node-no-split t)))
 
 (map! :mode flycheck
       :mode flycheck-mode-map
@@ -56,6 +46,21 @@
        :desc "go to next error" "n" #'flymake-goto-next-error
        :desc "go to previous error" "p" #'flymake-goto-prev-error
        ))
+
+;; (map! :mode flymake
+;;       :map flymake-mode-map
+;;       :localleader
+;;       (:prefix ("e" . "errors")
+;;        :desc "show buffer errors" "l" #'flymake-show-buffer-diagnostics
+;;        :desc "show project errors" "L" #'flymake-show-project-diagnostics
+;;        :desc "go to next error" "n" #'flymake-goto-next-error
+;;        :desc "go to previous error" "p" #'flymake-goto-prev-error
+;;        ))
+(map! :after flycheck
+      :n "SPC e n" #'flycheck-next-error
+      :n "SPC e p" #'flycheck-previous-error
+      :n "SPC e v" #'flycheck-verify-setup
+      :n "SPC e l" #'flycheck-list-errors)
 
 (map! :after vmd
       :mode markdown-mode

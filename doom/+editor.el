@@ -66,13 +66,21 @@
 (use-package! rustic
   :defer
   :config
-  (setq rustic-lsp-server 'rust-analyzer)
-  (setq rustic-format-on-save t)
-  (auto-save-mode -1))
+  (setq rustic-lsp-server 'rust-analyzer
+        rustic-format-on-save t
+        lsp-rust-server 'rust-analyzer
+        lsp-rust-analyzer-display-chaining-hints t
+        lsp-rust-analyzer-display-parameter-hints t
+        lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-cargo-watch-command "clippy")
+  (auto-save-mode -1)
+  )
 
-(after! dap-mode
-  (add-hook! dap-stopped-hook
-            (call-interactively #'dap-hydra)))
+;; XXX: not working
+;; (after! dap-mode
+;;   (add-hook! 'dap-stopped-hook
+;;             (lambda (arg) (call-interactively #'dap-hydra)))
+;;   )
 
 (after! (go-mode lsp-mode)
   (require 'dap-go)
@@ -120,7 +128,6 @@
 
 (after! projectile
   (setq projectile-project-search-path '("~/workspaces"
-                                         "~/workspaces/f5cs-orchestration"
                                          "~/workspaces/volterra/ves.io"
                                          "~/haskell"
                                          "~/rust")))
@@ -182,17 +189,25 @@
   (after! evil-terminal-cursor-changer
     (evil-terminal-cursor-changer-activate) ; or (etcc-on)
     )
-)
+  )
 
 (after! (haskell lsp-haskell ormolu lsp-ui)
   (setq lsp-haskell-process-path-hie "hie-wrapper")
   (setq ormolu-reformat-buffer-on-save t)
   )
 (add-hook! haskell-mode #'lsp)
-(add-hook! haskell-mode 'ormolu-format-on-save-mode)
+(add-hook! haskell-mode
+           (ormolu-format-on-save-mode)
+           (flycheck-posframe-mode -1)
+           )
 
-(add-hook! rustic-mode #'tree-sitter-mode)
-(add-hook! rustic-mode #'lsp)
+
+;; (add-hook! rustic-mode #'tree-sitter-mode)
+(add-hook! rustic-mode
+           (lsp)
+           (+word-wrap-mode)
+           (flycheck-posframe-mode -1)
+           )
 (add-hook! rustic-mode #'+word-wrap-mode)
 (add-hook! lsp-ui-mode
   (when (eq major-mode 'rustic-mode)
@@ -215,7 +230,10 @@
 ;;                     :major-modes '(terraform-mode)
 ;;                     :server-id 'terraform-ls)))
 
-(add-hook! terraform-mode #'lsp)
+(add-hook! terraform-mode
+  (lsp)
+  (terraform-format-on-save-mode)
+  )
 
 (add-hook! js2-mode
   (prettier-js-mode)
@@ -225,9 +243,6 @@
   (setq-default js2-basic-offset 2)
   )
 
-(add-hook! terraform-mode
-  (terraform-format-on-save-mode)
-  )
 
 (after! (lsp-mode lsp-ui)
   (setq lsp-file-watch-ignored-directories
@@ -273,7 +288,7 @@
 (after! org
   (setq org-agenda-files '("/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes")
         org-hide-emphasis-markers t
-        org-hide-block-startup t
+        org-hide-block-startup nil
         org-hide-leading-stars t
         org-hide-macro-markers t
         org-auto-align-tags nil
@@ -379,7 +394,7 @@
 (after! magit
   (setq auto-revert-interval 30)
   (setq auto-revert-check-vc-info t))
-
+(add-hook! magit (lambda () (magit-delta-mode +1)))
 ;; (use-package! makefile-executor
 ;;   :defer
 ;;   :config

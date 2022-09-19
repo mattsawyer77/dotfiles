@@ -32,17 +32,13 @@
                 "from": {
                   "key_code": "c",
                   "modifiers": {
-                    "mandatory": [
-                      "left_control"
-                    ]
+                    "mandatory": ["left_control"]
                   }
                 },
                 "to": [
                   {
                     "key_code": "c",
-                    "modifiers": [
-                      "command"
-                    ]
+                    "modifiers": ["command"]
                   }
                 ],
                 "type": "basic"
@@ -61,17 +57,13 @@
                 "from": {
                   "key_code": "v",
                   "modifiers": {
-                    "mandatory": [
-                      "left_control"
-                    ]
+                    "mandatory": ["left_control"]
                   }
                 },
                 "to": [
                   {
                     "key_code": "v",
-                    "modifiers": [
-                      "command"
-                    ]
+                    "modifiers": ["command"]
                   }
                 ],
                 "type": "basic"
@@ -90,17 +82,13 @@
                 "from": {
                   "key_code": "x",
                   "modifiers": {
-                    "mandatory": [
-                      "left_control"
-                    ]
+                    "mandatory": ["left_control"]
                   }
                 },
                 "to": [
                   {
                     "key_code": "x",
-                    "modifiers": [
-                      "command"
-                    ]
+                    "modifiers": ["command"]
                   }
                 ],
                 "type": "basic"
@@ -113,9 +101,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "^org\\.mozilla\\."
-                    ],
+                    "bundle_identifiers": ["^org\\.mozilla\\."],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -123,17 +109,13 @@
                 "from": {
                   "key_code": "r",
                   "modifiers": {
-                    "mandatory": [
-                      "left_control"
-                    ]
+                    "mandatory": ["left_control"]
                   }
                 },
                 "to": [
                   {
                     "key_code": "r",
-                    "modifiers": [
-                      "left_command"
-                    ]
+                    "modifiers": ["left_command"]
                   }
                 ],
                 "type": "basic"
@@ -141,9 +123,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "^org\\.mozilla\\."
-                    ],
+                    "bundle_identifiers": ["^org\\.mozilla\\."],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -154,9 +134,7 @@
                 "to": [
                   {
                     "key_code": "escape",
-                    "modifiers": [
-                      "shift"
-                    ]
+                    "modifiers": ["shift"]
                   }
                 ],
                 "type": "basic"
@@ -164,9 +142,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "^org\\.mozilla\\."
-                    ],
+                    "bundle_identifiers": ["^org\\.mozilla\\."],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -174,9 +150,7 @@
                 "from": {
                   "key_code": "left_control",
                   "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
+                    "optional": ["any"]
                   }
                 },
                 "to": [
@@ -188,9 +162,7 @@
                 "to_if_alone": [
                   {
                     "key_code": "escape",
-                    "modifiers": [
-                      "shift"
-                    ]
+                    "modifiers": ["shift"]
                   }
                 ],
                 "type": "basic"
@@ -203,9 +175,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "^com\\.apple\\.mail"
-                    ],
+                    "bundle_identifiers": ["^com\\.apple\\.mail"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -213,18 +183,13 @@
                 "from": {
                   "key_code": "return_or_enter",
                   "modifiers": {
-                    "mandatory": [
-                      "command"
-                    ]
+                    "mandatory": ["command"]
                   }
                 },
                 "to": [
                   {
                     "key_code": "d",
-                    "modifiers": [
-                      "shift",
-                      "command"
-                    ]
+                    "modifiers": ["shift", "command"]
                   }
                 ],
                 "type": "basic"
@@ -237,18 +202,14 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "^org\\.mozilla\\."
-                    ],
+                    "bundle_identifiers": ["^org\\.mozilla\\."],
                     "type": "frontmost_application_unless"
                   }
                 ],
                 "from": {
                   "key_code": "left_control",
                   "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
+                    "optional": ["any"]
                   }
                 },
                 "to": [
@@ -273,19 +234,13 @@
                 "from": {
                   "key_code": "delete_or_backspace",
                   "modifiers": {
-                    "mandatory": [
-                      "left_control",
-                      "command"
-                    ]
+                    "mandatory": ["left_control", "command"]
                   }
                 },
                 "to": [
                   {
                     "key_code": "q",
-                    "modifiers": [
-                      "left_control",
-                      "left_command"
-                    ]
+                    "modifiers": ["left_control", "left_command"]
                   }
                 ],
                 "type": "basic"
@@ -298,19 +253,14 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "^org\\.gnu\\.emacs"
-                    ],
+                    "bundle_identifiers": ["^org\\.gnu\\.emacs"],
                     "type": "frontmost_application_if"
                   }
                 ],
                 "from": {
                   "key_code": "f",
                   "modifiers": {
-                    "mandatory": [
-                      "command",
-                      "left_control"
-                    ]
+                    "mandatory": ["command", "left_control"]
                   }
                 },
                 "to": [
@@ -328,9 +278,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "^org\\.apple\\.safari"
-                    ],
+                    "bundle_identifiers": ["^org\\.apple\\.safari"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -341,9 +289,7 @@
                 "to": [
                   {
                     "key_code": "escape",
-                    "modifiers": [
-                      "shift"
-                    ]
+                    "modifiers": ["shift"]
                   }
                 ],
                 "type": "basic"

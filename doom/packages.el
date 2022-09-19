@@ -10,7 +10,7 @@
 (package! vmd-mode)
 (package! highlight-indent-guides)
 (package! treemacs-persp)
-(package! flycheck-posframe)
+;; (package! flycheck-posframe)
 (package! tree-sitter)
 (package! tree-sitter-langs)
 (package! uuidgen)

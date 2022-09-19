@@ -2,11 +2,7 @@
 
 set -eEuo pipefail
 
-command -v greadlink >/dev/null \
-  && SELF=$(greadlink -f "$0") \
-  || SELF=$(readlink -f "$0")
-
-DOTFILES_DIR=$(dirname "$SELF")
+DOTFILES_DIR=~/dotfiles
 
 mkdir -p ~/.local/bin
 
@@ -67,71 +63,82 @@ ln -sf "${DOTFILES_DIR}/starship.toml" ~/.config/starship.toml
 echo 'setting up terminfo file...'
 tic -x -o ~/.terminfo "${DOTFILES_DIR}/terminfo-24bit.src"
 
-if [[ $(uname) == "Darwin" ]]; then
-  echo 'setting up homebrew and packages...'
-  command -v brew >/dev/null \
-    || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  packages="autoconf automake aws-iam-authenticator awscli bash bat cloc cmake coreutils diff-so-fancy editorconfig et exa fd fileicon fontconfig freetype git glib gmp gnu-sed gnu-tar gnupg gnutls go golangci-lint graphviz jpeg jq kubernetes-cli libpng librsvg libtasn1 libtermkey libtiff libtool libuv libvterm lzo make msgpack musl-cross ncurses neovim nmap node oniguruma openjpeg openssl@1.1 pcre2 pkg-config protobuf python python@3.8 rainbarf readline reattach-to-user-namespace ripgrep shared-mime-info shellcheck sk skhd starship terraform tmux unbound upx webp wget x265 xsv xz yabai yq zenith zplug zsh"
-  brew install $packages
-  brew upgrade $packages
-  # emacs is special...
-  brew install --with-dbus --with-imagemagick --with-jansson --with-modules --with-natural-title-bar --with-xml2 --HEAD emacs-mac \
-      || brew reinstall emacs-mac
-  cp -av /usr/local/opt/emacs-mac/Emacs.app /Applications/
-  fileicon set /Applications/Emacs.app ~/Library/Mobile\ Documents/com\~apple\~CloudDocs/Emacs-icon.icns
-  casks="alacritty osxfuse wireshark-chmodbpf"
-  installed_casks=$(brew cask ls)
-  for cask in $casks; do
-    if ! echo "$installed_casks" | grep -q "$cask"; then
-      brew cask install "$cask"
-    fi
-  done
-  # macOS only: install emacs into /Applications and fix its icon
-  echo "setting up local unbound server..."
-  set -e
+# if [[ $(uname) == "Darwin" ]]; then
+#   echo 'setting up homebrew and packages...'
+#   command -v brew >/dev/null \
+#     || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+#   packages="autoconf automake aws-iam-authenticator awscli bash bat cloc cmake coreutils diff-so-fancy editorconfig et exa fd fileicon fontconfig freetype git glib gmp gnu-sed gnu-tar gnupg gnutls go golangci-lint graphviz jpeg jq kubernetes-cli libpng librsvg libtasn1 libtermkey libtiff libtool libuv libvterm lzo make msgpack musl-cross ncurses neovim nmap node oniguruma openjpeg openssl@1.1 pcre2 pkg-config protobuf python python@3.8 rainbarf readline reattach-to-user-namespace ripgrep shared-mime-info shellcheck sk skhd starship terraform tmux unbound upx webp wget x265 xsv xz yabai yq zenith zplug zsh"
+#   brew install $packages
+#   brew upgrade $packages
+#   # emacs is special...
+#   brew install --with-dbus --with-imagemagick --with-jansson --with-modules --with-natural-title-bar --with-xml2 --HEAD emacs-mac \
+#       || brew reinstall emacs-mac
+#   cp -av /usr/local/opt/emacs-mac/Emacs.app /Applications/
+#   fileicon set /Applications/Emacs.app ~/Library/Mobile\ Documents/com\~apple\~CloudDocs/Emacs-icon.icns
+#   casks="alacritty osxfuse wireshark-chmodbpf"
+#   installed_casks=$(brew cask ls)
+#   for cask in $casks; do
+#     if ! echo "$installed_casks" | grep -q "$cask"; then
+#       brew cask install "$cask"
+#     fi
+#   done
+#   # macOS only: install emacs into /Applications and fix its icon
+#   echo "setting up local unbound server..."
+#   set -e
+# 
+#   # macOS only: setup unbound as a local recursive dns server
+#   set -xeEuo pipefail
+#   sudo dscl . -create /Groups/_unbound
+#   sudo dscl . -create /Groups/_unbound PrimaryGroupID 444
+#   sudo dscl . -create /Users/_unbound
+#   sudo dscl . -create /Users/_unbound RecordName _unbound unbound
+#   sudo dscl . -create /Users/_unbound RealName "Unbound DNS server"
+#   sudo dscl . -create /Users/_unbound UniqueID 444
+#   sudo dscl . -create /Users/_unbound PrimaryGroupID 444
+#   sudo dscl . -create /Users/_unbound UserShell /usr/bin/false
+#   sudo dscl . -create /Users/_unbound Password '*'
+#   sudo dscl . -create /Groups/_unbound GroupMembership _unbound
+#   sudo cp "${DOTFILES_DIR}/unbound/unbound.conf" /usr/local/etc/unbound/unbound.conf
+#   # TODO: transform file using dns_blocklist_updater
+#   scp wireguard.mattsawyer.net:/var/lib/unbound/ads.conf /tmp/ads.conf
+#   sudo chown root /tmp/ads.conf
+#   sudo mv /tmp/ads.conf /usr/local/etc/unbound/zone-block-general.conf
+#   sudo unbound-anchor -a /usr/local/etc/unbound/root.key
+#   # sudo unbound-control-setup -d /usr/local/etc/unbound  
+#   sudo chown -R _unbound:staff /usr/local/etc/unbound
+#   sudo chmod 640 /usr/local/etc/unbound/*
+#   sudo cp "${DOTFILES_DIR}/unbound/net.unbound.plist" /Library/LaunchDaemons/net.unbound.plist
+#   curl --output /tmp/root.hints https://www.internic.net/domain/named.cache
+#   sudo mv /tmp/root.hints /usr/local/etc/unbound/root.hints
+#   if ! pgrep -flai unbound; then
+#     echo "starting unbound..."
+#     sudo launchctl load /Library/LaunchDaemons/net.unbound.plist
+#     echo "checking unbound status..."
+#     sleep 2
+#     pgrep -flai unbound
+#   else
+#     echo "restarting unbound..."
+#     sudo launchctl unload /Library/LaunchDaemons/net.unbound.plist
+#     sleep 2
+#     sudo launchctl load /Library/LaunchDaemons/net.unbound.plist
+#     echo "checking unbound status..."
+#     sleep 2
+#     pgrep -flai unbound
+#   fi
+#   echo "setting nameservers to 127.0.0.1..."
+#   networksetup -setdnsservers Wi-Fi 127.0.0.1
+# fi
 
-  # macOS only: setup unbound as a local recursive dns server
-  set -xeEuo pipefail
-  sudo dscl . -create /Groups/_unbound
-  sudo dscl . -create /Groups/_unbound PrimaryGroupID 444
-  sudo dscl . -create /Users/_unbound
-  sudo dscl . -create /Users/_unbound RecordName _unbound unbound
-  sudo dscl . -create /Users/_unbound RealName "Unbound DNS server"
-  sudo dscl . -create /Users/_unbound UniqueID 444
-  sudo dscl . -create /Users/_unbound PrimaryGroupID 444
-  sudo dscl . -create /Users/_unbound UserShell /usr/bin/false
-  sudo dscl . -create /Users/_unbound Password '*'
-  sudo dscl . -create /Groups/_unbound GroupMembership _unbound
-  sudo cp "${DOTFILES_DIR}/unbound/unbound.conf" /usr/local/etc/unbound/unbound.conf
-  # TODO: transform file using dns_blocklist_updater
-  scp wireguard.mattsawyer.net:/var/lib/unbound/ads.conf /tmp/ads.conf
-  sudo chown root /tmp/ads.conf
-  sudo mv /tmp/ads.conf /usr/local/etc/unbound/zone-block-general.conf
-  sudo unbound-anchor -a /usr/local/etc/unbound/root.key
-  # sudo unbound-control-setup -d /usr/local/etc/unbound  
-  sudo chown -R _unbound:staff /usr/local/etc/unbound
-  sudo chmod 640 /usr/local/etc/unbound/*
-  sudo cp "${DOTFILES_DIR}/unbound/net.unbound.plist" /Library/LaunchDaemons/net.unbound.plist
-  curl --output /tmp/root.hints https://www.internic.net/domain/named.cache
-  sudo mv /tmp/root.hints /usr/local/etc/unbound/root.hints
-  if ! pgrep -flai unbound; then
-    echo "starting unbound..."
-    sudo launchctl load /Library/LaunchDaemons/net.unbound.plist
-    echo "checking unbound status..."
-    sleep 2
-    pgrep -flai unbound
-  else
-    echo "restarting unbound..."
-    sudo launchctl unload /Library/LaunchDaemons/net.unbound.plist
-    sleep 2
-    sudo launchctl load /Library/LaunchDaemons/net.unbound.plist
-    echo "checking unbound status..."
-    sleep 2
-    pgrep -flai unbound
-  fi
-  echo "setting nameservers to 127.0.0.1..."
-  networksetup -setdnsservers Wi-Fi 127.0.0.1
+# git
+current_git_user=$(git config --global user.email)
+if [[ "$current_git_user" != "m.sawyer@f5.com" ]]; then
+  git config --global user.email "matt.sawyer@gmail.com"
+  git config --global user.name "Matt Sawyer"
 fi
+git config --global pull.rebase false
+git config --global push.default simple
+git config --global alias.lp "log --format='%C(yellow) %h %C(green)%m %cn, %cr %D%C(cyan bold)%m %<(80,trunc)%s%C(reset) %C(normal)%C(reset)'"
+git config --global alias.lpg "log --graph --format='%C(yellow) %h %C(green)%m %cn, %cr %D%C(cyan bold)%m %<(80,trunc)%s%C(reset) %C(normal)%C(reset)'"
 
 # doom emacs
 if command -v emacs >/dev/null; then
