@@ -450,39 +450,6 @@
 
 (add-hook! conf-toml-mode #'lsp)
 
-(use-package! tabspaces
-  ;; use this next line only if you also use straight, otherwise ignore it.
-  :hook (after-init . tabspaces-mode) ;; use this only if you want the minor-mode loaded at startup.
-  :commands (tabspaces-switch-or-create-workspace
-             tabspaces-open-or-create-project-and-workspace)
-  :custom
-  (tabspaces-use-filtered-buffers-as-default t)
-  (tabspaces-default-tab "main")
-  (tabspaces-remove-to-default t)
-  (tabspaces-include-buffers '("*scratch*"))
-  :config
-  (setq tab-bar-new-tab-choice "*scratch*")
-  )
-
-(after! consult
-  ;; hide full buffer list (still available with "b" prefix)
-  (consult-customize consult--source-buffer :hidden t :default nil)
-  ;; set consult-workspace buffer list
-  (defvar consult--source-workspace
-    (list :name     "Workspace Buffers"
-          :narrow   ?w
-          :history  'buffer-name-history
-          :category 'buffer
-          :state    #'consult--buffer-state
-          :default  t
-          :items    (lambda () (consult--buffer-query
-                                :predicate #'tabspaces--local-buffer-p
-                                :sort 'visibility
-                                :as #'buffer-name)))
-
-    "Set workspace buffer list for consult-buffer.")
-  (add-to-list 'consult-buffer-sources 'consult--source-workspace))
-
 ;; Configure directory extension.
 ;; (use-package! vertico-buffer
 ;;   :after vertico
@@ -519,3 +486,30 @@
 ;;       (set-window-buffer win (current-buffer))))
 ;;   (advice-add #'vertico-buffer--setup :after #'my-vertico-buffer-setup)
 ;;   )
+
+;; centaur tabs
+(use-package! centaur-tabs
+  :defer
+  :config
+  (centaur-tabs-mode t)
+  (setq
+   centaur-tabs--buffer-show-groups t
+   centaur-tabs-style "alternate"
+   ;; centaur-tabs-style "bar"
+   ;; centaur-tabs-style "box"
+   ;; centaur-tabs-style "chamfer"
+   ;; centaur-tabs-style "rounded"
+   ;; centaur-tabs-style "slant"
+   ;; centaur-tabs-style "wave"
+   ;; centaur-tabs-style "zigzag"
+   centaur-tabs-height 32
+   centaur-tabs-set-icons t
+   centaur-tabs-gray-out-icons 'buffer
+   centaur-tabs-set-bar 'over
+   )
+  (centaur-tabs-headline-match)
+  (centaur-tabs-group-by-projectile-project)
+  ;; :bind
+  ;; ("C-<prior>" . centaur-tabs-backward)
+  ;; ("C-<next>" . centaur-tabs-forward)
+  )

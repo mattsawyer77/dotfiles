@@ -1,7 +1,6 @@
 ;;;  -*- no-byte-compile: t; -*-
 
 ;; (package! base16-theme)
-(package! yasnippet)
 ;; (package! doom-modeline)
 (package! prettier-js)
 (package! evil-nerd-commenter)
@@ -62,7 +61,7 @@
 (package! info-colors)
 ;; (package! svg-tag-mode)
 (package! org-modern)
-(package! tabspaces)
+(package! centaur-tabs)
 (package! solaire-mode :disable t)
 ;; (package! carbon-themes
 ;;   :recipe (:host github

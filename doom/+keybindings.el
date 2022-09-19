@@ -4,16 +4,16 @@
 (map! "<mouse-5>" 'down-slightly)
 
 (map! :map general-override-mode-map
+      :after general
       :n "C-," (lambda ()
                  (interactive)
                      (dired-other-window "~/dotfiles/doom"))
       :niv "C-s" #'save-buffer
       :n "#" #'evilnc-comment-or-uncomment-lines
-      ;; tabspaces
-      :n "S-<left>" #'tab-bar-switch-to-prev-tab
-      :n "S-<right>" #'tab-bar-switch-to-next-tab
-      :n "SPC <tab> x" #'tabspaces-kill-buffers-close-workspace
-      :n "SPC <tab> <tab>" #'tabspaces-open-or-create-project-and-workspace
+      ;; centaur tabs
+      :niv "S-<left>" #'centaur-tabs-backward
+      :niv "S-<right>" #'centaur-tabs-forward
+      :niv "C-SPC" #'centaur-tabs-switch-group
       )
 
 (map! :after lsp-ui

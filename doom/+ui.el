@@ -603,3 +603,11 @@
                                         :background ,(doom-lighten 'bg 0.15))
     )
   )
+
+(after! centaur-tabs
+  (custom-set-faces!
+    `(centaur-tabs-unselected :foreground ,(doom-color 'grey))
+    )
+  (centaur-tabs-change-fonts (face-attribute 'sawyer--variable-face :family) 0.9)
+
+  )
