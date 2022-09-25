@@ -31,5 +31,6 @@
 (package! info-colors)
 (package! textsize)
 (package! org-modern)
+(package! centaur-tabs)
 
 (disable-packages! hl-line)

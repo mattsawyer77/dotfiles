@@ -462,3 +462,41 @@
   :select t
   :quit t
   :autosave t)
+
+;; centaur tabs
+(after! centaur-tabs
+  (setq
+   centaur-tabs--buffer-show-groups t
+   ;; centaur-tabs-style "alternate"
+   ;; centaur-tabs-style "bar"
+   centaur-tabs-style "box"
+   ;; centaur-tabs-style "chamfer"
+   ;; centaur-tabs-style "rounded"
+   ;; centaur-tabs-style "slant"
+   ;; centaur-tabs-style "wave"
+   ;; centaur-tabs-style "zigzag"
+   centaur-tabs-height 32
+   centaur-tabs-set-icons nil
+   centaur-tabs-gray-out-icons 'buffer
+   centaur-tabs-set-bar nil
+   ;centaur-tabs-set-bar 'over
+   )
+  (centaur-tabs-group-by-projectile-project)
+  (defun centaur-tabs-hide-tab (x)
+    "Do not show buffer X in tabs."
+    (let ((name (format "%s" x)))
+      (or
+       ;; Current window is not dedicated window.
+       (window-dedicated-p (selected-window))
+
+       ;; Buffer name not match below blacklist.
+       (string-prefix-p " *" name)
+       (string-prefix-p "*" name)
+
+       ;; Is not magit buffer.
+       ;; (and (string-prefix-p "magit" name)
+       ;;      (not (file-name-extension name)))
+       )))
+  )
+
+(add-hook! after-init #'centaur-tabs-mode)

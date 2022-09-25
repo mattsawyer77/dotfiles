@@ -834,5 +834,25 @@
     `(lsp-rust-analyzer-inlay-type-face :inherit font-lock-comment-face :height 0.8)
     `(lsp-rust-analyzer-inlay-param-face :inherit font-lock-comment-face :height 0.8)
     `(lsp-javascript-inlay-parameter-face :inherit font-lock-comment-face :height 0.8)
+
+(after! centaur-tabs
+  (custom-set-faces!
+    `(centaur-tabs-default
+      :foregound ,(face-attribute font-lock-type-face :foreground)
+      :weight bold)
+    `(centaur-tabs-selected
+      :foregound ,(face-attribute font-lock-type-face :foreground)
+      :weight bold)
+    `(centaur-tabs-unselected
+      :foreground ,(doom-lighten (doom-color 'grey) 0.2)
+      :weight bold)
+    `(centaur-tabs-unselected-modified
+      :foreground ,(doom-blend (doom-color 'red) (doom-color 'grey) 0.5)
+      :weight bold)
+    `(centaur-tabs-selected-modified
+      :foreground ,(doom-color 'red)
+      :weight bold)
     )
+  (centaur-tabs-change-fonts (face-attribute 'sawyer--variable-face :family) 1.0)
+  (centaur-tabs-headline-match)
   )
