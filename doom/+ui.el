@@ -49,9 +49,9 @@
        ))
   "org-code-face")
 
-(defcustom sawyer--baseline-font-size 18.0 "baseline font point size for doom-font and textsize")
-(defcustom sawyer--dark-theme 'doom-tokyo-night "dark theme used for toggling")
-(defcustom sawyer--light-theme 'doom-nord-light "light theme used for toggling")
+(defcustom sawyer--baseline-font-size 18.0 "baseline font point size for doom-font and textsize" :type 'number)
+(defcustom sawyer--dark-theme 'doom-ayu-dark "dark theme used for toggling" :type 'string)
+(defcustom sawyer--light-theme 'doom-nord-light "light theme used for toggling" :type 'string)
 
 (defun sawyer--light-switch ()
   "toggle between light and dark themes"
@@ -70,70 +70,44 @@
   (font-spec
    :family (face-attribute 'sawyer--variable-face :family)
    :size 15
-   :weight 'medium))
+   :weight 'light))
 
-;; (custom-set-faces!
-;;   `(nano-face-header-default :family "IBM Plex Sans")
-;;   `(nano-face-header-faded :family "IBM Plex Sans")
-;;   `(nano-face-header-filler :family "IBM Plex Sans")
-;;   `(nano-face-header-popout :family "IBM Plex Sans")
-;;   `(nano-face-header-strong :family "IBM Plex Sans")
-;;   `(nano-face-header-subtle :family "IBM Plex Sans")
-;;   `(nano-face-header-salient :family "IBM Plex Sans")
-;;   `(nano-face-header-critical :family "IBM Plex Sans")
-;;   `(nano-face-header-highlight :family "IBM Plex Sans")
-;;   `(nano-face-header-separator :family "IBM Plex Sans")
-;;   )
 ;; disable solaire mode on GUI
 (after! solaire-mode
   (when (display-graphic-p)
     (solaire-global-mode -1)))
 
 (custom-set-faces!
-  `(font-lock-type-face :weight semi-bold)
-  `(font-lock-function-name-face :weight semi-bold)
+  `(nav-flash-face :foreground ,(doom-color 'fg) :background "#888888")
+  `(font-lock-type-face :weight bold)
+  `(font-lock-function-name-face :weight bold)
   `(font-lock-string-face :background ,(doom-lighten 'bg 0.05))
-  `(mode-line :family ,(face-attribute 'sawyer--variable-face :family))
-  `(mode-line-inactive :family ,(face-attribute 'sawyer--variable-face :family))
-  `(variable-pitch :family ,(face-attribute 'sawyer--variable-face :family))
-;;   `(+workspace-tab-face :family ,(face-attribute 'sawyer--variable-face :family))
-;;   `(+workspace-tab-selected-face :family ,(face-attribute 'sawyer--variable-face :family))
-  `(header-line :inherit default :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0 :weight semi-bold)
-  `(lsp-headerline-breadcrumb-deprecated-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-path-error-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-path-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0 :weight normal)
-  `(lsp-headerline-breadcrumb-path-hint-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-path-info-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-path-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0 :weight semi-bold)
-  `(lsp-headerline-breadcrumb-separator-face :foreground ,(doom-color 'cyan) :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-error-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'default) :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-hint-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-info-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-symbols-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0)
-  `(lsp-lens-face :foreground ,(doom-color 'default) :height 0.8)
-  `(lsp-face-highlight-textual :foreground ,(doom-lighten 'fg 0.1) :background ,(doom-darken 'bg 0.5))
-  `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :semi-bold 'semi-bold)
-  `(magit-blame-heading :background "#111111")
-  `(internal-border :foreground "#000000")
-  `(vertical-border :foreground "#000000")
-  `(border :foreground "#000000")
-  `(+org-todo-active :foreground "green")
-  `(+org-todo-cancel :foreground "red")
-  `(+org-todo-onhold :foreground "yellow")
-  `(org-todo :foreground "cyan" :family ,(face-attribute 'sawyer--variable-face :family))
-  `(org-done :foreground "gray" :family ,(face-attribute 'sawyer--variable-face :family))
-  `(org-headline-done :foreground "#555555")
   `(line-number
-    :foreground ,(doom-lighten (doom-color 'bg) 0.1)
-    :height 1.0)
+    :foreground ,(doom-lighten (doom-color 'bg) 0.2)
+    :height 0.8)
   `(line-number-current-line
-    :foreground ,(doom-lighten (doom-color 'bg) 0.3)
-    :height 1.0)
+    :foreground ,(doom-lighten (doom-color 'bg) 0.5)
+      :height 0.8)
   )
 
+(after! lsp-ui
+  (custom-set-faces!
+    `(lsp-headerline-breadcrumb-deprecated-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-error-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8 :weight normal)
+    `(lsp-headerline-breadcrumb-path-hint-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-info-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8 :weight bold)
+    `(lsp-headerline-breadcrumb-separator-face :background ,(doom-color 'bg) :foreground ,(doom-color 'cyan) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-error-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-face :background ,(doom-color 'bg) :foreground ,(doom-color 'default) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-hint-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-info-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-lens-face :foreground ,(doom-color 'default) :height 0.8)
+    ))
 (after! tree-sitter
   (custom-set-faces!
     '(tree-sitter-hl-face:property :slant normal)
@@ -144,17 +118,17 @@
 
 (custom-theme-set-faces! 'doom-spacegrey
   `(default :foreground "#b1bbcb" :background "#1c212c")
-  `(header-line :background "#1c212c" :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0 :weight semi-bold)
+  `(header-line :background "#1c212c" :family ,(face-attribute 'sawyer--variable-face :family) :height 1.0 :weight bold)
   `(line-number :foreground "#393e45"
                 :background "#1c212c"
                 :height 1.2)
   `(line-number-current-line :foreground ,(doom-lighten (doom-color 'bg) 0.4)
                              :height 1.2)
-  `(font-lock-keyword-face :weight semi-bold
+  `(font-lock-keyword-face :weight bold
                            :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
-  `(font-lock-constant-face :weight semi-bold
+  `(font-lock-constant-face :weight bold
                             :foreground ,(doom-lighten (doom-color 'blue) 0.3))
-  `(font-lock-builtin-face :weight semi-bold)
+  `(font-lock-builtin-face :weight bold)
   `(font-lock-variable-name-face :foreground ,(doom-color 'blue))
   `(font-lock-preprocessor-face :foreground "tomato")
   `(font-lock-string-face :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.7) :background ,(doom-lighten (doom-color 'bg) 0.02))
@@ -183,69 +157,63 @@
                 :foreground ,(doom-lighten 'bg 0.2)
                 :background ,(doom-darken 'bg 0.1)
                 :height 1.0)
-  `(solaire-header-line-face :height 1.1)
-  `(font-lock-keyword-face :foreground ,(doom-color 'cyan) :weight semi-bold)
-  `(font-lock-builtin-face :foreground ,(doom-color 'blue) :weight semi-bold)
-  `(font-lock-constant-face :foreground ,(doom-color 'blue) :weight semi-bold)
+  `(font-lock-keyword-face :foreground ,(doom-color 'cyan) :weight bold)
+  `(font-lock-builtin-face :foreground ,(doom-color 'blue) :weight bold)
+  `(font-lock-constant-face :foreground ,(doom-color 'blue) :weight bold)
   `(font-lock-string-face :background ,(doom-lighten (doom-color 'bg) 0.1) :foreground ,(doom-blend (doom-color 'red) "#aaaaaa" 0.2))
-  `(font-lock-function-name-face :weight semi-bold)
-  `(font-lock-type-face :foreground ,(doom-color 'red) :weight semi-bold)
-  `(font-lock-variable-name-face :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight semi-bold)
+  `(font-lock-function-name-face :weight bold)
+  `(font-lock-type-face :foreground ,(doom-color 'red) :weight bold)
+  `(font-lock-variable-name-face :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight bold)
   `(font-lock-doc-face :foreground ,(doom-color 'blue))
   `(font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.4))
-  `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :semi-bold 'semi-bold)
+  `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :weight bold)
   )
   (setq
       evil-insert-state-cursor '(bar "green")
       evil-replace-state-cursor '(box "red")
       evil-visual-state-cursor '(hollow "yellow"))
 
-;; (custom-theme-set-faces! 'doom-ayu-mirage
-;;   `(line-number :inherit default
-;;                 :foreground ,(doom-lighten 'bg 0.2)
-;;                 :background ,(doom-darken 'bg 0.1)
-;;                 :height 1.0)
-;;   `(solaire-header-line-face :height 1.1)
-;;   `(font-lock-keyword-face :foreground ,(doom-color 'cyan) :weight semi-bold)
-;;   `(font-lock-builtin-face :foreground ,(doom-color 'blue) :weight semi-bold)
-;;   `(font-lock-constant-face :foreground ,(doom-color 'blue) :weight semi-bold)
-;;   `(font-lock-string-face :background ,(doom-lighten (doom-color 'bg) 0.1) :foreground ,(doom-blend (doom-color 'red) "#aaaaaa" 0.2))
-;;   `(font-lock-function-name-face :weight semi-bold)
-;;   `(font-lock-type-face :foreground ,(doom-color 'red) :weight semi-bold)
-;;   `(font-lock-variable-name-face :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight semi-bold)
-;;   `(font-lock-doc-face :foreground ,(doom-color 'blue))
-;;   `(font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.4))
-;;   `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :semi-bold 'semi-bold)
-;;   )
-;; (when (eq doom-theme 'doom-ayu-mirage)
-;;   (setq evil-normal-state-cursor '(box "cyan")
-;;       evil-insert-state-cursor '(bar "green")
-;;       evil-visual-state-cursor '(hollow "yellow"))
-;;   )
+(after! company
+  (custom-theme-set-faces! 'doom-ayu-dark
+    `(line-number
+      :foreground ,(doom-lighten (doom-color 'bg) 0.2)
+      :height 0.8)
+    `(line-number-current-line
+      :foreground ,(doom-lighten (doom-color 'bg) 0.5)
+      :height 0.8)
+    `(header-line :background ,(doom-color 'bg))
+    `(lsp-headerline-breadcrumb-deprecated-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-error-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8 :weight normal)
+    `(lsp-headerline-breadcrumb-path-hint-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-info-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8 :weight bold)
+    `(lsp-headerline-breadcrumb-separator-face :background ,(doom-color 'bg) :foreground ,(doom-color 'cyan) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-error-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-face :background ,(doom-color 'bg) :foreground ,(doom-color 'default) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-hint-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-info-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-lens-face :foreground ,(doom-color 'default) :height 0.8)
+    `(centaur-tabs-default :background ,(doom-color 'bg))
+    `(font-lock-keyword-face :foreground ,(doom-color 'cyan) :weight bold)
+    `(font-lock-builtin-face :foreground ,(doom-color 'blue) :weight bold)
+    `(font-lock-constant-face :foreground ,(doom-color 'magenta) :weight bold)
+    `(font-lock-string-face
+      :background ,(doom-lighten (doom-color 'bg) 0.1)
+      :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2))
+    `(font-lock-function-name-face :weight bold)
+    `(font-lock-type-face :foreground ,(doom-color 'red) :weight bold)
+    `(font-lock-variable-name-face :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight bold)
+    `(font-lock-doc-face :foreground ,(doom-color 'blue))
+    `(font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.4))
+    `(ediff-fine-diff-A :background ,(doom-blend 'red 'bg 0.3) :weight bold)
+    `(company-tooltip :background ,(doom-lighten (face-attribute 'company-tooltip :background) 0.1))
+    )
+  )
 
-;; (custom-theme-set-faces! 'doom-tomorrow-night
-;;   `(font-lock-string-face :background ,(doom-lighten (doom-color 'bg) 0.05)
-;;                           :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.5))
-;;   )
-
-;; (custom-theme-set-faces! 'doom-horizon
-;;   `(font-lock-string-face :background ,(doom-lighten (doom-color 'bg) 0.05)
-;;                           :foreground ,(doom-color 'fg))
-;;   `(font-lock-comment-face :slant normal
-;;                            :foreground "#505872")
-;;   `(doom-modeline-buffer-path :foreground ,(doom-color 'blue))
-;;   `(doom-modeline-buffer-file :foreground ,(doom-color 'blue))
-;;   `(doom-modeline-buffer-project-root :foreground ,(doom-color 'blue))
-;;   `(doom-modeline-project-dir :foreground ,(doom-color 'blue))
-;;   `(doom-modeline-buffer-modified :foreground ,(doom-color 'red))
-;;   `(region :background ,(doom-blend (doom-color 'blue) "#111111" 0.2))
-;;   `(evil-ex-lazy-highlight
-;;     :background ,(doom-darken (doom-color 'yellow) 0.1)
-;;     :foreground "black")
-;;   `(evil-ex-search
-;;     :background ,(doom-lighten (doom-color 'yellow) 0.2)
-;;     :foreground "black")
-;;   )
 (custom-theme-set-faces! '(doom-monokai-octagon doom-monokai-spectrum)
   `(default :inherit default :background ,(doom-darken (doom-color 'bg) 0.2))
   `(vertical-border :inherit vertical-border :background ,(doom-darken (doom-color 'bg) 0.3))
@@ -253,7 +221,7 @@
     :background ,(doom-darken (doom-color 'bg) 0.2)
     :family ,(face-attribute 'sawyer--variable-face :family)
     :height 1.0
-    :weight semi-bold)
+    :weight bold)
   `(region :background ,(doom-blend (doom-color 'blue) "#111111" 0.2))
   `(line-number
     :foreground ,(doom-lighten (doom-color 'bg) 0.1)
@@ -306,20 +274,6 @@
   `(line-number-current-line
     :foreground ,(doom-lighten (doom-color 'bg) 0.4)
     :height 1.0)
-  `(font-lock-keyword-face :weight bold)
-  `(font-lock-builtin-face :weight bold)
-  `(org-document-title :foreground ,(doom-color 'fg))
-  `(org-superstar-header-bullet :foreground ,(doom-color 'red))
-  `(org-modern-symbol :foreground ,(doom-color 'red))
-  `(org-list-dt :foreground ,(doom-color 'red))
-  `(treemacs-root-face :foreground ,(doom-color 'red))
-  `(doom-themes-treemacs-root-face :foreground ,(doom-color 'red))
-  `(treemacs-header-button-face :foreground ,(doom-color 'red))
-  ;; `(font-lock-keyword-face :weight bold :foreground ,(doom-color 'yellow))
-  ;; `(font-lock-type-face :weight bold :foreground ,(doom-color 'red))
-  `(font-lock-comment-face :foreground "#446597")
-  `(dockerfile-image-name :foreground ,(doom-color 'cyan))
-  ;; `(highlight-numbers-number :foreground ,(doom-color 'red))
   )
 
 (custom-theme-set-faces! 'doom-nord-light
@@ -344,38 +298,6 @@
   `(dockerfile-image-name :foreground ,(doom-color 'cyan))
   `(highlight-numbers-number :foreground ,(doom-color 'red))
   )
-(after! treemacs
-  (when (eq doom-theme 'doom-nord-light)
-    (setq treemacs-window-background-color `("#d4d6e4" . "#e7ebf1"))))
-
-;; (custom-theme-set-faces! 'doom-old-hope
-;;   ;; `(default :foreground "#87939c" :background "#0A0E14")
-;;   `(line-number :foreground ,(doom-darken 'fg 0.8)
-;;                 :background ,(doom-darken 'bg 0.5)
-;;                 )
-;;   `(font-lock-keyword-face :weight semi-bold
-;;                            :foreground "#FF8F40"
-;;                            )
-;;   `(font-lock-builtin-face :weight semi-bold
-;;                            :foreground "#F29668")
-;;   `(font-lock-constant-face :weight semi-bold
-;;                             :foreground "#FFEE99"
-;;                             )
-;;   `(font-lock-variable-name-face :foreground "#59C2FF")
-;;   `(font-lock-preprocessor-face :foreground "tomato")
-;;   `(font-lock-string-face :foreground "#b6ce89" :background "#1c2512")
-;;   `(font-lock-type-face :weight semi-bold :foreground "#F07178")
-;;   `(font-lock-function-name-face :foreground "#FFB454")
-;;   `(font-lock-doc-face :foreground "#A1AC88")
-;;   `(font-lock-comment-face :foreground "#626A73")
-;;   `(highlight-numbers-number :foreground "#E6B673")
-;;   `(border :foreground "#4D5566")
-;;  )
-
-;; (custom-theme-set-faces! 'doom-tomorrow-day
-;;   `(font-lock-string-face :background "#ccddee")
-;;   `(treemacs-root-face :background ,(doom-darken 'bg 0.1))
-;;   )
 
 (custom-theme-set-faces! 'doom-moonlight
   `(font-lock-constant-face :foreground ,(doom-color 'magenta)
@@ -387,33 +309,10 @@
   (setq doom-modeline-major-mode-icon t)
   (setq doom-modeline-buffer-file-name-style 'relative-to-project)
   (custom-set-faces!
-    `(doom-modeline-project-dir :weight semi-bold :background ,(doom-color 'default))
+    `(doom-modeline-project-dir :weight bold :background ,(doom-color 'default))
     `(doom-modeline-persp-name :slant normal)
     )
   )
-
-;; (use-package! terraform-mode
-;;   :defer
-;;   :config
-;;   (custom-set-faces!
-;;     `(terraform--resource-name-face :weight semi-bold :foreground ,(doom-color 'green))
-;;     `(terraform--resource-type-face :weight semi-bold :foreground ,(doom-color 'blue))
-;;     )
-;;   )
-
-;; (after! haskell
-;;   (custom-set-faces!
-;;     `(haskell-keyword-face :foreground "coral")
-;;     `(haskell-pragma-face :weight semi-bold
-;;                           :foreground ,(doom-color 'red)
-;;                           :background ,(doom-darken 'bg 0.5))
-;;     `(haskell-operator-face :foreground ,(doom-color 'orange))
-;;     `(haskell-definition-face :foreground ,(doom-color 'blue))
-;;     `(haskell-quasi-quote-face :foreground ,(doom-color 'magenta))
-;;     `(haskell-type-face :weight semi-bold :foreground ,(doom-color 'orange))
-;;     `(haskell-definition-face :weight semi-bold)
-;;     )
-;;   )
 
 (after! hl-todo
   (setq hl-todo-keyword-faces
@@ -423,35 +322,8 @@
           ("NOTE"  . ,(face-foreground 'success))))
   )
 
-;; (use-package! treemacs
-;;   :defer t
-;;   :config
-;;   ;; make this work with nano
-;;   (setq treemacs-user-mode-line-format 'none)
-;;   (custom-set-faces!
-;;     `(treemacs-root-face :height 1.0 :weight semi-bold :slant normal )
-;;     `(treemacs-directory-collapsed-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-directory-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-file-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-fringe-indicator-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-git-added-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-git-conflict-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-git-ignored-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-git-modified-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-git-renamed-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-git-unmodified-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-git-untracked-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-help-column-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-help-title-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-on-failure-pulse-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-on-success-pulse-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-tags-face :height 0.9 :weight light :slant normal )
-;;     `(treemacs-term-node-face :height 0.9 :weight light :slant normal )
-;;     )
-;;   )
-(use-package! treemacs
-  :defer t
-  :config
+(after! treemacs
+  ;; (setq doom-themes-treemacs-enable-variable-pitch t)
   (setq treemacs-window-background-color
         (cons
           ;; background color
@@ -462,26 +334,38 @@
   (custom-set-faces!
     `(treemacs-root-face
       :height 1.2
-      :weight semi-bold
+      :weight bold
       :slant normal
       :family ,(face-attribute 'sawyer--variable-face :family)
       :background ,(doom-color 'bg)
       )
+    ;; TODO: something is broken with treemacs-git-modified-face
+    `(lsp-treemacs-file-error :family ,(face-attribute 'sawyer--variable-face :family))
+    `(lsp-treemacs-file-hint :family ,(face-attribute 'sawyer--variable-face :family))
+    `(lsp-treemacs-file-info :family ,(face-attribute 'sawyer--variable-face :family))
+    `(lsp-treemacs-file-warn :family ,(face-attribute 'sawyer--variable-face :family))
+    `(lsp-treemacs-project-root-error :family ,(face-attribute 'sawyer--variable-face :family))
+    `(lsp-treemacs-project-root-info :family ,(face-attribute 'sawyer--variable-face :family))
+    `(lsp-treemacs-project-root-warn :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-directory-collapsed-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-directory-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-file-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-fringe-indicator-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-git-added-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-git-commit-diff-face :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-git-conflict-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-git-ignored-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-git-modified-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-git-renamed-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-git-unmodified-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-git-untracked-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-header-button-face :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-help-column-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-help-title-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-marked-file-face :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-on-failure-pulse-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-on-success-pulse-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
+    `(treemacs-peek-mode-indicator-face :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-tags-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     `(treemacs-term-node-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer--variable-face :family))
     )
@@ -498,6 +382,9 @@
   (setq-default default-text-properties '(line-spacing 0.2 line-height 1.2))
   (setq-local default-text-properties '(line-spacing 0.2 line-height 1.2))
   )
+
+(add-hook! treemacs-mode
+  (set-face-attribute 'button nil :family '(face-attribute 'sawyer--variable-face :family)))
 
 ;; (add-hook! (prog-mode
 ;;             text-mode
@@ -538,11 +425,11 @@
     `(org-level-7 :inherit 'org-face :height 0.9)
     `(org-level-6 :inherit 'org-face :height 0.9)
     `(org-level-5 :inherit 'org-face :height 0.9)
-    `(org-level-4 :inherit 'org-face :height 0.9 :weight semi-bold)
+    `(org-level-4 :inherit 'org-face :height 0.9 :weight bold)
     `(org-level-3 :inherit 'org-face :height 1.0 :weight normal)
-    `(org-level-2 :inherit 'org-face :height 1.05 :weight semi-bold)
+    `(org-level-2 :inherit 'org-face :height 1.05 :weight bold)
     `(org-level-1 :inherit 'org-face :height 1.2 :weight normal)
-    `(org-document-title :inherit 'org-face :height 1.1 :weight semi-bold)
+    `(org-document-title :inherit 'org-face :height 1.1 :weight bold)
     )
   )
 
@@ -589,35 +476,56 @@
                                   :foreground "#505872")
     )
   (custom-theme-set-faces! 'doom-spacegrey
-    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
     `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
     )
   (custom-theme-set-faces! 'doom-tomorrow-night
-    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
     `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
     )
   (custom-theme-set-faces! 'doom-ayu-mirage
-    `(tree-sitter-hl-face:type :foreground ,(doom-color 'red) :weight semi-bold)
-    `(tree-sitter-hl-face:constructor :foreground ,(doom-lighten 'red 0.3) :weight semi-bold)
-    `(tree-sitter-hl-face:method.call :weight semi-bold)
-    `(tree-sitter-hl-face:keyword :foreground ,(doom-darken (doom-color 'cyan) 0.1) :weight semi-bold)
-    `(tree-sitter-hl-face:function :foreground ,(doom-lighten (doom-color 'cyan) 0.1) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-    `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue) :weight semi-bold)
+    `(tree-sitter-hl-face:type :foreground ,(doom-color 'red) :weight bold)
+    `(tree-sitter-hl-face:constructor :foreground ,(doom-lighten 'red 0.3) :weight bold)
+    `(tree-sitter-hl-face:method.call :weight bold)
+    `(tree-sitter-hl-face:keyword :foreground ,(doom-darken (doom-color 'cyan) 0.1) :weight bold)
+    `(tree-sitter-hl-face:function :foreground ,(doom-lighten (doom-color 'cyan) 0.1) :weight bold)
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue) :weight bold)
     `(tree-sitter-hl-face:comment :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.4))
-    `(tree-sitter-hl-face:variable :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight semi-bold)
+    `(tree-sitter-hl-face:variable :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight bold)
+    `(tree-sitter-hl-face:string :background ,(doom-lighten (doom-color 'bg) 0.1) :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.5))
+    )
+  (custom-theme-set-faces! 'doom-ayu-dark
+    `(tree-sitter-hl-face:type :foreground ,(doom-color 'red) :weight bold)
+    `(tree-sitter-hl-face:constructor :foreground ,(doom-lighten 'red 0.3) :weight bold)
+    `(tree-sitter-hl-face:method.call :foreground ,(doom-lighten (doom-color 'cyan) 0.1) :weight bold)
+    ;; `(tree-sitter-hl-face:keyword :foreground ,(doom-darken (doom-color 'cyan) 0.1) :weight bold)
+    `(tree-sitter-hl-face:function :foreground ,(doom-lighten (doom-color 'cyan) 0.1) :weight bold)
+    `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow) :weight bold)
+    `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'cyan) :weight bold)
+    `(tree-sitter-hl-face:function.method.call :foreground ,(doom-color 'yellow) :weight bold)
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+    `(tree-sitter-hl-face:constant :foreground ,(doom-color 'magenta) :weight bold)
+    `(tree-sitter-hl-face:constant.builtin :foreground ,(doom-color 'magenta) :weight bold)
+    `(tree-sitter-hl-face:comment :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.4))
+    `(tree-sitter-hl-face:variable :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight normal)
+    `(tree-sitter-hl-face:property :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight normal)
     `(tree-sitter-hl-face:string :background ,(doom-lighten (doom-color 'bg) 0.1) :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.5))
     )
   (custom-theme-set-faces! 'doom-snazzy
@@ -634,34 +542,34 @@
     `(tree-sitter-hl-face:doc :foreground ,(doom-color 'blue))
     )
 ;;   (custom-theme-set-faces! 'doom-spacegrey
-;;     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
+;;     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
 ;;     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
 ;;     `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
 ;;     )
 ;;   (custom-theme-set-faces! 'doom-tomorrow-night
-;;     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight semi-bold)
+;;     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
 ;;     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue))
 ;;     )
 ;;   (custom-theme-set-faces! 'doom-ayu-mirage
-;;     `(tree-sitter-hl-face:type :foreground ,(doom-color 'red) :weight semi-bold)
-;;     `(tree-sitter-hl-face:constructor :foreground ,(doom-lighten 'red 0.3) :weight semi-bold)
-;;     `(tree-sitter-hl-face:method.call :weight semi-bold)
-;;     `(tree-sitter-hl-face:keyword :foreground ,(doom-darken (doom-color 'cyan) 0.1) :weight semi-bold)
-;;     `(tree-sitter-hl-face:function :foreground ,(doom-lighten (doom-color 'cyan) 0.1) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight semi-bold)
-;;     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue) :weight semi-bold)
+;;     `(tree-sitter-hl-face:type :foreground ,(doom-color 'red) :weight bold)
+;;     `(tree-sitter-hl-face:constructor :foreground ,(doom-lighten 'red 0.3) :weight bold)
+;;     `(tree-sitter-hl-face:method.call :weight bold)
+;;     `(tree-sitter-hl-face:keyword :foreground ,(doom-darken (doom-color 'cyan) 0.1) :weight bold)
+;;     `(tree-sitter-hl-face:function :foreground ,(doom-lighten (doom-color 'cyan) 0.1) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'cyan) 0.2) :weight bold)
+;;     `(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue) :weight bold)
 ;;     `(tree-sitter-hl-face:comment :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.4))
-;;     `(tree-sitter-hl-face:variable :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight semi-bold)
+;;     `(tree-sitter-hl-face:variable :foreground ,(doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight bold)
 ;;     `(tree-sitter-hl-face:string :background ,(doom-lighten (doom-color 'bg) 0.1) :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.5))
 ;;     )
 ;;   (custom-theme-set-faces! 'doom-snazzy
@@ -674,7 +582,7 @@
 ;;     )
   (custom-theme-set-faces! 'doom-moonlight
     `(tree-sitter-hl-face:variable :foreground ,(doom-color 'default))
-    `(tree-sitter-hl-face:keyword :foreground ,(doom-color 'red) :weight semi-bold)
+    `(tree-sitter-hl-face:keyword :foreground ,(doom-color 'red) :weight bold)
     )
 ;;   (custom-theme-set-faces! 'doom-snazzy
 ;;     `(font-lock-string-face :background ,(doom-lighten (doom-color 'bg) 0.05))
@@ -690,25 +598,25 @@
     `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
     `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'cyan 'white 0.6))
     )
-  (custom-theme-set-faces! 'doom-tokyo-night
-    `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
-    `(tree-sitter-hl-face:doc :inherit font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.8))
-    `(tree-sitter-hl-face:keyword :inherit font-lock-keyword-face :weight bold)
-    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2))
-    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2))
-    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
-    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
-    `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
-    ;; `(tree-sitter-hl-face:function.method :foreground ,(doom-color 'orange) :weight bold)
-    ;; `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'yellow) :weight bold)
-    ;; `(tree-sitter-hl-face:function :foreground ,(doom-color 'orange) :weight bold)
-    ;; `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
-    ;; `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
-    ;; `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
-    ;; `(tree-sitter-hl-face:property.definition :foreground ,(doom-blend 'red 'white 0.6) :weight bold)
+  ;; (custom-theme-set-faces! 'doom-tokyo-night
+    ;; `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
+    ;; `(tree-sitter-hl-face:doc :inherit font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.8))
+    ;; `(tree-sitter-hl-face:keyword :inherit font-lock-keyword-face :weight bold)
+    ;; `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2))
+    ;; `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2))
+    ;; `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
+    ;; `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
+    ;; `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
+    ;; `(tree-sitter-hl-face:function.method :inherit font-lock-function-name-face :weight bold)
+    ;; `(tree-sitter-hl-face:function.call :inherit font-lock-function-name-face :weight bold)
+    ;; `(tree-sitter-hl-face:function :inherit font-lock-function-name-face :weight bold)
+    ;; ;; `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
+    ;; ;; `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
+    ;; ;; `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:property.definition :weight bold)
     ;; `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
-    `(tree-sitter-hl-face:type :inherit font-lock-type-face :weight bold)
-    )
+    ;; `(tree-sitter-hl-face:type :inherit font-lock-type-face :weight bold)
+    ;; )
   (custom-theme-set-faces! 'doom-nord-light
     `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
     `(tree-sitter-hl-face:keyword :weight bold :foreground ,(doom-color 'orange))
@@ -800,10 +708,7 @@
   (setq-default writeroom-width 100))
 
 (when (display-graphic-p)
-  (use-package textsize
-    :commands textsize-mode
-    :init (textsize-mode)
-    :config
+  (after! textsize
     (setq textsize-default-points sawyer--baseline-font-size)
     (setq textsize-pixel-pitch-thresholds
           ;; 15" MBP:       0.171875
@@ -814,11 +719,9 @@
             (0.17 . 2.5)
             (0.174 . 0.6)
             (0.18 . -3.5)))
-        ; (setq textsize-monitor-size-thresholds
-        ;       '((0 . -3)
-        ;        (350 . 0)
-        ;        (500 . 3)))
-    ))
+    )
+  (add-hook! after-init #'textsize-mode)
+  )
 (after! org-modern
   ;; table styles are still kinda messed up: https://github.com/minad/org-modern/issues/5
   (setq org-modern-table nil)
@@ -826,7 +729,7 @@
 (add-hook! org-mode #'org-modern-mode)
 (add-hook! org-agenda-finalize #'org-modern-agenda)
 
-(after! lsp-mode
+(after! lsp-ui
   (custom-set-faces!
     `(lsp-rust-analyzer-inlay-face :inherit font-lock-comment-face :height 0.8)
     `(lsp-javascript-inlay-face :inherit font-lock-comment-face :height 0.8)
@@ -834,6 +737,22 @@
     `(lsp-rust-analyzer-inlay-type-face :inherit font-lock-comment-face :height 0.8)
     `(lsp-rust-analyzer-inlay-param-face :inherit font-lock-comment-face :height 0.8)
     `(lsp-javascript-inlay-parameter-face :inherit font-lock-comment-face :height 0.8)
+    `(lsp-headerline-breadcrumb-deprecated-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-error-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8 :weight normal)
+    `(lsp-headerline-breadcrumb-path-hint-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-info-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-path-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8 :weight bold)
+    `(lsp-headerline-breadcrumb-separator-face :background ,(doom-color 'bg) :foreground ,(doom-color 'cyan) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-error-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-face :background ,(doom-color 'bg) :foreground ,(doom-color 'default) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-hint-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-info-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-symbols-warning-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-headerline-breadcrumb-unknown-project-prefix-face :background ,(doom-color 'bg) :family ,(face-attribute 'sawyer--variable-face :family) :height 0.8)
+    `(lsp-lens-face :foreground ,(doom-color 'default) :height 0.8)
+    ))
 
 (after! centaur-tabs
   (custom-set-faces!

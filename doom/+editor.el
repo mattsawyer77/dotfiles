@@ -1,4 +1,5 @@
 ;;;  -*- lexical-binding: t; -*-
+
 (setq native-comp-async-report-warnings-errors nil)
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
@@ -43,6 +44,7 @@
 (if (eq (car +format-on-save-enabled-modes) 'not)
     (progn
       ;; list is exclusion -- add yaml-mode, et. al. to the list
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'conf-toml-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'yaml-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'cpp-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'c++-mode t))
@@ -50,6 +52,7 @@
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'shell-script-mode t)))
     (progn
       ;; list is inclusion -- remove yaml-mode, et. al. from the list
+      (setq +format-on-save-enabled-modes (delete 'conf-toml-mode +format-on-save-enabled-modes))
       (setq +format-on-save-enabled-modes (delete 'yaml-mode +format-on-save-enabled-modes))
       (setq +format-on-save-enabled-modes (delete 'cpp-mode +format-on-save-enabled-modes))
       (setq +format-on-save-enabled-modes (delete 'c++-mode +format-on-save-enabled-modes))
@@ -57,15 +60,12 @@
       (setq +format-on-save-enabled-modes (delete 'shell-script-mode +format-on-save-enabled-modes))))
 
 ;; use tree-sitter for syntax highlighting
-(use-package! tree-sitter
-  :config
+(after! tree-sitter
   (require 'tree-sitter-langs)
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
-(use-package! rustic
-  :defer
-  :config
+(after! rustic
   (setq rustic-lsp-server 'rust-analyzer
         rustic-format-on-save t
         lsp-rust-server 'rust-analyzer
@@ -73,7 +73,6 @@
         lsp-rust-analyzer-display-parameter-hints t
         lsp-rust-analyzer-server-display-inlay-hints t
         lsp-rust-analyzer-cargo-watch-command "clippy")
-  (auto-save-mode -1)
   )
 
 ;; XXX: not working
@@ -92,6 +91,7 @@
 (add-hook! emacs-lisp-mode #'+word-wrap-mode)
 (add-hook! emacs-lisp-mode #'rainbow-delimiters-mode-enable)
 (add-hook! emacs-lisp-mode #'rainbow-mode)
+(add-hook! emacs-lisp-mode #'flycheck-mode)
 
 (add-hook! go-mode
   (+word-wrap-mode 1))
@@ -148,8 +148,7 @@
 (after! company-lsp
   (push 'company-lsp company-backends))
 
-(use-package! flycheck
-  :config
+(after! flycheck
   (setq-default flycheck-relevant-error-other-file-show nil)
   ;; make flycheck window auto-resize (with a max height of 15 lines)
   (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
@@ -261,6 +260,8 @@
   (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-ui-doc-enable 't)
   (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-doc-border (doom-lighten 'bg 0.1))
+  (add-to-list 'lsp-ui-doc-frame-parameters '(internal-border-width . 8))
   (setq lsp-ui-doc-show-with-cursor nil)
   (setq lsp-ui-doc-show-with-mouse t)
   (setq lsp-lens-enable t)

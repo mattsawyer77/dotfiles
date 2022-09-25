@@ -13,5 +13,5 @@
 ;; (load! "+ghcid")
 (load! "+go-template-mode")
 (load! "+editor")
-(load! "+ui")
 (load! "+keybindings")
+(load! "+ui")
