@@ -99,8 +99,9 @@
 ;; override LSP's default diagnostic checker and use golangci-lint instead
 (add-hook! lsp-diagnostics-mode
   (when (eq major-mode 'go-mode)
-    (lsp-diagnostics-flycheck-disable)
-    (flycheck-golangci-lint-setup)
+    ;; too slow, keep LSP as the default checker for now
+    ;; (lsp-diagnostics-flycheck-disable)
+    ;; (flycheck-golangci-lint-setup)
     (map! :mode go-mode
           :map general-override-mode-map
           :rnv "SPC c x" #'flycheck-list-errors

@@ -11,7 +11,9 @@
 (package! highlight-indent-guides)
 (package! treemacs-persp)
 (package! flycheck-posframe)
+;; (unpin! tree-sitter)
 (package! tree-sitter)
+(unpin! tree-sitter-langs)
 (package! tree-sitter-langs)
 (package! uuidgen)
 (package! dap-mode)
@@ -24,6 +26,12 @@
 (package! flycheck-golangci-lint
   :recipe (:host github
            :repo "mattsawyer77/flycheck-golangci-lint"
+           :branch "main"
+           ))
+(unpin! makefile-executor)
+(package! makefile-executor
+  :recipe (:host github
+           :repo "mattsawyer77/makefile-executor.el"
            :branch "main"
            ))
 (package! rfc-mode)

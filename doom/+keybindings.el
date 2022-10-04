@@ -11,6 +11,8 @@
             (dired-other-window "~/dotfiles/doom"))
  :nv "<f9>" #'sawyer--light-switch
  (:leader
+  (:after projectile
+   :desc "Switch to last project buffer" "`" #'projectile-project-buffers-other-buffer)
   (:prefix ("f" . "file")
    :desc "Ediff buffers" "c" #'ediff-buffers)
   (:after evil-nerd-commenter
