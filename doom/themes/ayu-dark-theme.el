@@ -7,7 +7,7 @@
 ;;; Variables
 
 (defgroup ayu-dark-theme nil
-  "Options for the `ayu-dark' theme."
+  "Options for the ayu-dark theme."
   :group 'doom-themes)
 
 (defcustom ayu-dark-brighter-modeline nil
@@ -39,27 +39,28 @@ determine the exact padding."
 (def-doom-theme ayu-dark
   "A dark theme inspired by Ayu dark"
 
-  ;; name        default   256       16
+  ;;  name        default   256       16
   (
    ;; common
    (common-accent   '("#e6b450" "orange"  "orange" ))
-   (common-bg       '("#0d1017" "black"   "black"  ))
-   (common-line     '("#131721" "grey"    "grey"  ))
-   (common-fg       '("#bfbdb6" "grey"    "grey"   ))
+   (common-bg       '("#191f27" "black"   "black"  ))
+   (common-line     '("#202731" "grey"    "grey"   ))
+   (common-fg       '("#e6e1cf" "grey"    "grey"   ))
    (common-ui       '("#565b66" "grey"    "grey"   ))
    (test            '("#73b8ff" "grey"    "grey"   ))
    ;; syntax
    (syntax-tag      '("#39bae6" "cyan"    "blue"   ))
-   (syntax-func     '("#ffb454" "yellow"  "yellow" ))
+   (syntax-func     '("#e6e1cf" "white"   "white"  ))
    (syntax-entity   '("#59c2ff" "blue"    "blue"   ))
-   (syntax-string   '("#7fd962" "green"   "green"  ))
+   (syntax-string   '("#b8cc52" "green"   "green"  ))
    (syntax-regexp   '("#95e6cb" "teal"    "green"  ))
-   (syntax-markup   '("#f07178" "red"     "red"    ))
-   (syntax-keyword  '("#ff8f40" "orange"  "orange" ))
-   (syntax-special  '("#e6b673" "yellow"  "yellow" ))
-   (syntax-comment  '("#475266" "grey"    "grey"   ))
-   (syntax-constant '("#d2a6ff" "magenta" "purple" ))
-   (syntax-operator '("#f29668" "orange"  "orange" ))
+   (syntax-markup   '("#ffb454" "red"     "red"    ))
+   ;; (syntax-keyword  '("#ff7733" "red"     "red"    ))
+   (syntax-keyword  '("#59c2ff" "blue"    "blue"   ))
+   (syntax-special  '("#ffb454" "orange"  "orange" ))
+   (syntax-comment  '("#788697" "grey"    "grey"   ))
+   (syntax-constant '("#a37acc" "magenta" "purple" ))
+   (syntax-operator '("#ff7733" "orange"  "orange" ))
    (syntax-error    '("#d95757" "red"     "red"    ))
    ;; editor
    (editor-selection-active '("#1B3A5B" "grey" "grey"))
@@ -99,8 +100,8 @@ determine the exact padding."
    (fg-alt     common-ui)
 
    (grey       ui-line)
-   (red        syntax-markup)
-   (orange     syntax-keyword)
+   (red        syntax-error)
+   (orange     syntax-special)
    (green      syntax-string)
    (teal       syntax-regexp)
    (yellow     syntax-func)
@@ -113,6 +114,7 @@ determine the exact padding."
 
    ;; face categories -- required for all themes
    (highlight      common-accent)
+   (lazy-highlight common-accent)
    (vertical-bar   ui-panel-border)
    (selection      nil)
    (builtin        nil)
@@ -123,13 +125,13 @@ determine the exact padding."
    (keywords       syntax-keyword)
    (methods        syntax-func)
    (operators      syntax-operator)
-   (type           syntax-special)
+   (type           syntax-markup)
    (strings        syntax-string)
-   (variables      common-fg)
-   (numbers        syntax-func)
+   (variables      (doom-lighten common-fg 0.2))
+   (numbers        common-accent)
    (region         ui-selection-bg)
    (error          syntax-error)
-   (warning        yellow)
+   (warning        common-accent)
    (success        green)
    (vc-modified    vcs-modified)
    (vc-added       vcs-added)
@@ -156,34 +158,30 @@ determine the exact padding."
    (modeline-bg-inactive   `(,(car bg-alt) ,@(cdr base1)))
    (modeline-bg-inactive-l `(,(doom-darken (car bg-alt) 0.1) ,@(cdr bg-alt))))
 
-  ;;;; Base theme face overrides
+  ;; Base theme face overrides
   ((hl-line :background common-line)
-   ((nav-flash-face &override) :background common-ui)
    ((line-number &override)
-    :foreground "#76777b"
-    :height 0.8
+    :foreground "#46474b"
     :slant 'normal)
    ((line-number-current-line &override)
-    :foreground "#86878b"
-    :height 0.8
+    :foreground "#b6b7bb"
     :slant 'normal)
    (header-line :background (doom-color bg))
    (diff-removed :foreground vcs-removed)
    (ediff-fine-diff-A :background (doom-blend red bg 0.3))
-   (font-lock-comment-face :foreground (doom-blend (doom-color blue) "#888888" 0.4))
-   (font-lock-doc-face
-    :inherit 'font-lock-comment-face
-    :foreground doc-comments)
-   (font-lock-keyword-face :foreground (doom-color cyan))
-   (font-lock-builtin-face :foreground (doom-color blue))
-   (font-lock-constant-face :foreground (doom-color magenta) :weight 'bold)
+   (font-lock-comment-face :foreground syntax-comment)
+   (font-lock-comment-delimiter-face (doom-darken syntax-comment 0.2))
+   (font-lock-doc-face :foreground (doom-lighten doc-comments 0.2))
+   (font-lock-builtin-face :foreground syntax-constant)
    (font-lock-string-face
-    :background (doom-lighten (doom-color bg) 0.1)
-    :foreground (doom-blend (doom-color blue) "#aaaaaa" 0.2))
-   (font-lock-function-name-face :weight 'bold)
-   (font-lock-type-face :foreground (doom-color red) :weight 'bold)
-   (font-lock-variable-name-face :foreground (doom-blend (doom-color blue) "#aaaaaa" 0.2) :weight 'bold)
-   (font-lock-doc-face :foreground (doom-color blue))
+    :background (doom-lighten (doom-color bg) 0.15)
+    :foreground syntax-string)
+   (font-lock-function-name-face :foreground syntax-func :weight 'normal)
+   (font-lock-type-face :foreground type :weight 'normal)
+   (font-lock-keyword-face :foreground syntax-keyword :weight 'normal)
+   ;; (font-lock-variable-name-face
+   ;;  :foreground (doom-blend (doom-color blue) (doom-color fg) 0.2))
+   ;; (font-lock-doc-face :foreground (doom-color blue))
    (mode-line
     :inherit '(variable-pitch)
     :weight 'bold
@@ -200,6 +198,7 @@ determine the exact padding."
 
    ; LSP
    (lsp-face-highlight-textual :background alt-accent :foreground common-ui)
+   (lsp-flycheck-warning-unnecessary-category :inherit 'default :background common-bg :foreground warning)
    (lsp-headerline-breadcrumb-deprecated-face :inherit '(variable-pitch) :background (doom-color bg) :height 1.0 :weight 'bold)
    (lsp-headerline-breadcrumb-path-error-face :inherit '(variable-pitch) :background (doom-color bg) :height 1.0 :weight 'bold)
    (lsp-headerline-breadcrumb-path-face :inherit '(variable-pitch) :background (doom-color bg) :height 1.0 :weight 'bold)
@@ -215,6 +214,7 @@ determine the exact padding."
    (lsp-headerline-breadcrumb-symbols-warning-face :inherit '(variable-pitch) :background (doom-color bg) :height 1.0 :weight 'bold)
    (lsp-headerline-breadcrumb-unknown-project-prefix-face :inherit '(variable-pitch) :background (doom-color bg) :height 1.0 :weight 'bold)
    (lsp-lens-face :foreground (doom-darken fg 0.1) :height 0.8)
+   (lsp-details :inherit font-lock-doc-face)
 
    ;; consult
    (consult-grep-context :inherit font-lock-doc-face)
@@ -225,22 +225,27 @@ determine the exact padding."
 
    ;; centaur-tabs
    (centaur-tabs-default
+     :inherit '(variable-pitch)
      :foreground common-fg
      :background common-bg
      :weight 'bold)
    (centaur-tabs-selected
+     :inherit '(variable-pitch)
      :foreground common-fg
      :background common-bg
      :weight 'bold)
    (centaur-tabs-unselected
+     :inherit '(variable-pitch)
      :foreground (doom-lighten (doom-color grey) 0.4)
      :background common-bg
      :weight 'bold)
    (centaur-tabs-unselected-modified
+     :inherit '(variable-pitch)
      :foreground (doom-blend (doom-color red) (doom-color grey) 0.5)
      :background common-bg
      :weight 'bold)
    (centaur-tabs-selected-modified
+     :inherit '(variable-pitch)
      :foreground (doom-color red)
      :background common-bg
      :weight 'bold)
@@ -248,8 +253,8 @@ determine the exact padding."
    ;; company
    (company-tooltip :foreground common-fg :background common-bg)
    (company-tooltip-annotation :foreground common-fg)
-   (company-tooltip-selection :background ui-line)
-   (company-tooltip-search :foreground common-accent :weight 'bold)
+   (company-tooltip-selection :background common-ui :foreground common-fg)
+   (company-tooltip-search :foreground common-accent)
    (company-scrollbar-bg :background common-bg)
    (company-scrollbar-fg :background syntax-comment)
    ;; css-mode <built-in> / scss-mode
@@ -300,23 +305,45 @@ determine the exact padding."
    (web-mode-html-attr-name-face :foreground syntax-func)
 
    ;; tree-sitter
-   (tree-sitter-hl-face:type :foreground (doom-color red) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:constructor :foreground (doom-lighten red 0.3) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:method.call :foreground (doom-lighten (doom-color cyan) 0.1) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:function :foreground (doom-lighten (doom-color cyan) 0.1) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:function.call :foreground (doom-color yellow) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:function.method :foreground (doom-color cyan) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:function.method.call :foreground (doom-color yellow) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:punctuation :foreground (doom-darken (doom-color cyan) 0.2) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:punctuation.bracket :foreground (doom-darken (doom-color cyan) 0.2) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:punctuation.special :foreground (doom-darken (doom-color cyan) 0.2) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:punctuation.delimiter :foreground (doom-darken (doom-color cyan) 0.2) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:operator :foreground (doom-darken (doom-color cyan) 0.2) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:constant :foreground (doom-color magenta) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:constant.builtin :foreground (doom-color magenta) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:comment :foreground (doom-blend (doom-color blue) "#888888" 0.4))
-   (tree-sitter-hl-face:variable :foreground (doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:property :foreground (doom-blend (doom-color 'blue) "#aaaaaa" 0.2) :weight 'normal :slant 'normal)
-   (tree-sitter-hl-face:string :background (doom-lighten (doom-color 'bg) 0.1) :foreground (doom-blend (doom-color 'blue) "#888888" 0.5))
+   (tree-sitter-hl-face:attribute :inherit font-lock-function-name-face) ;; Face for attributes markup languages.
+   (tree-sitter-hl-face:comment :inherit font-lock-comment-face)
+   (tree-sitter-hl-face:constant :inherit font-lock-constant-face)
+   (tree-sitter-hl-face:constant.builtin :inherit font-lock-keyword-face)
+   (tree-sitter-hl-face:constructor :inherit font-lock-function-name-face)
+   (tree-sitter-hl-face:doc :inherit font-lock-doc-face) ;; Face for docstrings.
+   (tree-sitter-hl-face:embedded :inherit font-lock-doc-markup-face) ;; Face for embedded expressions and code fragments.
+   ;; (tree-sitter-hl-face:escape :inherit default) ;; Face for escape characters in strings.
+   (tree-sitter-hl-face:function :inherit font-lock-function-name-face)
+   (tree-sitter-hl-face:function.builtin :inherit font-lock-function-name-face) ;; Face for builtin functions.
+   (tree-sitter-hl-face:function.call :inherit font-lock-function-name-face)
+   (tree-sitter-hl-face:function.macro :foreground magenta) ;; Face for macro calls.
+   (tree-sitter-hl-face:function.method :inherit font-lock-function-name-face)
+   (tree-sitter-hl-face:function.method.call :inherit font-lock-function-name-face)
+   (tree-sitter-hl-face:function.special :foreground syntax-special) ;; Face for functions that alter things at compile/load time.
+   (tree-sitter-hl-face:keyword :inherit font-lock-keyword-face)
+   (tree-sitter-hl-face:label :inherit font-lock-constant-face) ;; Face for labels.
+   (tree-sitter-hl-face:method :inherit font-lock-function-name-face) ;; Face for method declarations and definitions.
+   (tree-sitter-hl-face:method.call :inherit font-lock-function-name-face)
+   ;; (tree-sitter-hl-face:noise :inherit default) ;; Face for things that are syntatic noises.
+   (tree-sitter-hl-face:number :foreground syntax-operator) ;; Face for numbers.
+   (tree-sitter-hl-face:operator :foreground syntax-operator)
+   (tree-sitter-hl-face:property :inherit font-lock-function-name-face)
+   (tree-sitter-hl-face:property.definition :inherit font-lock-function-name-face) ;; Face for property declarations and definitions.
+   (tree-sitter-hl-face:punctuation :foreground syntax-operator)
+   (tree-sitter-hl-face:punctuation.bracket :foreground syntax-operator)
+   (tree-sitter-hl-face:punctuation.delimiter :foreground syntax-operator)
+   (tree-sitter-hl-face:punctuation.special :foreground syntax-special)
+   (tree-sitter-hl-face:string :inherit font-lock-string-face)
+   (tree-sitter-hl-face:string.special :inherit font-lock-doc-markup-face) ;; Face for special strings, e.g. regular expressions.
+   (tree-sitter-hl-face:tag :foreground syntax-tag) ;; Face for tags in markup languages.
+   (tree-sitter-hl-face:type :inherit font-lock-type-face)
+   (tree-sitter-hl-face:type.argument :inherit font-lock-variable-name-face) ;; Face for type arguments.
+   (tree-sitter-hl-face:type.builtin :inherit font-lock-builtin-face) ;; Face for builtin types.
+   (tree-sitter-hl-face:type.parameter :inherit font-lock-variable-name-face) ;; Face for type parameters.
+   (tree-sitter-hl-face:type.super :foreground syntax-special) ;; Face for super types in definitions and type constraints.
+   (tree-sitter-hl-face:variable :inherit font-lock-variable-name-face)
+   (tree-sitter-hl-face:variable.builtin :inherit font-lock-builtin-face) ;; Face for builtin variables.
+   (tree-sitter-hl-face:variable.parameter :inherit font-lock-variable-name-face) ;; Face for function parameters.
+   (tree-sitter-hl-face:variable.special :foreground syntax-special) ;; Face for "dangerous" variables, e.g. mutable or dynamically-bound.
    ))
 ;;; ayu-dark-theme.el ends here

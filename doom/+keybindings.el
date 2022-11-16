@@ -10,17 +10,8 @@
             (interactive)
             (dired-other-window "~/dotfiles/doom"))
  :nv "<f9>" #'sawyer--light-switch
- (:leader
-  (:after projectile
-   :desc "Switch to last project buffer" "`" #'projectile-project-buffers-other-buffer)
-  (:prefix ("f" . "file")
-   :desc "Ediff buffers" "c" #'ediff-buffers)
-  (:after evil-nerd-commenter
-   :nv "#" #'evilnc-comment-or-uncomment-lines)
-  (:after vertico
-          (:leader
-           :desc "Repeat last Vertico search" "\"" #'vertico-repeat-select)
-          ))
+ (:after evil-nerd-commenter
+  :nv "#" #'evilnc-comment-or-uncomment-lines)
  (:after centaur-tabs
   :nv "S-<left>" #'centaur-tabs-backward
   :nv "S-<right>" #'centaur-tabs-forward
@@ -35,7 +26,7 @@
     :desc "New Tab" "n" #'centaur-tabs--create-new-tab
     )))
  (:after dap-mode
-  :localleader
+  :leader
   (:prefix ("d" . "debug")
    :desc "DAP Debug" "d" #'dap-debug
    :desc "DAP Hydra" "h" #'dap-hydra
@@ -45,7 +36,23 @@
     :desc "DAP Breakpoint Delete" "d" #'dap-breakpoint-delete
     :desc "DAP Breakpoint Delete All" "D" #'dap-breakpoint-delete
     )))
- )
+ (:after flycheck
+  :leader
+  (:prefix ("e" . "errors")
+   :desc "go to next error" "n" #'flycheck-next-error
+   :desc "go to previous error" "p" #'flycheck-previous-error
+   :desc "verify Flycheck setup" "v" #'flycheck-verify-setup
+   :desc "list errors" "l" #'flycheck-list-errors))
+ (:leader
+  (:after projectile
+   :desc "Switch to last project buffer" "`" #'projectile-project-buffers-other-buffer)
+  (:prefix ("f" . "file")
+   :desc "Ediff buffers" "c" #'ediff-buffers)
+  (:after vertico
+   :leader
+   :desc "Repeat last Vertico search" "\"" #'vertico-repeat-select))
+)
+
 
 (map! :after flycheck
       (:leader

@@ -63,7 +63,15 @@
 (after! tree-sitter
   (require 'tree-sitter-langs)
   (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+  ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  (setq-default tree-sitter-hl-use-font-lock-keywords nil)
+  (add-hook! go-mode
+    (setq-local tree-sitter-hl-use-font-lock-keywords t)
+    ;; (add-function :before-while (local 'tree-sitter-hl-face-mapping-function)
+    ;;               (lambda (capture-name)
+    ;;                 (string= capture-name "type"))
+	)
+  )
 
 (after! rustic
   (setq rustic-lsp-server 'rust-analyzer
@@ -72,7 +80,8 @@
         lsp-rust-analyzer-display-chaining-hints t
         lsp-rust-analyzer-display-parameter-hints t
         lsp-rust-analyzer-server-display-inlay-hints t
-        lsp-rust-analyzer-cargo-watch-command "clippy")
+        ;; lsp-rust-analyzer-cargo-watch-command "clippy"
+        )
   )
 
 ;; XXX: not working
@@ -84,7 +93,8 @@
 (after! (go-mode lsp-mode)
   (require 'dap-go)
   (dap-go-setup)
-  (setq flycheck-golangci-lint-fast t))
+  ;; (setq flycheck-golangci-lint-fast t)
+  )
 
 (add-hook! conf-toml-mode #'lsp)
 
@@ -97,15 +107,15 @@
   (+word-wrap-mode 1))
 
 ;; override LSP's default diagnostic checker and use golangci-lint instead
-(add-hook! lsp-diagnostics-mode
-  (when (eq major-mode 'go-mode)
-    ;; too slow, keep LSP as the default checker for now
-    ;; (lsp-diagnostics-flycheck-disable)
-    ;; (flycheck-golangci-lint-setup)
-    (map! :mode go-mode
-          :map general-override-mode-map
-          :rnv "SPC c x" #'flycheck-list-errors
-          )))
+;; (add-hook! lsp-diagnostics-mode
+;;   (when (eq major-mode 'go-mode)
+;;     ;; too slow, keep LSP as the default checker for now
+;;     ;; (lsp-diagnostics-flycheck-disable)
+;;     ;; (flycheck-golangci-lint-setup)
+;;     (map! :mode go-mode
+;;           :map general-override-mode-map
+;;           :rnv "SPC c x" #'flycheck-list-errors
+;;           )))
 
 (after! display-line-numbers
   (add-hook! (prog-mode go-template-mode)
@@ -138,7 +148,9 @@
 
 (after! treemacs
   (treemacs-follow-mode 1)
-  (setq-default treemacs--width-is-locked nil))
+  (treemacs-git-mode 'deferred)
+  (setq-default treemacs--width-is-locked nil)
+  )
 
 (after! company
   (global-company-mode)
@@ -150,6 +162,7 @@
   (push 'company-lsp company-backends))
 
 (after! flycheck
+  (setq flycheck-indication-mode 'left-fringe)
   (setq-default flycheck-relevant-error-other-file-show nil)
   ;; make flycheck window auto-resize (with a max height of 15 lines)
   (defadvice flycheck-error-list-refresh (around shrink-error-list activate)
@@ -170,14 +183,24 @@
                      9 16
                      (face flycheck-error-list-checker-name))
                    0 t)])))
+;; (after! flycheck
+;;   (add-hook! prog-mode (flycheck-mode 1)))
 
-(after! flycheck-posframe
-  (add-hook! flycheck-mode
-    (flycheck-posframe-configure-pretty-defaults)
-    (flycheck-posframe-mode 1))
-  ;; disable flycheck-posframe while in insert mode
-  (add-hook! evil-insert-state-entry-hook (flycheck-posframe-mode -1))
-  (add-hook! evil-insert-state-exit-hook (flycheck-posframe-mode 1)))
+;; (after! (flycheck-posframe lsp-ui)
+;;   (flycheck-posframe-configure-pretty-defaults)
+;;   (add-hook! prog-mode
+;;     (unless (-contains? local-minor-modes 'lsp-ui-mode)
+;;         (flycheck-posframe-mode 1)
+;;         )
+;;     )
+;;   (add-hook! evil-insert-state-entry
+;;     (unless (-contains? local-minor-modes 'lsp-ui-mode)
+;;       (flycheck-posframe-mode -1)))
+;;   (add-hook! evil-insert-state-exit
+;;     (unless (-contains? local-minor-modes 'lsp-ui-mode)
+;;       (flycheck-posframe-mode 1))
+;;     )
+;;   )
 
 (unless (display-graphic-p)
   (after! git-gutter
@@ -205,10 +228,12 @@
 ;; (add-hook! rustic-mode #'tree-sitter-mode)
 (add-hook! rustic-mode
            (lsp)
+           ;; (lsp-toggle-signature-auto-activate)
            (+word-wrap-mode)
            (flycheck-posframe-mode -1)
+           (flycheck-mode -1)
+           (tree-sitter-hl-mode 1)
            )
-(add-hook! rustic-mode #'+word-wrap-mode)
 (add-hook! lsp-ui-mode
   (when (eq major-mode 'rustic-mode)
     (lsp-rust-analyzer-inlay-hints-mode 1)))
@@ -255,6 +280,7 @@
                     "[/\\\\]\\extschema\\'"
                     "[/\\\\]\\.cache\\'"
                     )))
+  (setq lsp-modeline-diagnostics-scope :file)
   (setq lsp-file-watch-threshold 8000)
   (setq lsp-headerline-breadcrumb-enable 't)
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project symbols))
@@ -283,12 +309,14 @@
   ;; fix for https://github.com/emacs-lsp/lsp-mode/issues/2701
   (setq lsp-enable-links nil)
   ;; (setq lsp-diagnostics-provider :flymake)
-  (setq lsp-diagnostics-provider :flycheck)
+  ;; (setq lsp-diagnostics-provider :flycheck)
   (setq lsp-rust-analyzer-server-display-inlay-hints t)
 )
 
 (after! org
-  (setq org-agenda-files '("/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes")
+  (cond ((equal (system-name) "SEA-ML-00059144") (setq org-agenda-files '("/Users/sawyer/Documents/OneDrive - F5 Networks/notes")))
+        (t (setq org-agenda-files '("/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes"))))
+  (setq
         org-hide-emphasis-markers t
         org-hide-block-startup nil
         org-hide-leading-stars t
@@ -332,17 +360,17 @@
 
 ;; (add-hook 'kill-emacs-hook #'save-frame-dimensions)
 
-(add-hook! ponylang-mode
-  (setq create-lockfiles nil)
-  (require 'flycheck-pony)
-  (require 'pony-snippets)
-  (flycheck-select-checker 'pony)
-  (whitespace-mode -1)
-  )
+;; (add-hook! ponylang-mode
+;;   (setq create-lockfiles nil)
+;;   (require 'flycheck-pony)
+;;   (require 'pony-snippets)
+;;   (flycheck-select-checker 'pony)
+;;   (whitespace-mode -1)
+;;   )
 
 (add-hook! makefile-mode #'+word-wrap-mode)
 
-(after! (lsp-mode docker-tramp ccls)
+(after! (lsp-mode tramp ccls)
  (lsp-register-client
   (make-lsp-client
    ;; :new-connection (lsp-stdio-connection (lambda () (cons ccls-executable ccls-args)))
@@ -394,9 +422,23 @@
   )
 
 (after! magit
+  (setq auto-revert-check-vc-info t)
   (setq auto-revert-interval 30)
-  (setq auto-revert-check-vc-info t))
-(add-hook! magit (lambda () (magit-delta-mode +1)))
+  (setq magit-refresh-status-buffer nil)
+  (setq magit-diff-highlight-indentation nil)
+  (setq magit-diff-highlight-trailing nil)
+  (setq magit-diff-paint-whitespace nil)
+  (setq magit-diff-highlight-hunk-body nil)
+  (setq magit-diff-refine-hunk nil)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+  )
+;; (add-hook! magit (lambda () (magit-delta-mode +1)))
+
 ;; (use-package! makefile-executor
 ;;   :defer
 ;;   :config
@@ -494,6 +536,9 @@
        ;; Buffer name not match below blacklist.
        (string-prefix-p " *" name)
        (string-prefix-p "*" name)
+
+       ;; don't show in org-mode
+       (string-suffix-p ".org" name)
 
        ;; Is not magit buffer.
        ;; (and (string-prefix-p "magit" name)
