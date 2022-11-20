@@ -14,7 +14,11 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
-(setq fancy-splash-image "~/dotfiles/doom/black-hole.png")
+;; (set-language-environment "English")
+;; (set-locale-environment "en.UTF-8")
+;; (prefer-coding-system 'utf-8)
+
+(setq fancy-splash-image "~/.config/doom/black-hole.png")
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
        ;;chinese
@@ -36,7 +40,7 @@
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        hydra
        ;; indent-guides     ; highlighted indent columns
-       ligatures         ; ligatures and symbols to make your code pretty again
+       ;;ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        ;; nav-flash         ; blink cursor line after big motions
@@ -96,8 +100,8 @@
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
        (lookup +dictionary +offline)             ; navigate your code and its documentation
-       lsp
-       ;; (lsp +eglot)
+       ;;(lsp +peek)
+       (lsp +eglot)
        ; (magit +forge)             ; a git porcelain for Emacs
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
@@ -105,7 +109,7 @@
        ;; pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
-       terraform         ; infrastructure as code
+       ;;terraform         ; infrastructure as code
        tree-sitter
        ;;tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp

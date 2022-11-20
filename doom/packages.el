@@ -5,6 +5,7 @@
 (unpin! rustic)
 (unpin! consult-lsp)
 (unpin! treemacs)
+(unpin! better-jumper)
 (package! doom-modeline)
 (package! prettier-js)
 (package! evil-nerd-commenter)

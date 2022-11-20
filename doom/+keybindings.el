@@ -8,7 +8,7 @@
  :g "C-s" #'basic-save-buffer
  :n "C-," (lambda ()
             (interactive)
-            (dired-other-window "~/dotfiles/doom"))
+            (dired-other-window "~/.config/doom"))
  :nv "<f9>" #'sawyer--light-switch
  (:after evil-nerd-commenter
   :nv "#" #'evilnc-comment-or-uncomment-lines)

@@ -1,4 +1,7 @@
 ;;;  -*- lexical-binding: t; -*-
+
+;; suppress annoying elisp compiler warnings
+(setq warning-minimum-level :emergency)
 (setq server-socket-dir "/tmp/emacs-server")
 (after! comp
   ;; HACK Disable native-compilation for some troublesome packages
@@ -8,7 +11,6 @@
               "/with-editor\\.el\\'")))
 (setq comp-speed 2
       comp-deferred-compilation t)
-;; (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 ;; (load! "+cloudformation-mode")
 ;; (load! "+ghcid")
 (load! "+go-template-mode")

@@ -255,10 +255,10 @@
 ;;                     :major-modes '(terraform-mode)
 ;;                     :server-id 'terraform-ls)))
 
-(add-hook! terraform-mode
-  (lsp)
-  (terraform-format-on-save-mode)
-  )
+;; (add-hook! terraform-mode
+;;   (lsp)
+;;   (terraform-format-on-save-mode)
+;;   )
 
 (add-hook! js2-mode
   (prettier-js-mode)
@@ -314,8 +314,12 @@
 )
 
 (after! org
-  (cond ((equal (system-name) "SEA-ML-00059144") (setq org-agenda-files '("/Users/sawyer/Documents/OneDrive - F5 Networks/notes")))
-        (t (setq org-agenda-files '("/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes"))))
+  (cond ((equal (system-name) "SEA-ML-00059144")
+         (setq org-agenda-files '("/Users/sawyer/Documents/OneDrive - F5 Networks/notes")))
+        ((equal (system-name) "KD21QWDKW7")
+         (setq org-agenda-files '("/Users/m.sawyer/Library/CloudStorage/OneDrive-F5,Inc/notes")))
+        (t
+         (setq org-agenda-files '("/Users/sawyer/Library/Mobile Documents/com~apple~CloudDocs/notes"))))
   (setq
         org-hide-emphasis-markers t
         org-hide-block-startup nil
