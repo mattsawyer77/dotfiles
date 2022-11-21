@@ -95,12 +95,13 @@
     `(tree-sitter-hl-face:property :slant normal :inherit font-lock-constant-face)
     )
   )
+
 (after! doom-themes
-  (set-face-attribute 'doom-dashboard-banner nil :background (doom-darken 'bg 0.2) :height 1.0)
-  (set-face-attribute 'doom-dashboard-menu-title nil :background (doom-darken 'bg 0.2) :foreground (doom-color 'red) :height 1.0)
-  (set-face-attribute 'doom-dashboard-menu-desc nil :background (doom-darken 'bg 0.2) :foreground (doom-color 'yellow) :height 1.0)
-  (set-face-attribute 'doom-dashboard-loaded nil :background (doom-darken 'bg 0.2) :foreground (doom-color 'cyan) :height 1.0 :weight 'bold)
   (custom-set-faces!
+    `(doom-dashboard-banner :inherit font-lock-builtin-face :height 1.0)
+    `(doom-dashboard-menu-title :inherit font-lock-keyword-face :height 1.0)
+    `(doom-dashboard-menu-desc :inherit font-lock-builtin-face :height 1.0)
+    `(doom-dashboard-loaded :inherit font-lock-docface :height 1.0)
     `(tooltip :background ,(doom-lighten 'bg 0.1) :family ,(face-attribute 'sawyer/variable-face :family) :weight bold)
     `(font-lock-type-face :weight bold)
     `(font-lock-function-name-face :weight bold)

@@ -139,15 +139,14 @@
 
 (after! projectile
   (setq projectile-project-search-path '("~/workspaces"
-                                         "~/workspaces/volterra/ves.io"
-                                         "~/haskell"
-                                         "~/rust")))
+                                         "~/workspaces/volterra/ves.io")))
 
 (after! persp
   (setq uniquify-buffer-name-style 'forward))
 
 (after! treemacs
   (treemacs-follow-mode 1)
+  (treemacs-project-follow-mode 1)
   (treemacs-git-mode 'deferred)
   (setq-default treemacs--width-is-locked nil)
   )
