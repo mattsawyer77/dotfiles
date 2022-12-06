@@ -55,7 +55,7 @@
   "org-code-face")
 
 (defcustom sawyer/baseline-font-size 18.0 "baseline font point size for doom-font and textsize" :type 'number)
-(defcustom sawyer/dark-theme 'doom-tokyo-night "dark theme used for toggling" :type 'string)
+(defcustom sawyer/dark-theme 'mogster "dark theme used for toggling" :type 'string)
 (defcustom sawyer/light-theme 'doom-nord-light "light theme used for toggling" :type 'string)
 
 (setq doom-tokyo-night-brighter-comments t)
@@ -117,6 +117,10 @@
     `(font-lock-type-face :weight bold)
     `(font-lock-function-name-face :weight bold)
     `(font-lock-string-face :background ,(doom-lighten 'bg 0.05))
+    `(font-lock-builtin-face :weight bold) ;; Font Lock mode face used to highlight builtins.
+    `(font-lock-keyword-face :weight bold) ;; Font Lock mode face used to highlight keywords.
+    `(font-lock-constant-face :weight bold) ;; Font Lock mode face used to highlight constants and labels.
+    `(font-lock-preprocessor-face :weight bold) ;; Font Lock mode face used to highlight preprocessor directives.
     `(line-number :slant normal)
     `(line-number-current-line :slant normal)
     ;; `(nav-flash-face :foreground ,(doom-color 'fg) :background ,(doom-color 'bg) :box (:line-width 1 :color "#444444"))
@@ -142,7 +146,8 @@
     `(lsp-lens-face :foreground ,(doom-darken 'fg 0.1) :height 0.8)
     ))
 
-;; (after! tree-sitter
+(after! tree-sitter
+  (setq tree-sitter-hl-use-font-lock-keywords t)
   ;; (custom-set-faces!
   ;;   `(tree-sitter-hl-face:property :slant normal)
   ;;   `(tree-sitter-hl-face:keyword :weight bold)
@@ -185,7 +190,7 @@
   ;;   `(tree-sitter-hl-face:variable.parameter :inherit font-lock-variable-name-face) ;; Face for function parameters.
   ;;   `(tree-sitter-hl-face:variable.special :inherit font-lock-doc-markup-face) ;; Face for "dangerous" variables, e.g. mutable or dynamically-bound.
   ;;   )
-  ;; )
+  )
 
 (custom-theme-set-faces! 'doom-spacegrey
   `(default :foreground "#b1bbcb" :background "#1c212c")
@@ -305,6 +310,26 @@
   `(treemacs-root-face :foreground ,(doom-color 'red) :background ,(doom-darken (doom-color 'bg) 0.4))
   )
 
+;; here are comments
+(custom-theme-set-faces! 'doom-horizon
+  `(default :background ,(doom-darken 'bg 0.2))
+  `(region :background ,(doom-darken 'grey 0.2))
+  `(evil-ex-lazy-highlight
+    :background ,(doom-darken (doom-color 'yellow) 0.1)
+    :foreground "black")
+  `(evil-ex-search
+    :background ,(doom-lighten (doom-color 'yellow) 0.2)
+    :foreground "black")
+  `(doom-modeline-buffer-modified :foreground ,(doom-color 'red))
+  `(doom-modeline-buffer-project-root :foreground ,(doom-color 'blue))
+  `(doom-modeline-buffer-path :foreground ,(doom-color 'blue))
+  `(font-lock-string-face :background ,(doom-darken 'bg 0.1) :foreground ,(doom-color 'cyan))
+  `(font-lock-doc-face :background ,(doom-darken (doom-color 'cyan) 0.8) :foreground ,(doom-color 'cyan))
+  `(font-lock-keyword-face :weight bold)
+  `(font-lock-builtin-face :weight bold)
+  `(font-lock-comment-face :foreground ,(doom-blend (doom-color 'cyan) "#555555" 0.3))
+  )
+
 (custom-theme-set-faces! 'doom-nord-light
   `(line-number
     :foreground ,(doom-darken (doom-color 'bg) 0.1)
@@ -361,6 +386,7 @@
   )
 
 (after! treemacs
+
   ;; (setq doom-themes-treemacs-enable-variable-pitch t)
   (setq treemacs-window-background-color
         (cons
@@ -406,6 +432,7 @@
     `(treemacs-peek-mode-indicator-face :family ,(face-attribute 'sawyer/variable-face :family))
     `(treemacs-tags-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer/variable-face :family))
     `(treemacs-term-node-face :weight medium :slant normal :height 1.0 :family ,(face-attribute 'sawyer/variable-face :family))
+    `(doom-themes-treemacs-root-face :foreground ,(face-attribute 'treemacs-root-face :foreground))
     )
   )
 
@@ -459,14 +486,14 @@
     `(org-quote :inherit 'org-face :background ,(doom-lighten 'bg 0.1) :slant italic)
     `(org-tag :foreground ,(doom-blend (doom-color 'magenta) (doom-color 'grey) 0.4))
     `(org-modern-symbol :foreground ,(doom-color 'red))
-    `(org-level-8 :inherit 'org-face :height 0.9)
-    `(org-level-7 :inherit 'org-face :height 0.9)
-    `(org-level-6 :inherit 'org-face :height 0.9)
-    `(org-level-5 :inherit 'org-face :height 0.9)
-    `(org-level-4 :inherit 'org-face :height 0.9 :weight bold)
-    `(org-level-3 :inherit 'org-face :height 1.0 :weight normal)
-    `(org-level-2 :inherit 'org-face :height 1.05 :weight bold)
-    `(org-level-1 :inherit 'org-face :height 1.2 :weight normal)
+    `(org-level-8 :height 0.9)
+    `(org-level-7 :height 0.9)
+    `(org-level-6 :height 0.9)
+    `(org-level-5 :height 0.9)
+    `(org-level-4 :height 0.9 :weight bold)
+    `(org-level-3 :height 1.0 :weight normal)
+    `(org-level-2 :height 1.05 :weight bold)
+    `(org-level-1 :height 1.2 :weight normal)
     `(org-document-title :inherit 'org-face :height 1.1 :weight bold)
     ;; make leading hidden indentation consistent
     `(org-hide :family ,(face-attribute 'sawyer/mono-face :family))
@@ -475,7 +502,7 @@
   )
 
 (add-hook! org-mode
-  (message "in org-mode hook")
+  (setq-local default-text-properties '(line-spacing 0.4 line-height 1.0))
   (face-remap-add-relative 'solaire-default-face 'org-face)
   (face-remap-add-relative 'default 'org-face)
   (face-remap-add-relative 'org-code 'org-code-face)
@@ -516,9 +543,9 @@
   (custom-theme-set-faces! 'doom-horizon
     `(tree-sitter-hl-face:property :foreground ,(doom-darken (doom-color 'fg) 0.1))
     `(tree-sitter-hl-face:keyword :foreground ,(doom-color 'orange))
+    `(tree-sitter-hl-face:string :foreground ,(doom-color 'blue))
     `(tree-sitter-hl-face:constant.builtin :weight bold)
-    `(tree-sitter-hl-face:comment :slant normal
-                                  :foreground "#505872")
+    `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
     )
   (custom-theme-set-faces! 'doom-spacegrey
     `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2) :weight bold)
@@ -751,20 +778,35 @@
     )
   (add-hook! after-init #'textsize-mode)
   )
-(after! org-modern
+
+;; org-modern-todo-faces seems to only work by inheriting faces, so define these as custom faces
+(after! (doom-themes org-modern)
+  (defface sawyer/org-todo-face       `((t :inherit org-code-face :weight bold :background ,(doom-color 'blue) :foreground ,(doom-color 'bg))) "font spec for org todo labels")
+  (defface sawyer/org-todo-start-face `((t :inherit org-code-face :weight bold :background ,(doom-color 'green) :foreground ,(doom-color 'bg))) "font spec for org todo start labels")
+  (defface sawyer/org-todo-wait-face  `((t :inherit org-code-face :weight bold :background ,(doom-color 'yellow) :foreground ,(doom-color 'bg))) "font spec for org todo wait labels")
+  (defface sawyer/org-todo-hold-face  `((t :inherit org-code-face :weight bold :background ,(doom-color 'yellow) :foreground ,(doom-color 'bg))) "font spec for org todo hold labels")
+  (defface sawyer/org-todo-idea-face  `((t :inherit org-code-face :weight bold :background ,(doom-color 'cyan) :foreground ,(doom-color 'bg))) "font spec for org todo idea labels")
+  (defface sawyer/org-todo-done-face  `((t :inherit org-code-face :weight bold :background ,(doom-color 'grey) :foreground ,(doom-color 'bg))) "font spec for org todo done labels")
+  (defface sawyer/org-todo-yes-face   `((t :inherit org-code-face :weight bold :background ,(doom-color 'green) :foreground ,(doom-color 'bg))) "font spec for org todo yes labels")
+  (defface sawyer/org-todo-no-face    `((t :inherit org-code-face :weight bold :background ,(doom-color 'red) :foreground ,(doom-color 'bg))) "font spec for org todo no labels")
+  (defface sawyer/org-todo-kill-face  `((t :inherit org-code-face :weight bold :background ,(doom-color 'grey) :foreground ,(doom-color 'bg))) "font spec for org todo kill labels")
+  (custom-set-faces!
+    `(org-modern-date-active :inherit org-modern-done :family ,(face-attribute 'sawyer/mono-face :family))
+    `(org-modern-date-inactive :inherit org-modern-done :family ,(face-attribute 'sawyer/mono-face :family)))
+
   ;; table styles are still kinda messed up: https://github.com/minad/org-modern/issues/5
   (setq org-modern-table nil)
   (setq org-modern-todo-faces
         '(
-          ("TODO" :background (doom-color 'blue) :foreground "black")
-          ("STRT" :background (doom-color 'green) :foreground "black")
-          ("WAIT" :background (doom-color 'yellow) :foreground "black")
-          ("HOLD" :background (doom-color 'yellow) :foreground "black")
-          ("IDEA" :background (doom-color 'cyan) :foreground (doom-color 'blue))
-          ("DONE" :background (doom-color 'grey) :foreground "white")
-          ("YES" :background (doom-color 'green) :foreground "black")
-          ("NO" :background (doom-color 'red) :foreground "white")
-          ("KILL" :background (doom-color 'grey) :foreground "black")
+          ("TODO" sawyer/org-todo-face)
+          ("STRT" sawyer/org-todo-start-face)
+          ("WAIT" sawyer/org-todo-wait-face)
+          ("HOLD" sawyer/org-todo-hold-face)
+          ("IDEA" sawyer/org-todo-idea-face)
+          ("DONE" sawyer/org-todo-done-face)
+          ("YES" sawyer/org-todo-yes-face)
+          ("NO" sawyer/org-todo-no-face)
+          ("KILL" sawyer/org-todo-kill-face)
           ))
   )
 (add-hook! org-mode #'org-modern-mode)
