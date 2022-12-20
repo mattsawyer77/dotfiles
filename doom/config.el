@@ -2,7 +2,7 @@
 
 ;; suppress annoying elisp compiler warnings
 (setq warning-minimum-level :emergency)
-(setq server-socket-dir "/tmp/emacs-server")
+;; (setq server-socket-dir "/tmp/emacs-server")
 (after! comp
   ;; HACK Disable native-compilation for some troublesome packages
   (mapc (doom-partial #'add-to-list 'native-comp-deferred-compilation-deny-list)

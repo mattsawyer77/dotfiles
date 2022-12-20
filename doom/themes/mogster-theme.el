@@ -42,14 +42,14 @@ Can be an integer to determine the exact padding."
   "A dark, vibrant theme inspired by vv9k's Bogster."
 
   ;; name        gui       256       16
-  ((bg         '("#161c23" nil       nil            ))
-   (bg-alt     '("#1E1F2B" nil       nil            ))
+  ((bg         '("#141d26" nil       nil            ))
+   (bg-alt     '("#1f2d39" nil       nil            ))
    (base0      '("#131313" "#121212" "black"        ))
    (base1      '("#161821" "#1c1c1c" "black"        ))
    (base2      '("#2e313d" "#262626" "brightblack"  ))
    (base3      '("#313f4e" "#3a3a3a" "brightblack"  ))
    (base4      '("#535763" "#585858" "brightblack"  ))
-   (base5      '("#595d68" "#585858" "brightblack"  ))
+   (base5      '("#415367" "#585858" "brightblack"  ))
    (base6      '("#627d9d" "#6c6c6c" "brightblack"  ))
    (base7      '("#888d94" "#8a8a8a" "brightblack"  ))
    (base8      '("#afb5b9" "#bcbcbc" "white"        ))
@@ -59,10 +59,10 @@ Can be an integer to determine the exact padding."
    (grey       base4)
    (red        '("#d32c5d" "#ff69bf" "red"          ))
    (orange     '("#dc7759" "#ff7f50" "brightred"    ))
-   (green      '("#7fdc59" "#90ee90" "green"        ))
+   (green      '("#00dfb5" "#90ee90" "green"        ))
    (yellow     '("#dcb659" "#f0e68c" "yellow"       ))
    (violet     '("#c39ac9" "#9370db" "magenta"      ))
-   (cyan       '("#59dcd8" "#40e0d0" "brightcyan"   ))
+   (cyan       '("#00dfd9" "#40e0d0" "brightcyan"   ))
    (blue       '("#59c0dc" "#59c0dc" "blue"         ))
    (white       base8)
    (magenta     cyan)
@@ -115,7 +115,7 @@ Can be an integer to determine the exact padding."
    ;; current line
    (hl-line                                      :background base3)
    ;; line-numbers
-   ((line-number &override)                      :foreground base4 :distant-foreground nil)
+   ((line-number &override)                      :foreground base5 :distant-foreground nil)
    ((line-number-current-line &override)         :foreground base7 :distant-foreground nil)
    ;; mode-line
    (mode-line                                    :background bg-alt :foreground fg

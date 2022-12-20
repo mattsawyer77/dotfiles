@@ -18,9 +18,8 @@
 
 (defface sawyer/mono-face
   `((t :inherit default
-     :family "Input"
-     :weight normal
-     ;; :family "PragmataPro Liga" :weight normal
+     ;; :family "Input" :weight normal
+     :family "PragmataPro Liga" :weight normal
      ;; :family "JetBrains Mono" :weight thin
      ;; :family "Iosevka Extended" :weight extra-light
      ))
@@ -93,6 +92,7 @@
 (after! tree-sitter
   (custom-set-faces!
     `(tree-sitter-hl-face:property :slant normal :inherit font-lock-constant-face)
+    `(tree-sitter-hl-face:punctuation :inherit font-lock-)
     )
   )
 
@@ -148,6 +148,13 @@
 
 (after! tree-sitter
   (setq tree-sitter-hl-use-font-lock-keywords t)
+  (custom-theme-set-faces! 'mogster
+    `(tree-sitter-hl-face:operator :foreground ,(doom-color 'orange))
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-color 'orange))
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-color 'orange))
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-color 'orange))
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-color 'orange))
+    )
   ;; (custom-set-faces!
   ;;   `(tree-sitter-hl-face:property :slant normal)
   ;;   `(tree-sitter-hl-face:keyword :weight bold)
@@ -444,8 +451,7 @@
             go-template-mode
             )
   (face-remap-add-relative 'default 'code-face)
-  ;; (setq-default default-text-properties '(line-spacing 0.2 line-height 1.3))
-  ;; (setq-local default-text-properties '(line-spacing 0.2 line-height 1.3))
+  (setq-local default-text-properties '(line-spacing 0.2 line-height 1.3))
   )
 
 (add-hook! treemacs-mode

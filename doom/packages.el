@@ -42,5 +42,6 @@
 (package! textsize)
 (package! org-modern)
 (package! centaur-tabs)
+(package! ewal)
 
 (disable-packages! hl-line)
