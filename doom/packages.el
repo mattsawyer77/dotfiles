@@ -4,7 +4,7 @@
 (unpin! lsp-ui)
 (unpin! rustic)
 (unpin! consult-lsp)
-(unpin! treemacs)
+;; (unpin! treemacs)
 (unpin! better-jumper)
 (package! doom-modeline)
 (package! prettier-js)
@@ -43,5 +43,6 @@
 (package! org-modern)
 (package! centaur-tabs)
 (package! ewal)
+(package! git-auto-commit-mode)
 
 (disable-packages! hl-line)

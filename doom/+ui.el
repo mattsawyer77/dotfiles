@@ -54,7 +54,7 @@
   "org-code-face")
 
 (defcustom sawyer/baseline-font-size 18.0 "baseline font point size for doom-font and textsize" :type 'number)
-(defcustom sawyer/dark-theme 'mogster "dark theme used for toggling" :type 'string)
+(defcustom sawyer/dark-theme 'doom-horizon "dark theme used for toggling" :type 'string)
 (defcustom sawyer/light-theme 'doom-nord-light "light theme used for toggling" :type 'string)
 
 (setq doom-tokyo-night-brighter-comments t)
@@ -334,7 +334,8 @@
   `(font-lock-doc-face :background ,(doom-darken (doom-color 'cyan) 0.8) :foreground ,(doom-color 'cyan))
   `(font-lock-keyword-face :weight bold)
   `(font-lock-builtin-face :weight bold)
-  `(font-lock-comment-face :foreground ,(doom-blend (doom-color 'cyan) "#555555" 0.3))
+  `(font-lock-comment-face :foreground "#2c6989")
+  `(org-document-title :foreground ,(doom-color 'cyan))
   )
 
 (custom-theme-set-faces! 'doom-nord-light

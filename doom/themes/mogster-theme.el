@@ -328,7 +328,10 @@ Can be an integer to determine the exact padding."
    ;; css
    ;; Apparently web-mode has no face for values of css properties.
    (web-mode-css-selector-face                  :foreground green)
-   (web-mode-css-property-name-face             :foreground base7))
+   (web-mode-css-property-name-face             :foreground base7)
+   ;; vertico
+   (vertico-group-separator                     :inherit 'comments :slant 'normal :foreground base6 :background bg-alt)
+   (vertico-group-title                         :inherit 'comments :slant 'normal :foreground base6))
 
   ;;;; Base theme variable overrides
   ;; ()
