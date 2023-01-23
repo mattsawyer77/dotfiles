@@ -270,15 +270,27 @@
 
 (after! (lsp-mode lsp-ui)
   (setq lsp-file-watch-ignored-directories
+        ;; NOTE: [/\\\\]  is a custom token defined by lsp-mode to represent a path separator
+        ;;   and [^/\\\\] is a custom token defined by lsp-mode to represent a non-path-separator
+        ;;   and \\ is something I don't understand but it causes lsp to break if followed by an underscore
         (cl-union lsp-file-watch-ignored-directories
-                  '("[/\\\\]\\.terraform\\'"
-                    "[/\\\\]target\\'"
-                    "[/\\\\]\\vendor\\'"
-                    "[/\\\\]\\pbgo\\'"
-                    "[/\\\\]\\pbswagger\\'"
-                    "[/\\\\]\\extschema\\'"
-                    "[/\\\\]\\.cache\\'"
-                    )))
+                  '("[/\\\\]\.cache[/\\\\]?"
+                    "[/\\\\]extschema[/\\\\]?"
+                    "[/\\\\]_extschema[/\\\\]?"
+                    "[/\\\\]_protoschema[/\\\\]?"
+                    "pbvesenv"
+                    "pbts"
+                    "pbswagger"
+                    "pbsnippet"
+                    "pbplantuml"
+                    "pbgo"
+                    "pbcpp"
+                    "vendor"
+                    "[/\\\\]target[/\\\\]?"
+                    "\.vscode"
+                    "\.direnv"
+                    ))
+        )
   (setq lsp-modeline-diagnostics-scope :file)
   (setq lsp-file-watch-threshold 8000)
   (setq lsp-headerline-breadcrumb-enable 't)
