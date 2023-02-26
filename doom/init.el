@@ -39,7 +39,7 @@
        ; (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        hydra
-       ;; indent-guides     ; highlighted indent columns
+       ;indent-guides     ; highlighted indent columns
        ;;ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
@@ -157,7 +157,7 @@
        (org +pandoc +present +pretty)               ; organize your plain life in plain text
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
-       ;;plantuml          ; diagrams for confusing people more
+       plantuml          ; diagrams for confusing people more
        ;purescript        ; javascript, but functional
        ;;(python +lsp +pyenv)            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever

@@ -1,5 +1,6 @@
 ;;;  -*- lexical-binding: t; -*-
 
+(setq read-process-output-max (* 4 1024 1024)) ;; 4MB
 (setq native-comp-async-report-warnings-errors nil)
 (setq doom-modeline-vcs-max-length 30)
 (setq doom-modeline-persp-name t)
@@ -17,61 +18,94 @@
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   )
+
+;; (after! doom-nano-modeline
+;;   (doom-nano-modeline-mode 1)
+;;   (global-hide-mode-line-mode 1))
+
 ;; make kops edit automatically use yaml mode
-(add-to-list 'auto-mode-alist '("\\kops-edit.+yaml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\ya?ml\.tmpl$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\kops-edit.+yaml$" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\ya?ml\.tmpl$" . yaml-ts-mode))
 ;; make k8s templates automatically use go template mode
 (add-to-list 'auto-mode-alist '("\\k8s\/templates" . go-template-mode))
 (add-to-list 'auto-mode-alist '("\\kubernetes\/templates" . go-template-mode))
 (add-to-list 'auto-mode-alist '("\\deploy\/k8s.+.tmpl" . go-template-mode))
 ;; make stack files use yaml mode
-(add-to-list 'auto-mode-alist '("\\stack.yaml" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\package.yaml" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\\.aws/*" . conf-toml-mode))
-(add-to-list 'auto-mode-alist '("\\\.saml2aws" . conf-toml-mode))
-(add-to-list 'auto-mode-alist '("\\\.kube/config.*" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\\.hpp$" . cpp-mode))
-(add-to-list 'auto-mode-alist '("\\\.h$" . cpp-mode))
+(add-to-list 'auto-mode-alist '("\\stack.yaml" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\package.yaml" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\\.aws/*" . toml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\\.saml2aws" . toml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\\.kube/config.*" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\\.hpp$" . c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\\.h$" . c++-ts-mode))
 ;; make SSH authorized keys files more readable
 (add-to-list 'auto-mode-alist '("\\SConscript". python-mode))
 (add-to-list 'auto-mode-alist '("\\SConstruct". python-mode))
 (add-to-list 'auto-mode-alist '("\\go\.mod". go-mode))
+;; use GNU Makefile mode instead of BSD
+(add-to-list 'auto-mode-alist '("\\Makefile" . makefile-gmake-mode))
 
 ;; disable format-on-save for yaml-mode
 ;; NOTE: +format-on-save-enabled-modes is a strange variable:
 ;; if the list starts with 'not, then it's an exclusion list;
 ;; if the list does not start with 'not, then it's an inclusion list
-(if (eq (car +format-on-save-enabled-modes) 'not)
+(if
+    (eq (car +format-on-save-enabled-modes) 'not)
     (progn
       ;; list is exclusion -- add yaml-mode, et. al. to the list
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'conf-toml-mode t))
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'toml-ts-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'yaml-mode t))
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'yaml-ts-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'cpp-mode t))
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'c++-ts-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'c++-mode t))
       (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'protobuf-mode t))
-      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'shell-script-mode t)))
-    (progn
-      ;; list is inclusion -- remove yaml-mode, et. al. from the list
-      (setq +format-on-save-enabled-modes (delete 'conf-toml-mode +format-on-save-enabled-modes))
-      (setq +format-on-save-enabled-modes (delete 'yaml-mode +format-on-save-enabled-modes))
-      (setq +format-on-save-enabled-modes (delete 'cpp-mode +format-on-save-enabled-modes))
-      (setq +format-on-save-enabled-modes (delete 'c++-mode +format-on-save-enabled-modes))
-      (setq +format-on-save-enabled-modes (delete 'protobuf-mode +format-on-save-enabled-modes))
-      (setq +format-on-save-enabled-modes (delete 'shell-script-mode +format-on-save-enabled-modes))))
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'shell-script-mode t))
+      (setq +format-on-save-enabled-modes (add-to-list '+format-on-save-enabled-modes 'bash-ts-mode t))
+      )
+  (progn
+    ;; list is inclusion -- remove yaml-mode, et. al. from the list
+    (setq +format-on-save-enabled-modes (delete 'conf-toml-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'toml-ts-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'yaml-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'yaml-ts-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'cpp-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'c++-ts-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'c++-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'protobuf-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'shell-script-mode +format-on-save-enabled-modes))
+    (setq +format-on-save-enabled-modes (delete 'bash-ts-mode +format-on-save-enabled-modes))
+    )
+  )
+
+(after! ws-butler
+  ;; prevent ws-butler mode for makefile-mode
+  (setq ws-butler-global-exempt-modes (add-to-list 'ws-butler-global-exempt-modes 'makefile-mode t))
+  (setq ws-butler-global-exempt-modes (add-to-list 'ws-butler-global-exempt-modes 'makefile-gmake-mode t))
+  (setq ws-butler-global-exempt-modes (add-to-list 'ws-butler-global-exempt-modes 'makefile-bsdmake-mode t)))
 
 ;; use tree-sitter for syntax highlighting
+;; (unless EMACS29+
 (after! tree-sitter
   (require 'tree-sitter-langs)
   (global-tree-sitter-mode)
   ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-  (setq-default tree-sitter-hl-use-font-lock-keywords nil)
+  ;; (setq-default tree-sitter-hl-use-font-lock-keywords nil)
   (add-hook! go-mode
     (setq-local tree-sitter-hl-use-font-lock-keywords t)
     ;; (add-function :before-while (local 'tree-sitter-hl-face-mapping-function)
     ;;               (lambda (capture-name)
     ;;                 (string= capture-name "type"))
-	)
+    )
   )
+;;)
+
+;; (when EMACS29+
+;; (after! treesit-auto
+;;  (global-treesit-auto-mode 1)
+;; )
+  ;; )
 
 (after! rustic
   (setq rustic-lsp-server 'rust-analyzer
@@ -90,21 +124,25 @@
 ;;             (lambda (arg) (call-interactively #'dap-hydra)))
 ;;   )
 
-(after! (go-mode lsp-mode)
-  (require 'dap-go)
-  (dap-go-setup)
+;; (after! (go-mode lsp-mode)
+  ;; (require 'dap-go)
+  ;; (dap-go-setup)
   ;; (setq flycheck-golangci-lint-fast t)
-  )
+  ;; )
 
 (add-hook! conf-toml-mode #'lsp)
+(add-hook! toml-ts-mode #'lsp)
 
 (add-hook! emacs-lisp-mode #'+word-wrap-mode)
 (add-hook! emacs-lisp-mode #'rainbow-delimiters-mode-enable)
 (add-hook! emacs-lisp-mode #'rainbow-mode)
 (add-hook! emacs-lisp-mode #'flycheck-mode)
 
-(add-hook! go-mode
+(add-hook! (go-mode go-ts-mode)
+  (lsp)
   (+word-wrap-mode 1))
+(add-hook! go-ts-mode
+  (setq go-ts-mode-indent-offset 2))
 
 ;; override LSP's default diagnostic checker and use golangci-lint instead
 ;; (add-hook! lsp-diagnostics-mode
@@ -200,7 +238,6 @@
 ;;       (flycheck-posframe-mode 1))
 ;;     )
 ;;   )
-
 (unless (display-graphic-p)
   (after! git-gutter
     (setq git-gutter:modified-sign "▕")
@@ -224,8 +261,8 @@
            )
 
 
-;; (add-hook! rustic-mode #'tree-sitter-mode)
-(add-hook! rustic-mode
+(add-hook! rustic-mode #'tree-sitter-mode)
+(add-hook! (rustic-mode rust-ts-mode)
            (lsp)
            ;; (lsp-toggle-signature-auto-activate)
            (+word-wrap-mode)
@@ -234,11 +271,25 @@
            (tree-sitter-hl-mode 1)
            )
 (add-hook! lsp-ui-mode
-  (when (eq major-mode 'rustic-mode)
+  (when (or (eq major-mode 'rustic-mode) (eq major-mode 'rust-ts-mode))
     (lsp-rust-analyzer-inlay-hints-mode 1)))
 
 (after! highlight-indent-guides
-  (add-hook! (haskell-mode yaml-mode json-mode makefile-mode ponylang-mode) #'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'fill)
+  (setq highlight-indent-guides-auto-enabled nil)
+  (add-hook!
+    (emacs-lisp-mode
+     haskell-mode
+     json-mode
+     json-ts-mode
+     makefile-mode
+     makefile-gmake-mode
+     makefile-bsdmake-mode
+     ponylang-mode
+     conf-toml-mode
+     toml-ts-mode
+     yaml-mode yaml-ts-mode)
+    #'highlight-indent-guides-mode)
   )
 
 ;; (after! (terraform-mode lsp-mode)
@@ -269,6 +320,7 @@
 
 
 (after! (lsp-mode lsp-ui)
+  (setq lsp-response-timeout 30)
   (setq lsp-file-watch-ignored-directories
         ;; NOTE: [/\\\\]  is a custom token defined by lsp-mode to represent a path separator
         ;;   and [^/\\\\] is a custom token defined by lsp-mode to represent a non-path-separator
@@ -391,7 +443,7 @@
    ;; :new-connection (lsp-stdio-connection (lambda () (cons ccls-executable ccls-args)))
    :new-connection (lsp-tramp-connection (lambda () (cons ccls-executable ccls-args)))
    :remote? t
-   :major-modes '(cpp-mode c-mode c++-mode cuda-mode objc-mode)
+   :major-modes '(c++-ts-mode cpp-mode c-mode c++-mode cuda-mode objc-mode)
    :server-id 'ccls
    :multi-root nil
    :notification-handlers
@@ -408,6 +460,7 @@
 (add-hook! ccls #'tree-sitter-mode)
 
 (add-hook! protobuf-mode #'display-line-numbers-mode)
+(add-hook! protobuf-mode #'flycheck-mode)
 (put 'flycheck-protoc-import-path 'safe-local-variable #'listp)
 
 ;; (after! (yaml-mode lsp-mode)
@@ -429,7 +482,7 @@
 ;;     ;; (setq lsp-yaml-hover nil)
 ;;     ;; (setq lsp-yaml-custom-tags nil)
 ;;     )
-(add-hook! yaml-mode-hook (+lsp-optimization-mode -1))
+(add-hook! (yaml-mode yaml-ts-mode) (+lsp-optimization-mode -1))
 
 (after! org-pandoc-import
   ;; automatically convert markdown to org (and back) on-the-fly
@@ -445,6 +498,8 @@
   (setq magit-diff-paint-whitespace nil)
   (setq magit-diff-highlight-hunk-body nil)
   (setq magit-diff-refine-hunk nil)
+  (setq-default git-commit-summary-max-length 100)
+  (setq git-commit-summary-max-length 100)
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
@@ -522,6 +577,12 @@
   :quit t
   :autosave t)
 
+;; necessary after https://github.com/Alexander-Miller/treemacs/pull/971
+;; hopefully doom will fix this in the treemacs module
+(set-popup-rule! "^ \\*Treemacs"
+  :side 'left
+  :window-width 40)
+
 ;; centaur tabs
 (after! centaur-tabs
   (setq
@@ -562,3 +623,25 @@
   )
 
 (add-hook! after-init #'centaur-tabs-mode)
+
+;; XXX: the following runs but something else re-enables ws-butler...
+(add-hook! makefile-mode
+  (message "in makefile-mode hook")
+  (indent-tabs-mode 1)
+  (ws-butler-mode -1)
+  (message "ws-butler should be disabled...")
+  (if (-contains? local-minor-modes 'ws-butler-mode)
+      (message "dammit...ws-butler is still active")
+    (message "hooray...ws-butler is dead")
+    )
+  )
+;; (add-hook! makefile-bsdmake-mode
+;;            (message "in makefile-bsdmake-mode hook")
+;;            (indent-tabs-mode 1)
+;;            (ws-butler-mode -1)
+;;            )
+;; (add-hook! makefile-gmake-mode
+;;            (message "in makefile-gmake-mode hook")
+;;            (indent-tabs-mode 1)
+;;            (ws-butler-mode -1)
+;;            )

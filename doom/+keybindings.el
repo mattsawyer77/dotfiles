@@ -3,13 +3,25 @@
 (map! "<mouse-4>" 'up-slightly)
 (map! "<mouse-5>" 'down-slightly)
 
+;; (map!
+;;  :after tab-bar
+;;  :nv "g t" nil
+;;  )
+
+;; (map!
+;;  :after evil-goggles
+;;   :nv "g r" nil
+;;   :nv "g r" nil
+;;   :nv "g i" nil
+;;   :nv "g i" nil
+;;  )
+
 (map!
  :map general-override-mode-map
  :g "C-s" #'basic-save-buffer
  :n "C-," (lambda ()
             (interactive)
             (dired-other-window "~/.config/doom"))
- :nv "<f9>" #'sawyer--light-switch
  (:after evil-nerd-commenter
   :nv "#" #'evilnc-comment-or-uncomment-lines)
  (:after centaur-tabs
@@ -53,6 +65,14 @@
    :desc "Repeat last Vertico search" "\"" #'vertico-repeat-select))
 )
 
+(map! :after (evil projectile consult)
+      :nv "g d" #'+lookup/definition
+      :nv "g t" #'+lookup/type-definition
+      :nv "g r" #'+lookup/references
+      :nv "g I" #'+lookup/implementations
+      :nv "g a" #'projectile-project-buffers-other-buffer
+      :nv "g b" #'consult-buffer
+      )
 
 (map! :after flycheck
       (:leader

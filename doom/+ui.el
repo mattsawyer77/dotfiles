@@ -54,7 +54,7 @@
   "org-code-face")
 
 (defcustom sawyer/baseline-font-size 18.0 "baseline font point size for doom-font and textsize" :type 'number)
-(defcustom sawyer/dark-theme 'doom-horizon "dark theme used for toggling" :type 'string)
+(defcustom sawyer/dark-theme 'doom-tokyo-night "dark theme used for toggling" :type 'string)
 (defcustom sawyer/light-theme 'doom-nord-light "light theme used for toggling" :type 'string)
 
 (setq doom-tokyo-night-brighter-comments t)
@@ -116,7 +116,6 @@
     `(doom-modeline-buffer-project-root :family ,(face-attribute 'sawyer/variable-face :family) :weight bold)
     `(font-lock-type-face :weight bold)
     `(font-lock-function-name-face :weight bold)
-    `(font-lock-string-face :background ,(doom-lighten 'bg 0.05))
     `(font-lock-builtin-face :weight bold) ;; Font Lock mode face used to highlight builtins.
     `(font-lock-keyword-face :weight bold) ;; Font Lock mode face used to highlight keywords.
     `(font-lock-constant-face :weight bold) ;; Font Lock mode face used to highlight constants and labels.
@@ -314,10 +313,10 @@
     :foreground ,(doom-lighten (doom-color 'bg) 0.2))
   `(line-number-current-line
     :foreground ,(doom-lighten (doom-color 'bg) 0.4))
+  `(font-lock-string-face :foreground ,(doom-blend (doom-color 'cyan) (doom-color 'fg) 0.5))
   `(treemacs-root-face :foreground ,(doom-color 'red) :background ,(doom-darken (doom-color 'bg) 0.4))
   )
 
-;; here are comments
 (custom-theme-set-faces! 'doom-horizon
   `(default :background ,(doom-darken 'bg 0.2))
   `(region :background ,(doom-darken 'grey 0.2))
@@ -336,6 +335,7 @@
   `(font-lock-builtin-face :weight bold)
   `(font-lock-comment-face :foreground "#2c6989")
   `(org-document-title :foreground ,(doom-color 'cyan))
+  `(wgrep-face :background ,(doom-darken 'green 0.6) :weight bold)
   )
 
 (custom-theme-set-faces! 'doom-nord-light
@@ -402,7 +402,6 @@
           (doom-darken (doom-color 'bg) 0.4)
           ;; highlight color
           (doom-lighten (doom-color 'bg) 0.1)))
-  (setq treemacs-width 40)
   (custom-set-faces!
     `(treemacs-root-face
       :height 1.2
@@ -657,25 +656,25 @@
     `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'cyan 'white 0.6))
 
     )
-  ;; (custom-theme-set-faces! 'doom-tokyo-night
-    ;; `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
-    ;; `(tree-sitter-hl-face:doc :inherit font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.8))
-    ;; `(tree-sitter-hl-face:keyword :inherit font-lock-keyword-face :weight bold)
-    ;; `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2))
-    ;; `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2))
-    ;; `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
-    ;; `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
-    ;; `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
-    ;; `(tree-sitter-hl-face:function.method :inherit font-lock-function-name-face :weight bold)
-    ;; `(tree-sitter-hl-face:function.call :inherit font-lock-function-name-face :weight bold)
-    ;; `(tree-sitter-hl-face:function :inherit font-lock-function-name-face :weight bold)
-    ;; ;; `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
-    ;; ;; `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
-    ;; ;; `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
-    ;; `(tree-sitter-hl-face:property.definition :weight bold)
-    ;; `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
-    ;; `(tree-sitter-hl-face:type :inherit font-lock-type-face :weight bold)
-    ;; )
+  (custom-theme-set-faces! 'doom-tokyo-night
+    `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
+    `(tree-sitter-hl-face:doc :inherit font-lock-comment-face :foreground ,(doom-blend (doom-color 'blue) "#888888" 0.8))
+    `(tree-sitter-hl-face:keyword :inherit font-lock-keyword-face :weight bold)
+    `(tree-sitter-hl-face:punctuation :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.special :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:operator :foreground ,(doom-darken (doom-color 'red) 0.2))
+    `(tree-sitter-hl-face:function.method :inherit font-lock-function-name-face :weight bold)
+    `(tree-sitter-hl-face:function.call :inherit font-lock-function-name-face :weight bold)
+    `(tree-sitter-hl-face:function :inherit font-lock-function-name-face :weight bold)
+    ;; `(tree-sitter-hl-face:variable :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:variable.parameter :foreground ,(doom-blend 'red 'white 0.6))
+    ;; `(tree-sitter-hl-face:property :foreground ,(doom-blend 'red 'white 0.6))
+    `(tree-sitter-hl-face:property.definition :weight bold)
+    `(tree-sitter-hl-face:number :inherit highlight-numbers-number)
+    `(tree-sitter-hl-face:type :inherit font-lock-type-face :weight bold)
+    )
   (custom-theme-set-faces! 'doom-nord-light
     ;; `(tree-sitter-hl-face:comment :inherit font-lock-comment-face)
     `(tree-sitter-hl-face:keyword :weight bold :foreground ,(doom-color 'orange))
@@ -746,9 +745,9 @@
 (add-hook! highlight-indent-guides-mode
   (custom-set-faces!
     `(highlight-indent-guides-odd-face :inherit default
-                                       :background ,(doom-lighten 'bg 0.1))
+                                       :background ,(doom-lighten 'bg 0.05))
     `(highlight-indent-guides-even-face :inherit default
-                                        :background ,(doom-lighten 'bg 0.15))
+                                        :background ,(doom-lighten 'bg 0.08))
     )
   )
 
@@ -819,6 +818,30 @@
 (add-hook! org-mode #'org-modern-mode)
 (add-hook! org-agenda-finalize #'org-modern-agenda)
 
+;; borrow org styles for markdown
+;; (after! (org markdown-mode)
+;;     ;; '(markdown-header-delimiter-face :foreground "#616161" :height 0.9)
+;;   (custom-set-faces!
+;;     `(markdown-header-face-1 :family ,(face-attribute 'org-level-1 :family) :height ,(face-attribute 'org-level-1 :height))
+;;     `(markdown-header-face-2 :family ,(face-attribute 'org-level-2 :family) :height ,(face-attribute 'org-level-2 :height))
+;;     `(markdown-header-face-3 :family ,(face-attribute 'org-level-3 :family) :height ,(face-attribute 'org-level-3 :height))
+;;     `(markdown-header-face-4 :family ,(face-attribute 'org-level-4 :family) :height ,(face-attribute 'org-level-4 :height))
+;;     `(markdown-header-face-5 :family ,(face-attribute 'org-level-5 :family) :height ,(face-attribute 'org-level-5 :height))
+;;     `(markdown-header-face-6 :family ,(face-attribute 'org-level-6 :family) :height ,(face-attribute 'org-level-6 :height))
+;;     `(markdown-pre-face :family ,(face-attribute 'sawyer/mono-face :family))
+;;     `(markdown-markup-face :family ,(face-attribute 'sawyer/mono-face :family)))
+;;   )
+
+;; (add-hook! markdown-mode
+;;   (setq-local default-text-properties '(line-spacing 0.4 line-height 1.0))
+;;   (face-remap-add-relative 'default 'org-face)
+;;   ;; (face-remap-add-relative 'markdown-pre-face 'org-code-face)
+;;   ;; (face-remap-add-relative 'markdown-markup-face 'org-code-face)
+;;   ;; (setq-local display-line-numbers-type nil)
+;;   ;; (display-line-numbers-mode -1)
+;;   ;; (setq-local header-line-format " ")
+;;   )
+
 (after! centaur-tabs
   (custom-set-faces!
    `(centaur-tabs-default
@@ -848,3 +871,9 @@
 ;;   (custom-theme-set-faces!
 ;;     `(dap-ui-pending-breakpoint-face :background ,(doom-color 'yellow) :foreground ,(doom-color 'bg)))
 ;;   )
+
+(after! markup-faces
+  (custom-set-faces!
+    `(markup-meta-face :height 1.0)
+    )
+  )
