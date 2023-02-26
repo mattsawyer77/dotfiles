@@ -1,7 +1,0 @@
-[terraform]
-disabled = true
-[kubernetes]
-symbol = "☸️️ "
-disabled = false
-[status]
-disabled = false
